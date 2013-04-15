@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="1000" height="20" tilewidth="30" tileheight="30">
+ <tileset firstgid="1" name="test" tilewidth="30" tileheight="30">
+  <image source="Tiles/test.png" width="90" height="30"/>
+ </tileset>
+ <layer name="collision" width="1000" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt18EJADAMAzHT7r9znx3BJEhwQ1wCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN9dHAAAAExxFgcAAABTtB/anwMAAED/of05AAAA9B/anwMAAED/of05AAAA9B/anwMAAED/of05AAAAJA9LwAOo
+  </data>
+ </layer>
+ <layer name="background" width="1000" height="20" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+  </data>
+ </layer>
+ <layer name="object" width="1000" height="20" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+  </data>
+ </layer>
+</map>
