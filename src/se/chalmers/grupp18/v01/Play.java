@@ -2,6 +2,7 @@ package se.chalmers.grupp18.v01;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -30,7 +31,10 @@ public class Play extends BasicGameState{
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		 
+		 Input input = gc.getInput();
+		 if(input.isKeyDown(Input.KEY_RIGHT)){
+			 x +=1;
+		 }
 		
 	}
 
