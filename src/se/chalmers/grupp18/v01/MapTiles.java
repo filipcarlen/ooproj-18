@@ -7,7 +7,7 @@ public class MapTiles extends TiledMap{
 	
 	private int background, collision, object;
 	
-	private static final String path = "res/Map";
+	private static final String path = "res/Map/";
 	
 	
 	public MapTiles(String ref, boolean loadTileSets) throws SlickException{
