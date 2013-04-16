@@ -9,7 +9,7 @@ public class Game extends StateBasedGame{
 	
 	public Game(String gamename) {
 		super(gamename);
-		this.addState(new Play(play));
+		this.addState(new PlayState(play));
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException {

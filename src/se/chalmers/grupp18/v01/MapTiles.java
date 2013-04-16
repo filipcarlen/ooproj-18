@@ -23,7 +23,7 @@ public class MapTiles extends TiledMap{
 	}
 	
 	/**
-	 * Only render the layer Backgroung
+	 * Only render the layer Background
 	 * @param sx
 	 * @param sy
 	 * @param width
