@@ -92,7 +92,16 @@ public class MapTiles extends TiledMap{
 	 * @return the y Coordinate that is located on top of the tile
 	 */
 	public float topOfTile(float y){
-		return -(y % this.getTileHeight());
+		return (y % this.getTileHeight());
+	}
+	
+	/**
+	 * 
+	 * @param y
+	 * @return the y Coordinate that is located under the tile
+	 */
+	public float botOfTile(float y){
+		return ((y % (float)this.getTileHeight())- (float)this.getTileHeight());
 	}
 
 }
