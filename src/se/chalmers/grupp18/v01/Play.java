@@ -35,6 +35,9 @@ public class Play extends BasicGameState{
 		 if(input.isKeyDown(Input.KEY_RIGHT)){
 			 x +=1;
 		 }
+		 if(input.isKeyDown(Input.KEY_LEFT)){
+			 x -=1;
+		 }
 		
 	}
 
