@@ -22,11 +22,11 @@ public class Level extends World{
 			throws SlickException {
 		super.init(container, game);
 		
-		hero = new Player(200,200);
-		add(hero);
+		hero = new Player(200,19800);
+		add(hero,World.GAME);
 		
 		for(int i = 0; i<200000 ; i = i+33){
-			Wall wall = new Wall(i,550);
+			Wall wall = new Wall(i,19940);
 			if(!(i==99 || i==132)){
 				add(wall);
 			}
@@ -37,6 +37,8 @@ public class Level extends World{
 			//wall.rotateImage();
 			add(wall);
 		}
+		
+		//System.out.println(this.duration);
 		
 		this.camera = new Camera(1920, 1200, 20000, 20000);
 		this.camera.follow(hero, CameraFollowStyle.LOCKON);

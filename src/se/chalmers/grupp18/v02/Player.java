@@ -30,17 +30,13 @@ public class Player extends PlatformerEntity{
 		
 		super.update(container, delta);
 		
-		Input input = container.getInput();
-		
-		if(check("LEFT")){
+		if(check("LEFT") && !check("RIGHT")){
 			if(collide(SOLID,x - 5, y) == null){
-				x -= 0.4f*delta;
+				x -= 0.2f*delta;
 			}
-		}
-		
-		if(check("RIGHT")){
+		} else if(check("RIGHT") && !check("LEFT")){
 			if(collide(SOLID,x + 5, y) == null){
-				x += 0.4f*delta;
+				x += 0.2f*delta;
 			}
 		}
 		
