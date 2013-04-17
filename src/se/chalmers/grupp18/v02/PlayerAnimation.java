@@ -35,41 +35,10 @@ public class PlayerAnimation {
 		}
 		player = ani.get(0);
 	}
-	
-	/**
-	 * returns the main animation
-	 * @return Animation = the animation that is the main animation
-	 */
-	public Animation getAnimation(){
-		return player;
-	}
+
 	
 	public List<Animation> ListOfAnimation(){
 		return ani;
-	}
-	
-	public void leftAnimation(){
-		player = ani.get(0);
-	}
-	
-	public void rightAnimation(){
-		player = ani.get(1);
-	}
-	
-	public void standAnimation(){
-		player = ani.get(2);
-	}
-	
-	public void jumpAnimation(){
-		player = ani.get(3);
-	}
-	
-	public void fightAnimation(){
-		player = ani.get(4);
-	}
-	
-	public void render(float x, float y){
-		player.draw(x, y);
 	}
 	
 	public int getWidth(){
