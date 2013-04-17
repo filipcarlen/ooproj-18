@@ -1,13 +1,10 @@
 package se.chalmers.grupp18.v02;
 import it.marteEngine.entity.PlatformerEntity;
-import it.marteEngine.tween.Tweener;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Vector2f;
 
 public class Player extends PlatformerEntity{
 	
