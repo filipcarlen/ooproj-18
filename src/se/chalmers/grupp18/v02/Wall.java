@@ -13,7 +13,7 @@ public class Wall extends Entity{
 		super(x, y);
 		
 		// load Image from disk and associate it as wall image
-		img = new Image("res/testwall.jpg");
+		img = new Image("res/Map/Tiles/testwall.jpg");
 		setGraphic(img);
 		
 		// define basic collision info

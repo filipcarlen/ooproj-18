@@ -12,7 +12,7 @@ public class Player extends PlatformerEntity{
 		super(x,y, 50, 50);
 		
 		
-		PlayerAnimation pAnimation = new PlayerAnimation("hero");
+		PlayerAnimation pAnimation = new PlayerAnimation("Hero");
 		addAnimation("Left", pAnimation.ListOfAnimation().get(0));
 		addAnimation("Right", pAnimation.ListOfAnimation().get(1));
 		addAnimation("Jump", pAnimation.ListOfAnimation().get(4));
