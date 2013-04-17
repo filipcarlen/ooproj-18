@@ -23,6 +23,8 @@ public class Player extends PlatformerEntity{
 		bindToKey("RIGHT", Input.KEY_RIGHT);
 		bindToKey("LEFT", Input.KEY_LEFT);
 		bindToKey("JUMP", Input.KEY_UP);
+		
+		setAnim("Right");
 	}
 	
 	@Override
