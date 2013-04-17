@@ -40,7 +40,7 @@ public class Level extends World{
 		
 		//System.out.println(this.duration);
 		
-		this.camera = new Camera(1920, 1200, 20000, 20000);
+		this.camera = new Camera(1600, 800, 20000, 20000);
 		this.camera.follow(hero, CameraFollowStyle.LOCKON);
 	}
 	

@@ -21,7 +21,7 @@ public class Game extends StateBasedGame{
 		try {
 			AppGameContainer container = new AppGameContainer(new Game(
 					"Hello World Marte Engine"));
-			container.setDisplayMode(1920, 1200, false);
+			container.setDisplayMode(1200, 800, false);
 			container.setTargetFrameRate(60);
 			container.start();
 		} catch (SlickException e) {

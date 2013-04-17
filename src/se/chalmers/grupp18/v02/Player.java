@@ -12,11 +12,15 @@ import org.newdawn.slick.geom.Vector2f;
 public class Player extends PlatformerEntity{
 	
 	public Player(float x, float y) throws SlickException {
-		super(x,y,40,48);
-		Image image = new Image("res/toadette.png");
-		setGraphic(image);
+		super(x,y, 50, 50);
 		
-		setHitBox(0,0,image.getWidth(), image.getHeight());
+		
+		PlayerAnimation pAnimation = new PlayerAnimation("hero");
+		addAnimation("Left", pAnimation.ListOfAnimation().get(0));
+		addAnimation("Right", pAnimation.ListOfAnimation().get(1));
+		addAnimation("Jump", pAnimation.ListOfAnimation().get(4));
+		
+		setHitBox(0,0,pAnimation.getWidth(), pAnimation.getHeight());
 		addType("PLAYER");
 		
 		bindToKey("RIGHT", Input.KEY_RIGHT);
@@ -31,10 +35,12 @@ public class Player extends PlatformerEntity{
 		super.update(container, delta);
 		
 		if(check("LEFT") && !check("RIGHT")){
+			setAnim("Left");
 			if(collide(SOLID,x - 5, y) == null){
 				x -= 0.2f*delta;
 			}
 		} else if(check("RIGHT") && !check("LEFT")){
+			setAnim("Right");
 			if(collide(SOLID,x + 5, y) == null){
 				x += 0.2f*delta;
 			}
@@ -42,6 +48,7 @@ public class Player extends PlatformerEntity{
 		
 		if(check("JUMP")){
 			jump();
+			setAnim("Jump");
 		}
 		
 	}
