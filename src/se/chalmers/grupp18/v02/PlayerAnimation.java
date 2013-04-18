@@ -10,7 +10,7 @@ import org.newdawn.slick.SlickException;
 public class PlayerAnimation {
 	
 	private Animation player = new Animation();
-	private List <Animation> ani = new <Animation>ArrayList();
+	private List <Animation> ani = new ArrayList<Animation>();
 	private int [] duration = {500, 500};
 	private String[] move={"moveLeftA", "moveLeftB", "moveRightA", "moveRightB", "standA", "standB", "jumpA", "jumpB","fightA", "fightB"};
 	
@@ -23,7 +23,7 @@ public class PlayerAnimation {
 	}
 
 	/**
-	 * Loads all the Animation depending on a charcter name.
+	 * Loads all the Animation depending on a character name.
 	 * @param s= character name.
 	 * @throws SlickException= throws if the file is not found.
 	 */
