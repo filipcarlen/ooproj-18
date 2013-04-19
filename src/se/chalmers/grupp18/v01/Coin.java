@@ -1,15 +1,11 @@
 package se.chalmers.grupp18.v01;
 
-/** A class representing a collectible coin. The coin has a value (points)
- *  *  
- * @author filipcarlen
- * @version 1.0 
- */
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.state.StateBasedGame;
 
-
-
-public class Coin implements Collectible {
-
+public class Coin extends Collectable {
+	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
@@ -17,27 +13,15 @@ public class Coin implements Collectible {
 	}
 
 	@Override
-	public void update() {
+	public void update(GameContainer container, StateBasedGame game, int delta) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void render() {
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public int getPoints() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int setPoints() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 }
