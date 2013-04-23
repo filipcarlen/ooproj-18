@@ -5,13 +5,13 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class GameState extends StateBasedGame{
+public class GameApp extends StateBasedGame{
 	private static final int playState = 0;
 	private static String gamename;
 	
-	public GameState(String gamename) {
+	public GameApp(String gamename) {
 		super(gamename);
-		GameState.gamename = gamename;
+		GameApp.gamename = gamename;
 		this.addState(new PlayState(playState));
 
 	}
@@ -24,7 +24,7 @@ public class GameState extends StateBasedGame{
 	public static void main(String []args){
 		AppGameContainer appgc;
 		try{
-			appgc = new AppGameContainer(new GameState(gamename));
+			appgc = new AppGameContainer(new GameApp(gamename));
 			appgc.setDisplayMode(900, 600, false);
 			appgc.setTargetFrameRate(100);
 			appgc.start();
