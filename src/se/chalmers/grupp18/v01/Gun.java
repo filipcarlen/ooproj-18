@@ -1,6 +1,5 @@
 package se.chalmers.grupp18.v01;
 
-import org.jbox2d.common.Vec2;
 
 public class Gun extends Weapon{
 	

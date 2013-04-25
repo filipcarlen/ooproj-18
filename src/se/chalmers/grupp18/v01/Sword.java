@@ -20,12 +20,5 @@ public class Sword extends Weapon{
 	public void fight(){
 		
 	}
-	public boolean isWithinRange(Vec2 enemy, Vec2 character){
-		if(enemy.abs(character).length() < super.getRange()){
-			return true;
-		} else{
-			return false;
-		}
-		
-	}
+
 }
