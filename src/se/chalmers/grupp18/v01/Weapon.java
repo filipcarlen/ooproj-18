@@ -33,7 +33,6 @@ public abstract class Weapon {
 	public void setRange(int range){
 		this.range = range;
 	}
-	public abstract void fight();
 	
 	public boolean isWithinRange(Vec2 enemy, Vec2 character){
 		
@@ -45,4 +44,7 @@ public abstract class Weapon {
 		
 	}
 	
+	
+	public abstract void fight();
+
 }

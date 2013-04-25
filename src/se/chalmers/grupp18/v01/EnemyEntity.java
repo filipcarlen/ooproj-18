@@ -112,12 +112,12 @@ public class EnemyEntity implements IEntityController {
 		return isAlive;
 	}
 
-	@Override
+	
 	public Vec2 getPosition() {
 		return this.pos;
 	}
 
-	@Override
+
 	public void setPosition(Vec2 pos) {
 		this.pos = pos;
 	}

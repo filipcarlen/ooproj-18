@@ -21,54 +21,72 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class CollectibleModel {
 	
-	//private float x;
-	//private float y;
 	private Vec2 position;
 	
 	private Body body;
 	private World world;
+	public final float RADIUS = 10.0f;
 	
 	public CollectibleModel(World w, Vec2 pos){
 		world = w;
 		this.position = pos;
-		createCollectable();
-		
+		createCollectable();		
 	}
 	
 	/**
-	 * Method for creating a collectable object
+	 * Method for creating a collectible object
 	 */
 	public void createCollectable(){
-		BodyDef bd = new BodyDef();
-		bd.type = BodyType.DYNAMIC;
-		bd.position.set(position.x,position.y);
+		BodyDef bodydef = new BodyDef();
+		bodydef.type = BodyType.DYNAMIC;
+		bodydef.position.set(position.x,position.y);
 		
-		//Circle shapes is perfect for collectable objects
-		CircleShape cs = new CircleShape();
-		cs.m_radius = 10.0f;
+		//Circle shapes are perfect for collectible objects
+		CircleShape circleshape = new CircleShape();
+		circleshape.m_radius = RADIUS;
 		
-		FixtureDef fd = new FixtureDef();
-		fd.shape = cs;
-		fd.density = 0.0f;
-		fd.friction = 0.0f;
-		fd.restitution = 0.3f;
+		FixtureDef fixturedef = new FixtureDef();
+		fixturedef.shape = circleshape;
+		fixturedef.density = 0.0f;
+		fixturedef.friction = 0.0f;
+		fixturedef.restitution = 0.3f;
 		
 		//creating body
-		Body body = world.createBody(bd);
-		body.createFixture(fd);
-		
+		Body body = world.createBody(bodydef);
+		body.createFixture(fixturedef);	
 	}
-
-	/**@Override
+	
+	/**
+	 * 
+	 * @return position
+	 */
 	public Vec2 getPosition() {
 		return this.position;
 	}
-
-	@Override
+	
+	/**
+	 * 
+	 * @param pos
+	 */
+	
 	public void setPosition(Vec2 pos) {
 		this.position = pos;
+	}	
+	
+	/**
+	 * 
+	 * @return body
+	 */
+	public Body getBody(){
+		return this.body;
+	}
+	
+	/**
+	 * 
+	 * @param body
+	 */
+	public void setBody(Body body){
+		this.body = body;
+	}
 		
-	}*/
-	
-	
 }
