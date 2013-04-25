@@ -3,6 +3,7 @@ package se.chalmers.grupp18.v01;
 import java.util.HashMap;
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -13,23 +14,25 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  */
 
-public class CharacterController {
+public class CharacterController implements IEntityController{
 	
 	static final String CMD_LEFT = "left";
 	static final String CMD_RIGHT = "right";
 	static final String CMD_JUMP = "jump";
 	static final String CMD_FIGHT = "fight";
 	Input input;
+	boolean jump;
+	int jumpCount = 20;
 	CharacterEntity hero;
 	String name;
-	PlayerAnimation pa;
+	CharacterAnimation pa;
 	HashMap<String, Integer>keys = new HashMap<String, Integer>();
 	
 	
 	public CharacterController(CharacterEntity ce, String name){
 		hero = ce;
 		this.name = name;
-		pa = new PlayerAnimation(name);
+		pa = new CharacterAnimation(name);
 		setControls();
 	}
 	
@@ -45,47 +48,62 @@ public class CharacterController {
 	}
 	
 	public void bindToKey(String s, int key){
-		String k = s.toLowerCase();
-		switch(s){
-		case "left":
+		if(s.toLowerCase().equals("left"))
 			keys.put(CMD_LEFT, key);
-			break;
-		case "right":
+		else if(s.toLowerCase().equals("right"))
 			keys.put(CMD_RIGHT, key);
-			break;
-		case "jump":
+		else if(s.toLowerCase().equals("jump"))
 			keys.put(CMD_JUMP, key);
-			break;
-		case "fight":
+		else if(s.toLowerCase().equals("fight"))
 			keys.put(CMD_FIGHT, key);
-			break;
-		default:
+		else
 			System.out.println("Cant name the key like that");
-		}
 	}
 	
 	public boolean check(String s){
-		return input.isKeyDown(keys.get(s));
+		if(!s.equals(CMD_JUMP))
+			return input.isKeyDown(keys.get(s));
+		return input.isKeyPressed(keys.get(s));
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta){
 		input = gc.getInput();
+		Vec2 heroVec = hero.body.getWorldVector(new Vec2(-5.0f, 0)); // Get the vector that is used to apply force to the character
 		
-		Vec2 heroPos = hero.body.getWorldPoint(hero.body.getLocalCenter()); // Get the point you want to apply the force at
-		Vec2 heroVec = hero.body.getWorldVector(new Vec2(-100.0f, 0.0f)); // Get the vector that is used to apply force to the character
+		hero.body.setLinearDamping(2.0f);
 		
 		if(check(CMD_LEFT)){
-			hero.body.applyLinearImpulse(heroVec.mul(-1), heroPos);
+			hero.body.applyForce(heroVec.mul(-1), hero.body.getPosition());
 		}
 		if(check(CMD_RIGHT)){
-			hero.body.applyLinearImpulse(heroVec, heroPos);
+			hero.body.applyForce(heroVec, hero.body.getPosition());
 		}
 		if(check(CMD_JUMP)){
-			
+			jump = true;
 		}
 		if(check(CMD_FIGHT)){
 			
 		}
+		if(jump){
+			hero.body.applyForce(hero.body.getWorldVector(new Vec2(.0f, 30.0f)), hero.body.getPosition());
+			jumpCount -= 1;
+			if(jumpCount <= 0 ){
+				jump =false;
+				jumpCount = 20;
+			}
+		}
+	}
+
+	@Override
+	public void init() {
+		
+	}
+
+	@Override
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		Vec2 tmp = hero.body.getPosition().add(new Vec2(-.5f,-.5f)).mul(50f);
+		g.drawAnimation(pa.listOfAnimation().get(0), tmp.x, tmp.y );
+		
 	}
 
 }
