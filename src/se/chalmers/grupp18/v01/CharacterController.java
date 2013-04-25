@@ -23,16 +23,16 @@ public class CharacterController implements IEntityController{
 	Input input;
 	boolean jump;
 	int jumpCount = 20;
-	CharacterEntity hero;
+	CharacterModel hero;
 	String name;
-	CharacterAnimation pa;
+	CharacterView pa;
 	HashMap<String, Integer>keys = new HashMap<String, Integer>();
 	
 	
-	public CharacterController(CharacterEntity ce, String name){
+	public CharacterController(CharacterModel ce, String name){
 		hero = ce;
 		this.name = name;
-		pa = new CharacterAnimation(name);
+		pa = new CharacterView(name);
 		setControls();
 	}
 	
@@ -68,19 +68,23 @@ public class CharacterController implements IEntityController{
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta){
 		input = gc.getInput();
+		//Controls.input = gc.getInput();
 		Vec2 heroVec = hero.body.getWorldVector(new Vec2(-5.0f, 0)); // Get the vector that is used to apply force to the character
 		
 		hero.body.setLinearDamping(2.0f);
-		
+		//if(Controls.check(CMD_LEFT)){
 		if(check(CMD_LEFT)){
 			hero.body.applyForce(heroVec.mul(-1), hero.body.getPosition());
 		}
+		//if(Controls.check(CMD_RIGHT)){
 		if(check(CMD_RIGHT)){
 			hero.body.applyForce(heroVec, hero.body.getPosition());
 		}
+		//if(Controls.check(CMD_JUMP)){
 		if(check(CMD_JUMP)){
 			jump = true;
 		}
+		//if(Controls.check(CMD_FIGHT)){
 		if(check(CMD_FIGHT)){
 			
 		}
