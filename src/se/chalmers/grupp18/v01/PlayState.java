@@ -16,9 +16,9 @@ import org.newdawn.slick.state.StateBasedGame;
 public class PlayState extends BasicGameState{
 	
 	World world;
-	CharacterEntity hero;
+	static CharacterModel hero;
 	CharacterController contHero;
-	CharacterAnimation pa;
+	CharacterView pa;
 	Body ground;
 	
 	public PlayState(int id){
@@ -69,9 +69,9 @@ public class PlayState extends BasicGameState{
 		world = new World(gravity);
 		world.step(1f/60f, 8, 3);
 		world.setAllowSleep(true);
-		world.setContinuousPhysics(false);
+		world.setContinuousPhysics(true);
 		// Creating a character
-		hero = new CharacterEntity(world);
+		hero = new CharacterModel(world);
 		contHero = new CharacterController(hero, "Hero");
 		//Create a World
 		createGround();
@@ -82,7 +82,7 @@ public class PlayState extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		contHero.render(gc, sbg, g);
-		g.drawString("Force: " + hero.body.getWorld().CLEAR_FORCES, 100, 100);
+		g.drawString("Force: " + hero.body.m_force, 100, 100);
 		Vec2 groundV = ground.getPosition().mul(50);
 		g.fillRect(groundV.x, groundV.y, 1000, -10);
 		g.fillRect(groundV.x, groundV.y, 1000, 10);
@@ -97,6 +97,10 @@ public class PlayState extends BasicGameState{
 	@Override
 	public int getID() {
 		return 0;
+	}
+	
+	public static CharacterModel getHero(){
+		return hero;
 	}
 	
 }
