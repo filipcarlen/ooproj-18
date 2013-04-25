@@ -71,7 +71,7 @@ public class PlayState extends BasicGameState{
 		world.setAllowSleep(true);
 		world.setContinuousPhysics(false);
 		// Creating a character
-		hero = new CharacterEntity(world, gravity);
+		hero = new CharacterEntity(world);
 		contHero = new CharacterController(hero, "Hero");
 		//Create a World
 		createGround();

@@ -13,6 +13,10 @@ public class CharacterEntity {
 	float width = .5f;
 	float height = .5f;
 	Body body;
+	
+	public CharacterEntity(World w){
+		this(w, new Vec2(0,0), new Vec2(0,0));
+	}
 
 	public CharacterEntity(World w, Vec2 pos, Vec2 x){
 		//Create the Body defination
