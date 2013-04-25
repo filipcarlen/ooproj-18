@@ -20,4 +20,16 @@ public class GameApp extends StateBasedGame{
 		this.getState(playState).init(gc, this);
 		this.enterState(playState);
 	}
+	
+	public static void main(String []args){
+		AppGameContainer appgc;
+		try{
+			appgc = new AppGameContainer(new GameApp("The Game"));
+			appgc.setDisplayMode(900, 600, false);
+			appgc.setTargetFrameRate(100);
+			appgc.start();
+		}catch(SlickException e){
+			e.printStackTrace();
+		}
+	}
 }
