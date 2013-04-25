@@ -3,7 +3,6 @@
  	<classpathentry kind="src" path="src"/>
  	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jars/slick.jar"/>
-<<<<<<< Updated upstream
  	<classpathentry kind="lib" path="lib/jars/lwjgl.jar">
  		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ooproj-18.ep/lib/native/windows"/>
@@ -13,9 +12,4 @@
 	<classpathentry kind="lib" path="lib/jars/jbox2d-serialization-1.1.0.jar"/>
  	<classpathentry kind="output" path="bin"/>
  </classpath>
-=======
-	<classpathentry kind="lib" path="lib/jars/jbox2d-library-2.2.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/jars/jbox2d-serialization-1.1.0.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
->>>>>>> Stashed changes
+
