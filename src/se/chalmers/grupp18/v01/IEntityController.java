@@ -9,4 +9,6 @@ public interface IEntityController {
 	public void init();
 	public void update(GameContainer container, StateBasedGame game, int delta);
 	public void render(GameContainer container, StateBasedGame game, Graphics g);
+	public Vec2 getPosition();
+	public void setPosition(Vec2 pos);
 }

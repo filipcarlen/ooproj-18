@@ -7,7 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameApp extends StateBasedGame{
 	private static final int playState = 0;
-	private static String gamename = "The Game";
+	private static String gamename;
 	
 	public GameApp(String gamename) {
 		super(gamename);
@@ -20,4 +20,19 @@ public class GameApp extends StateBasedGame{
 		this.getState(playState).init(gc, this);
 		this.enterState(playState);
 	}
+	
+	public static void main(String []args){
+		AppGameContainer appgc;
+		try{
+			appgc = new AppGameContainer(new GameApp(gamename));
+			appgc.setDisplayMode(900, 600, false);
+			appgc.setTargetFrameRate(100);
+			appgc.start();
+		}catch(SlickException e){
+			e.printStackTrace();
+		}
+	}
+	
+	
+
 }
