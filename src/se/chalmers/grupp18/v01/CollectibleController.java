@@ -19,13 +19,10 @@ public class CollectibleController implements IEntityController {
 	private Vec2 position;
 	private World world;
 	
-	public CollectibleController(World world, Vec2 pos){
+	public CollectibleController(CollectibleModel model){
 		
-		model = new CollectibleModel(world, pos);
-		view = new CollectibleView();
-		this.position = pos;
-		this.world = world;
-		
+		this.model = model;
+		view = new CollectibleView(model);
 	} 
 
 	@Override
@@ -42,8 +39,6 @@ public class CollectibleController implements IEntityController {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		// TODO Auto-generated method stub
-		
+		view.render(container, game, g);
 	}
-
 }
