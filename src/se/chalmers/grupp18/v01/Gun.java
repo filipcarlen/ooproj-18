@@ -1,11 +1,23 @@
 package se.chalmers.grupp18.v01;
 
+import org.jbox2d.common.Vec2;
+
 public class Gun extends Weapon{
 	
 	private Bullet bullet;
 	
 	public Gun(){
+		super();
 		bullet = new Bullet();
+	}
+	public Gun(int damage){
+		this();
+		super.setDamage(damage);
+	}
+	public Gun(int damage, int range){
+		this();
+		super.setDamage(damage);
+		super.setRange(range);
 	}
 
 	public int getDamage(){
@@ -19,5 +31,8 @@ public class Gun extends Weapon{
 	}
 	public void setRange(int range){
 		bullet.setRange(range);
+	}
+	public void fight(){
+		
 	}
 }

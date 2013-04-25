@@ -1,33 +1,31 @@
 package se.chalmers.grupp18.v01;
 
+import org.jbox2d.common.Vec2;
+
 public class Sword extends Weapon{
 
-	private int range;
-	private int damage;
 	
 	public Sword(){
-		this.range = 10;
-		this.damage = 20;
+		super();
 	}
-	public Sword(int range){
+	public Sword(int damage){
 		this();
-		this.range = range;
+		super.setDamage(damage);
 	}
-	public Sword(int range, int damage){
-		this(range);
-		this.damage = damage;
+	public Sword(int damage, int range){
+		this(damage);
+		super.setRange(range);
 	}
-	
-	public int getDamage(){
-		return damage;
+
+	public void fight(){
+		
 	}
-	public void setDamage(int damage){
-		this.damage = damage;
-	}
-	public int getRange(){
-		return range;
-	}
-	public void setRange(int range){
-		this.range = range;
+	public boolean isWithinRange(Vec2 enemy, Vec2 character){
+		if(enemy.abs(character).length() < super.getRange()){
+			return true;
+		} else{
+			return false;
+		}
+		
 	}
 }
