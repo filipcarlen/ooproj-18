@@ -18,7 +18,7 @@ public class PlayState extends BasicGameState{
 	World world;
 	CharacterEntity hero;
 	CharacterController contHero;
-	PlayerAnimation pa;
+	CharacterAnimation pa;
 	Body ground;
 	
 	public PlayState(int id){
@@ -28,16 +28,35 @@ public class PlayState extends BasicGameState{
 	public void createGround(){
 		BodyDef b = new BodyDef();
 		b.type = BodyType.STATIC;
-		b.position.set(0, 600);
+		b.position.set(0, 600/50);
 		
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(1000, 10);
+		pg.setAsBox(1000, 0);
 		
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
 		fd.shape = pg;
-		fd.friction = 0.1f;
+		fd.friction = 0.5f;
+		fd.density = 1f;
+		ground = world.createBody(b);
+		ground.createFixture(fd);
+	}
+	
+	public void createGround1(){
+		BodyDef b = new BodyDef();
+		b.type = BodyType.STATIC;
+		b.position.set(0, 300/50);
+		
+		//Creating the structure
+		PolygonShape pg = new PolygonShape();
+		pg.setAsBox(1000, 0);
+		
+		//The Fixture
+		FixtureDef fd = new FixtureDef();
+		fd.shape = pg;
+		fd.friction = 0.5f;
+		fd.density = 1f;
 		ground = world.createBody(b);
 		ground.createFixture(fd);
 	}
@@ -50,18 +69,23 @@ public class PlayState extends BasicGameState{
 		world = new World(gravity);
 		world.step(1f/60f, 8, 3);
 		world.setAllowSleep(true);
-		world.setContinuousPhysics(true);
+		world.setContinuousPhysics(false);
 		// Creating a character
 		hero = new CharacterEntity(world, gravity);
-		pa = new PlayerAnimation("Hero");
 		contHero = new CharacterController(hero, "Hero");
 		//Create a World
 		createGround();
+		createGround1();
+		// Camera
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.drawAnimation(pa.listOfAnimation().get(0), hero.getBody().getPosition().x, hero.getBody().getPosition().y);
+		contHero.render(gc, sbg, g);
+		g.drawString("Force: " + hero.body.getWorld().CLEAR_FORCES, 100, 100);
+		Vec2 groundV = ground.getPosition().mul(50);
+		g.fillRect(groundV.x, groundV.y, 1000, -10);
+		g.fillRect(groundV.x, groundV.y, 1000, 10);
 	}
 
 	@Override
