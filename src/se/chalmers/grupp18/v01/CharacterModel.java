@@ -1,11 +1,13 @@
 package se.chalmers.grupp18.v01;
 
+import java.util.ArrayList;
+
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 
-public class CharacterEntity {
+public class CharacterModel implements IEntityModel{
 	
 	Weapon weapon;
 	int hp = 100;
@@ -14,11 +16,13 @@ public class CharacterEntity {
 	float height = .5f;
 	Body body;
 	
-	public CharacterEntity(World w){
-		this(w, new Vec2(0,0), new Vec2(0,0));
+	ArrayList<Integer> collectedItem = new ArrayList<Integer>();
+	
+	public CharacterModel(World w){
+		this(w, new Vec2(0,0), 1, 1);
 	}
 
-	public CharacterEntity(World w, Vec2 pos, Vec2 x){
+	public CharacterModel(World w, Vec2 pos, int width, int height){
 		//Create the Body defination
 		BodyDef b = new BodyDef();
 		b.type = BodyType.DYNAMIC;
@@ -27,7 +31,7 @@ public class CharacterEntity {
 		
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(width, height);
+		pg.setAsBox(this.width, this.height);
 		
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
@@ -37,6 +41,14 @@ public class CharacterEntity {
 		
 		body = w.createBody(b);
 		body.createFixture(fd);
+	}
+	
+	public void collectCoin(int c){
+		this.collectedItem.add(c);
+	}
+	
+	public void fight(){
+		// Call to the weapon in use 
 	}
 	
 	public int getHp(){
@@ -65,6 +77,14 @@ public class CharacterEntity {
 			return weapon;
 		}
 		return null;
+	}
+	
+	public Vec2 getPosMeters(){
+		body.getPosition();
+	}
+	
+	public Vec2 getPosPixels(){
+		body.getPosition().mul(50);
 	}
 	
 	public Body getBody(){
