@@ -46,15 +46,4 @@ public class CollectibleController implements IEntityController {
 		
 	}
 
-	@Override
-	public Vec2 getPosition(){
-		return this.position;
-	}
-
-	@Override
-	public void setPosition(Vec2 pos) {
-		this.position = pos;
-		
-	}
-
 }
