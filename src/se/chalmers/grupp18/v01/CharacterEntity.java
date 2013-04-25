@@ -7,36 +7,60 @@ import org.jbox2d.dynamics.*;
 
 public class CharacterEntity {
 	
-	float x = 0;
-	float y = 0;
+	Weapon weapon;
+	int hp = 100;
 	
-	float width = 0.75f;
-	float height = 0.75f;
+	float width = .5f;
+	float height = .5f;
 	Body body;
 
-	public CharacterEntity(World w, Vec2 gravity){
+	public CharacterEntity(World w, Vec2 pos, Vec2 x){
 		//Create the Body defination
 		BodyDef b = new BodyDef();
 		b.type = BodyType.DYNAMIC;
-		b.position.set(0 , 0 );
+		b.position.set(600/50/2 , 900/50/2 );
 		b.angle = MathUtils.PI;
 		
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(width* 30, height*30);
+		pg.setAsBox(width, height);
 		
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
-		fd.density = 0.1f;
-		fd.friction = 0.2f;
+		fd.density = 0.7f;
+		fd.friction = 0.0f;
 		fd.shape = pg;
 		
 		body = w.createBody(b);
 		body.createFixture(fd);
 	}
 	
-	public void update(){
-		
+	public int getHp(){
+		return hp;
+	}
+	
+	public void setHp(int hp){
+		if(hp <= 0){
+			body.getWorld().destroyBody(body);
+		}else if(hp >100){
+			this.hp = 100;
+		}else
+			this.hp = hp;
+	}
+	
+	public void hurt(int hpDecrement){
+		setHp(getHp()-hpDecrement);
+	}
+	
+	public void setWeapon(Weapon w){
+		this.weapon = w;
+	}
+	
+	public Weapon getWeapon(){
+		if(weapon != null){
+			return weapon;
+		}
+		return null;
 	}
 	
 	public Body getBody(){
