@@ -6,7 +6,7 @@ public class Bullet {
 	private int damage;
 	
 	public Bullet(){
-		this.range = 30;
+		this.range = 400;
 		this.damage = 20;
 	}
 	public Bullet(int range){
@@ -29,5 +29,8 @@ public class Bullet {
 	}
 	public void setRange(int range){
 		this.range = range;
+	}
+	public void fight(){
+		
 	}
 }

@@ -7,14 +7,14 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class PlayerAnimation {
+public class CharacterView {
 	
 	private Animation player = new Animation();
 	private List <Animation> ani = new ArrayList<Animation>();
 	private int [] duration = {500, 500};
 	private String[] move={"moveLeftA", "moveLeftB", "moveRightA", "moveRightB", "standA", "standB", "jumpA", "jumpB","fightA", "fightB"};
 	
-	public PlayerAnimation(String cName){
+	public CharacterView(String cName){
 		try{
 			loadAnimation(cName);
 		}catch(SlickException e){
@@ -66,10 +66,6 @@ public class PlayerAnimation {
 	
 	public void fightAnimation(){
 		player = ani.get(4);
-	}
-	
-	public void render(float x, float y){
-		player.draw(x, y);
 	}
 	
 	public int getWidth(){
