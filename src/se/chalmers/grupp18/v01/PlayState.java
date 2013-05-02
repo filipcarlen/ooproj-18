@@ -22,15 +22,15 @@ import org.newdawn.slick.state.StateBasedGame;
 public class PlayState extends BasicGameState{
 	
 	World world;
-	static CharacterModel hero;
-	CharacterController contHero;
-	CharacterView pa;
+	static HeroModel hero;
+	HeroController contHero;
+	HeroView pa;
 	Body ground, ground1;
 	WorldMap wm;
 	CollisionDetection cd;
 	
 	ArrayList<IEntityModel> boddies = new ArrayList <IEntityModel>();
-	ArrayList<WorldShapes> terrain = new ArrayList<WorldShapes>();
+	ArrayList<WorldShapes> terrain = new ArrayList <WorldShapes>();
 	ArrayList<Body> terr = new ArrayList<Body>();
 	
 	public PlayState(int id){
@@ -53,7 +53,7 @@ public class PlayState extends BasicGameState{
 		fd.density = 1f;
 		ground = world.createBody(b);
 		ground.createFixture(fd);
-		
+		ground.setUserData("ground");
 		return ground;
 	}
 	
@@ -75,26 +75,28 @@ public class PlayState extends BasicGameState{
 		world.step(1f/60f, 8, 3);
 		world.setAllowSleep(true);
 		world.setContinuousPhysics(true);
-		cd = new CollisionDetection(world, boddies, terrain, terr, hero, contHero);
+		
 		world.setContactListener(cd);
-		//wm = new WorldMap(world, 30f, true, "test");
+		wm = new WorldMap(world, 30f, true, "test");
 		// Creating a character
-		hero = new CharacterModel(world, "hero", 30f);
-		contHero = new CharacterController(hero, "Hero");
+		hero = new HeroModel(world, "hero", 30f);
+		contHero = new HeroController(hero, "Hero");
 		//Create a World
-		terr.add(createGround(0 ,600));
+		/*terr.add(createGround(0 ,600));
 		terr.add(createGround(0 ,300));//*/
 		// Camera
+		cd = new CollisionDetection(world, boddies, terrain, terr, this);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		contHero.render(gc, sbg, g);
+		wm.render(g);
 		g.drawString("Force: " + hero.body.m_force +
 				"\nisAwake: " + hero.getBody().isAwake() +
 				"\nisActive: " + hero.getBody().isActive() +
 				"\nPosition: " + hero.getBody().getPosition(), 100, 100);
-		Vec2 groundV = ground.getPosition().mul(30f);
+		/*Vec2 groundV = ground.getPosition().mul(30f);
 		g.fillRect(groundV.x, groundV.y, 1000, -10);
 		g.fillRect(groundV.x, groundV.y, 1000, 10);//*/
 	}
@@ -110,10 +112,11 @@ public class PlayState extends BasicGameState{
 		return 0;
 	}
 	
-	public static CharacterModel getHero(){
+	public static HeroModel getHero(){
 		return hero;
 	}
-
-
 	
+	public HeroController getHeroController(){
+		return contHero;
+	}
 }
