@@ -1,7 +1,5 @@
 package se.chalmers.grupp18.v01;
 
-import java.util.ArrayList;
-
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
@@ -9,7 +7,7 @@ import org.jbox2d.dynamics.*;
 
 public class HeroModel implements IAliveModel{
 	
-	Weapon weapon;
+	AbstractWeaponModel weapon;
 	int maxHp = 100;
 	int hp = maxHp;
 	
@@ -30,7 +28,7 @@ public class HeroModel implements IAliveModel{
 		this(w, characterName, new Vec2(0,0), 1, 1, transfer, null);
 	}
 
-	public HeroModel(World w, String characterName,Vec2 pos, int width, int height, float transfer, Weapon weapon){
+	public HeroModel(World w, String characterName,Vec2 pos, int width, int height, float transfer, AbstractWeaponModel weapon){
 		this.transfer = transfer;
 		this.characterName = characterName;
 		if(weapon != null)
@@ -87,11 +85,11 @@ public class HeroModel implements IAliveModel{
 		return maxHp;
 	}
 	
-	public void setWeapon(Weapon w){
+	public void setWeapon(AbstractWeaponModel w){
 		this.weapon = w;
 	}
 	
-	public Weapon getWeapon(){
+	public AbstractWeaponModel getWeapon(){
 		if(weapon != null){
 			return weapon;
 		}
@@ -103,7 +101,7 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	public Vec2 getPosPixels(){
-		return body.getPosition().mul(transfer);
+		return body.getPosition().add(new Vec2(-width, -height)).mul(transfer);
 	}
 	
 	public Body getBody(){
