@@ -2,11 +2,7 @@ package se.chalmers.grupp18.v01;
 
 import java.util.HashMap;
 
-import org.jbox2d.callbacks.ContactImpulse;
-import org.jbox2d.callbacks.ContactListener;
-import org.jbox2d.collision.Manifold;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.contacts.Contact;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -93,7 +89,7 @@ public class HeroController implements IEntityController{
 	public void update(GameContainer gc, StateBasedGame sbg, int delta){
 		input = gc.getInput();
 		// Get the vector that is used to apply force to the character
-		Vec2 heroVec = hero.body.getWorldVector(new Vec2(-1.0f, 0)); 
+		Vec2 heroVec = hero.body.getWorldVector(new Vec2(-1.0f, 0.0f)); 
 		//Sets the linearDamping so that the body dosen't continue to go to the left, right or up
 		hero.body.setLinearDamping(2.0f);
 		//Tells the view to applay the animation for standing
@@ -154,9 +150,5 @@ public class HeroController implements IEntityController{
 	 */
 	public void setGroundContact(){
 		doubleJump = 0;
-	}
-	
-	public HeroModel getModel(){
-		return hero;
 	}
 }
