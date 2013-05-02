@@ -17,7 +17,7 @@ import org.newdawn.slick.tiled.TiledMap;
  * @author Marcus
  *
  */
-public class WorldMap implements IWorldModel{
+public class WorldMap{
 	
 	World w;
 	float transfer;
