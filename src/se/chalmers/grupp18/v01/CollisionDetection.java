@@ -33,7 +33,6 @@ public class CollisionDetection  implements ContactListener{
 		for(Body b: terr){
 			if((c.m_fixtureB.m_body == hero.body && c.m_fixtureA.m_body == b)||
 					(c.m_fixtureA.m_body == hero.body && c.m_fixtureB.m_body == b)){
-				System.out.println("bajs");
 				contHero.setGroundContact();
 			}
 		}
