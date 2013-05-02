@@ -1,19 +1,22 @@
 package se.chalmers.grupp18.v01;
 
-public class Bullet {
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+
+public class BulletModel implements IEntityModel{
 
 	private int range;
 	private int damage;
 	
-	public Bullet(){
+	public BulletModel(){
 		this.range = 400;
 		this.damage = 20;
 	}
-	public Bullet(int range){
+	public BulletModel(int range){
 		this();
 		this.range = range;
 	}
-	public Bullet(int range, int damage){
+	public BulletModel(int range, int damage){
 		this(range);
 		this.damage = damage;
 	}
@@ -32,5 +35,17 @@ public class Bullet {
 	}
 	public void fight(){
 		
+	}
+	@Override
+	public Vec2 getPosMeters() {
+		return null;
+	}
+	@Override
+	public Vec2 getPosPixels() {
+		return null;
+	}
+	@Override
+	public Body getBody() {
+		return null;
 	}
 }

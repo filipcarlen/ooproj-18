@@ -2,21 +2,21 @@ package se.chalmers.grupp18.v01;
 
 import org.jbox2d.common.Vec2;
 
-public abstract class Weapon {
+public abstract class AbstractWeaponModel {
 	
 	private int damage;
 	private int range;
 	
-	public Weapon(){
+	public AbstractWeaponModel(){
 		this.damage = 20;
 		this.range = 400;
 		
 	}
-	public Weapon(int damage){
+	public AbstractWeaponModel(int damage){
 		this();
 		this.damage = damage;
 	}
-	public Weapon(int damage, int range){
+	public AbstractWeaponModel(int damage, int range){
 		this.damage = damage;
 		this.range = range;
 	}

@@ -2,17 +2,17 @@ package se.chalmers.grupp18.v01;
 
 import org.jbox2d.common.Vec2;
 
-public class Sword extends Weapon{
+public class SwordModel extends AbstractWeaponModel{
 
 	
-	public Sword(){
+	public SwordModel(){
 		super();
 	}
-	public Sword(int damage){
+	public SwordModel(int damage){
 		this();
 		super.setDamage(damage);
 	}
-	public Sword(int damage, int range){
+	public SwordModel(int damage, int range){
 		this(damage);
 		super.setRange(range);
 	}

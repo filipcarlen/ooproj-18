@@ -1,19 +1,19 @@
 package se.chalmers.grupp18.v01;
 
 
-public class Gun extends Weapon{
+public class GunModel extends AbstractWeaponModel{
 	
-	private Bullet bullet;
+	private BulletModel bullet;
 	
-	public Gun(){
+	public GunModel(){
 		super();
-		bullet = new Bullet();
+		bullet = new BulletModel();
 	}
-	public Gun(int damage){
+	public GunModel(int damage){
 		this();
 		super.setDamage(damage);
 	}
-	public Gun(int damage, int range){
+	public GunModel(int damage, int range){
 		this();
 		super.setDamage(damage);
 		super.setRange(range);
@@ -32,6 +32,6 @@ public class Gun extends Weapon{
 		bullet.setRange(range);
 	}
 	public void fight(){
-		
+		bullet.fight();
 	}
 }

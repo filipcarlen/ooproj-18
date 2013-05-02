@@ -9,7 +9,7 @@ import org.jbox2d.dynamics.*;
 
 public class CharacterModel implements IEntityModel{
 	
-	Weapon weapon;
+	AbstractWeaponModel weapon;
 	int hp = 100;
 	
 	float width = .75f;
@@ -29,7 +29,7 @@ public class CharacterModel implements IEntityModel{
 		this(w, characterName, new Vec2(0,0), 1, 1, transfer, null);
 	}
 
-	public CharacterModel(World w, String characterName,Vec2 pos, int width, int height, float transfer, Weapon weapon){
+	public CharacterModel(World w, String characterName,Vec2 pos, int width, int height, float transfer, AbstractWeaponModel weapon){
 		this.transfer = transfer;
 		this.characterName = characterName;
 		if(weapon != null)
@@ -81,11 +81,11 @@ public class CharacterModel implements IEntityModel{
 		setHp(getHp()-hpDecrement);
 	}
 	
-	public void setWeapon(Weapon w){
+	public void setWeapon(AbstractWeaponModel w){
 		this.weapon = w;
 	}
 	
-	public Weapon getWeapon(){
+	public AbstractWeaponModel getWeapon(){
 		if(weapon != null){
 			return weapon;
 		}

@@ -12,7 +12,7 @@ public class EnemyModel implements IEntityModel{
 	
 	private World world;
 	private int hp;
-	private Weapon weapon;
+	private AbstractWeaponModel weapon;
 	
 	private Body body;
 	
@@ -40,7 +40,7 @@ public class EnemyModel implements IEntityModel{
 	 */
 	public void init(Vec2 pos) {
 		this.hp = 100;
-		this.weapon = new Sword();
+		this.weapon = new SwordModel();
 		
 		Vec2 tmppos = pos.add(new Vec2())
 		
