@@ -15,6 +15,10 @@ public interface IEntityModel {
 	 */
 	public Vec2 getPosPixels();
 	
+	/**
+	 *
+	 * @return The Body in the world
+	 */
 	public Body getBody();
 
 }
