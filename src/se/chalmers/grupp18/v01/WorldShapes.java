@@ -35,7 +35,7 @@ public class WorldShapes implements IEntityModel{
 		fd.density = 1f;
 		body = world.createBody(b);
 		body.createFixture(fd);
-		body.setUserData("Ground");
+		body.setUserData("ground");
 	}
 	
 	public Body getBody(){
