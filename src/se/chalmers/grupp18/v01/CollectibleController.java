@@ -26,12 +26,6 @@ public class CollectibleController implements IEntityController {
 	} 
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		// TODO Auto-generated method stub
 		
