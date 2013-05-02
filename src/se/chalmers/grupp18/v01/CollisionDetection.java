@@ -14,26 +14,25 @@ public class CollisionDetection  implements ContactListener{
 	List<IEntityModel> entityModels;
 	List<WorldShapes> terrain;
 	List<Body> terr;
-	CharacterModel hero;
-	CharacterController contHero;
+	PlayState playState;
 	World w;
 
-	public CollisionDetection(World w, List<IEntityModel> em, List<WorldShapes> ws, List<Body> b, CharacterModel hero, CharacterController contHero){
+	public CollisionDetection(World w, List<IEntityModel> em, List<WorldShapes> ws, List<Body> b, PlayState ps){
 		this.w = w;
 		this.entityModels = em;
 		this.terrain = ws;
-		this.hero = hero;
-		this.contHero = contHero;
 		this.terr = b;
+		this.playState =ps;
 		
 	}
 	
 	@Override
 	public void beginContact(Contact c) {
-		for(Body b: terr){
-			if((c.m_fixtureB.m_body == hero.body && c.m_fixtureA.m_body == b)||
-					(c.m_fixtureA.m_body == hero.body && c.m_fixtureB.m_body == b)){
-				contHero.setGroundContact();
+		for(Body ws: terr){
+			if((c.m_fixtureB.m_body.getUserData() == PlayState.getHero().getBody().getUserData() && c.m_fixtureA.m_body.getUserData() == ws.getUserData())||
+					(c.m_fixtureA.m_body.getUserData() == PlayState.getHero().getBody().getUserData() && c.m_fixtureB.m_body.getUserData() == ws.getUserData())){
+				System.out.println("ja");
+				playState.getHeroController().setGroundContact();
 			}
 		}
 		System.out.println("Contact");
