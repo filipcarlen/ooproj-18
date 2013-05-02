@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.jbox2d.dynamics.World;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
@@ -82,8 +83,10 @@ public class WorldMap{
 		
 	}
 	
-	public void render(){
-		
+	public void render(Graphics g){
+		for(int i = 0; i < wsm.size(); i++){
+			g.drawImage(pictureName.get(wsm.get(i).getId()), wsm.get(i).getPosPixels().x, wsm.get(i).getPosPixels().y);
+		}
 	}
 	
 	public List<WorldShapes> getListOfShapes(){
