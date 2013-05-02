@@ -1,5 +1,10 @@
 package se.chalmers.grupp18.v01;
 
+import java.util.ArrayList;
+
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -7,6 +12,7 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.contacts.Contact;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -19,16 +25,22 @@ public class PlayState extends BasicGameState{
 	static CharacterModel hero;
 	CharacterController contHero;
 	CharacterView pa;
-	Body ground;
+	Body ground, ground1;
+	WorldMap wm;
+	CollisionDetection cd;
+	
+	ArrayList<IEntityModel> boddies = new ArrayList <IEntityModel>();
+	ArrayList<WorldShapes> terrain = new ArrayList<WorldShapes>();
+	ArrayList<Body> terr = new ArrayList<Body>();
 	
 	public PlayState(int id){
 		
 	}
 	
-	public void createGround(){
+	public Body createGround(float x, float y){
 		BodyDef b = new BodyDef();
 		b.type = BodyType.STATIC;
-		b.position.set(0, 600/50);
+		b.position.set(x/ 30f, y/30f);
 		
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
@@ -37,29 +49,22 @@ public class PlayState extends BasicGameState{
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
 		fd.shape = pg;
-		fd.friction = 0.5f;
+		fd.friction = 0.0f;
 		fd.density = 1f;
 		ground = world.createBody(b);
 		ground.createFixture(fd);
+		
+		return ground;
 	}
 	
-	public void createGround1(){
-		BodyDef b = new BodyDef();
-		b.type = BodyType.STATIC;
-		b.position.set(0, 300/50);
+	public void loadCharacters(){
 		
-		//Creating the structure
-		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(1000, 0);
-		
-		//The Fixture
-		FixtureDef fd = new FixtureDef();
-		fd.shape = pg;
-		fd.friction = 0.5f;
-		fd.density = 1f;
-		ground = world.createBody(b);
-		ground.createFixture(fd);
 	}
+	
+	public void loadWorld(){
+		
+	}
+
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -70,22 +75,28 @@ public class PlayState extends BasicGameState{
 		world.step(1f/60f, 8, 3);
 		world.setAllowSleep(true);
 		world.setContinuousPhysics(true);
+		cd = new CollisionDetection(world, boddies, terrain, terr, hero, contHero);
+		world.setContactListener(cd);
+		//wm = new WorldMap(world, 30f, true, "test");
 		// Creating a character
-		hero = new CharacterModel(world);
+		hero = new CharacterModel(world, "hero", 30f);
 		contHero = new CharacterController(hero, "Hero");
 		//Create a World
-		createGround();
-		createGround1();
+		terr.add(createGround(0 ,600));
+		terr.add(createGround(0 ,300));//*/
 		// Camera
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		contHero.render(gc, sbg, g);
-		g.drawString("Force: " + hero.body.m_force, 100, 100);
-		Vec2 groundV = ground.getPosition().mul(50);
+		g.drawString("Force: " + hero.body.m_force +
+				"\nisAwake: " + hero.getBody().isAwake() +
+				"\nisActive: " + hero.getBody().isActive() +
+				"\nPosition: " + hero.getBody().getPosition(), 100, 100);
+		Vec2 groundV = ground.getPosition().mul(30f);
 		g.fillRect(groundV.x, groundV.y, 1000, -10);
-		g.fillRect(groundV.x, groundV.y, 1000, 10);
+		g.fillRect(groundV.x, groundV.y, 1000, 10);//*/
 	}
 
 	@Override
@@ -102,5 +113,7 @@ public class PlayState extends BasicGameState{
 	public static CharacterModel getHero(){
 		return hero;
 	}
+
+
 	
 }
