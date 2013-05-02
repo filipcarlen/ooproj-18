@@ -7,14 +7,14 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class CharacterView {
+public class HeroView {
 	
 	private Animation player = new Animation();
 	private List <Animation> ani = new ArrayList<Animation>();
 	private int [] duration = {500, 500};
 	private String[] move={"moveLeftA", "moveLeftB", "moveRightA", "moveRightB", "standA", "standB", "jumpA", "jumpB","fightA", "fightB"};
 	
-	public CharacterView(String cName){
+	public HeroView(String cName){
 		try{
 			loadAnimation(cName);
 		}catch(SlickException e){

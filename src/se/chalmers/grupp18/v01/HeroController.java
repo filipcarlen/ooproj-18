@@ -19,7 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  */
 
-public class CharacterController implements IEntityController{
+public class HeroController implements IEntityController{
 	
 	static final String CMD_LEFT = "left";
 	static final String CMD_RIGHT = "right";
@@ -29,16 +29,16 @@ public class CharacterController implements IEntityController{
 	boolean jump;
 	int jumpCount = 20;
 	int doubleJump = 0;
-	CharacterModel hero;
+	HeroModel hero;
 	String name;
-	CharacterView pa;
+	HeroView pa;
 	HashMap<String, Integer>keys = new HashMap<String, Integer>();
 	
 	
-	public CharacterController(CharacterModel ce, String name){
+	public HeroController(HeroModel ce, String name){
 		hero = ce;
 		this.name = name;
-		pa = new CharacterView(name);
+		pa = new HeroView(name);
 		setControls();
 	}
 	
@@ -154,5 +154,9 @@ public class CharacterController implements IEntityController{
 	 */
 	public void setGroundContact(){
 		doubleJump = 0;
+	}
+	
+	public HeroModel getModel(){
+		return hero;
 	}
 }
