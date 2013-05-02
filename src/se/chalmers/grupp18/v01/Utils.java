@@ -2,9 +2,15 @@ package se.chalmers.grupp18.v01;
 
 public class Utils {
 	
-	public final float DENSITY = 0.7f;
-	public final float FRICTION = 0.0f;
-	public final float METERS = 0.0f;
+	public static float PIXEL_IN_METERS = 1f/30f;
+	public static float METER_IN_PIXELS = 30f;
 	
+	public static float pixelsToMeters(float pixels) {
+		return pixels*PIXEL_IN_METERS;
+	}
+	
+	public static float metersToPixels(float meters) {
+		return meters*METER_IN_PIXELS;
+	}
 
 }
