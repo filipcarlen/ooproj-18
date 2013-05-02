@@ -12,21 +12,32 @@ public class CharacterModel implements IEntityModel{
 	Weapon weapon;
 	int hp = 100;
 	
-	float width = .5f;
-	float height = .5f;
+	float width = .75f;
+	float height = .75f;
+	
 	Body body;
+	
+	boolean dead;
+	
+	String characterName;
+	
+	float transfer;
 	
 	ArrayList<Integer> collectedItem = new ArrayList<Integer>();
 	
-	public CharacterModel(World w){
-		this(w, new Vec2(0,0), 1, 1);
+	public CharacterModel(World w, String characterName,float transfer){
+		this(w, characterName, new Vec2(0,0), 1, 1, transfer, null);
 	}
 
-	public CharacterModel(World w, Vec2 pos, int width, int height){
+	public CharacterModel(World w, String characterName,Vec2 pos, int width, int height, float transfer, Weapon weapon){
+		this.transfer = transfer;
+		this.characterName = characterName;
+		if(weapon != null)
+			this.weapon = weapon;
 		//Create the Body defination
 		BodyDef b = new BodyDef();
 		b.type = BodyType.DYNAMIC;
-		b.position.set(600/50/2 , 900/50/2 );
+		b.position.set(100/transfer , 100/transfer );
 		b.angle = MathUtils.PI;
 		
 		//Creating the structure
@@ -35,19 +46,20 @@ public class CharacterModel implements IEntityModel{
 		
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
-		fd.density = 0.7f;
-		fd.friction = 0.0f;
+		fd.density = 0.1f;
+		fd.friction = 0f;
 		fd.shape = pg;
-		
+		//Creating an body in the world and a Fixtrue to the body
 		body = w.createBody(b);
 		body.createFixture(fd);
+		dead = false;
 	}
 	
 	public void collectCoin(int c){
 		this.collectedItem.add(c);
 	}
 	
-	public void fight(){
+	public void attack(){
 		// Call to the weapon in use 
 	}
 	
@@ -58,6 +70,7 @@ public class CharacterModel implements IEntityModel{
 	public void setHp(int hp){
 		if(hp <= 0){
 			body.getWorld().destroyBody(body);
+			dead= true;
 		}else if(hp >100){
 			this.hp = 100;
 		}else
@@ -80,22 +93,34 @@ public class CharacterModel implements IEntityModel{
 	}
 	
 	public Vec2 getPosMeters(){
-		body.getPosition();
+		return body.getPosition();
 	}
 	
 	public Vec2 getPosPixels(){
-		body.getPosition().mul(50);
+		return body.getPosition().mul(transfer);
 	}
 	
 	public Body getBody(){
 		return body;
 	}
 	
-	public float getX(){
-		return body.getPosition().x;
+	public float getWidth(){
+		return width;
 	}
 	
-	public float getY(){
-		return body.getPosition().y;
+	public float getHeight(){
+		return height;
+	}
+	
+	public float getTransfer(){
+		return transfer;
+	}
+
+	public String getName() {
+		return characterName;
+	}
+
+	public boolean isDead() {
+		return dead;
 	}
 }
