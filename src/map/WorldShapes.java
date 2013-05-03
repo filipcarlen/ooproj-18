@@ -10,6 +10,8 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+import utils.Utils;
+
 public class WorldShapes implements IEntityModel{
 
 	Body body;
@@ -17,10 +19,10 @@ public class WorldShapes implements IEntityModel{
 	float width;
 	float height;
 	
-	public WorldShapes(World world, float xCoordinate, float yCoordinate, float transfer, int width, int height, int id){
+	public WorldShapes(World world, float xCoordinate, float yCoordinate, int width, int height, int id){
 		this.id = id;
-		this.width = width/transfer;
-		this.height = height/transfer;
+		this.width = width/Utils.METER_IN_PIXELS/2;
+		this.height = height/Utils.METER_IN_PIXELS/2;
 		BodyDef b = new BodyDef();
 		b.type = BodyType.STATIC;
 		b.position.set(xCoordinate, yCoordinate);
@@ -55,7 +57,7 @@ public class WorldShapes implements IEntityModel{
 
 	@Override
 	public Vec2 getPosPixels() {
-		return body.getPosition().add(new Vec2(-width, -height)).mul(30f);
+		return body.getPosition().add(new Vec2(-width, -height)).mul(Utils.METER_IN_PIXELS);
 	}
 	
 }
