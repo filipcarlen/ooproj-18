@@ -1,20 +1,19 @@
 package model;
 
+import utils.Utils;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 
-import utils.EntityType;
-
 public class HeroModel implements IAliveModel{
 	
 	AbstractWeaponModel weapon;
-	int maxHp = 100;
+	static final int maxHp = 100;
 	int hp = maxHp;
 	
-	float width = .6f;
-	float height = .6f;
+	float width = .83f;
+	float height = .83f;
 	
 	Body body;
 	
@@ -22,25 +21,23 @@ public class HeroModel implements IAliveModel{
 	
 	String characterName;
 	
-	float transfer;
-	
 	int collectedItem = 0;
 	
-	public HeroModel(World w, String characterName,float transfer){
-		this(w, characterName, new Vec2(0,0), 1, 1, transfer, null);
+	public HeroModel(World w, String characterName){
+		this(w, characterName, new Vec2(0,0), 1, 1, null);
 	}
 
-	public HeroModel(World w, String characterName,Vec2 pos, int width, int height, float transfer, AbstractWeaponModel weapon){
-		this.transfer = transfer;
+	public HeroModel(World w, String characterName,Vec2 pos, int width, int height, AbstractWeaponModel weapon){
 		this.characterName = characterName;
+		//this.width = width/2/Utils.METER_IN_PIXELS;
+		//this.height = height/2/Utils.METER_IN_PIXELS;
 		if(weapon != null)
 			this.weapon = weapon;
 		//Create the Body defination
 		BodyDef b = new BodyDef();
 		b.type = BodyType.DYNAMIC;
-		b.position.set(100/transfer , 100/transfer );
+		b.position.set(100/Utils.METER_IN_PIXELS , 100/Utils.METER_IN_PIXELS );
 		b.angle = MathUtils.PI;
-		
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
 		pg.setAsBox(this.width, this.height);
@@ -53,7 +50,7 @@ public class HeroModel implements IAliveModel{
 		//Creating an body in the world and a Fixtrue to the body
 		body = w.createBody(b);
 		body.createFixture(fd);
-		body.setUserData(EntityType.HERO);
+		body.setUserData(this);
 		body.setFixedRotation(true);
 		dead = false;
 	}
@@ -104,7 +101,7 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	public Vec2 getPosPixels(){
-		return body.getPosition().add(new Vec2((width*2),height).mul(-1)).mul(transfer);
+		return body.getPosition().add(new Vec2(width,height).mul(-1)).mul(Utils.METER_IN_PIXELS);
 	}
 	
 	public Body getBody(){
@@ -112,15 +109,11 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	public float getWidth(){
-		return width;
+		return width*2;
 	}
 	
 	public float getHeight(){
-		return height;
-	}
-	
-	public float getTransfer(){
-		return transfer;
+		return height*2;
 	}
 
 	public String getName() {
