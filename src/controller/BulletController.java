@@ -9,6 +9,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import view.BulletView;
 import model.BulletModel;
 
+/** A controller class for a Bullet
+ * 
+ * @author elinljunggren
+ * @version 1.0 
+ */
+
 public class BulletController implements IEntityController{
 
 	private BulletModel model;
