@@ -23,15 +23,24 @@ import utils.Utils;
 
 public class CollectibleModel implements IEntityModel {
 	
-	
+	/** The body for a collectible item */
 	private Body body;
+	
+	/** The world the body exists in */
 	private World world;
 	
-	/** Radius in meters */
+	/** The collectible items Radius in meters */
 	public final float RADIUS = .5f;
 	
+	/** What value a collectible item holds (which points you get) */
 	private int value = 1;
 	
+	/**
+	 * Constructor for creating a Collectible item 
+	 * @param World w
+	 * @param Position pixelPos
+	 */
+	 
 	public CollectibleModel(World w, Vec2 pixelPos){
 		world = w;
 		createCollectable(Utils.pixelsToMeters(pixelPos));		
@@ -68,7 +77,7 @@ public class CollectibleModel implements IEntityModel {
 	public Body getBody(){
 		return this.body;
 	}
-
+	
 	@Override
 	public Vec2 getPosMeters() {
 		return body.getPosition();
@@ -79,14 +88,26 @@ public class CollectibleModel implements IEntityModel {
 		return Utils.metersToPixels(body.getPosition().add(new Vec2(-RADIUS,-RADIUS)));
 	}
 	
+	/**
+	 * 
+	 * @return radius in meters
+	 */
 	public float getRadius(){
 		return this.RADIUS;
 	}
 	
+	/**
+	 * 
+	 * @return the value of a collectible item
+	 */
 	public int getValue(){
 		return this.value;
 	}
 	
+	/**
+	 * 
+	 * @param set a value
+	 */
 	public void setValue(int value){
 		this.value = value;
 	}
