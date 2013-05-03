@@ -6,11 +6,13 @@ import java.util.List;
 import model.HeroModel;
 
 import org.jbox2d.common.Vec2;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
+import states.PlayState;
 import view.HeroView;
 
 /**
@@ -29,14 +31,13 @@ public class HeroController implements IEntityController{
 	Input input;
 	boolean jump;
 	int jumpCount = 20;
-	int doubleJump = 0;
-	HeroModel hero;
+	static HeroModel model;
 	HeroView pa;
 	HashMap<String, List<Integer>>keys = new HashMap<String, List<Integer>>();
 	
 	
 	public HeroController(HeroModel ce){
-		hero = ce;
+		model = ce;
 		pa = new HeroView(ce.getName());
 		setControls();
 	}
@@ -132,43 +133,43 @@ public class HeroController implements IEntityController{
 	public void update(GameContainer gc, StateBasedGame sbg, int delta){
 		input = gc.getInput();
 		// Get the vector that is used to apply force to the character
-		Vec2 heroVec = hero.getBody().getWorldVector(new Vec2(-1.0f, 0.0f)); 
+		Vec2 heroVec = model.getBody().getWorldVector(new Vec2(-1.0f, 0.0f)); 
 		//Sets the linearDamping so that the body dosen't continue to go to the left, right or up
-		hero.getBody().setLinearDamping(2.0f);
+		model.getBody().setLinearDamping(1.5f);
 		//Tells the view to applay the animation for standing
-		if(!jump && doubleJump <1)
+		if(!jump && model.getDoubleJump() <1)
 			pa.setStandAnimation();
 		/*
 		 * All this if... is to handle the input from the keyboard
 		 */
 		if(check(CMD_LEFT)){
-			hero.getBody().applyForce(heroVec.mul(-1), hero.getBody().getPosition());
+			model.getBody().applyForce(heroVec.mul(-1), model.getBody().getPosition());
 			//if the charcter isn't jumping this will start the moving to the  left animation
-			if(!jump && doubleJump <1)
+			if(!jump && model.getDoubleJump() <1)
 				pa.setLeftAnimation();
 		}
 		if(check(CMD_RIGHT)){
-			hero.getBody().applyForce(heroVec, hero.getBody().getPosition());
+			model.getBody().applyForce(heroVec, model.getBody().getPosition());
 			//if the charcter isn't jumping this will start the moving to the right animation
-			if(!jump && doubleJump <1)
+			if(!jump && model.getDoubleJump() <1)
 				pa.setRightAnimation();
 		}
 		if(check(CMD_JUMP)){
 			//This will start the jump animation
 			pa.setJumpAnimation();
-			if(doubleJump < 2)
+			if(model.getDoubleJump() < 2)
 				jump = true;
-			doubleJump += 1;
+			model.incrementJumps();
 		}
 		if(check(CMD_FIGHT)){
 			// if you push the jump button it will start the animation and attack with it's weapon
 			// Need to change to check if it is gun or sword
 			pa.setGunAnimation();
-			hero.attack();
-			hero.hurt(10);
+			model.attack();
+			model.hurt(10);
 		}
 		if(jump){
-			hero.getBody().applyForce(hero.getBody().getWorldVector(new Vec2(.0f, 10.0f)), hero.getBody().getPosition());
+			model.getBody().applyForce(model.getBody().getWorldVector(new Vec2(.0f, 10.0f)), model.getBody().getPosition());
 			//This is a jumping count and will control how far in to the air the character will move
 			jumpCount -= 1;
 			if(jumpCount <= 0 ){
@@ -179,20 +180,18 @@ public class HeroController implements IEntityController{
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		if(!hero.isDead()){
-			Vec2 tmp = hero.getPosPixels();
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g){
+		if(!model.isDead()){
+			Vec2 tmp = model.getPosPixels();
 			g.drawAnimation(pa.getAnimation(), tmp.x, tmp.y );
-			g.drawString(hero.getName(), tmp.x , tmp.y- 40);
-			g.drawRect(tmp.x, tmp.y - 15, 100, 10);
-			g.fillRect(tmp.x, tmp.y - 15, hero.getHp(), 10);
+			g.drawString(model.getName(), tmp.x , tmp.y- 40);
+			g.setColor(Color.white);
+			g.drawRect(tmp.x, tmp.y - 15, 101, 11);
+			g.setColor(Color.red);
+			g.fillRect(tmp.x+1, tmp.y - 14, model.getHp(), 10);
+			g.setColor(Color.white);
+		}else{
+			PlayState.removeController(this);
 		}
-	}
-	
-	/**
-	 * A method to call when the character has hit the ground
-	 */
-	public void setGroundContact(){
-		doubleJump = 0;
 	}
 }

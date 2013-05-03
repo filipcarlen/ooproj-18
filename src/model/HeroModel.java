@@ -11,9 +11,10 @@ public class HeroModel implements IAliveModel{
 	AbstractWeaponModel weapon;
 	static final int maxHp = 100;
 	int hp = maxHp;
+	int doubleJump= 0;
 	
-	float width = .83f;
-	float height = .83f;
+	float width;
+	float height;
 	
 	Body body;
 	
@@ -24,13 +25,13 @@ public class HeroModel implements IAliveModel{
 	int collectedItem = 0;
 	
 	public HeroModel(World w, String characterName){
-		this(w, characterName, new Vec2(0,0), 1, 1, null);
+		this(w, characterName, new Vec2(0,0), 50, 50, null);
 	}
 
 	public HeroModel(World w, String characterName,Vec2 pos, int width, int height, AbstractWeaponModel weapon){
 		this.characterName = characterName;
-		//this.width = width/2/Utils.METER_IN_PIXELS;
-		//this.height = height/2/Utils.METER_IN_PIXELS;
+		this.width = width/2/Utils.METER_IN_PIXELS;
+		this.height = height/2/Utils.METER_IN_PIXELS;
 		if(weapon != null)
 			this.weapon = weapon;
 		//Create the Body defination
@@ -124,5 +125,16 @@ public class HeroModel implements IAliveModel{
 		return dead;
 	}
 	
+	public void incrementJumps(){
+		doubleJump +=1;
+	}
+	
+	public void setGroundContact(){
+		doubleJump= 0;
+	}
+	
+	public int getDoubleJump(){
+		return doubleJump;
+	}
 	
 }
