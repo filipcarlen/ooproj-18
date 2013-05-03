@@ -9,10 +9,10 @@ import org.newdawn.slick.SlickException;
 
 public class HeroView {
 	
-	private Animation player = new Animation();
-	private List <Animation> ani = new ArrayList<Animation>();
+	private Animation currentAnimation = new Animation();
+	private List <Animation> animations = new ArrayList<Animation>();
 	private int [] duration = {500, 500};
-	private String[] move={"moveLeftA", "moveLeftB", "moveRightA", "moveRightB", "standA", "standB", "jumpA", "jumpB","fightA", "fightB"};
+	private String[] move={"moveLeftA", "moveLeftB", "moveRightA", "moveRightB", "standA", "standB", "jumpA", "jumpB","gunA", "gunB", "swordA", "swordB"};
 	
 	public HeroView(String cName){
 		try{
@@ -30,10 +30,10 @@ public class HeroView {
 	private void loadAnimation(String s) throws SlickException{
 		for(int i = 0; i < (move.length-1); i+= 2){
 			Image [] image = {new Image("res/Characters/"+ s + "/"+ move[i] + ".png"), new Image("res/Characters/"+ s + "/"+ move[i+1]+ ".png")};
-			ani.add(new Animation(image , duration, true)); 
-			System.out.println(ani.size());
+			animations.add(new Animation(image , duration, true)); 
+			System.out.println(animations.size());
 		}
-		player = ani.get(0);
+		currentAnimation = animations.get(0);
 	}
 	
 	/**
@@ -41,38 +41,42 @@ public class HeroView {
 	 * @return Animation = the animation that is the main animation
 	 */
 	public Animation getAnimation(){
-		return player;
+		return currentAnimation;
 	}
 	
 	public List<Animation> listOfAnimation(){
-		return ani;
+		return animations;
 	}
 	
-	public void leftAnimation(){
-		player = ani.get(0);
+	public void setLeftAnimation(){
+		currentAnimation = animations.get(0);
 	}
 	
-	public void rightAnimation(){
-		player = ani.get(1);
+	public void setRightAnimation(){
+		currentAnimation = animations.get(1);
 	}
 	
-	public void standAnimation(){
-		player = ani.get(2);
+	public void setStandAnimation(){
+		currentAnimation = animations.get(2);
 	}
 	
-	public void jumpAnimation(){
-		player = ani.get(3);
+	public void setJumpAnimation(){
+		currentAnimation = animations.get(3);
 	}
 	
-	public void fightAnimation(){
-		player = ani.get(4);
+	public void setGunAnimation(){
+		currentAnimation = animations.get(4);
+	}
+	
+	public void setSwordAnimation(){
+		currentAnimation = animations.get(5);
 	}
 	
 	public int getWidth(){
-		return player.getWidth();
+		return currentAnimation.getWidth();
 	}
 	
 	public int getHeight(){
-		return player.getHeight();
+		return currentAnimation.getHeight();
 	}
 }
