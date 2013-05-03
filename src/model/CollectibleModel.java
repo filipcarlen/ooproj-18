@@ -48,6 +48,7 @@ public class CollectibleModel implements IEntityModel {
 	
 	/**
 	 * Method for creating a collectible object
+	 * @param Vec2 position in meters
 	 */
 	public void createCollectable(Vec2 meterPos){
 		BodyDef bodydef = new BodyDef();

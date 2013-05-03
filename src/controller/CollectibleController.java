@@ -20,8 +20,6 @@ public class CollectibleController implements IEntityController {
 	
 	private CollectibleModel model;
 	private CollectibleView view;
-	private Vec2 position;
-	private World world;
 	
 	public CollectibleController(CollectibleModel model){
 		
@@ -37,6 +35,8 @@ public class CollectibleController implements IEntityController {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		view.render(container, game, g);
-	}
+		if(model.getBody() != null){
+			view.render(container, game, g);
+		}
+	}	
 }
