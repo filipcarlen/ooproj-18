@@ -23,11 +23,24 @@ import utils.Utils;
 
 public class CollectibleModel implements IEntityModel {
 	
-	
+	/** The body for a collectible item */
 	private Body body;
-	private World world;
-	public final float RADIUS = 10.0f;
 	
+	/** The world the body exists in */
+	private World world;
+	
+	/** The collectible items Radius in meters */
+	public final float RADIUS = .5f;
+	
+	/** What value a collectible item holds (which points you get) */
+	private int value = 1;
+	
+	/**
+	 * Constructor for creating a Collectible item 
+	 * @param World w
+	 * @param Position pixelPos
+	 */
+	 
 	public CollectibleModel(World w, Vec2 pixelPos){
 		world = w;
 		createCollectable(Utils.pixelsToMeters(pixelPos));		
@@ -35,11 +48,12 @@ public class CollectibleModel implements IEntityModel {
 	
 	/**
 	 * Method for creating a collectible object
+	 * @param Vec2 position in meters
 	 */
-	public void createCollectable(Vec2 pixelPos){
+	public void createCollectable(Vec2 meterPos){
 		BodyDef bodydef = new BodyDef();
 		bodydef.type = BodyType.DYNAMIC;
-		bodydef.position.set(pixelPos.x,pixelPos.y);
+		bodydef.position.set(meterPos.x,meterPos.y);
 		
 		//Circle shapes are perfect for collectible objects
 		CircleShape circleshape = new CircleShape();
@@ -47,30 +61,14 @@ public class CollectibleModel implements IEntityModel {
 		
 		FixtureDef fixturedef = new FixtureDef();
 		fixturedef.shape = circleshape;
-		fixturedef.density = 0.0f;
-		fixturedef.friction = 0.0f;
-		fixturedef.restitution = 0.3f;
+		fixturedef.density = 0.5f;
+		fixturedef.friction = 0.3f;
+		fixturedef.restitution = 0.2f;
 		
 		//creating body
 		Body body = world.createBody(bodydef);
+		body.setUserData(this);
 		body.createFixture(fixturedef);	
-	}
-	
-	/**
-	 * 
-	 * @return position
-	 */
-	public Vec2 getPosition() {
-		return this.body.getPosition();
-	}
-	
-	/**
-	 * 
-	 * @param pos
-	 */
-	
-	public void setPosition(Vec2 pos) {
-		this.position = pos;
 	}	
 	
 	/**
@@ -81,24 +79,38 @@ public class CollectibleModel implements IEntityModel {
 		return this.body;
 	}
 	
-	/**
-	 * 
-	 * @param body
-	 */
-	public void setBody(Body body){
-		this.body = body;
-	}
-
 	@Override
 	public Vec2 getPosMeters() {
-		// TODO Auto-generated method stub
-		return null;
+		return body.getPosition();
 	}
 
 	@Override
 	public Vec2 getPosPixels() {
-		// TODO Auto-generated method stub
-		return null;
+		return Utils.metersToPixels(body.getPosition().add(new Vec2(-RADIUS,-RADIUS)));
+	}
+	
+	/**
+	 * 
+	 * @return radius in meters
+	 */
+	public float getRadius(){
+		return this.RADIUS;
+	}
+	
+	/**
+	 * 
+	 * @return the value of a collectible item
+	 */
+	public int getValue(){
+		return this.value;
+	}
+	
+	/**
+	 * 
+	 * @param set a value
+	 */
+	public void setValue(int value){
+		this.value = value;
 	}
 		
 }

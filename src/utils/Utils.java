@@ -14,5 +14,4 @@ public class Utils {
 	public static Vec2 metersToPixels(Vec2 meters) {
 		return meters.mul(METER_IN_PIXELS);
 	}
-
 }
