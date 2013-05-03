@@ -2,9 +2,6 @@ package se.chalmers.grupp18.v01;
 
 import java.util.ArrayList;
 
-import org.jbox2d.callbacks.ContactImpulse;
-import org.jbox2d.callbacks.ContactListener;
-import org.jbox2d.collision.Manifold;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -12,7 +9,6 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
-import org.jbox2d.dynamics.contacts.Contact;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -85,7 +81,7 @@ public class PlayState extends BasicGameState{
 		/*terr.add(createGround(0 ,600));
 		terr.add(createGround(0 ,300));//*/
 		// Camera
-		cd = new CollisionDetection(world, boddies, terrain, terr, this);
+		cd = new CollisionDetection(world, boddies, wm.wsm, terr, this);
 	}
 
 	@Override
@@ -96,9 +92,6 @@ public class PlayState extends BasicGameState{
 				"\nisAwake: " + hero.getBody().isAwake() +
 				"\nisActive: " + hero.getBody().isActive() +
 				"\nPosition: " + hero.getBody().getPosition(), 100, 100);
-		/*Vec2 groundV = ground.getPosition().mul(30f);
-		g.fillRect(groundV.x, groundV.y, 1000, -10);
-		g.fillRect(groundV.x, groundV.y, 1000, 10);//*/
 	}
 
 	@Override
