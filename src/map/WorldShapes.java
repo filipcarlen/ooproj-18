@@ -10,6 +10,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+import utils.EntityType;
 import utils.Utils;
 
 public class WorldShapes implements IEntityModel{
@@ -39,7 +40,7 @@ public class WorldShapes implements IEntityModel{
 		fd.density = 1f;
 		body = world.createBody(b);
 		body.createFixture(fd);
-		body.setUserData("ground");
+		body.setUserData(EntityType.GROUND);
 	}
 	
 	public Body getBody(){

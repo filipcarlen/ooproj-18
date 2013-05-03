@@ -26,7 +26,7 @@ public class PlayState extends BasicGameState{
 	
 	World world;
 	static HeroModel hero;
-	HeroController contHero;
+	static HeroController contHero;
 	HeroView pa;
 	WorldMap wm;
 	CollisionDetection cd;
@@ -104,6 +104,8 @@ public class PlayState extends BasicGameState{
 	}
 
 	public static void removeController(IEntityController controller) {
-		controllers.remove(controller);
+		if(controller == contHero){
+			contHero = null;
+		} 
 	}
 }
