@@ -5,6 +5,20 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 public interface IEntityController {
+	
+	/**
+	 * A method to make sure the controller updates accordingly.
+	 * @param container
+	 * @param game
+	 * @param delta
+	 */
 	public void update(GameContainer container, StateBasedGame game, int delta);
+	
+	/**
+	 * A method to make sure the controller renders accordingly.
+	 * @param container
+	 * @param game
+	 * @param g
+	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g);
 }

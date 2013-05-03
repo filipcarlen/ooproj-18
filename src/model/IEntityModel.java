@@ -16,12 +16,7 @@ public interface IEntityModel {
 	public Vec2 getPosPixels();
 	
 	/**
-<<<<<<< Updated upstream
-	 *
-=======
-	 * 
->>>>>>> Stashed changes
-	 * @return The Body in the world
+	 * @return The body of this entity
 	 */
 	public Body getBody();
 
