@@ -2,19 +2,19 @@ package model;
 
 import org.jbox2d.common.Vec2;
 
+import utils.Utils;
+
 public class SwordModel extends AbstractWeaponModel{
 
 	
 	public SwordModel(){
-		super();
+		this(20, Utils.METER_IN_PIXELS);
 	}
 	public SwordModel(int damage){
-		this();
-		super.setDamage(damage);
+		this(damage, Utils.METER_IN_PIXELS);
 	}
-	public SwordModel(int damage, int range){
-		this(damage);
-		super.setRange(range);
+	public SwordModel(int damage, float range){
+		super(damage, range);
 	}
 
 	public void fight(){

@@ -5,18 +5,10 @@ import org.jbox2d.common.Vec2;
 public abstract class AbstractWeaponModel {
 	
 	private int damage;
-	private int range;
+	private float range;
 	
-	public AbstractWeaponModel(){
-		this.damage = 20;
-		this.range = 400;
-		
-	}
-	public AbstractWeaponModel(int damage){
-		this();
-		this.damage = damage;
-	}
-	public AbstractWeaponModel(int damage, int range){
+	
+	public AbstractWeaponModel(int damage, float range){
 		this.damage = damage;
 		this.range = range;
 	}
@@ -27,10 +19,10 @@ public abstract class AbstractWeaponModel {
 	public void setDamage(int damage){
 		this.damage = damage;
 	}
-	public int getRange(){
+	public float getRange(){
 		return this.range;
 	}
-	public void setRange(int range){
+	public void setRange(float range){
 		this.range = range;
 	}
 	

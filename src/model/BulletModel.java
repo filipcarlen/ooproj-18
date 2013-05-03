@@ -6,21 +6,20 @@ import org.jbox2d.dynamics.World;
 
 public class BulletModel implements IEntityModel{
 
-	private int range;
+	private float range;
 	private int damage;
 	private Body body;
 	private World world;
 	
 	public BulletModel(){
-		this.range = 400;
+		this.range = 400f;
 		this.damage = 20;
 	}
-	public BulletModel(int range){
-		this();
-		this.range = range;
+	public BulletModel(float range){
+		this(20, range);
 	}
-	public BulletModel(int range, int damage){
-		this(range);
+	public BulletModel(int damage, float range){
+		this.range = range;
 		this.damage = damage;
 	}
 	
@@ -31,10 +30,10 @@ public class BulletModel implements IEntityModel{
 	public void setDamage(int damage){
 		this.damage = damage;
 	}
-	public int getRange(){
+	public float getRange(){
 		return range;
 	}
-	public void setRange(int range){
+	public void setRange(float range){
 		this.range = range;
 	}
 	public void fight(){

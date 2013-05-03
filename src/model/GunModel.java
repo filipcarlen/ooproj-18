@@ -1,22 +1,23 @@
 package model;
 
+import utils.Utils;
+
 
 public class GunModel extends AbstractWeaponModel{
 	
 	private BulletModel bullet;
 	
 	public GunModel(){
-		super();
+		this(20, 400f);
 		bullet = new BulletModel();
 	}
 	public GunModel(int damage){
-		this();
-		super.setDamage(damage);
+		this(damage, 400f);
+		bullet = new BulletModel();
+		
 	}
-	public GunModel(int damage, int range){
-		this();
-		super.setDamage(damage);
-		super.setRange(range);
+	public GunModel(int damage, float range){
+		super(damage, range);
 	}
 
 	public int getDamage(){
@@ -25,10 +26,10 @@ public class GunModel extends AbstractWeaponModel{
 	public void setDamage(int damage){
 		bullet.setDamage(damage);
 	}
-	public int getRange(){
+	public float getRange(){
 		return bullet.getRange();
 	}
-	public void setRange(int range){
+	public void setRange(float range){
 		bullet.setRange(range);
 	}
 	public void fight(){
