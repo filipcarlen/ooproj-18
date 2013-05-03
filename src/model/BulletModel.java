@@ -16,27 +16,15 @@ import org.jbox2d.dynamics.World;
 
 public class BulletModel implements IEntityModel{
 
-	private int range;
+	private float range;
 	private int damage;
 	private Body body;
 	private World world;
 	
-<<<<<<< HEAD
-	public BulletModel(){
-		this.range = 400;
-		this.damage = 20;
-	}
-	public BulletModel(int range){
-		this();
-=======
 	public final float RADIUS = 0.7f;
-	
-	public BulletModel(int damage, float range, World world, Vec2 heroPos){
->>>>>>> Changed the constructors in all Weapon classes, added method init(Vec2 heroPos) to BulletModel
+
+	public BulletModel(World world, Vec2 heroPos, int range, int damage){
 		this.range = range;
-	}
-	public BulletModel(int range, int damage){
-		this(range);
 		this.damage = damage;
 		this.world = world;
 		init(heroPos);
@@ -70,10 +58,10 @@ public class BulletModel implements IEntityModel{
 	public void setDamage(int damage){
 		this.damage = damage;
 	}
-	public int getRange(){
+	public float getRange(){
 		return range;
 	}
-	public void setRange(int range){
+	public void setRange(float range){
 		this.range = range;
 	}
 	public void fight(){
