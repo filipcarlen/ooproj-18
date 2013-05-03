@@ -11,6 +11,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.Utils;
+
 /** A class representing a collectible object
  * 
  * @author filipcarlen
@@ -19,27 +21,25 @@ import org.newdawn.slick.state.StateBasedGame;
 
 
 
-public class CollectibleModel {
+public class CollectibleModel implements IEntityModel {
 	
-	private Vec2 position;
 	
 	private Body body;
 	private World world;
 	public final float RADIUS = 10.0f;
 	
-	public CollectibleModel(World w, Vec2 pos){
+	public CollectibleModel(World w, Vec2 pixelPos){
 		world = w;
-		this.position = pos;
-		createCollectable();		
+		createCollectable(Utils.pixelsToMeters(pixelPos));		
 	}
 	
 	/**
 	 * Method for creating a collectible object
 	 */
-	public void createCollectable(){
+	public void createCollectable(Vec2 pixelPos){
 		BodyDef bodydef = new BodyDef();
 		bodydef.type = BodyType.DYNAMIC;
-		bodydef.position.set(position.x,position.y);
+		bodydef.position.set(pixelPos.x,pixelPos.y);
 		
 		//Circle shapes are perfect for collectible objects
 		CircleShape circleshape = new CircleShape();
@@ -61,7 +61,7 @@ public class CollectibleModel {
 	 * @return position
 	 */
 	public Vec2 getPosition() {
-		return this.position;
+		return this.body.getPosition();
 	}
 	
 	/**
@@ -87,6 +87,18 @@ public class CollectibleModel {
 	 */
 	public void setBody(Body body){
 		this.body = body;
+	}
+
+	@Override
+	public Vec2 getPosMeters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vec2 getPosPixels() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 		
 }

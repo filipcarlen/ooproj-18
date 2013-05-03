@@ -5,6 +5,8 @@ import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 
+import utils.EntityType;
+
 public class HeroModel implements IAliveModel{
 	
 	AbstractWeaponModel weapon;
@@ -51,7 +53,7 @@ public class HeroModel implements IAliveModel{
 		//Creating an body in the world and a Fixtrue to the body
 		body = w.createBody(b);
 		body.createFixture(fd);
-		body.setUserData("Hero");
+		body.setUserData(EntityType.HERO);
 		body.setFixedRotation(true);
 		dead = false;
 	}
