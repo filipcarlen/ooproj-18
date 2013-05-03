@@ -21,7 +21,6 @@ import org.newdawn.slick.tiled.TiledMap;
 public class WorldMap{
 	
 	World w;
-	float transfer;
 	//Contains all the shaps that is used for collisions and so on.....
 	List<WorldShapes> wsm = new ArrayList<WorldShapes>();
 	//HashMap that contains the path and id to pictures 
@@ -29,13 +28,12 @@ public class WorldMap{
 	//List Containing all images that is needed to load the Map
 	List<Image> mapImage = new ArrayList<Image>();
 	
-	public WorldMap(World world, float transfer){
-		this(world, transfer, false, null);
+	public WorldMap(World world){
+		this(world,  false, null);
 	}
 
-	public WorldMap(World world, float transfer, boolean loadMap, String levelName){
+	public WorldMap(World world, boolean loadMap, String levelName){
 		this.w = world;
-		this.transfer = transfer;
 		if(loadMap){
 			loadMapFromTMX(levelName);
 		}		
@@ -79,7 +77,7 @@ public class WorldMap{
 	}
 	
 	public void addWorldShapesModel(float xCoordinate, float yCoordinate, int width, int height, int id){
-		wsm.add(new WorldShapes(w, xCoordinate, yCoordinate, transfer, width, height, id));
+		wsm.add(new WorldShapes(w, xCoordinate, yCoordinate, width, height, id));
 		
 	}
 	
