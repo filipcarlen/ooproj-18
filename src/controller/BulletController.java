@@ -13,8 +13,12 @@ public class BulletController implements IEntityController{
 
 	private BulletModel model;
 	private BulletView view;
-	private World world;
-	private Vec2 position;
+	
+	public BulletController(BulletModel model){
+		this.model = model;
+		this.view = new BulletView(model);
+	}
+	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		
