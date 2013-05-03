@@ -7,9 +7,6 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Utils;
 
@@ -34,6 +31,7 @@ public class CollectibleModel implements IEntityModel {
 	
 	/** What value a collectible item holds (which points you get) */
 	private int value = 1;
+	
 	
 	/**
 	 * Constructor for creating a Collectible item 
@@ -61,12 +59,12 @@ public class CollectibleModel implements IEntityModel {
 		
 		FixtureDef fixturedef = new FixtureDef();
 		fixturedef.shape = circleshape;
-		fixturedef.density = 0.5f;
-		fixturedef.friction = 0.3f;
-		fixturedef.restitution = 0.2f;
+		fixturedef.density = 0.7f;
+		fixturedef.friction = 0.0f;
+		fixturedef.restitution = 0.5f;
 		
 		//creating body
-		Body body = world.createBody(bodydef);
+		body = world.createBody(bodydef);
 		body.setUserData(this);
 		body.createFixture(fixturedef);	
 	}	
@@ -91,10 +89,10 @@ public class CollectibleModel implements IEntityModel {
 	
 	/**
 	 * 
-	 * @return radius in meters
+	 * @return radius in pixels
 	 */
 	public float getRadius(){
-		return this.RADIUS;
+		return this.RADIUS * 30.f;
 	}
 	
 	/**

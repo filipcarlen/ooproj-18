@@ -2,9 +2,9 @@ package view;
 
 import model.CollectibleModel;
 
+import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -47,7 +47,7 @@ public class CollectibleView {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
-		g.drawOval(300, 600, model.RADIUS, model.RADIUS);
+		Vec2 tmp = model.getPosPixels();
+		g.drawOval(tmp.x, tmp.y, model.getRadius(), model.getRadius());
 	}
-
 }

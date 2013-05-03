@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import map.WorldMap;
 import map.WorldShapes;
+import model.CollectibleModel;
 import model.HeroModel;
 import model.IEntityModel;
 
@@ -17,7 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import utils.CollisionDetection;
 import view.HeroView;
-
+import controller.CollectibleController;
 import controller.HeroController;
 import controller.IEntityController;
 
@@ -29,6 +30,9 @@ public class PlayState extends BasicGameState{
 	HeroView pa;
 	WorldMap wm;
 	CollisionDetection cd;
+	
+	CollectibleModel collectibleModel;
+	CollectibleController collectibleController;
 	
 	ArrayList<IEntityModel> boddies = new ArrayList <IEntityModel>();
 	static ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
@@ -64,12 +68,16 @@ public class PlayState extends BasicGameState{
 		contHero = new HeroController(hero);
 		// Camera
 		cd = new CollisionDetection(world, boddies, wm.getListOfShapes(), this);
+		
+		collectibleModel = new CollectibleModel(world, new Vec2(600,100));
+		collectibleController = new CollectibleController(collectibleModel);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		contHero.render(gc, sbg, g);
 		wm.render(g);
+		collectibleController.render(gc, sbg, g);
 		g.drawString("Force: " + hero.getBody().m_force +
 				"\nisAwake: " + hero.getBody().isAwake() +
 				"\nisActive: " + hero.getBody().isActive() +
