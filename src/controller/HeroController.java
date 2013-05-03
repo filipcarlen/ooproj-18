@@ -1,7 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 import model.HeroModel;
 
 import org.jbox2d.common.Vec2;
@@ -30,15 +31,13 @@ public class HeroController implements IEntityController{
 	int jumpCount = 20;
 	int doubleJump = 0;
 	HeroModel hero;
-	String name;
 	HeroView pa;
-	HashMap<String, Integer>keys = new HashMap<String, Integer>();
+	HashMap<String, List<Integer>>keys = new HashMap<String, List<Integer>>();
 	
 	
-	public HeroController(HeroModel ce, String name){
+	public HeroController(HeroModel ce){
 		hero = ce;
-		this.name = name;
-		pa = new HeroView(name);
+		pa = new HeroView(ce.getName());
 		setControls();
 	}
 	
@@ -46,9 +45,9 @@ public class HeroController implements IEntityController{
 	 * This is a method to give the default setting to the key inputs
 	 */
 	public void setControls(){
-		bindToKey(CMD_LEFT, Input.KEY_A);
-		bindToKey(CMD_RIGHT, Input.KEY_D);
-		bindToKey(CMD_JUMP, Input.KEY_W);
+		bindToKey(CMD_LEFT, Input.KEY_A, Input.KEY_LEFT);
+		bindToKey(CMD_RIGHT, Input.KEY_D, Input.KEY_RIGHT);
+		bindToKey(CMD_JUMP, Input.KEY_W, Input.KEY_UP);
 		bindToKey(CMD_FIGHT, Input.KEY_SPACE);
 	}
 	
@@ -65,28 +64,68 @@ public class HeroController implements IEntityController{
 	 * @param key - Gives the integer to the key 
 	 */
 	public void bindToKey(String s, int key){
-		if(s.toLowerCase().equals("left"))
-			keys.put(CMD_LEFT, key);
-		else if(s.toLowerCase().equals("right"))
-			keys.put(CMD_RIGHT, key);
-		else if(s.toLowerCase().equals("jump"))
-			keys.put(CMD_JUMP, key);
-		else if(s.toLowerCase().equals("fight"))
-			keys.put(CMD_FIGHT, key);
-		else
+		if(s.toLowerCase().equals("left")){
+			keys.put(CMD_LEFT, new ArrayList<Integer>());
+			keys.get(CMD_LEFT).add(key);
+		}else if(s.toLowerCase().equals("right")){
+			keys.put(CMD_RIGHT, new ArrayList<Integer>());
+			keys.get(CMD_RIGHT).add(key);
+		}else if(s.toLowerCase().equals("jump")){
+			keys.put(CMD_JUMP, new ArrayList<Integer>());
+			keys.get(CMD_JUMP).add(key);
+		}else if(s.toLowerCase().equals("fight")){
+			keys.put(CMD_FIGHT, new ArrayList<Integer>());
+			keys.get(CMD_FIGHT).add(key);
+		}else{
 			System.out.println("Cant name the key like that");
+		}
+	}
+	
+	/**
+	 * here you bind a keys to the different functions
+	 * @param s - the name of a command
+	 * @param key - Gives the integer to the key 
+	 */
+	public void bindToKey(String s, int key, int key1){
+		if(s.toLowerCase().equals("left")){
+			keys.put(CMD_LEFT, new ArrayList<Integer>());
+			keys.get(CMD_LEFT).add(key);
+			keys.get(CMD_LEFT).add(key1);
+		}else if(s.toLowerCase().equals("right")){
+			keys.put(CMD_RIGHT, new ArrayList<Integer>());
+			keys.get(CMD_RIGHT).add(key);
+			keys.get(CMD_RIGHT).add(key1);
+		}else if(s.toLowerCase().equals("jump")){
+			keys.put(CMD_JUMP, new ArrayList<Integer>());
+			keys.get(CMD_JUMP).add(key);
+			keys.get(CMD_JUMP).add(key1);
+		}else if(s.toLowerCase().equals("fight")){
+			keys.put(CMD_FIGHT, new ArrayList<Integer>());
+			keys.get(CMD_FIGHT).add(key);
+			keys.get(CMD_FIGHT).add(key1);
+		}else{
+			System.out.println("Cant name the key like that");
+		}
 	}
 	
 	/**
 	 * 
 	 * @param s - the command
 	 * @return true- if the string is binded to a key
-	 * 			false- if thhe string isn't binded to a key
+	 * 			false- if the string isn't binded to a key
 	 */
 	public boolean check(String s){
-		if(!s.equals(CMD_JUMP) && !s.equals(CMD_FIGHT))
-			return input.isKeyDown(keys.get(s));
-		return input.isKeyPressed(keys.get(s));
+		if(!s.equals(CMD_JUMP) && !s.equals(CMD_FIGHT)){
+			for(int i = 0; i < keys.get(s).size(); i++){
+				if(input.isKeyDown(keys.get(s).get(i)))
+					return input.isKeyDown(keys.get(s).get(i));
+			}
+		}
+		for(int i = 0; i < keys.get(s).size(); i++){
+			if(input.isKeyDown(keys.get(s).get(i)))
+				return input.isKeyPressed(keys.get(s).get(i));
+		}
+		return false;
 	}
 
 	@Override
@@ -98,7 +137,7 @@ public class HeroController implements IEntityController{
 		hero.getBody().setLinearDamping(2.0f);
 		//Tells the view to applay the animation for standing
 		if(!jump && doubleJump <1)
-			pa.standAnimation();
+			pa.setStandAnimation();
 		/*
 		 * All this if... is to handle the input from the keyboard
 		 */
@@ -106,24 +145,25 @@ public class HeroController implements IEntityController{
 			hero.getBody().applyForce(heroVec.mul(-1), hero.getBody().getPosition());
 			//if the charcter isn't jumping this will start the moving to the  left animation
 			if(!jump && doubleJump <1)
-				pa.leftAnimation();
+				pa.setLeftAnimation();
 		}
 		if(check(CMD_RIGHT)){
 			hero.getBody().applyForce(heroVec, hero.getBody().getPosition());
 			//if the charcter isn't jumping this will start the moving to the right animation
 			if(!jump && doubleJump <1)
-				pa.rightAnimation();
+				pa.setRightAnimation();
 		}
 		if(check(CMD_JUMP)){
 			//This will start the jump animation
-			pa.jumpAnimation();
+			pa.setJumpAnimation();
 			if(doubleJump < 2)
 				jump = true;
 			doubleJump += 1;
 		}
 		if(check(CMD_FIGHT)){
 			// if you push the jump button it will start the animation and attack with it's weapon
-			pa.fightAnimation();
+			// Need to change to check if it is gun or sword
+			pa.setGunAnimation();
 			hero.attack();
 			hero.hurt(10);
 		}
