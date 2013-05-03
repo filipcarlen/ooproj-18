@@ -137,7 +137,7 @@ public class HeroController implements IEntityController{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		if(!hero.isDead()){
-			Vec2 tmp = hero.body.getPosition().add(new Vec2(-hero.getWidth(),-hero.getHeight())).mul(hero.getTransfer());
+			Vec2 tmp = hero.getPosPixels();
 			g.drawAnimation(pa.getAnimation(), tmp.x, tmp.y );
 			g.drawString(hero.getName(), tmp.x , tmp.y- 40);
 			g.drawRect(tmp.x, tmp.y - 15, 100, 10);

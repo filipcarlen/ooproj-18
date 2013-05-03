@@ -11,8 +11,8 @@ public class HeroModel implements IAliveModel{
 	int maxHp = 100;
 	int hp = maxHp;
 	
-	float width = .75f;
-	float height = .75f;
+	float width = .6f;
+	float height = .6f;
 	
 	Body body;
 	
@@ -52,6 +52,7 @@ public class HeroModel implements IAliveModel{
 		body = w.createBody(b);
 		body.createFixture(fd);
 		body.setUserData("Hero");
+		body.setFixedRotation(true);
 		dead = false;
 	}
 	
@@ -101,7 +102,7 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	public Vec2 getPosPixels(){
-		return body.getPosition().add(new Vec2(-width, -height)).mul(transfer);
+		return body.getPosition().add(new Vec2((width*2),height).mul(-1)).mul(transfer);
 	}
 	
 	public Body getBody(){
