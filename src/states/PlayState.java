@@ -7,12 +7,7 @@ import map.WorldShapes;
 import model.HeroModel;
 import model.IEntityModel;
 
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -31,36 +26,14 @@ public class PlayState extends BasicGameState{
 	static HeroModel hero;
 	HeroController contHero;
 	HeroView pa;
-	Body ground, ground1;
 	WorldMap wm;
 	CollisionDetection cd;
 	
 	ArrayList<IEntityModel> boddies = new ArrayList <IEntityModel>();
 	ArrayList<WorldShapes> terrain = new ArrayList <WorldShapes>();
-	ArrayList<Body> terr = new ArrayList<Body>();
 	
 	public PlayState(int id){
 		
-	}
-	
-	public Body createGround(float x, float y){
-		BodyDef b = new BodyDef();
-		b.type = BodyType.STATIC;
-		b.position.set(x/ 30f, y/30f);
-		
-		//Creating the structure
-		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(1000, 0);
-		
-		//The Fixture
-		FixtureDef fd = new FixtureDef();
-		fd.shape = pg;
-		fd.friction = 0.0f;
-		fd.density = 1f;
-		ground = world.createBody(b);
-		ground.createFixture(fd);
-		ground.setUserData("ground");
-		return ground;
 	}
 	
 	public void loadCharacters(){
@@ -83,15 +56,12 @@ public class PlayState extends BasicGameState{
 		world.setContinuousPhysics(true);
 		
 		world.setContactListener(cd);
-		wm = new WorldMap(world, 30f, true, "test");
+		wm = new WorldMap(world, true, "test");
 		// Creating a character
-		hero = new HeroModel(world, "hero", 30f);
-		contHero = new HeroController(hero, "Hero");
-		//Create a World
-		/*terr.add(createGround(0 ,600));
-		terr.add(createGround(0 ,300));//*/
+		hero = new HeroModel(world, "hero");
+		contHero = new HeroController(hero);
 		// Camera
-		cd = new CollisionDetection(world, boddies, wm.getListOfShapes(), terr, this);
+		cd = new CollisionDetection(world, boddies, wm.getListOfShapes(), this);
 	}
 
 	@Override
