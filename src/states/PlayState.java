@@ -91,14 +91,14 @@ public class PlayState extends BasicGameState{
 		/*terr.add(createGround(0 ,600));
 		terr.add(createGround(0 ,300));//*/
 		// Camera
-		cd = new CollisionDetection(world, boddies, wm.wsm, terr, this);
+		cd = new CollisionDetection(world, boddies, wm.getListOfShapes(), terr, this);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		contHero.render(gc, sbg, g);
 		wm.render(g);
-		g.drawString("Force: " + hero.body.m_force +
+		g.drawString("Force: " + hero.getBody().m_force +
 				"\nisAwake: " + hero.getBody().isAwake() +
 				"\nisActive: " + hero.getBody().isActive() +
 				"\nPosition: " + hero.getBody().getPosition(), 100, 100);

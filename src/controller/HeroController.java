@@ -93,9 +93,9 @@ public class HeroController implements IEntityController{
 	public void update(GameContainer gc, StateBasedGame sbg, int delta){
 		input = gc.getInput();
 		// Get the vector that is used to apply force to the character
-		Vec2 heroVec = hero.body.getWorldVector(new Vec2(-1.0f, 0.0f)); 
+		Vec2 heroVec = hero.getBody().getWorldVector(new Vec2(-1.0f, 0.0f)); 
 		//Sets the linearDamping so that the body dosen't continue to go to the left, right or up
-		hero.body.setLinearDamping(2.0f);
+		hero.getBody().setLinearDamping(2.0f);
 		//Tells the view to applay the animation for standing
 		if(!jump && doubleJump <1)
 			pa.standAnimation();
@@ -103,13 +103,13 @@ public class HeroController implements IEntityController{
 		 * All this if... is to handle the input from the keyboard
 		 */
 		if(check(CMD_LEFT)){
-			hero.body.applyForce(heroVec.mul(-1), hero.body.getPosition());
+			hero.getBody().applyForce(heroVec.mul(-1), hero.getBody().getPosition());
 			//if the charcter isn't jumping this will start the moving to the  left animation
 			if(!jump && doubleJump <1)
 				pa.leftAnimation();
 		}
 		if(check(CMD_RIGHT)){
-			hero.body.applyForce(heroVec, hero.body.getPosition());
+			hero.getBody().applyForce(heroVec, hero.getBody().getPosition());
 			//if the charcter isn't jumping this will start the moving to the right animation
 			if(!jump && doubleJump <1)
 				pa.rightAnimation();
@@ -128,7 +128,7 @@ public class HeroController implements IEntityController{
 			hero.hurt(10);
 		}
 		if(jump){
-			hero.body.applyForce(hero.body.getWorldVector(new Vec2(.0f, 10.0f)), hero.body.getPosition());
+			hero.getBody().applyForce(hero.getBody().getWorldVector(new Vec2(.0f, 10.0f)), hero.getBody().getPosition());
 			//This is a jumping count and will control how far in to the air the character will move
 			jumpCount -= 1;
 			if(jumpCount <= 0 ){
