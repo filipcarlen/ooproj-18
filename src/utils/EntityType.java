@@ -9,6 +9,7 @@ public enum EntityType {
 	ENEMY,
 	HERO,
 	GROUND,
-	WALL
+	WALL, 
+	ROOF
 	
 }
