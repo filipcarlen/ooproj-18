@@ -4,14 +4,14 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class EnemyController implements IEntityController {
+public class MovingFoeController implements IEntityController {
 	
-	private EnemyModel model;
-	private EnemyView view;
+	private MovingFoeModel model;
+	private MovingFoeView view;
 	
-	public EnemyController(EnemyModel model){
+	public MovingFoeController(MovingFoeModel model){
 		this.model = model;
-		view = new EnemyView(model);
+		view = new MovingFoeView(model);
 	}
 
 	@Override

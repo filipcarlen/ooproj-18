@@ -6,7 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class EnemyView {
+public class MovingFoeView {
 
 	public static enum ImageType {WALK_LEFT, WALK_RIGHT, FIGHT_LEFT, FIGHT_RIGHT};
 	
@@ -17,11 +17,11 @@ public class EnemyView {
 	private String PATH_FL = "";
 	private String PATH_FR = "";
 	
-	private EnemyModel model;
+	private MovingFoeModel model;
 	
 	private Image currentImage;
 	
-	public EnemyView(EnemyModel model) {
+	public MovingFoeView(MovingFoeModel model) {
 		this.model = model;
 		init();
 	}
