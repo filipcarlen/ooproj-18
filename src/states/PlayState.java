@@ -19,6 +19,7 @@ import utils.CollisionDetection;
 import view.HeroView;
 
 import controller.HeroController;
+import controller.IEntityController;
 
 public class PlayState extends BasicGameState{
 	
@@ -30,6 +31,7 @@ public class PlayState extends BasicGameState{
 	CollisionDetection cd;
 	
 	ArrayList<IEntityModel> boddies = new ArrayList <IEntityModel>();
+	static ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
 	ArrayList<WorldShapes> terrain = new ArrayList <WorldShapes>();
 	
 	public PlayState(int id){
@@ -91,5 +93,9 @@ public class PlayState extends BasicGameState{
 	
 	public HeroController getHeroController(){
 		return contHero;
+	}
+
+	public static void removeController(IEntityController controller) {
+		controllers.remove(controller);
 	}
 }
