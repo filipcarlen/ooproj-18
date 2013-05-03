@@ -11,6 +11,9 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import controller.HeroController;
+import model.HeroModel;
+
 import states.PlayState;
 
 public class CollisionDetection  implements ContactListener{
@@ -31,11 +34,19 @@ public class CollisionDetection  implements ContactListener{
 	@Override
 	public void beginContact(Contact c) {
 		for(WorldShapes ws: terrain){
-			if((c.m_fixtureB.m_body.getUserData() == PlayState.getHero().getBody().getUserData() && c.m_fixtureA.m_body.getUserData() == ws.getBody().getUserData())||
-					(c.m_fixtureA.m_body.getUserData() == PlayState.getHero().getBody().getUserData() && c.m_fixtureB.m_body.getUserData() == ws.getBody().getUserData())){
+			if(c.m_fixtureB.m_body.getUserData() == PlayState.getHero()){
+				if(c.m_fixtureA.m_body.getUserData() == ws.getBody().getUserData())
+					((HeroModel)c.m_fixtureB.m_body.getUserData()).setGroundContact();
+			}
+			if(c.m_fixtureA.m_body.getUserData() ==  PlayState.getHero()){
+				if(c.m_fixtureB.m_body.getUserData() == ws.getBody().getUserData())
+					((HeroModel)c.m_fixtureA.m_body.getUserData()).setGroundContact();
+			}
+			/*if((c.m_fixtureB.m_body.getUserData() == PlayState.getHero().getBody().getUserData() && c.m_fixtureA.m_body.getUserData() == ws.getBody().getUserData())||
+					(c.m_fixtureA.m_body.getUserDatwa() == PlayState.getHero().getBody().getUserData() && c.m_fixtureB.m_body.getUserData() == ws.getBody().getUserData())){
 				System.out.println("ja");
 				playState.getHeroController().setGroundContact();
-			}
+			}*/
 		}
 		System.out.println("Contact");
 	}
