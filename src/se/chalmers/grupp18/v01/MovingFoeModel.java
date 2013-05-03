@@ -8,7 +8,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
-public class EnemyModel implements IEntityModel{
+public class MovingFoeModel implements IEntityModel{
 	
 	private World world;
 	private int hp;
@@ -28,7 +28,7 @@ public class EnemyModel implements IEntityModel{
 	 * @param world The World this enemy will belong to.
 	 * @param pos The position of this enemy's top left corner, in pixels!
 	 */
-	public EnemyModel(World world, Vec2 pos, float width, float height) {
+	public MovingFoeModel(World world, Vec2 pos, float width, float height) {
 		this.world = world;
 		this.width = width;
 		this.height = height;
@@ -42,14 +42,14 @@ public class EnemyModel implements IEntityModel{
 		this.hp = 100;
 		this.weapon = new SwordModel();
 		
-		Vec2 tmppos = pos.add(new Vec2())
+		Vec2 tmppos = pos.add(new Vec2(0,0));
 		
 		BodyDef bd = new BodyDef();
-		bd.position.set();
+		bd.position.set(new Vec2(0,0));
 		bd.type = BodyType.DYNAMIC;
 		
 		PolygonShape ps = new PolygonShape();
-		ps.setAsBox(this.pos.x, this.pos.y);
+		ps.setAsBox(pos.x, pos.y);
 		
 		FixtureDef fd = new FixtureDef();
 		fd.shape = ps;
