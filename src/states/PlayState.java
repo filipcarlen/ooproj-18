@@ -95,7 +95,7 @@ public class PlayState extends BasicGameState{
 		return 0;
 	}
 	
-	public static HeroModel getHero(){
+	public static HeroModel getHeroModel(){
 		return hero;
 	}
 	
