@@ -1,6 +1,5 @@
 package controller;
 
-<<<<<<< HEAD
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
