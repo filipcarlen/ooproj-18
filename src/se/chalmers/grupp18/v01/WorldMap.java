@@ -64,7 +64,7 @@ public class WorldMap{
 			for(int i = 0; i < tm.getWidth(); i++){
 				for(int j = 0; j <tm.getHeight(); j ++){
 					if(tm.getTileId(i, j, collision) > 0){
-						addWorldShapesModel(i, j, tm.getTileWidth(), tm.getTileHeight(), tm.getTileId(i, j, collision));
+						addWorldShapesModel(i, j, tm.getTileWidth(), 0, tm.getTileId(i, j, collision));
 						pictureName.put(tm.getTileId(i, j, collision), tm.getTileImage(i, j, collision));
 					}
 				}
