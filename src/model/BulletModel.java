@@ -23,7 +23,7 @@ public class BulletModel implements IEntityModel{
 	
 	public final float RADIUS = 0.7f;
 
-	public BulletModel(World world, Vec2 heroPos, int range, int damage){
+	public BulletModel(World world, Vec2 heroPos, float range, int damage){
 		this.range = range;
 		this.damage = damage;
 		this.world = world;

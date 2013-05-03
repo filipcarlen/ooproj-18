@@ -1,7 +1,5 @@
 package model;
 
-<<<<<<< HEAD
-=======
 import org.jbox2d.dynamics.World;
 
 import states.PlayState;
@@ -27,7 +25,7 @@ public class GunModel extends AbstractWeaponModel{
 	}
 	public GunModel(World world, int damage, float range){
 		super(world, damage, range);
-		this.bullet = new BulletModel(super.getDamage(), super.getRange(), super.getWorld(), PlayState.getHeroModel().getPosPixels());
+		this.bullet = new BulletModel(super.getWorld(), PlayState.getHeroModel().getPosPixels(), super.getRange(), super.getDamage());
 	}
 
 	public int getDamage(){
