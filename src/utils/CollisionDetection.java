@@ -33,17 +33,15 @@ public class CollisionDetection  implements ContactListener{
 	
 	@Override
 	public void beginContact(Contact c) {
-		for(WorldShapes ws: terrain){
-			if(c.m_fixtureB.m_body.getUserData() == PlayState.getHeroModel()){
-				if(c.m_fixtureA.m_body.getUserData() == ws.getBody().getUserData())
-					((HeroModel)c.m_fixtureB.m_body.getUserData()).setGroundContact();
-			}
-			if(c.m_fixtureA.m_body.getUserData() ==  PlayState.getHeroModel()){
-				if(c.m_fixtureB.m_body.getUserData() == ws.getBody().getUserData())
-					((HeroModel)c.m_fixtureA.m_body.getUserData()).setGroundContact();
-			}
+		if(c.m_fixtureB.m_body.getUserData() == PlayState.getHeroModel()){
+			if(c.m_fixtureA.m_body.getUserData() == EntityType.GROUND)
+				((HeroModel)c.m_fixtureB.m_body.getUserData()).setGroundContact();
 		}
-		System.out.println("Contact");
+		if(c.m_fixtureA.m_body.getUserData() ==  PlayState.getHeroModel()){
+			if(c.m_fixtureB.m_body.getUserData() ==  EntityType.GROUND)
+				((HeroModel)c.m_fixtureA.m_body.getUserData()).setGroundContact();
+		}
+		System.out.println(c.m_fixtureA.m_body.getUserData() + "\n" + c.m_fixtureB.m_body.getUserData());
 	}
 
 	@Override
