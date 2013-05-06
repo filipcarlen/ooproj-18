@@ -1,9 +1,9 @@
 package controller;
 
+import model.CoinModel;
 import model.CollectibleModel;
+import model.GemModel;
 
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
@@ -21,15 +21,13 @@ public class CollectibleController implements IEntityController {
 	private CollectibleModel model;
 	private CollectibleView view;
 	
-	public CollectibleController(CollectibleModel model){
-		
+	public CollectibleController(CollectibleModel model){	
 		this.model = model;
-		view = new CollectibleView(model);
+		 view = new CollectibleView(model);
 	} 
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -92,7 +92,7 @@ public class CollectibleModel implements IEntityModel {
 	 * @return radius in pixels
 	 */
 	public float getRadius(){
-		return this.RADIUS * 30.f;
+		return this.RADIUS * Utils.METER_IN_PIXELS;
 	}
 	
 	/**
@@ -109,6 +109,13 @@ public class CollectibleModel implements IEntityModel {
 	 */
 	public void setValue(int value){
 		this.value = value;
+	}
+	
+	public boolean bodyExists(){
+		if(this.body.isAwake()){
+			return true;
+		}
+		return false;
 	}
 		
 }
