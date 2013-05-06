@@ -79,7 +79,9 @@ public class PlayState extends BasicGameState{
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		contHero.render(gc, sbg, g);
+		try{
+			contHero.render(gc, sbg, g);
+		}catch(NullPointerException e){} 
 		wm.render(g);
 		controller.render(gc, sbg, g);
 		g.drawString("Force: " + hero.getBody().m_force +
@@ -91,7 +93,9 @@ public class PlayState extends BasicGameState{
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		world.step(1f/60f, 8, 3);
-		contHero.update(gc, sbg, delta);
+		try{
+			contHero.update(gc, sbg, delta);
+		}catch(NullPointerException e){} 
 	}
 
 	@Override
