@@ -70,10 +70,10 @@ public class PlayState extends BasicGameState{
 		hero = new HeroModel(world, "hero");
 		contHero = new HeroController(hero);
 		// Camera
-		cd = new CollisionDetection(world, boddies, wm.getListOfShapes(), this);
-		
 		model = new CollectibleModel(world,new Vec2(300,300));
 		controller = new CollectibleController(model);
+		
+		cd = new CollisionDetection(world, boddies, wm.getListOfShapes(), this , model);
 		
 	}
 
