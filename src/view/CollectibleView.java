@@ -1,5 +1,4 @@
 package view;
-
 import model.CollectibleModel;
 
 import org.jbox2d.common.Vec2;
@@ -48,6 +47,6 @@ public class CollectibleView {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		Vec2 tmp = model.getPosPixels();
-		g.drawOval(tmp.x, tmp.y, model.getRadius(), model.getRadius());
+		g.drawOval(tmp.x, tmp.y, model.getRadius()*2, model.getRadius()*2);
 	}
 }
