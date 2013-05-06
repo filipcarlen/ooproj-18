@@ -8,6 +8,9 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+import states.PlayState;
+import utils.Utils;
+
 /** A class representing a Bullet
  * 
  * @author elinljunggren
@@ -21,7 +24,7 @@ public class BulletModel implements IEntityModel{
 	private Body body;
 	private World world;
 	
-	public final float RADIUS = 0.7f;
+	public final float RADIUS = 0.3f;
 
 	public BulletModel(World world, Vec2 heroPos, float range, int damage){
 		this.range = range;
@@ -33,7 +36,7 @@ public class BulletModel implements IEntityModel{
 	
 	public void init(Vec2 heroPos){
 		BodyDef bd = new BodyDef();
-		bd.type = BodyType.DYNAMIC;
+		bd.type = BodyType.KINEMATIC;
 		bd.position.set(heroPos.x, heroPos.y);
 		
 		CircleShape cs = new CircleShape();
@@ -48,35 +51,38 @@ public class BulletModel implements IEntityModel{
 		this.body = this.world.createBody(bd);
 		this.body.createFixture(fd);
 		this.body.setUserData(this);
+		this.body.setBullet(true);
+		this.body.shouldCollide(PlayState.getHeroModel().getBody());
+		
+	}
+	
+	public void fight(){
 		
 	}
 	
 	
 	public int getDamage(){
-		return damage;
+		return this.damage;
 	}
 	public void setDamage(int damage){
 		this.damage = damage;
 	}
 	public float getRange(){
-		return range;
+		return this.range;
 	}
 	public void setRange(float range){
 		this.range = range;
 	}
-	public void fight(){
-		
-	}
 	@Override
 	public Vec2 getPosMeters() {
-		return null;
+		return this.body.getPosition();
 	}
 	@Override
 	public Vec2 getPosPixels() {
-		return null;
+		return Utils.metersToPixels(this.body.getPosition());
 	}
 	@Override
 	public Body getBody() {
-		return null;
+		return this.body;
 	}
 }
