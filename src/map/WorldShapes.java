@@ -27,7 +27,7 @@ public class WorldShapes implements IEntityModel{
 		body = world.createBody(b);
 		this.world = world;
 		this.width = (width/Utils.METER_IN_PIXELS/2) * numberOfTiles;
-		this.height = (height/Utils.METER_IN_PIXELS/2)* numberOfTiles;
+		this.height = (height/Utils.METER_IN_PIXELS/2);
 		addGround(xCoordinate + this.width, yCoordinate);
 		addRoof(xCoordinate+ this.width, yCoordinate+ (this.height*2));
 		addWallRight(xCoordinate + (this.width*2), yCoordinate + this.height);
@@ -79,7 +79,7 @@ public class WorldShapes implements IEntityModel{
 		b.position.set(x , y);
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(this.width, 0);
+		pg.setAsBox(0 , this.height);
 		
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
@@ -88,7 +88,7 @@ public class WorldShapes implements IEntityModel{
 		fd.density = 1f;
 		bodyWallLeft = world.createBody(b);
 		bodyWallLeft.createFixture(fd);
-		bodyWallLeft.setUserData(EntityType.ROOF);
+		bodyWallLeft.setUserData(EntityType.WALL);
 	}
 	
 	private void addWallRight(float x, float y){	
@@ -97,7 +97,7 @@ public class WorldShapes implements IEntityModel{
 		b.position.set(x , y);
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(this.width, 0);
+		pg.setAsBox(0, this.height);
 		
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
@@ -106,7 +106,7 @@ public class WorldShapes implements IEntityModel{
 		fd.density = 1f;
 		bodyWallRight = world.createBody(b);
 		bodyWallRight.createFixture(fd);
-		bodyWallRight.setUserData(EntityType.ROOF);
+		bodyWallRight.setUserData(EntityType.WALL);
 	}
 	
 	public Body getBody(){
