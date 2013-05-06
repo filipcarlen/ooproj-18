@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -32,6 +34,18 @@ public class CollectibleModel implements IEntityModel {
 	/** What value a collectible item holds (which points you get) */
 	private int value = 1;
 	
+	/** Density */
+	private float density = 0.7f;
+	
+	/** Friction */
+	private float friction = 0.0f;
+	
+	/** Restitution */
+	private float Restitution = 0.5f;
+	
+	/** A boolean that tells us if the body exists */
+	private boolean bodyExists;
+	
 	
 	/**
 	 * Constructor for creating a Collectible item 
@@ -41,6 +55,7 @@ public class CollectibleModel implements IEntityModel {
 	 
 	public CollectibleModel(World w, Vec2 pixelPos){
 		world = w;
+		bodyExists = true;
 		createCollectable(Utils.pixelsToMeters(pixelPos));		
 	}
 	
@@ -50,7 +65,7 @@ public class CollectibleModel implements IEntityModel {
 	 */
 	public void createCollectable(Vec2 meterPos){
 		BodyDef bodydef = new BodyDef();
-		bodydef.type = BodyType.DYNAMIC;
+		bodydef.type = BodyType.STATIC;
 		bodydef.position.set(meterPos.x,meterPos.y);
 		
 		//Circle shapes are perfect for collectible objects
@@ -111,11 +126,12 @@ public class CollectibleModel implements IEntityModel {
 		this.value = value;
 	}
 	
-	public boolean bodyExists(){
-		if(this.body.isAwake()){
-			return true;
-		}
-		return false;
+	public void killBody(){
+		this.body.getWorld().destroyBody(body);
+		bodyExists = false;
 	}
-		
+	
+	public boolean bodyExists(){
+		return this.bodyExists;
+	}
 }
