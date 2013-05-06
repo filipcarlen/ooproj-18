@@ -3,6 +3,7 @@ package utils;
 import java.util.List;
 
 import map.WorldShapes;
+import model.CollectibleModel;
 import model.IEntityModel;
 
 import org.jbox2d.callbacks.ContactImpulse;
@@ -22,12 +23,14 @@ public class CollisionDetection  implements ContactListener{
 	List<WorldShapes> terrain;
 	PlayState playState;
 	World w;
+	CollectibleModel cm;
 
-	public CollisionDetection(World w, List<IEntityModel> em, List<WorldShapes> ws, PlayState ps){
+	public CollisionDetection(World w, List<IEntityModel> em, List<WorldShapes> ws, PlayState ps, CollectibleModel cm){
 		this.w = w;
 		this.entityModels = em;
 		this.terrain = ws;
 		this.playState =ps;
+		this.cm = cm;
 		
 	}
 	
@@ -36,10 +39,18 @@ public class CollisionDetection  implements ContactListener{
 		if(c.m_fixtureB.m_body.getUserData() == PlayState.getHeroModel()){
 			if(c.m_fixtureA.m_body.getUserData() == EntityType.GROUND)
 				((HeroModel)c.m_fixtureB.m_body.getUserData()).setGroundContact();
+			
+			else if(c.m_fixtureA.m_body.getUserData() == cm){
+				cm.killBody();
+			}
 		}
 		if(c.m_fixtureA.m_body.getUserData() ==  PlayState.getHeroModel()){
 			if(c.m_fixtureB.m_body.getUserData() ==  EntityType.GROUND)
 				((HeroModel)c.m_fixtureA.m_body.getUserData()).setGroundContact();
+			
+			else if(c.m_fixtureB.m_body.getUserData() == cm){
+				cm.killBody();
+			}
 		}
 		System.out.println(c.m_fixtureA.m_body.getUserData() + "\n" + c.m_fixtureB.m_body.getUserData());
 	}
