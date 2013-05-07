@@ -2,10 +2,13 @@ package controller;
 
 import model.MovingFoeModel;
 
+import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
+import states.PlayState;
+import utils.Utils;
 import view.MovingFoeView;
 
 public class MovingFoeController implements IEntityController {
@@ -20,33 +23,46 @@ public class MovingFoeController implements IEntityController {
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		
-		
-		
-		// Somehow get a hold of the players coordinates...
-		/*Vec2 heroPos = PlayState.getHeroPos();
-		Vec2 diffVec = this.model.getPosition().sub(heroPos);
-		
-		if(diffVec.length() < 600)){
-			if(heroPos.x < this.body.getPosition().x){
-				this.body.getPosition().x -= 0.4f*delta;
-				if(this.weapon.isWithinRange(this.body.getPosition(), heroPos)){
-					this.weapon.fight(heroPos);
+		if(this.model.isAlive()){
+			Vec2 right = this.model.getBody().getWorldVector(new Vec2(-0.05f, 0.0f));
+			Vec2 left = this.model.getBody().getWorldVector(new Vec2(0.05f, 0.0f));
+			
+			Vec2 heroPos = PlayState.getHeroModel().getPosPixels();
+			Vec2 diffVec = this.model.getPosPixels().sub(heroPos);
+			
+			this.model.getBody().setLinearDamping(2.5f);
+			
+			//Check if the hero is visible to this foe.
+			if(diffVec.length() < this.model.SIGHT_RANGE){
+				
+				//Make this foe walk towards the hero. 
+				if((heroPos.x < this.model.getPosPixels().x) && !(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters())))){
+					this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
+					this.model.getBody().applyLinearImpulse(left, this.model.getPosMeters());
+				} else if ((heroPos.x > this.model.getPosPixels().x) && !(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters())))){
+					this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
+					this.model.getBody().applyLinearImpulse(right, this.model.getPosMeters());
+				}
+				
+				//Attack the hero if he/she is within the range of this foe's weapon.
+				if(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters()))){
+						this.model.getWeapon().fight();
+						if(heroPos.x < this.model.getPosPixels().x) {
+							this.view.setCurrentAnim(MovingFoeView.AnimationType.SWORD_LEFT);
+						} else {
+							this.view.setCurrentAnim(MovingFoeView.AnimationType.SWORD_RIGHT);
+						}
 				}
 			}
-			if(heroPos.x > this.body.getPosition().x){
-				this.body.getPosition().x += 0.4f*delta;
-				if(this.weapon.isWithinRange(this.body.getPosition(), heroPos)){
-					this.weapon.fight(heroPos);
-				}
-			}
-		}*/
+		}
 	}
 
 	
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		this.view.render(gc, sbg, g);
+		if(this.model.isAlive()) {
+			this.view.render(gc, sbg, g);
+		}
 	}
 }

@@ -2,6 +2,8 @@ package view;
 
 import model.MovingFoeModel;
 
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -10,54 +12,83 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class MovingFoeView {
 
-	public static enum ImageType {WALK_LEFT, WALK_RIGHT, FIGHT_LEFT, FIGHT_RIGHT};
+	public static enum AnimationType {WALK_LEFT, WALK_RIGHT, GUN_LEFT, GUN_RIGHT, SWORD_LEFT, SWORD_RIGHT};
 	
-	private Image[] images;
+	private Animation[] animations;
 	
-	private String PATH_WL = "";
-	private String PATH_WR = "";
-	private String PATH_FL = "";
-	private String PATH_FR = "";
+	private final String PATH = "res/Characters/movingfoe/";
 	
 	private MovingFoeModel model;
 	
-	private Image currentImage;
+	private Animation currentAnimation;
 	
 	public MovingFoeView(MovingFoeModel model) {
 		this.model = model;
-		init();
-	}
-	
-	public void init() {
-		images = new Image[4];
 		try {
-			images[0] = new Image(PATH_WL);
-			images[1] = new Image(PATH_WR);
-			images[2] = new Image(PATH_FL);
-			images[3] = new Image(PATH_FR);
+			initAnimations();
 		} catch (SlickException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Couldn't initiate the animations of the moving foe at position: " + this.model.getPosPixels());
 		}
-		
-		currentImage = images[0];
 	}
 	
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void initAnimations() throws SlickException {
+		this.animations = new Animation[6];
+		Image[] images = new Image[2];
+		int duration = 500;
 		
+		images[0] = new Image(this.PATH + "walkleft1.jpg");
+		images[1] = new Image(this.PATH + "walkleft2.jpg");
+		animations[0] = (new Animation(images, duration));
+			
+		images[0] = new Image(this.PATH + "walkright1.jpg");
+		images[1] = new Image(this.PATH + "walkright2.jpg");
+		animations[1] = new Animation(images, duration);
+			
+		images[0] = new Image(this.PATH + "gunleft1.jpg");
+		images[1] = new Image(this.PATH + "gunleft2.jpg");
+		animations[2] = new Animation(images, duration);
+			
+		images[0] = new Image(this.PATH + "gunright1.jpg");
+		images[1] = new Image(this.PATH + "gunright2.jpg");
+		animations[3] = new Animation(images, duration);
+		
+		images[0] = new Image(this.PATH + "swordleft1.jpg");
+		images[1] = new Image(this.PATH + "swordleft2.jpg");
+		animations[4] = new Animation(images, duration);
+			
+		images[0] = new Image(this.PATH + "swordright1.jpg");
+		images[1] = new Image(this.PATH + "swordright2.jpg");
+		animations[5] = new Animation(images, duration);
+		
+		this.currentAnimation = this.animations[0];
 	}
 	
-	public void setCurrentImage(ImageType type) {
+	public void setCurrentAnim(AnimationType type) {
 		switch(type) {
 		case WALK_LEFT:
+			this.currentAnimation = this.animations[0];
 			break;
 		case WALK_RIGHT:
+			this.currentAnimation = this.animations[1];
 			break;
-		case FIGHT_LEFT:
+		case GUN_LEFT:
+			this.currentAnimation = this.animations[2];
 			break;
-		case FIGHT_RIGHT:
+		case GUN_RIGHT:
+			this.currentAnimation = this.animations[3];
+			break;
+		case SWORD_LEFT:
+			this.currentAnimation = this.animations[4];
+			break;
+		case SWORD_RIGHT:
+			this.currentAnimation = this.animations[5];
 			break;
 		default:
 			break;
 		}
+	}
+	
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		g.drawAnimation(this.currentAnimation, this.model.getPosPixels().x, this.model.getPosPixels().y);
 	}
 }
