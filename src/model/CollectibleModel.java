@@ -127,7 +127,7 @@ public class CollectibleModel implements IEntityModel {
 	}
 	
 	public void killBody(){
-		this.body.getWorld().destroyBody(body);
+		this.body.getWorld().destroyBody(this.getBody());
 		bodyExists = false;
 	}
 	

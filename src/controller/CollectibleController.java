@@ -33,6 +33,8 @@ public class CollectibleController implements IEntityController {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+		if(model.bodyExists()){
 			view.render(container, game, g);
+		}
 	}	
 }
