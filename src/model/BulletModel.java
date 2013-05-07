@@ -8,6 +8,8 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+import com.sun.tools.javac.util.List;
+
 import states.PlayState;
 import utils.Utils;
 
@@ -21,11 +23,12 @@ public class BulletModel implements IEntityModel{
 
 	private float range;
 	private int damage;
-	private Body body;
+	private Body bulletBody;
+	private Body myBody;
 	private World world;
 	private Vec2 firstPos;
 	
-	public final float RADIUS = 0.3f;
+	public final float RADIUS = 10f;
 
 	public BulletModel(World world, Vec2 myPos, Vec2 targetPos, float range, int damage){
 		this.range = range;
@@ -36,13 +39,13 @@ public class BulletModel implements IEntityModel{
 		
 	}
 	
-	public void init(Vec2 myPos){
+	public void init(Vec2 myPos) throws NullPointerException{
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.KINEMATIC;
-		bd.position.set(myPos.x, myPos.y);
+		bd.position.set(Utils.pixelsToMeters(myPos.x - RADIUS), Utils.pixelsToMeters(myPos.y - RADIUS));
 		
 		CircleShape cs = new CircleShape();
-		cs.m_radius = RADIUS;
+		cs.m_radius = Utils.pixelsToMeters(RADIUS);
 		
 		FixtureDef fd = new FixtureDef();
 		fd.shape = cs;
@@ -50,11 +53,28 @@ public class BulletModel implements IEntityModel{
 		fd.friction = 0.3f;
 		fd.restitution = 0.2f;
 		
-		this.body = this.world.createBody(bd);
-		this.body.createFixture(fd);
-		this.body.setUserData(this);
-		this.body.setBullet(true);
-		this.body.shouldCollide(this.world.getBodyList()); //måste loopa igenom listan och kolla vilken body som finns på positionen :(
+		this.bulletBody = this.world.createBody(bd);
+		this.bulletBody.createFixture(fd);
+		this.bulletBody.setUserData(this);
+		
+		// All bodies in the world
+		Body worldBodyList = this.world.getBodyList();
+		// Have to loop through all the bodies in the world and compare their position to the position 
+		// from which the bullet is fired to get the body of the shooting character. 
+		while(true){
+			Body nextBody = worldBodyList.getNext();
+			Vec2 nextBodyPos = nextBody.getPosition();
+			if(nextBodyPos == this.firstPos){
+				this.myBody = nextBody;
+				break;
+			} else if(nextBody == null){
+				throw new NullPointerException("No body in the world was found at the bullets first position");
+			}
+		}
+		// Making the Bullet object a Bullet in JBox2D, then the Bullet will disappear when it collides with another body.
+		this.bulletBody.setBullet(true);
+		// This is done so that the Bullet will ignore collision with the shooting character.
+		this.bulletBody.shouldCollide(this.myBody);
 		
 	}
 	
@@ -77,14 +97,14 @@ public class BulletModel implements IEntityModel{
 	}
 	@Override
 	public Vec2 getPosMeters() {
-		return this.body.getPosition();
+		return this.bulletBody.getPosition();
 	}
 	@Override
 	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.body.getPosition());
+		return Utils.metersToPixels(this.bulletBody.getPosition());
 	}
 	@Override
 	public Body getBody() {
-		return this.body;
+		return this.bulletBody;
 	}
 }
