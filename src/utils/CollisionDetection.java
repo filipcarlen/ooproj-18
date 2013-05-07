@@ -40,16 +40,16 @@ public class CollisionDetection  implements ContactListener{
 			if(c.m_fixtureA.m_body.getUserData() == EntityType.GROUND)
 				((HeroModel)c.m_fixtureB.m_body.getUserData()).setGroundContact();
 			
-			else if(c.m_fixtureA.m_body.getUserData() == cm){
-				cm.killBody();
+			else if(c.m_fixtureA.m_body.getUserData() == PlayState.getCollectibleModel()){
+				PlayState.getCollectibleModel().killBody();
 			}
 		}
 		if(c.m_fixtureA.m_body.getUserData() ==  PlayState.getHeroModel()){
 			if(c.m_fixtureB.m_body.getUserData() ==  EntityType.GROUND)
 				((HeroModel)c.m_fixtureA.m_body.getUserData()).setGroundContact();
 			
-			else if(c.m_fixtureB.m_body.getUserData() == cm){
-				cm.killBody();
+			else if(c.m_fixtureB.m_body.getUserData() == PlayState.getCollectibleModel()){
+				PlayState.getCollectibleModel().killBody();
 			}
 		}
 		System.out.println(c.m_fixtureA.m_body.getUserData() + "\n" + c.m_fixtureB.m_body.getUserData());

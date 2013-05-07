@@ -46,6 +46,8 @@ public class CollectibleModel implements IEntityModel {
 	/** A boolean that tells us if the body exists */
 	private boolean bodyExists;
 	
+	private FixtureDef fixturedef;
+	
 	
 	/**
 	 * Constructor for creating a Collectible item 
@@ -72,7 +74,7 @@ public class CollectibleModel implements IEntityModel {
 		CircleShape circleshape = new CircleShape();
 		circleshape.m_radius = RADIUS;
 		
-		FixtureDef fixturedef = new FixtureDef();
+		fixturedef = new FixtureDef();
 		fixturedef.shape = circleshape;
 		fixturedef.density = 0.7f;
 		fixturedef.friction = 0.0f;
@@ -127,7 +129,7 @@ public class CollectibleModel implements IEntityModel {
 	}
 	
 	public void killBody(){
-		this.body.getWorld().destroyBody(this.getBody());
+		world.destroyBody(body);
 		bodyExists = false;
 	}
 	

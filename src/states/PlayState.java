@@ -33,7 +33,7 @@ public class PlayState extends BasicGameState{
 	WorldMap wm;
 	CollisionDetection cd;
 	
-	CollectibleModel model;
+	static CollectibleModel model;
 	CollectibleController controller;
 	
 	
@@ -105,6 +105,10 @@ public class PlayState extends BasicGameState{
 	
 	public static HeroModel getHeroModel(){
 		return hero;
+	}
+	
+	public static CollectibleModel getCollectibleModel(){
+		return model;
 	}
 	
 	public HeroController getHeroController(){
