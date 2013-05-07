@@ -43,9 +43,9 @@ public abstract class AbstractWeaponModel {
 		this.world = world;
 	}
 	
-	public boolean isWithinRange(Vec2 enemy, Vec2 character){
+	public boolean isWithinRange(Vec2 myPos, Vec2 targetPos){
 		
-		if(Vec2.abs(enemy.sub(character)).length() < this.range){
+		if((myPos.sub(targetPos)).length() < this.range){
 			return true;
 		} else{
 			return false;
@@ -54,7 +54,7 @@ public abstract class AbstractWeaponModel {
 	}
 	
 	
-	public abstract void fight();
+	public abstract void fight(Vec2 myPos, Vec2 targetPos);
 
 	
 

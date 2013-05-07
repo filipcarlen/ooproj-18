@@ -23,21 +23,23 @@ public class BulletModel implements IEntityModel{
 	private int damage;
 	private Body body;
 	private World world;
+	private Vec2 firstPos;
 	
 	public final float RADIUS = 0.3f;
 
-	public BulletModel(World world, Vec2 heroPos, float range, int damage){
+	public BulletModel(World world, Vec2 myPos, Vec2 targetPos, float range, int damage){
 		this.range = range;
 		this.damage = damage;
 		this.world = world;
-		init(heroPos);
+		this.firstPos = myPos;
+		init(myPos);
 		
 	}
 	
-	public void init(Vec2 heroPos){
+	public void init(Vec2 myPos){
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.KINEMATIC;
-		bd.position.set(heroPos.x, heroPos.y);
+		bd.position.set(myPos.x, myPos.y);
 		
 		CircleShape cs = new CircleShape();
 		cs.m_radius = RADIUS;
@@ -52,26 +54,26 @@ public class BulletModel implements IEntityModel{
 		this.body.createFixture(fd);
 		this.body.setUserData(this);
 		this.body.setBullet(true);
-		this.body.shouldCollide(PlayState.getHeroModel().getBody());
-		
-	}
-	
-	public void fight(){
+		this.body.shouldCollide(this.world.getBodyList()); //måste loopa igenom listan och kolla vilken body som finns på positionen :(
 		
 	}
 	
 	
+	public float getRange(){
+		return this.range;
+	}
+	public void setRange(int range){
+		this.range = range;
+	}
 	public int getDamage(){
 		return this.damage;
 	}
 	public void setDamage(int damage){
 		this.damage = damage;
 	}
-	public float getRange(){
-		return this.range;
-	}
-	public void setRange(float range){
-		this.range = range;
+
+	public Vec2 getFirstPos(){
+		return this.firstPos;
 	}
 	@Override
 	public Vec2 getPosMeters() {

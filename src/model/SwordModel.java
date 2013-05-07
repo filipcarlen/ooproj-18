@@ -62,5 +62,10 @@ public class SwordModel extends AbstractWeaponModel{
 	public void fight(){
 		
 	}
+	@Override
+	public void fight(Vec2 myPos, Vec2 targetPos) {
+		
+		
+	}
 
 }

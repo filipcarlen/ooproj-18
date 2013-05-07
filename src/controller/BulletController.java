@@ -19,6 +19,8 @@ public class BulletController implements IEntityController{
 
 	private BulletModel model;
 	private BulletView view;
+	// The Distance the bullet has moved
+	private Vec2 distance;
 	
 	public BulletController(BulletModel model){
 		this.model = model;
@@ -27,7 +29,13 @@ public class BulletController implements IEntityController{
 	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		
+		// To get the distance we take the position from where the bullet was fired minus the current position
+		this.distance = this.model.getPosPixels().sub(this.model.getFirstPos()); 
+		if(this.model.getRange() <= distance.length()){
+			
+		}else{
+			
+		}
 	}
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {

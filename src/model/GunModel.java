@@ -1,6 +1,9 @@
 package model;
 
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
+
+import controller.BulletController;
 
 import states.PlayState;
 import utils.Utils;
@@ -19,29 +22,17 @@ public class GunModel extends AbstractWeaponModel{
 	public GunModel(World world){
 		this(world, 20, 400f);
 	}
-	public GunModel(World world,int damage){
+	public GunModel(World world, int damage){
 		this(world, damage, 400f);
 		
 	}
 	public GunModel(World world, int damage, float range){
 		super(world, damage, range);
-		this.bullet = new BulletModel(super.getWorld(), PlayState.getHeroModel().getPosPixels(), super.getRange(), super.getDamage());
 	}
 
-	public int getDamage(){
-		return this.bullet.getDamage();
-	}
-	public void setDamage(int damage){
-		this.bullet.setDamage(damage);
-	}
-	public float getRange(){
-		return this.bullet.getRange();
-	}
-	public void setRange(float range){
-		this.bullet.setRange(range);
-	}
-	
-	public void fight(){
-		this.bullet.fight();
+
+	public void fight(Vec2 myPos, Vec2 targetPos){
+		BulletModel model = new BulletModel(super.getWorld(), myPos, targetPos, super.getRange(), super.getDamage());
+		new BulletController(model);
 	}
 }
