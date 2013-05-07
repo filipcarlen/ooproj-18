@@ -1,6 +1,7 @@
 package model;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
 /** A class representing a Weapon
@@ -53,6 +54,21 @@ public abstract class AbstractWeaponModel {
 		
 	}
 	
+	public static Body getFighterBody(World world, Vec2 firstPos){
+		// All bodies in the world
+		Body worldBodyList = world.getBodyList();
+		// Have to loop through all the bodies in the world and compare their position to the position 
+		// from which the bullet is fired to get the body of the shooting character. 
+		while(true){
+			Body nextBody = worldBodyList.getNext();
+			Vec2 nextBodyPos = nextBody.getPosition();
+			if(nextBodyPos == firstPos){
+				return nextBody;
+			} else if(nextBody == null){
+				throw new NullPointerException("No body in the world was found at the bullets first position");
+			}
+		}
+	}
 	
 	public abstract void fight(Vec2 myPos, Vec2 targetPos);
 

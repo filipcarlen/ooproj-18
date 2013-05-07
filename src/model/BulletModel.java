@@ -23,9 +23,8 @@ public class BulletModel implements IEntityModel{
 
 	private float range;
 	private int damage;
-	private Body bulletBody;
-	private Body myBody;
 	private World world;
+	private Body bulletBody;
 	private Vec2 firstPos;
 	
 	public final float RADIUS = 10f;
@@ -51,33 +50,23 @@ public class BulletModel implements IEntityModel{
 		fd.shape = cs;
 		fd.density = 0.5f;
 		fd.friction = 0.3f;
-		fd.restitution = 0.2f;
+		fd.restitution = 0.5f;
 		
 		this.bulletBody = this.world.createBody(bd);
 		this.bulletBody.createFixture(fd);
 		this.bulletBody.setUserData(this);
 		
-		// All bodies in the world
-		Body worldBodyList = this.world.getBodyList();
-		// Have to loop through all the bodies in the world and compare their position to the position 
-		// from which the bullet is fired to get the body of the shooting character. 
-		while(true){
-			Body nextBody = worldBodyList.getNext();
-			Vec2 nextBodyPos = nextBody.getPosition();
-			if(nextBodyPos == this.firstPos){
-				this.myBody = nextBody;
-				break;
-			} else if(nextBody == null){
-				throw new NullPointerException("No body in the world was found at the bullets first position");
-			}
-		}
+		
 		// Making the Bullet object a Bullet in JBox2D, then the Bullet will disappear when it collides with another body.
 		this.bulletBody.setBullet(true);
 		// This is done so that the Bullet will ignore collision with the shooting character.
-		this.bulletBody.shouldCollide(this.myBody);
+		this.bulletBody.shouldCollide(AbstractWeaponModel.getFighterBody(this.world, this.firstPos));
 		
 	}
 	
+	public void destroyEntity(){
+		
+	}
 	
 	public float getRange(){
 		return this.range;

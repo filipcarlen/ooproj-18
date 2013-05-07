@@ -19,28 +19,30 @@ import utils.Utils;
  * @version 1.0 
  */
 
-public class SwordModel extends AbstractWeaponModel{
+public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 
 	private Body body;
+	private Vec2 firstPos;
+	private boolean fighting;
 	
 	public final float RADIUS = 0.5f;
 	
 	
-	public SwordModel(World world, Vec2 heroPos){
-		this(world, heroPos, 20, Utils.METER_IN_PIXELS);
+	public SwordModel(World world, Vec2 myPos){
+		this(world, myPos, 20, Utils.METER_IN_PIXELS);
 	}
-	public SwordModel(World world, Vec2 heroPos, int damage){
-		this(world, heroPos, damage, Utils.METER_IN_PIXELS);
+	public SwordModel(World world, Vec2 myPos, int damage){
+		this(world, myPos, damage, Utils.METER_IN_PIXELS);
 	}
-	public SwordModel(World world, Vec2 heroPos, int damage, float range){
+	public SwordModel(World world, Vec2 myPos, int damage, float range){
 		super(world, damage, range);
-		init(heroPos);
+		init(myPos);
 	}
 	
-	public void init(Vec2 heroPos){
+	public void init(Vec2 myPos){
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.KINEMATIC;
-		bd.position.set(heroPos.x, heroPos.y);
+		bd.position.set(Utils.pixelsToMeters(myPos.x), Utils.pixelsToMeters(myPos.y));
 		
 		PolygonShape ps = new PolygonShape();
 		ps.m_radius = RADIUS;
@@ -49,23 +51,40 @@ public class SwordModel extends AbstractWeaponModel{
 		fd.shape = ps;
 		fd.density = 0.5f;
 		fd.friction = 0.3f;
-		fd.restitution = 0.2f;
+		fd.restitution = 0.5f;
 		
 		this.body = getWorld().createBody(bd);
 		this.body.createFixture(fd);
 		this.body.setUserData(this);
-		this.body.setBullet(true);
-		this.body.shouldCollide(PlayState.getHeroModel().getBody());
+		this.body.shouldCollide(AbstractWeaponModel.getFighterBody(super.getWorld(), this.firstPos));
 		
 	}
 
-	public void fight(){
-		
+	public boolean isFighting(){
+		return fighting;
 	}
+	
+	public void setFighting(boolean b){
+		fighting = b;
+	}
+	
 	@Override
 	public void fight(Vec2 myPos, Vec2 targetPos) {
-		
-		
+		this.firstPos = myPos;
+		this.fighting = true;
+			
+	}
+	@Override
+	public Vec2 getPosMeters() {
+		return this.body.getPosition();
+	}
+	@Override
+	public Vec2 getPosPixels() {
+		return Utils.metersToPixels(this.body.getPosition());
+	}
+	@Override
+	public Body getBody() {
+		return body;
 	}
 
 }
