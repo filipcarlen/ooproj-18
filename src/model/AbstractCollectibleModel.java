@@ -26,7 +26,7 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	private Body body;
 	
 	/** The world the body exists in */
-	private World world;
+	//private World world;
 	
 	/** The collectible items Radius in meters */
 	public final float RADIUS = .5f;
@@ -53,16 +53,15 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	 */
 	 
 	public AbstractCollectibleModel(World w, Vec2 pixelPos){
-		world = w;
+		createCollectable(Utils.pixelsToMeters(pixelPos), w);	
 		bodyExists = true;
-		createCollectable(Utils.pixelsToMeters(pixelPos));		
 	}
 	
 	/**
 	 * Method for creating a collectible object
 	 * @param Vec2 position in meters
 	 */
-	public void createCollectable(Vec2 meterPos){
+	public void createCollectable(Vec2 meterPos, World world){
 		BodyDef bodydef = new BodyDef();
 		bodydef.type = BodyType.STATIC;
 		bodydef.position.set(meterPos.x,meterPos.y);
@@ -110,7 +109,7 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	}
 	
 	public void killBody(){
-		world.destroyBody(body);
+		body.getWorld().destroyBody(body);
 		bodyExists = false;
 	}
 	

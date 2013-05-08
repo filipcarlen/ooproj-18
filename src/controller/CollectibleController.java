@@ -1,8 +1,6 @@
 package controller;
 
-import model.CoinModel;
-import model.CollectibleModel;
-import model.GemModel;
+import model.ICollectibleModel;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,10 +16,10 @@ import view.CollectibleView;
 
 public class CollectibleController implements IEntityController {
 	
-	private CollectibleModel model;
+	private ICollectibleModel model;
 	private CollectibleView view;
 	
-	public CollectibleController(CollectibleModel model){	
+	public CollectibleController(ICollectibleModel model){	
 		this.model = model;
 		 view = new CollectibleView(model);
 	} 

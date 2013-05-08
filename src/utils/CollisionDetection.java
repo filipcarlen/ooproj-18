@@ -1,7 +1,8 @@
 package utils;
 
 import model.BulletModel;
-import model.CollectibleModel;
+import model.HeroModel;
+import model.ICollectibleModel;
 import model.MovingFoeModel;
 import model.StaticFoeModel;
 import model.SwordModel;
@@ -9,10 +10,7 @@ import model.SwordModel;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
-import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
-
-import model.HeroModel;
 
 import states.PlayState;
 
@@ -41,7 +39,7 @@ public class CollisionDetection  implements ContactListener{
 				heroModel.setGroundContact();
 			}
 	
-			else if(objectB instanceof CollectibleModel){
+			else if(objectB instanceof ICollectibleModel){
 				
 				System.out.println("hejB");
 			}
@@ -69,7 +67,7 @@ public class CollisionDetection  implements ContactListener{
 				heroModel.setGroundContact();
 			}
 	
-			else if(objectA instanceof CollectibleModel){
+			else if(objectA instanceof ICollectibleModel){
 				
 				System.out.println("hejA");
 			}
@@ -93,7 +91,7 @@ public class CollisionDetection  implements ContactListener{
 	
 			foeModel = (MovingFoeModel)objectA;
 			
-			if(objectB instanceof CollectibleModel){
+			if(objectB instanceof ICollectibleModel){
 				
 			}
 			
@@ -116,7 +114,7 @@ public class CollisionDetection  implements ContactListener{
 			
 			foeModel = (MovingFoeModel)objectB;
 	
-			if(objectA instanceof CollectibleModel){
+			if(objectA instanceof ICollectibleModel){
 				
 			}
 			

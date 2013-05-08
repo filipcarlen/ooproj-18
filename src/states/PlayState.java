@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import map.WorldMap;
 import map.WorldShapes;
 import model.CoinModel;
-import model.CollectibleModel;
 import model.GemModel;
 import model.HeroModel;
+import model.ICollectibleModel;
 import model.IEntityModel;
 
 import org.jbox2d.common.Vec2;
@@ -33,7 +33,7 @@ public class PlayState extends BasicGameState{
 	WorldMap wm;
 	CollisionDetection cd;
 	
-	static CollectibleModel model;
+	static ICollectibleModel model;
 	CollectibleController controller;
 	
 	
@@ -70,7 +70,7 @@ public class PlayState extends BasicGameState{
 		hero = new HeroModel(world, "hero");
 		contHero = new HeroController(hero);
 		// Camera
-		model = new CollectibleModel(world,new Vec2(300,300));
+		model = new CoinModel(world,new Vec2(300,300));
 		controller = new CollectibleController(model);
 		
 		cd = new CollisionDetection();
@@ -108,7 +108,7 @@ public class PlayState extends BasicGameState{
 		return hero;
 	}
 	
-	public static CollectibleModel getCollectibleModel(){
+	public static ICollectibleModel getCollectibleModel(){
 		return model;
 	}
 	
