@@ -35,7 +35,7 @@ public class PlayState extends BasicGameState{
 	CollisionDetection cd;
 	
 	
-	static ArrayList<IEntityModel> boddies = new ArrayList <IEntityModel>();
+	static ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
 	static ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
 	ArrayList<WorldShapes> terrain = new ArrayList <WorldShapes>();
 	
@@ -68,8 +68,8 @@ public class PlayState extends BasicGameState{
 		hero = new HeroModel(world, "hero");
 		contHero = new HeroController(hero);
 		// Camera
-		boddies.add(new GemModel(world,new Vec2(300,300)));
-		controllers.add(new CollectibleController((GemModel)boddies.get(boddies.size()-1)));
+		bodies.add(new GemModel(world,new Vec2(300,300)));
+		controllers.add(new CollectibleController((GemModel)bodies.get(bodies.size()-1)));
 		
 		cd = new CollisionDetection();
 		
