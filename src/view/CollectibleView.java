@@ -1,5 +1,5 @@
 package view;
-import model.CollectibleModel;
+import model.ICollectibleModel;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
@@ -18,13 +18,13 @@ public class CollectibleView {
 	private Shape collectible;
 	
 	/** Variable containing a Collectible Model */
-	private CollectibleModel model;
+	private ICollectibleModel model;
 	
 	/**
 	 * Constructor for a Collectible View 
 	 * @param model
 	 */
-	public CollectibleView(CollectibleModel model){
+	public CollectibleView(ICollectibleModel model){
 		this.model = model;
 		
 	}
