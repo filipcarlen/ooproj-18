@@ -20,7 +20,7 @@ import utils.Utils;
 
 
 
-public class CollectibleModel implements IEntityModel {
+public abstract class AbstractCollectibleModel implements IEntityModel, ICollectibleModel {
 	
 	/** The body for a collectible item */
 	private Body body;
@@ -30,9 +30,6 @@ public class CollectibleModel implements IEntityModel {
 	
 	/** The collectible items Radius in meters */
 	public final float RADIUS = .5f;
-	
-	/** What value a collectible item holds (which points you get) */
-	private int value = 1;
 	
 	/** Density */
 	private float density = 0.7f;
@@ -55,7 +52,7 @@ public class CollectibleModel implements IEntityModel {
 	 * @param Position pixelPos
 	 */
 	 
-	public CollectibleModel(World w, Vec2 pixelPos){
+	public AbstractCollectibleModel(World w, Vec2 pixelPos){
 		world = w;
 		bodyExists = true;
 		createCollectable(Utils.pixelsToMeters(pixelPos));		
@@ -110,22 +107,6 @@ public class CollectibleModel implements IEntityModel {
 	 */
 	public float getRadius(){
 		return this.RADIUS * Utils.METER_IN_PIXELS;
-	}
-	
-	/**
-	 * 
-	 * @return the value of a collectible item
-	 */
-	public int getValue(){
-		return this.value;
-	}
-	
-	/**
-	 * 
-	 * @param set a value
-	 */
-	public void setValue(int value){
-		this.value = value;
 	}
 	
 	public void killBody(){
