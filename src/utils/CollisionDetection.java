@@ -17,11 +17,11 @@ import model.HeroModel;
 import states.PlayState;
 
 public class CollisionDetection  implements ContactListener{
-	
-	World world;
 
-	public CollisionDetection(World world){
-		this.world = world;
+	MovingFoeModel foeModel;
+	HeroModel heroModel;
+	
+	public CollisionDetection(){
 		
 	}
 	
@@ -34,7 +34,7 @@ public class CollisionDetection  implements ContactListener{
 		// make the right changes.
 		if(objectA == PlayState.getHeroModel()){
 			
-			HeroModel heroModel = (HeroModel)objectB;
+			heroModel = (HeroModel)objectA;
 			
 			if(objectB ==  EntityType.GROUND){
 				
@@ -63,10 +63,9 @@ public class CollisionDetection  implements ContactListener{
 		// make the right changes.
 		if(objectB ==  PlayState.getHeroModel()){
 			
-			HeroModel heroModel = (HeroModel)objectB;
+			heroModel = (HeroModel)objectB;
 			
 			if(objectA == EntityType.GROUND){
-				
 				heroModel.setGroundContact();
 			}
 	
@@ -92,7 +91,7 @@ public class CollisionDetection  implements ContactListener{
 		// make the right changes.
 		if(objectA instanceof MovingFoeModel){
 	
-			MovingFoeModel foeModel = (MovingFoeModel)objectA;
+			foeModel = (MovingFoeModel)objectA;
 			
 			if(objectB instanceof CollectibleModel){
 				
@@ -113,9 +112,9 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectB of the collision is a moving foe and check what objectA is too 
 		// make the right changes.
-		if(objectB ==  PlayState.getHeroModel()){
+		if(objectB instanceof MovingFoeModel){
 			
-			MovingFoeModel foeModel = (MovingFoeModel)objectA;
+			foeModel = (MovingFoeModel)objectB;
 	
 			if(objectA instanceof CollectibleModel){
 				
