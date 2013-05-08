@@ -42,6 +42,7 @@ public class CollisionDetection  implements ContactListener{
 	
 			else if(objectB instanceof ICollectibleModel){
 				((AbstractCollectibleModel)objectB).killBody();
+				PlayState.removeController();
 			}
 			
 			else if(objectB instanceof StaticFoeModel) {
@@ -68,7 +69,7 @@ public class CollisionDetection  implements ContactListener{
 			}
 	
 			else if(objectA instanceof ICollectibleModel){
-				((AbstractCollectibleModel)objectA).killBody();
+				((AbstractCollectibleModel)objectA).killBody();				
 			}
 			
 			else if(objectA instanceof StaticFoeModel) {

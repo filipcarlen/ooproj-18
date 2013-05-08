@@ -16,6 +16,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.CollisionDetection;
@@ -33,11 +34,8 @@ public class PlayState extends BasicGameState{
 	WorldMap wm;
 	CollisionDetection cd;
 	
-	static ICollectibleModel model;
-	CollectibleController controller;
 	
-	
-	ArrayList<IEntityModel> boddies = new ArrayList <IEntityModel>();
+	static ArrayList<IEntityModel> boddies = new ArrayList <IEntityModel>();
 	static ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
 	ArrayList<WorldShapes> terrain = new ArrayList <WorldShapes>();
 	
@@ -70,8 +68,8 @@ public class PlayState extends BasicGameState{
 		hero = new HeroModel(world, "hero");
 		contHero = new HeroController(hero);
 		// Camera
-		model = new CoinModel(world,new Vec2(300,300));
-		controller = new CollectibleController(model);
+		boddies.add(new CoinModel(world,new Vec2(300,300)));
+		controllers.add(new CollectibleController((CoinModel)boddies.get(boddies.size()-1)));
 		
 		cd = new CollisionDetection();
 		
@@ -80,7 +78,9 @@ public class PlayState extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		wm.render(g);
-		controller.render(gc, sbg, g);
+		try{
+			((CollectibleController)controllers.get(0)).render(gc, sbg, g);
+		}catch(IndexOutOfBoundsException e){}
 		try{
 			contHero.render(gc, sbg, g);
 		}catch(NullPointerException e){} 
@@ -108,15 +108,17 @@ public class PlayState extends BasicGameState{
 		return hero;
 	}
 	
-	public static ICollectibleModel getCollectibleModel(){
-		return model;
+	public static void removeController(){
+		if(controllers.size() > 0){
+			controllers.remove(0);
+		}
 	}
 	
 	public HeroController getHeroController(){
 		return contHero;
 	}
 
-	public static void removeController(IEntityController controller) {
+	public static void removeHeroController(IEntityController controller) {
 		if(controller == contHero){
 			contHero = null;
 		} 

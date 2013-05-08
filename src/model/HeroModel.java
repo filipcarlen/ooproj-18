@@ -42,7 +42,6 @@ public class HeroModel implements IAliveModel{
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
 		pg.setAsBox(this.width, this.height);
-		
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
 		fd.density = 0.1f;
