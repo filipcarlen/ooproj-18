@@ -18,10 +18,9 @@ import states.PlayState;
 
 public class CollisionDetection  implements ContactListener{
 	
-	World world;
+	HeroModel heromodel;
 
-	public CollisionDetection(World world){
-		this.world = world;
+	public CollisionDetection(){
 		
 	}
 	
@@ -34,29 +33,27 @@ public class CollisionDetection  implements ContactListener{
 		// Check if objectA of the collision is the hero and check what objectB is too 
 		// make the right changes.
 		if(objectA == PlayState.getHeroModel()){
+			//
+			heromodel = (HeroModel)objectA;
 			
-			HeroModel heroModel = (HeroModel)objectB;
-			
-			if(objectB ==  EntityType.GROUND){
-				
-				heroModel.setGroundContact();
-			}
+			if(objectB ==  EntityType.GROUND)
+				heromodel.setGroundContact();
 	
 			else if(objectB instanceof CollectibleModel){
-				
-				System.out.println("hejB");
+				System.out.println("Collectible is B");
 			}
 			
 			else if(objectB instanceof StaticFoeModel) {
-				heroModel.hurt(((StaticFoeModel)objectB).getDamage());
+				heromodel.setGroundContact();
+				heromodel.hurt(((StaticFoeModel)objectB).getDamage());
 			}
 			
 			else if(objectB instanceof BulletModel) {
-				heroModel.hurt(((BulletModel)objectB).getDamage());
+				heromodel.hurt(((BulletModel)objectB).getDamage());
 			}
 			
 			else if(objectB instanceof SwordModel) {
-				heroModel.hurt(((SwordModel)objectB).getDamage());
+				heromodel.hurt(((SwordModel)objectB).getDamage());
 			}
 		}
 		
@@ -64,28 +61,24 @@ public class CollisionDetection  implements ContactListener{
 		// make the right changes.
 		if(objectB ==  PlayState.getHeroModel()){
 			
-			HeroModel heroModel = (HeroModel)objectB;
+			heromodel = (HeroModel)objectB;
 			
-			if(objectA == EntityType.GROUND){
-				
-				heroModel.setGroundContact();
-			}
-	
-			else if(objectA instanceof CollectibleModel){
-				
-				System.out.println("hejA");
-			}
+			if(objectA == EntityType.GROUND)
+				heromodel.setGroundContact();
+			else if(objectA instanceof CollectibleModel)
+				System.out.println("Collectible is A");
 			
 			else if(objectA instanceof StaticFoeModel) {
-				heroModel.hurt(((StaticFoeModel)objectA).getDamage());
+				heromodel.setGroundContact();
+				heromodel.hurt(((StaticFoeModel)objectA).getDamage());
 			}
 			
 			else if(objectA instanceof BulletModel) {
-				heroModel.hurt(((BulletModel)objectA).getDamage());
+				heromodel.hurt(((BulletModel)objectA).getDamage());
 			}
 			
 			else if(objectA instanceof SwordModel) {
-				heroModel.hurt(((SwordModel)objectA).getDamage());
+				heromodel.hurt(((SwordModel)objectA).getDamage());
 			}
 		}
 		
@@ -114,7 +107,7 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectB of the collision is a moving foe and check what objectA is too 
 		// make the right changes.
-		if(objectB ==  PlayState.getHeroModel()){
+		if(objectB instanceof MovingFoeModel){
 			
 			MovingFoeModel foeModel = (MovingFoeModel)objectA;
 	

@@ -73,7 +73,7 @@ public class PlayState extends BasicGameState{
 		model = new CollectibleModel(world,new Vec2(300,300));
 		controller = new CollectibleController(model);
 		
-		cd = new CollisionDetection(world);
+		cd = new CollisionDetection();
 		
 	}
 
