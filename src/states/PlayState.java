@@ -73,21 +73,22 @@ public class PlayState extends BasicGameState{
 		model = new CollectibleModel(world,new Vec2(300,300));
 		controller = new CollectibleController(model);
 		
-		cd = new CollisionDetection(world);
+		cd = new CollisionDetection();
 		
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		wm.render(g);
+		controller.render(gc, sbg, g);
 		try{
 			contHero.render(gc, sbg, g);
 		}catch(NullPointerException e){} 
-		wm.render(g);
-		controller.render(gc, sbg, g);
 		g.drawString("Force: " + hero.getBody().m_force +
 				"\nisAwake: " + hero.getBody().isAwake() +
 				"\nisActive: " + hero.getBody().isActive() +
-				"\nPosition: " + hero.getBody().getPosition(), 100, 100);
+				"\nPosition: " + hero.getBody().getPosition() + 
+				"\nBodyCount" + world.getBodyCount(), 100, 100);
 	}
 
 	@Override
