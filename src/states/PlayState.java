@@ -14,6 +14,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -79,15 +80,16 @@ public class PlayState extends BasicGameState{
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		wm.render(g);
+		controller.render(gc, sbg, g);
 		try{
 			contHero.render(gc, sbg, g);
 		}catch(NullPointerException e){} 
-		wm.render(g);
-		controller.render(gc, sbg, g);
 		g.drawString("Force: " + hero.getBody().m_force +
 				"\nisAwake: " + hero.getBody().isAwake() +
 				"\nisActive: " + hero.getBody().isActive() +
-				"\nPosition: " + hero.getBody().getPosition(), 100, 100);
+				"\nPosition: " + hero.getBody().getPosition() +
+				"\nBodyCount" + world.getBodyCount(), 100, 100);
 	}
 
 	@Override

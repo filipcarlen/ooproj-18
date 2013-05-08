@@ -47,6 +47,7 @@ public class HeroModel implements IAliveModel{
 		FixtureDef fd = new FixtureDef();
 		fd.density = 0.1f;
 		fd.friction = 0f;
+		fd.restitution = .0f;
 		fd.shape = pg;
 		//Creating an body in the world and a Fixtrue to the body
 		body = w.createBody(b);
