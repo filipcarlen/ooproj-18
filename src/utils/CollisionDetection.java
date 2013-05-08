@@ -36,8 +36,17 @@ public class CollisionDetection  implements ContactListener{
 			//
 			heromodel = (HeroModel)objectA;
 			
+<<<<<<< HEAD
 			if(objectB ==  EntityType.GROUND)
 				heromodel.setGroundContact();
+=======
+			HeroModel heroModel = (HeroModel)objectA;
+			
+			if(objectB ==  EntityType.GROUND){
+				
+				heroModel.setGroundContact();
+			}
+>>>>>>> 0971286cb31bffc80270be0ddae68c3392d8d219
 	
 			else if(objectB instanceof CollectibleModel){
 				System.out.println("Collectible is B");
@@ -109,7 +118,7 @@ public class CollisionDetection  implements ContactListener{
 		// make the right changes.
 		if(objectB instanceof MovingFoeModel){
 			
-			MovingFoeModel foeModel = (MovingFoeModel)objectA;
+			MovingFoeModel foeModel = (MovingFoeModel)objectB;
 	
 			if(objectA instanceof CollectibleModel){
 				
