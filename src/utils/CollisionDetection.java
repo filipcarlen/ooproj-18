@@ -35,7 +35,7 @@ public class CollisionDetection  implements ContactListener{
 		// make the right changes.
 		if(objectA == PlayState.getHeroModel()){
 			
-			HeroModel heroModel = (HeroModel)objectA;
+			HeroModel heroModel = (HeroModel)objectB;
 			
 			if(objectB ==  EntityType.GROUND){
 				
@@ -114,9 +114,9 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectB of the collision is a moving foe and check what objectA is too 
 		// make the right changes.
-		if(objectB instanceof MovingFoeModel){
+		if(objectB ==  PlayState.getHeroModel()){
 			
-			MovingFoeModel foeModel = (MovingFoeModel)objectB;
+			MovingFoeModel foeModel = (MovingFoeModel)objectA;
 	
 			if(objectA instanceof CollectibleModel){
 				
