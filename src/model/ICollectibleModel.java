@@ -9,5 +9,6 @@ public interface ICollectibleModel {
 	public Vec2 getPosPixels();
 	public float getRadius();
 	public boolean bodyExists();
+	public void destroyBody();
 
 }

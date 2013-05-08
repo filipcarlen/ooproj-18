@@ -1,4 +1,6 @@
 package view;
+import model.CoinModel;
+import model.GemModel;
 import model.ICollectibleModel;
 
 import org.jbox2d.common.Vec2;
@@ -26,7 +28,6 @@ public class CollectibleView {
 	 */
 	public CollectibleView(ICollectibleModel model){
 		this.model = model;
-		
 	}
 	/**
 	 * 
@@ -47,6 +48,12 @@ public class CollectibleView {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		Vec2 tmp = model.getPosPixels();
-		g.drawOval(tmp.x, tmp.y, model.getRadius()*2, model.getRadius()*2);
+		if(this.model instanceof CoinModel){
+			g.drawOval(tmp.x, tmp.y, model.getRadius()*2, model.getRadius()*2);
+		}
+		
+		else if(this.model instanceof GemModel){
+			g.fillOval(tmp.x, tmp.y, model.getRadius()*2, model.getRadius()*2);
+		}
 	}
 }

@@ -25,25 +25,11 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	/** The body for a collectible item */
 	private Body body;
 	
-	/** The world the body exists in */
-	//private World world;
-	
 	/** The collectible items Radius in meters */
 	public final float RADIUS = .5f;
 	
-	/** Density */
-	private float density = 0.7f;
-	
-	/** Friction */
-	private float friction = 0.0f;
-	
-	/** Restitution */
-	private float Restitution = 0.5f;
-	
 	/** A boolean that tells us if the body exists */
 	private boolean bodyExists;
-	
-	private FixtureDef fixturedef;
 	
 	
 	/**
@@ -53,8 +39,7 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	 */
 	 
 	public AbstractCollectibleModel(World w, Vec2 pixelPos){
-		createCollectable(Utils.pixelsToMeters(pixelPos), w);	
-		bodyExists = true;
+		createCollectable(Utils.pixelsToMeters(pixelPos), w);
 	}
 	
 	/**
@@ -62,24 +47,28 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	 * @param Vec2 position in meters
 	 */
 	public void createCollectable(Vec2 meterPos, World world){
-		BodyDef bodydef = new BodyDef();
-		bodydef.type = BodyType.STATIC;
-		bodydef.position.set(meterPos.x,meterPos.y);
-		
-		//Circle shapes are perfect for collectible objects
-		CircleShape circleshape = new CircleShape();
-		circleshape.m_radius = RADIUS;
-		
-		fixturedef = new FixtureDef();
-		fixturedef.shape = circleshape;
-		fixturedef.density = 0.7f;
-		fixturedef.friction = 0.0f;
-		fixturedef.restitution = 0.5f;
+	   	 
+	   	 BodyDef bodydef = new BodyDef();
+	   	 bodydef.type = BodyType.STATIC;
+	   	 bodydef.bullet = true;
+	   	 bodydef.position.set(meterPos.x,meterPos.y);
+	   	 
+	   	 //Circle shapes are perfect for collectible objects
+	   	 CircleShape circleshape = new CircleShape();
+	   	 circleshape.m_radius = RADIUS;
+	   	 
+	   	 FixtureDef fixturedef = new FixtureDef();
+	   	 fixturedef = new FixtureDef();
+	   	 fixturedef.shape = circleshape;
+	   	 fixturedef.density = 0.7f;
+	   	 fixturedef.friction = 0.0f;
+	   	 fixturedef.restitution = 0.0f;
 		
 		//creating body
 		body = world.createBody(bodydef);
 		body.setUserData(this);
 		body.createFixture(fixturedef);	
+		bodyExists = true;
 	}	
 	
 	/**
@@ -108,11 +97,16 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 		return this.RADIUS * Utils.METER_IN_PIXELS;
 	}
 	
-	public void killBody(){
-		body.getWorld().destroyBody(body);
-		bodyExists = false;
-	}
 	
+    public void destroyBody(){
+      	 body.getWorld().destroyBody(body);
+    } 	 
+	
+	
+    public void killBody(){
+      	 bodyExists = false;
+    }
+    
 	public boolean bodyExists(){
 		return this.bodyExists;
 	}
