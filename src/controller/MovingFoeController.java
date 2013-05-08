@@ -51,7 +51,7 @@ public class MovingFoeController implements IEntityController {
 				
 				//Attack the hero if he/she is within the range of this foe's weapon.
 				if(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters()))){
-						this.model.getWeapon().fight();
+						this.model.getWeapon().fight(Utils.metersToPixels(this.model.getPosMeters()),Utils.metersToPixels(PlayState.getHeroModel().getPosMeters()));
 						if(heroPos.x < this.model.getPosPixels().x) {
 							this.view.setCurrentAnim(MovingFoeView.AnimationType.SWORD_LEFT);
 						} else {
