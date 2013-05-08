@@ -6,6 +6,7 @@ import model.ICollectibleModel;
 import model.MovingFoeModel;
 import model.StaticFoeModel;
 import model.SwordModel;
+import model.*;
 
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
@@ -40,8 +41,7 @@ public class CollisionDetection  implements ContactListener{
 			}
 	
 			else if(objectB instanceof ICollectibleModel){
-				
-				System.out.println("hejB");
+				((AbstractCollectibleModel)objectB).killBody();
 			}
 			
 			else if(objectB instanceof StaticFoeModel) {
@@ -68,8 +68,7 @@ public class CollisionDetection  implements ContactListener{
 			}
 	
 			else if(objectA instanceof ICollectibleModel){
-				
-				System.out.println("hejA");
+				((AbstractCollectibleModel)objectA).killBody();
 			}
 			
 			else if(objectA instanceof StaticFoeModel) {
