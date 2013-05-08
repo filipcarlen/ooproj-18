@@ -26,7 +26,6 @@ public class CollisionDetection  implements ContactListener{
 	
 	@Override
 	public void beginContact(Contact contact) {
-		
 		Object objectA = contact.getFixtureA().getBody().getUserData();
 		Object objectB = contact.getFixtureB().getBody().getUserData();
 		
