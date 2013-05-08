@@ -19,6 +19,7 @@ public class WorldShapes implements IEntityModel{
 	int id;
 	float width;
 	float height;
+	float diff = -.01f;
 	World world;
 	
 	public WorldShapes(World world, float xCoordinate, float yCoordinate, int width, int height, int numberOfTiles){
@@ -40,7 +41,7 @@ public class WorldShapes implements IEntityModel{
 		b.position.set(x , y);
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(this.width, 0);
+		pg.setAsBox(this.width + diff, 0);
 		
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
@@ -60,7 +61,7 @@ public class WorldShapes implements IEntityModel{
 		
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(this.width, 0);
+		pg.setAsBox(this.width + diff, 0);
 		
 		//The Fixture
 		
@@ -79,7 +80,7 @@ public class WorldShapes implements IEntityModel{
 		b.position.set(x , y);
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(0 , this.height);
+		pg.setAsBox(0 , this.height + diff);
 		
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
@@ -97,7 +98,7 @@ public class WorldShapes implements IEntityModel{
 		b.position.set(x , y);
 		//Creating the structure
 		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(0, this.height);
+		pg.setAsBox(0, this.height + diff);
 		
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
