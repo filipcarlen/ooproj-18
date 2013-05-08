@@ -68,8 +68,8 @@ public class PlayState extends BasicGameState{
 		hero = new HeroModel(world, "hero");
 		contHero = new HeroController(hero);
 		// Camera
-		boddies.add(new CoinModel(world,new Vec2(300,300)));
-		controllers.add(new CollectibleController((CoinModel)boddies.get(boddies.size()-1)));
+		boddies.add(new GemModel(world,new Vec2(300,300)));
+		controllers.add(new CollectibleController((GemModel)boddies.get(boddies.size()-1)));
 		
 		cd = new CollisionDetection();
 		
