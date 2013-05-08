@@ -35,11 +35,16 @@ public class MovingFoeController implements IEntityController {
 			//Check if the hero is visible to this foe.
 			if(diffVec.length() < this.model.SIGHT_RANGE){
 				
-				//Make this foe walk towards the hero. 
-				if((heroPos.x < this.model.getPosPixels().x) && !(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters())))){
+				//Make this foe walk towards the hero and set the correct animation. 
+				if((heroPos.x < this.model.getPosPixels().x) && 
+						!(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters())))){
+					
 					this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
 					this.model.getBody().applyLinearImpulse(left, this.model.getPosMeters());
-				} else if ((heroPos.x > this.model.getPosPixels().x) && !(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters())))){
+					
+				} else if ((heroPos.x > this.model.getPosPixels().x) && 
+						!(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters())))){
+					
 					this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
 					this.model.getBody().applyLinearImpulse(right, this.model.getPosMeters());
 				}

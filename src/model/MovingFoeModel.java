@@ -19,7 +19,8 @@ public class MovingFoeModel implements IAliveModel{
 	
 	private Body body;
 	
-	private float width, height;
+	private final float WIDTH = 30f; 
+	private final float HEIGHT = 30f;
 	
 	private boolean isAlive;
 	
@@ -35,10 +36,8 @@ public class MovingFoeModel implements IAliveModel{
 	 * @param world The World this enemy will belong to.
 	 * @param pos The position of this enemy's top left corner, in pixels!
 	 */
-	public MovingFoeModel(World world, Vec2 pixelPos, float width, float height, int hp, AbstractWeaponModel weapon) {
+	public MovingFoeModel(World world, Vec2 pixelPos, int hp, AbstractWeaponModel weapon) {
 		this.world = world;
-		this.width = width;
-		this.height = height;
 		this.hp = hp;
 		this.weapon = weapon;
 		this.isAlive = true;
@@ -51,12 +50,12 @@ public class MovingFoeModel implements IAliveModel{
 	public void init(Vec2 pixelPos) {
 		
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(Utils.pixelsToMeters(pixelPos.add(new Vec2(this.width/2, this.height/2))));
+		bodyDef.position.set(Utils.pixelsToMeters(pixelPos.add(new Vec2(this.WIDTH/2, this.WIDTH/2))));
 		bodyDef.type = BodyType.DYNAMIC;
 		bodyDef.angle = MathUtils.PI;
 		
 		PolygonShape polyShape = new PolygonShape();
-		polyShape.setAsBox(Utils.pixelsToMeters(this.width)/2, Utils.pixelsToMeters(this.height)/2);
+		polyShape.setAsBox(Utils.pixelsToMeters(this.WIDTH)/2, Utils.pixelsToMeters(this.HEIGHT)/2);
 		
 		FixtureDef fixDef = new FixtureDef();
 		fixDef.shape = polyShape;
@@ -84,7 +83,7 @@ public class MovingFoeModel implements IAliveModel{
 
 	@Override
 	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.body.getPosition()).sub(new Vec2(this.width/2, this.height/2));
+		return Utils.metersToPixels(this.body.getPosition()).sub(new Vec2(this.WIDTH/2, this.HEIGHT/2));
 	}
 
 	@Override
@@ -94,7 +93,7 @@ public class MovingFoeModel implements IAliveModel{
 
 	@Override
 	public void setHp(int hp) {
-		if(!(hp < 0)) {
+		if(!(hp < 0) && !(hp > 100)) {
 			this.hp = hp;
 		}
 	}
@@ -125,13 +124,5 @@ public class MovingFoeModel implements IAliveModel{
 	
 	public boolean isAlive() {
 		return this.isAlive;
-	}
-	
-	public float getWidth() {
-		return this.width;
-	}
-	
-	public float getHeight() {
-		return this.height;
 	}
 }

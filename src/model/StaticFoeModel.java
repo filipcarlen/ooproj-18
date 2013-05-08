@@ -7,7 +7,6 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
-import org.newdawn.slick.Animation;
 
 import utils.Utils;
 
@@ -17,7 +16,10 @@ public class StaticFoeModel implements IEntityModel {
 	
 	private Body body;
 	
-	private float width, height;
+	private final float WIDTH = 30f; 
+	private final float HEIGHT = 30f;
+	
+	private int damage;
 	
 	/**
 	 * Creates a new static foe.
@@ -27,10 +29,9 @@ public class StaticFoeModel implements IEntityModel {
 	 * @param height 	the height of this entity in pixels
 	 * @param animation the animation of this entity
 	 */
-	public StaticFoeModel(World world, Vec2 pixelPos, float width, float height) {
+	public StaticFoeModel(World world, Vec2 pixelPos, int damage) {
 		this.world = world;
-		this.width = width;
-		this.height = height;
+		this.damage = damage;
 		init(pixelPos);
 	}
 	
@@ -41,17 +42,17 @@ public class StaticFoeModel implements IEntityModel {
 	public void init(Vec2 pixelPos) {
 		
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(Utils.pixelsToMeters(pixelPos.add(new Vec2(this.width/2, height/2))));
+		bodyDef.position.set(Utils.pixelsToMeters(pixelPos.add(new Vec2(this.WIDTH/2, this.HEIGHT/2))));
 		bodyDef.type = BodyType.STATIC;
 		
 		PolygonShape polyShape = new PolygonShape();
-		polyShape.setAsBox(Utils.pixelsToMeters(width/2), Utils.pixelsToMeters(height/2));
+		polyShape.setAsBox(Utils.pixelsToMeters(this.WIDTH/2), Utils.pixelsToMeters(this.HEIGHT/2));
 		
 		FixtureDef fixDef = new FixtureDef();
 		fixDef.shape = polyShape;
 		fixDef.density = 1f;
 		fixDef.friction = 0.0f;
-		fixDef.restitution = 1f;
+		fixDef.restitution = 2f;
 		
 		body = this.world.createBody(bodyDef);
 		body.createFixture(fixDef);
@@ -67,7 +68,7 @@ public class StaticFoeModel implements IEntityModel {
 
 	@Override
 	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(body.getPosition()).sub(new Vec2(this.width/2, this.height/2));
+		return Utils.metersToPixels(body.getPosition()).sub(new Vec2(this.WIDTH/2, this.WIDTH/2));
 	}
 
 	@Override
@@ -75,11 +76,7 @@ public class StaticFoeModel implements IEntityModel {
 		return this.body;
 	}
 	
-	public float getWidth() {
-		return this.width;
-	}
-	
-	public float getHeight() {
-		return this.width;
+	public int getDamage() {
+		return this.damage;
 	}
 }
