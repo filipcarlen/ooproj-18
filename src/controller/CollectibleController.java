@@ -4,6 +4,7 @@ import model.ICollectibleModel;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import states.PlayState;
@@ -20,7 +21,7 @@ public class CollectibleController implements IEntityController {
 	private ICollectibleModel model;
 	private CollectibleView view;
 	
-	public CollectibleController(ICollectibleModel model){	
+	public CollectibleController(ICollectibleModel model) throws SlickException{	
 		this.model = model;
 		 view = new CollectibleView(model);
 	} 
