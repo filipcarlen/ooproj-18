@@ -8,6 +8,9 @@ public class GemModel extends AbstractCollectibleModel {
 	
 	/** What value a collectible item holds (which points you get) */
 	private int value = 5;
+	
+	/** The collectible items Radius in meters */
+	public final float RADIUS = .5f;
 
 	public GemModel(World w, Vec2 pixelPos) {
 		super(w, pixelPos);

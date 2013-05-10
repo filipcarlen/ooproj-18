@@ -26,8 +26,8 @@ public class CollectibleView {
 	private ICollectibleModel model;
 	
 	private final String PATH = "res/Collectibles";
-	private Image[] coinImages;
-	private Animation animation;
+	private Image[] coinImages, gemImages;
+	private Animation coinAnimation, gemAnimation;
 	private int duration = 100;
 	
 	/**
@@ -41,6 +41,7 @@ public class CollectibleView {
 			initCoin();
 		}
 		else if(this.model instanceof GemModel){
+			initGem();
 			
 		}
 	}
@@ -64,11 +65,11 @@ public class CollectibleView {
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		Vec2 tmp = model.getPosPixels();
 		if(this.model instanceof CoinModel){
-			g.drawAnimation(animation, model.getPosPixels().x, model.getPosPixels().y);
+			g.drawAnimation(coinAnimation, model.getPosPixels().x, model.getPosPixels().y);
 		}
 		
 		else if(this.model instanceof GemModel){
-			g.fillOval(tmp.x, tmp.y, model.getRadius()*2, model.getRadius()*2);
+			g.drawAnimation(gemAnimation, model.getPosPixels().x, model.getPosPixels().y);
 		}
 	}
 	
@@ -83,6 +84,21 @@ public class CollectibleView {
 		coinImages[6] = new Image(PATH + "/Coin/coin_7.png");
 		coinImages[7] = new Image(PATH + "/Coin/coin_8.png");
 		
-		animation = new Animation(coinImages, duration);
+		coinAnimation = new Animation(coinImages, duration);
+	}
+	
+	public void initGem() throws SlickException{
+		gemImages = new Image[8];
+		gemImages[0] = new Image(PATH + "/Gem/gem_0.png");
+		gemImages[1] = new Image(PATH + "/Gem/gem_1.png");
+		gemImages[2] = new Image(PATH + "/Gem/gem_2.png");
+		gemImages[3] = new Image(PATH + "/Gem/gem_3.png");
+		gemImages[4] = new Image(PATH + "/Gem/gem_4.png");
+		gemImages[5] = new Image(PATH + "/Gem/gem_5.png");
+		gemImages[6] = new Image(PATH + "/Gem/gem_6.png");
+		gemImages[7] = new Image(PATH + "/Gem/gem_7.png");
+		
+		gemAnimation = new Animation(gemImages, duration);
+		
 	}
 }
