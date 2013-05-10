@@ -8,6 +8,8 @@ import org.newdawn.slick.state.StateBasedGame;
 public class GameApp extends StateBasedGame{
 	public static final int MAINMENUSTATE = 1;
 	public static final int PLAYSTATE = 0;
+	public static final int OPTIONSSTATE = 2;
+	
 	private static String gamename = "The Game";
 	
 	public GameApp(String gamename) {
@@ -19,6 +21,7 @@ public class GameApp extends StateBasedGame{
 	public void initStatesList(GameContainer gc) throws SlickException {
 		this.addState(new MainMenuState(MAINMENUSTATE));
 		this.addState(new PlayState(PLAYSTATE));
+		this.addState(new OptionsState(OPTIONSSTATE));
 		this.getState(PLAYSTATE).init(gc, this);
 		this.enterState(MAINMENUSTATE);
 	}
