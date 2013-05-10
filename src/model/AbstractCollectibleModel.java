@@ -60,7 +60,7 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	   	 FixtureDef fixturedef = new FixtureDef();
 	   	 fixturedef = new FixtureDef();
 	   	 fixturedef.shape = circleshape;
-	   	 fixturedef.density = 0.7f;
+	   	 fixturedef.density = 0.0f;
 	   	 fixturedef.friction = 0.0f;
 	   	 fixturedef.restitution = 0.0f;
 		
