@@ -5,8 +5,6 @@ import org.jbox2d.dynamics.World;
 
 import controller.BulletController;
 
-import states.PlayState;
-import utils.Utils;
 
 /** A class representing a Gun
  * 
@@ -17,7 +15,6 @@ import utils.Utils;
 
 public class GunModel extends AbstractWeaponModel{
 	
-	private BulletModel bullet;
 	
 	public GunModel(World world){
 		this(world, 20, 400f);

@@ -8,9 +8,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
-import com.sun.tools.javac.util.List;
 
-import states.PlayState;
 import utils.Utils;
 
 /** A class representing a Bullet
@@ -26,22 +24,26 @@ public class BulletModel implements IEntityModel{
 	private World world;
 	private Body bulletBody;
 	private Vec2 firstPos;
+	private Vec2 targetPos;
+	private Body fighterBody;
 	
 	public final float RADIUS = 10f;
 
-	public BulletModel(World world, Vec2 myPos, Vec2 targetPos, float range, int damage){
+	public BulletModel(World world, Vec2 fighterPos, Vec2 targetPos, float range, int damage){
 		this.range = range;
 		this.damage = damage;
 		this.world = world;
-		this.firstPos = myPos;
-		init(myPos);
+		this.firstPos = fighterPos;
+		this.targetPos = targetPos;
+		this.fighterBody = AbstractWeaponModel.getFighterBody(this.world, fighterPos);
+		init(fighterPos);
 		
 	}
 	
-	public void init(Vec2 myPos) throws NullPointerException{
+	public void init(Vec2 fighterPos) throws NullPointerException{
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.KINEMATIC;
-		bd.position.set(Utils.pixelsToMeters(myPos.x - RADIUS), Utils.pixelsToMeters(myPos.y - RADIUS));
+		bd.position.set(Utils.pixelsToMeters(fighterPos.x - RADIUS), Utils.pixelsToMeters(fighterPos.y - RADIUS));
 		
 		CircleShape cs = new CircleShape();
 		cs.m_radius = Utils.pixelsToMeters(RADIUS);
@@ -57,15 +59,15 @@ public class BulletModel implements IEntityModel{
 		this.bulletBody.setUserData(this);
 		
 		
-		// Making the Bullet object a Bullet in JBox2D, then the Bullet will disappear when it collides with another body.
+		// Making the Bullet object a bullet in JBox2D, then the Bullet will disappear when it collides with another body.
 		this.bulletBody.setBullet(true);
 		// This is done so that the Bullet will ignore collision with the shooting character.
-		this.bulletBody.shouldCollide(AbstractWeaponModel.getFighterBody(this.world, this.firstPos));
+		this.bulletBody.shouldCollide(this.fighterBody);
 		
 	}
 	
 	public void destroyEntity(){
-		
+		this.world.destroyBody(bulletBody);
 	}
 	
 	public float getRange(){
@@ -84,16 +86,24 @@ public class BulletModel implements IEntityModel{
 	public Vec2 getFirstPos(){
 		return this.firstPos;
 	}
+	public Vec2 getTargetPos(){
+		return this.targetPos;
+	}
 	@Override
 	public Vec2 getPosMeters() {
 		return this.bulletBody.getPosition();
 	}
 	@Override
 	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.bulletBody.getPosition());
+		return Utils.metersToPixels(this.bulletBody.getPosition().add(new Vec2(-RADIUS, -RADIUS)));
+
 	}
 	@Override
 	public Body getBody() {
 		return this.bulletBody;
 	}
+	public Body getFighterBody(){
+		return this.fighterBody;
+	}
+	
 }
