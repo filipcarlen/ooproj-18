@@ -13,6 +13,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 import states.PlayState;
+import utils.Navigation;
 import view.HeroView;
 
 /**
@@ -38,7 +39,7 @@ public class HeroController implements IEntityController{
 	
 	public HeroController(HeroModel ce){
 		model = ce;
-		pa = new HeroView(ce.getName());
+		pa = new HeroView(ce.getName(), model.getWeaponType());
 		setControls();
 	}
 	
@@ -143,12 +144,14 @@ public class HeroController implements IEntityController{
 		 * All this if... is to handle the input from the keyboard
 		 */
 		if(check(CMD_LEFT)){
+			model.setDirection(Navigation.WEST);
 			model.getBody().applyForce(heroVec.mul(-1), model.getBody().getPosition());
 			//if the charcter isn't jumping this will start the moving to the  left animation
 			if(!jump && model.getDoubleJump() <1)
 				pa.setLeftAnimation();
 		}
 		if(check(CMD_RIGHT)){
+			model.setDirection(Navigation.EAST);
 			model.getBody().applyForce(heroVec, model.getBody().getPosition());
 			//if the charcter isn't jumping this will start the moving to the right animation
 			if(!jump && model.getDoubleJump() <1)
@@ -164,7 +167,7 @@ public class HeroController implements IEntityController{
 		if(check(CMD_FIGHT)){
 			// if you push the jump button it will start the animation and attack with it's weapon
 			// Need to change to check if it is gun or sword
-			pa.setGunAnimation();
+			pa.setAttackAnimation();
 			model.attack();
 			model.hurt(10);
 		}
