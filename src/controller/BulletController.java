@@ -16,10 +16,13 @@ import model.BulletModel;
 
 public class BulletController implements IEntityController{
 
+	/** The model connected to this controller */
 	private BulletModel model;
+	/** The view connected to this controller */
 	private BulletView view;
-	// The Distance the bullet has moved
+	/** The Distance the bullet has moved */
 	private Vec2 distance;
+	/** Tells us if the bullet is moving or not */
 	private boolean isMoving;
 
 	
