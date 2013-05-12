@@ -32,15 +32,13 @@ public class HeroModel implements IAliveModel{
 	int collectedItem = 0;
 	
 	public HeroModel(World w, String characterName){
-		this(w, characterName, new Vector2f(0,0), 50, 50, null);
+		this(w, characterName, new Vector2f(0,0), 50, 50, new SwordModel(w, new Vec2(0,0)));
 	}
 
 	public HeroModel(World w, String characterName, Vector2f pos, int width, int height, AbstractWeaponModel weapon){
 		this.characterName = characterName;
 		this.width = width/2/Utils.METER_IN_PIXELS;
 		this.height = height/2/Utils.METER_IN_PIXELS;
-		if(weapon != null)
-			this.weapon = weapon;
 		//Create the Body defination
 		BodyDef b = new BodyDef();
 		b.type = BodyType.DYNAMIC;
@@ -52,7 +50,8 @@ public class HeroModel implements IAliveModel{
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
 		fd.density = 0.1f;
-		fd.friction = 0f;
+		fd.friction = 0.0f;
+		fd.restitution = 0.0f;
 		fd.shape = pg;
 		//Creating an body in the world and a Fixtrue to the body
 		body = w.createBody(b);
@@ -66,12 +65,21 @@ public class HeroModel implements IAliveModel{
 	
 	public void attack(){
 		// Call to the weapon in use
-		// Elin här kommer jag anropa din weapon.attack(positionen, Rikting i form av navigation)
+		weapon.fight(getPosMeters(), navigation);
 		
 	}
 	
 	public void collectCoin(int c){
 		collectedItem += c;
+	}
+	
+	public void coinBump(){
+		Vec2 push =body.getWorldVector(new Vec2(-1.0f, 0.0f));
+		if(navigation == Navigation.WEST)
+			body.applyForce(push, getPosMeters());
+		else if(navigation == Navigation.EAST){
+			body.applyForce(push.mul(-1), getPosMeters());
+		}
 	}
 	
 	public Body getBody(){
