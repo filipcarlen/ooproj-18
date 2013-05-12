@@ -4,6 +4,9 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
+import utils.Navigation;
+import utils.WeaponType;
+
 /** A class representing a Weapon
  * 
  * @author elinljunggren
@@ -16,6 +19,7 @@ public abstract class AbstractWeaponModel {
 	private int damage;
 	private float range;
 	private World world;
+	private WeaponType weaponType = null;
 	
 	
 	public AbstractWeaponModel(World world, int damage, float range){
@@ -38,6 +42,12 @@ public abstract class AbstractWeaponModel {
 	}
 	public World getWorld() {
 		return world;
+	}
+	public WeaponType getWeaponType(){
+		return this.weaponType;
+	}
+	public void setWeaponType(WeaponType weaponType){
+		this.weaponType = weaponType;
 	}
 
 	public void setWorld(World world) {
@@ -70,7 +80,7 @@ public abstract class AbstractWeaponModel {
 		}
 	}
 	
-	public abstract void fight(Vec2 myPos, Vec2 targetPos);
+	public abstract void fight(Vec2 myPos,  Navigation navigation);
 
 	
 

@@ -11,7 +11,9 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import states.PlayState;
+import utils.Navigation;
 import utils.Utils;
+import utils.WeaponType;
 
 /** A class representing a Sword
  * 
@@ -36,6 +38,7 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	}
 	public SwordModel(World world, Vec2 myPos, int damage, float range){
 		super(world, damage, range);
+		super.setWeaponType(WeaponType.sword);
 		init(myPos);
 	}
 	
@@ -69,7 +72,7 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	}
 	
 	@Override
-	public void fight(Vec2 myPos, Vec2 targetPos) {
+	public void fight(Vec2 myPos, Navigation navigation) {
 		this.firstPos = myPos;
 		this.fighting = true;
 			

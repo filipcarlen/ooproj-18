@@ -5,6 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.Navigation;
 import view.BulletView;
 import model.BulletModel;
 
@@ -16,10 +17,13 @@ import model.BulletModel;
 
 public class BulletController implements IEntityController{
 
+	/** The model connected to this controller */
 	private BulletModel model;
+	/** The view connected to this controller */
 	private BulletView view;
-	// The Distance the bullet has moved
+	/** The Distance the bullet has moved */
 	private Vec2 distance;
+	/** Tells us if the bullet is moving or not */
 	private boolean isMoving;
 
 	
@@ -33,10 +37,10 @@ public class BulletController implements IEntityController{
 		// To get the distance we take the position from where the bullet was fired minus the current position
 		this.distance = Vec2.abs(this.model.getPosPixels().sub(this.model.getFirstPos()));
 		if(!isMoving){
-			if(this.model.getFirstPos().x - this.model.getTargetPos().x > 0){
+			if(this.model.getNavigation() == Navigation.WEST){
 				this.model.getBody().applyForce(this.model.getBody().getWorldVector(new Vec2(-10.0f, 0.0f)), this.model.getBody().getPosition());
 				isMoving = true;
-			}else if(this.model.getFirstPos().x - this.model.getTargetPos().x <= 0){
+			}else if(this.model.getNavigation() == Navigation.EAST){
 				this.model.getBody().applyForce(this.model.getBody().getWorldVector(new Vec2(10.0f, 0.0f)), this.model.getBody().getPosition());
 				isMoving = true;
 			}
