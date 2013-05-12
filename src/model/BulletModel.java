@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 
+import utils.Navigation;
 import utils.Utils;
 
 /** A class representing a Bullet
@@ -37,19 +38,19 @@ public class BulletModel implements IEntityModel{
 	/** The position of the character firing the Gun */
 	private Body fighterBody;
 	
-	/** The position of the target the fighter wants to hit */
-	private Vec2 targetPos;
+	/** The direction in which the fighter is moving */
+ 	private Navigation navigation;
 
 	/** The radius of the circle shaped body */
 	public final float RADIUS = 10f;
 
 	
-	public BulletModel(World world, Vec2 fighterPos, Vec2 targetPos, float range, int damage){
+	public BulletModel(World world, Vec2 fighterPos, Navigation navigation, float range, int damage){
 		this.range = range;
 		this.damage = damage;
 		this.world = world;
 		this.firstPos = fighterPos;
-		this.targetPos = targetPos;
+		this.navigation = navigation;
 		this.fighterBody = AbstractWeaponModel.getFighterBody(this.world, fighterPos);
 		init(fighterPos);
 		
@@ -129,8 +130,8 @@ public class BulletModel implements IEntityModel{
 	 * 
 	 * @return the position given on the target
 	 */
-	public Vec2 getTargetPos(){
-		return this.targetPos;
+	public Navigation getNavigation(){
+		return this.navigation;
 	}
 	/**
 	 * 
