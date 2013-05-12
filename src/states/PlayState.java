@@ -103,7 +103,7 @@ public class PlayState extends BasicGameState{
 
 	@Override
 	public int getID() {
-		return 0;
+		return 1;
 	}
 	
 	public static HeroModel getHeroModel(){

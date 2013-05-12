@@ -6,8 +6,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class GameApp extends StateBasedGame{
-	public static final int MAINMENUSTATE = 1;
-	public static final int PLAYSTATE = 0;
+	public static final int MAINMENUSTATE = 0;
+	public static final int PLAYSTATE = 1;
 	public static final int OPTIONSSTATE = 2;
 	
 	private static String gamename = "The Game";
