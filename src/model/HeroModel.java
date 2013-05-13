@@ -64,7 +64,7 @@ public class HeroModel implements IAliveModel{
 		body.setFixedRotation(true);
 		dead = false;
 		this.weapon = weapon;
-		//this.weapontype = this.weapon.getWeaponType();
+		this.weapontype = this.weapon.getWeaponType();
 	}
 	
 	public void attack(){
@@ -75,15 +75,6 @@ public class HeroModel implements IAliveModel{
 	
 	public void collectCoin(int c){
 		collectedItem += c;
-	}
-	
-	public void coinBump(){
-		Vec2 push =body.getWorldVector(new Vec2(-1.0f, 0.0f));
-		if(navigation == Navigation.WEST)
-			body.applyForce(push, getPosMeters());
-		else if(navigation == Navigation.EAST){
-			body.applyForce(push.mul(-1), getPosMeters());
-		}
 	}
 	
 	public Body getBody(){
