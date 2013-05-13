@@ -41,6 +41,9 @@ public class BulletModel implements IEntityModel{
 	/** The direction in which the fighter is moving */
  	private Navigation navigation;
  	
+ 	
+ 	private boolean isMoving;
+ 	
  	/** The ID of this Bullet */
  	private int id;
 
@@ -48,16 +51,16 @@ public class BulletModel implements IEntityModel{
 	public final float RADIUS = 10f;
 
 	
-	public BulletModel(World world, Vec2 fighterPos, Navigation navigation, float range, int damage, int id){
+	public BulletModel(World world, float range, int damage, int id){
 		this.id = id;
 		this.range = range;
 		this.damage = damage;
 		this.world = world;
-		this.firstPos = fighterPos;
-		this.navigation = navigation;
-		this.fighterBody = AbstractWeaponModel.getFighterBody(this.world, fighterPos);
-		init(fighterPos);
-		this.bulletBody.setActive(false);
+		//this.firstPos = fighterPos;
+		//this.navigation = navigation;
+		//this.fighterBody = AbstractWeaponModel.getFighterBody(this.world, fighterPos);
+		//init(fighterPos);
+		//this.bulletBody.setActive(false);
 		
 	}
 	/**
@@ -68,7 +71,7 @@ public class BulletModel implements IEntityModel{
 	public void init(Vec2 fighterPos) throws NullPointerException{
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.KINEMATIC;
-		bd.position.set(Utils.pixelsToMeters(fighterPos.x - RADIUS), Utils.pixelsToMeters(fighterPos.y - RADIUS));
+		//bd.position.set(Utils.pixelsToMeters(fighterPos.x - RADIUS), Utils.pixelsToMeters(fighterPos.y - RADIUS));
 		
 		CircleShape cs = new CircleShape();
 		cs.m_radius = Utils.pixelsToMeters(RADIUS);
@@ -89,6 +92,19 @@ public class BulletModel implements IEntityModel{
 		// This is done so that the Bullet will ignore collision with the shooting character.
 		this.bulletBody.shouldCollide(this.fighterBody);
 		
+	}
+	
+	public void fight(Vec2 fighterPos, Navigation navigation){
+		this.firstPos = fighterPos;
+		isMoving = true;
+		init(fighterPos);
+	}
+	
+	public void setMoving(boolean b){
+		this.isMoving = b;
+	}
+	public boolean isMoving(){
+		return this.isMoving;
 	}
 	/**
 	 * A method used to destroy the body of this bullet

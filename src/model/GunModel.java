@@ -3,10 +3,10 @@ package model;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
+import com.sun.tools.javac.util.List;
+
 import utils.Navigation;
 import utils.WeaponType;
-
-import controller.BulletController;
 
 
 /** A class representing a Gun
@@ -18,28 +18,44 @@ import controller.BulletController;
 
 public class GunModel extends AbstractWeaponModel{
 	
-	private BulletModel bulletModel;
+	private static List<BulletModel> bulletModels;
+	//private Vec2 firstPos;
 	
-	public GunModel(BulletModel bulletModel, World world){
-		this(bulletModel, world, 20, 400f);
+	public GunModel(List<BulletModel> bulletModels, World world){
+		this(bulletModels, world, 20, 400f);
 		
 	}
-	public GunModel(BulletModel bulletModel, World world, int damage){
-		this(bulletModel, world, damage, 400f);
+	public GunModel(List<BulletModel> bulletModels, World world, int damage){
+		this(bulletModels, world, damage, 400f);
 		
 	}
-	public GunModel(BulletModel bulletModel, World world, int damage, float range){
+	public GunModel(List<BulletModel> bulletModels, World world, int damage, float range){
 		super(world, damage, range);
 		super.setWeaponType(WeaponType.gun);
-		this.bulletModel = bulletModel;
+		this.bulletModels = bulletModels;
 		
 	}
 
 
 	public void fight(Vec2 myPos, Navigation navigation){
-		
-		bulletModel.getBody().setActive(true);
+		//this.firstPos = myPos;
+		for(int i = 0; i < bulletModels.length(); i++){
+			if(!bulletModels.get(i).getBody().isActive()){
+				bulletModels.get(i).fight(myPos, navigation);
+				return ;
+			}
+			
+		}
 		//BulletModel model = new BulletModel(super.getWorld(), myPos, navigation, super.getRange(), super.getDamage());
 		//new BulletController(model);
 	}
+	
+	public static List<BulletModel> getBulletModels(){
+		return bulletModels;
+		
+	}
+	
+	/*public Vec2 getFirstPos(){
+		return this.firstPos;
+	}*/
 }
