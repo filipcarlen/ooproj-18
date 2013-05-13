@@ -114,7 +114,7 @@ public class WorldShapes implements IEntityModel{
 		return null;
 	}
 	
-	public int getId(){
+	public int getID(){
 		return id;
 	}
 

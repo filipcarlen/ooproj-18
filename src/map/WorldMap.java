@@ -112,6 +112,27 @@ public class WorldMap{
 		}
 	}
 	
+	public void render(Graphics g, float x, float y, int width, int height){
+		if(width/tm.getTileWidth() > tm.getWidth())
+			width = tm.getWidth();
+		else
+			width = width/tm.getTileWidth();
+		if(height/tm.getTileHeight() > tm.getHeight())
+			height = tm.getHeight();
+		else
+			height = height/tm.getTileHeight();
+		int sx= (int)x/tm.getTileWidth();
+		int sy = (int)y/tm.getTileHeight();
+		for(int i = sx; i < (x+width); i ++){
+			for(int j = sy; j < (y+height); j++){
+				if(background[i][j] > 0)
+					g.drawImage(pictureName.get(background[i][j]), 
+							((i-sx)*tm.getTileWidth())-((x)%tm.getTileWidth()), 
+							(j-sy)* tm.getTileHeight()-((y)%tm.getTileHeight()));
+			}
+		}
+	}
+	
 	public List<WorldShapes> getListOfShapes(){
 		return wsm;
 	}
