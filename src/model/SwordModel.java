@@ -89,5 +89,9 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	public Body getBody() {
 		return body;
 	}
+	@Override
+	public int getID() {
+		return 0;
+	}
 
 }

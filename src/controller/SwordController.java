@@ -55,4 +55,9 @@ public class SwordController implements IEntityController{
 		
 	}
 
+	@Override
+	public int getID() {
+		return model.getID();
+	}
+
 }

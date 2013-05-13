@@ -40,12 +40,16 @@ public class BulletModel implements IEntityModel{
 	
 	/** The direction in which the fighter is moving */
  	private Navigation navigation;
+ 	
+ 	/** The ID of this Bullet */
+ 	private int id;
 
 	/** The radius of the circle shaped body */
 	public final float RADIUS = 10f;
 
 	
-	public BulletModel(World world, Vec2 fighterPos, Navigation navigation, float range, int damage){
+	public BulletModel(World world, Vec2 fighterPos, Navigation navigation, float range, int damage, int id){
+		this.id = id;
 		this.range = range;
 		this.damage = damage;
 		this.world = world;
@@ -53,10 +57,11 @@ public class BulletModel implements IEntityModel{
 		this.navigation = navigation;
 		this.fighterBody = AbstractWeaponModel.getFighterBody(this.world, fighterPos);
 		init(fighterPos);
+		this.bulletBody.setActive(false);
 		
 	}
 	/**
-	 * A method for initialising the body of this object
+	 * A method for initializing the body of this object
 	 * @param fighterPos the position of the character firing the gun
 	 * @throws NullPointerException when there is no body to find in the world on the given fighterPos
 	 */
@@ -154,6 +159,11 @@ public class BulletModel implements IEntityModel{
 	@Override
 	public Body getBody() {
 		return this.bulletBody;
+	}
+	
+	@Override
+	public int getID() {
+		return this.id;
 	}
 		
 }

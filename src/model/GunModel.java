@@ -18,24 +18,28 @@ import controller.BulletController;
 
 public class GunModel extends AbstractWeaponModel{
 	
+	private BulletModel bulletModel;
 	
-	public GunModel(World world){
-		this(world, 20, 400f);
+	public GunModel(BulletModel bulletModel, World world){
+		this(bulletModel, world, 20, 400f);
 		
 	}
-	public GunModel(World world, int damage){
-		this(world, damage, 400f);
+	public GunModel(BulletModel bulletModel, World world, int damage){
+		this(bulletModel, world, damage, 400f);
 		
 	}
-	public GunModel(World world, int damage, float range){
+	public GunModel(BulletModel bulletModel, World world, int damage, float range){
 		super(world, damage, range);
 		super.setWeaponType(WeaponType.gun);
+		this.bulletModel = bulletModel;
 		
 	}
 
 
 	public void fight(Vec2 myPos, Navigation navigation){
-		BulletModel model = new BulletModel(super.getWorld(), myPos, navigation, super.getRange(), super.getDamage());
-		new BulletController(model);
+		
+		bulletModel.getBody().setActive(true);
+		//BulletModel model = new BulletModel(super.getWorld(), myPos, navigation, super.getRange(), super.getDamage());
+		//new BulletController(model);
 	}
 }
