@@ -13,7 +13,7 @@ public class GameApp extends StateBasedGame{
 	
 	public GameApp(String gamename) {
 		super(gamename);
-		this.addState(new MainMenuState(MAINMENUSTATE));
+		this.addState(MainMenuState.getInstance());
 		this.addState(new PlayState(PLAYSTATE));
 		this.addState(new OptionsState(OPTIONSSTATE));
 		this.enterState(MAINMENUSTATE);

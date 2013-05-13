@@ -10,18 +10,16 @@ public class CoinModel extends AbstractCollectibleModel {
 
 	public CoinModel(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public int getValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		return value;
 	}
 
 	@Override
 	public void setValue(int value) {
-		// TODO Auto-generated method stub
+		this.value = value;
 		
 	}
 

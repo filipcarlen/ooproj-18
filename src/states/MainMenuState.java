@@ -37,9 +37,18 @@ public class MainMenuState extends BasicGameState {
 	private boolean insideLoadGame = false;
 	private boolean insideEndGame = false;
 	
+	private static MainMenuState instance = null;
+	
 	
 	public MainMenuState(int stateID){
 		this.stateID = stateID;
+	}
+	
+	public static MainMenuState getInstance(){
+		if(instance == null){
+			instance = new MainMenuState(GameApp.MAINMENUSTATE);
+		}
+		return instance;
 	}
 
 	@Override
