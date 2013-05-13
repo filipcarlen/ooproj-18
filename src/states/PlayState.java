@@ -17,6 +17,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.Camera;
 import utils.CollisionDetection;
 import view.HeroView;
 import controller.CollectibleController;
@@ -33,6 +34,7 @@ public class PlayState extends BasicGameState{
 	CollisionDetection cd;
 	int nbr= 0;
 	int stateID;
+	Camera camera;
 	
 	
 	static ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
@@ -65,6 +67,7 @@ public class PlayState extends BasicGameState{
 		hero = new HeroModel(world, "hero");
 		contHero = new HeroController(hero);
 		// Camera
+		camera = new Camera(gc.getWidth(), gc.getHeight(), hero.getPosPixels());
 		bodies.add(new GemModel(world, new Vec2(500,240), 1));
 		controllers.add(new CollectibleController((GemModel)bodies.get(bodies.size()-1)));
 		bodies.add(new CoinModel(world,new Vec2(400, 340), 2));
@@ -72,7 +75,7 @@ public class PlayState extends BasicGameState{
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		wm.render(g);
+		wm.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 		try{
 			for(int i = 0; i < controllers.size(); i++){
 				((CollectibleController)controllers.get(i)).render(gc, sbg, g);
@@ -90,6 +93,7 @@ public class PlayState extends BasicGameState{
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		world.step(1f/60f, 8, 3);
+		camera.updateCamera(hero.getPosPixels());
 		try{
 			contHero.update(gc, sbg, delta);
 		}catch(NullPointerException e){} 
