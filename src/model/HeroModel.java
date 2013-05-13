@@ -33,7 +33,11 @@ public class HeroModel implements IAliveModel{
 	int collectedItem = 0;
 	
 	public HeroModel(World w, String characterName){
-		this(w, characterName, new Vector2f(0,0), 50, 50, new SwordModel(w, new Vec2(0,0)));
+		this(w, characterName, new Vector2f(0,0), 50, 50, null);
+	}
+	
+	public HeroModel(World w, String characterName, AbstractWeaponModel awm){
+		this(w, characterName, new Vector2f(0,0), 50, 50, awm);
 	}
 
 	public HeroModel(World w, String characterName, Vector2f pos, int width, int height, AbstractWeaponModel weapon){
