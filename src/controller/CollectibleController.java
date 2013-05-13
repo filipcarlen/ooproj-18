@@ -20,9 +20,11 @@ public class CollectibleController implements IEntityController {
 	
 	private ICollectibleModel model;
 	private CollectibleView view;
+	int id;
 	
 	public CollectibleController(ICollectibleModel model) throws SlickException{	
 		this.model = model;
+		this.id = this.model.getID();
 		 view = new CollectibleView(model);
 	} 
 
@@ -39,7 +41,13 @@ public class CollectibleController implements IEntityController {
 		
 		else{
    		 model.destroyBody();
-   		 PlayState.removeController();
+   		 PlayState.removeController(model.getID());
    	 }
-	}	
+	}
+	
+	public int getID(){
+		return this.id;
+	}
+	
+	
 }

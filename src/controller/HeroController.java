@@ -32,6 +32,7 @@ public class HeroController implements IEntityController{
 	Input input;
 	boolean jump;
 	int jumpCount = 20;
+	int id;
 	static HeroModel model;
 	HeroView pa;
 	HashMap<String, List<Integer>>keys = new HashMap<String, List<Integer>>();
@@ -39,6 +40,7 @@ public class HeroController implements IEntityController{
 	
 	public HeroController(HeroModel ce){
 		model = ce;
+		this.id = model.getID();
 		pa = new HeroView(ce.getName(), model.getWeaponType());
 		setControls();
 	}
@@ -196,5 +198,11 @@ public class HeroController implements IEntityController{
 		}else{
 			PlayState.removeHeroController(this);
 		}
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

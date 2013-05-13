@@ -21,4 +21,10 @@ public interface IEntityController {
 	 * @param g
 	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g);
+	
+	/**
+	 * A method to easily connect the controller to model.
+	 * @return The ID of the entitycontroller.
+	 */
+	public int getID();
 }

@@ -12,8 +12,8 @@ public class GemModel extends AbstractCollectibleModel {
 	/** The collectible items Radius in meters */
 	public final float RADIUS = .5f;
 
-	public GemModel(World w, Vec2 pixelPos) {
-		super(w, pixelPos);
+	public GemModel(World w, Vec2 pixelPos, int id) {
+		super(w, pixelPos, id);
 		// TODO Auto-generated constructor stub
 	}
 

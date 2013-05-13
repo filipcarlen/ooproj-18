@@ -31,6 +31,8 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	/** A boolean that tells us if the body exists */
 	private boolean bodyExists;
 	
+	int id;
+	
 	
 	/**
 	 * Constructor for creating a Collectible item 
@@ -38,8 +40,9 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	 * @param Position pixelPos
 	 */
 	 
-	public AbstractCollectibleModel(World w, Vec2 pixelPos){
+	public AbstractCollectibleModel(World w, Vec2 pixelPos, int id){
 		createCollectable(Utils.pixelsToMeters(pixelPos), w);
+		this.id = id;
 	}
 	
 	/**
@@ -49,8 +52,8 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	public void createCollectable(Vec2 meterPos, World world){
 	   	 
 	   	 BodyDef bodydef = new BodyDef();
-	   	 bodydef.type = BodyType.STATIC;
-	   	 bodydef.bullet = true;
+	   	 bodydef.type = BodyType.DYNAMIC;
+	   	 bodydef.gravityScale = 0f;
 	   	 bodydef.position.set(meterPos.x,meterPos.y);
 	   	 
 	   	 //Circle shapes are perfect for collectible objects
@@ -60,7 +63,7 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	   	 FixtureDef fixturedef = new FixtureDef();
 	   	 fixturedef = new FixtureDef();
 	   	 fixturedef.shape = circleshape;
-	   	 fixturedef.density = 0.0f;
+	   	 fixturedef.density = 0.1f;
 	   	 fixturedef.friction = 0.0f;
 	   	 fixturedef.restitution = 0.0f;
 		
@@ -110,4 +113,9 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	public boolean bodyExists(){
 		return this.bodyExists;
 	}
+	
+	public int getID(){
+		return id;
+	}
+	
 }

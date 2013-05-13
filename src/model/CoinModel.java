@@ -8,8 +8,8 @@ public class CoinModel extends AbstractCollectibleModel {
 	/** What value a collectible item holds (which points you get) */
 	private int value = 1;
 
-	public CoinModel(World w, Vec2 pixelPos) {
-		super(w, pixelPos);
+	public CoinModel(World w, Vec2 pixelPos, int id) {
+		super(w, pixelPos, id);
 		// TODO Auto-generated constructor stub
 	}
 

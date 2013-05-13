@@ -19,5 +19,11 @@ public interface IEntityModel {
 	 * @return The body of this entity
 	 */
 	public Body getBody();
+	
+	/**
+	 * A method to easily connect the controller to model.
+	 * @return The ID of the entitymodel.
+	 */
+	public int getID();
 
 }
