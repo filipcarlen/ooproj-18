@@ -13,6 +13,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 import states.PlayState;
+import utils.Camera;
 import utils.Navigation;
 import view.HeroView;
 
@@ -32,7 +33,6 @@ public class HeroController implements IEntityController{
 	Input input;
 	boolean jump;
 	int jumpCount = 20;
-	int id;
 	static HeroModel model;
 	HeroView pa;
 	HashMap<String, List<Integer>>keys = new HashMap<String, List<Integer>>();
@@ -40,7 +40,6 @@ public class HeroController implements IEntityController{
 	
 	public HeroController(HeroModel ce){
 		model = ce;
-		this.id = model.getID();
 		pa = new HeroView(ce.getName(), model.getWeaponType());
 		setControls();
 	}
@@ -187,7 +186,7 @@ public class HeroController implements IEntityController{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g){
 		if(!model.isDead()){
-			Vec2 tmp = model.getPosPixels();
+			Vec2 tmp = Camera.heroRender(model.getPosPixels());
 			g.drawAnimation(pa.getAnimation(), tmp.x, tmp.y );
 			g.drawString(model.getName(), tmp.x , tmp.y- 40);
 			g.setColor(Color.white);
@@ -202,7 +201,6 @@ public class HeroController implements IEntityController{
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return -1;
 	}
 }
