@@ -16,7 +16,6 @@ public class HeroModel implements IAliveModel{
 	static final int maxHp = 100;
 	int hp = maxHp;
 	int doubleJump= 0;
-	int id;
 	
 	float width;
 	float height;
@@ -108,7 +107,7 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	public int getID(){
-		return id;
+		return -1;
 	}
 	
 	public int getMaxHp(){
