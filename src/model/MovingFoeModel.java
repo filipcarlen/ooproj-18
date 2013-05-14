@@ -66,6 +66,9 @@ public class MovingFoeModel implements IAliveModel{
 		fixDef.shape = polyShape;
 		fixDef.density = 0f;
 		fixDef.friction = 0f;
+		fixDef.filter.groupIndex = -1;
+		fixDef.filter.categoryBits = 2;
+		fixDef.filter.maskBits = 333;
 		
 		this.body = this.world.createBody(bodyDef);
 		this.body.createFixture(fixDef);
@@ -74,6 +77,8 @@ public class MovingFoeModel implements IAliveModel{
 		this.body.setUserData(this);
 		
 		body.setFixedRotation(true);
+		
+		
 	}
 	
 	@Override
@@ -109,7 +114,7 @@ public class MovingFoeModel implements IAliveModel{
 			this.hp -= hpDecrement;
 		} else {
 			this.hp = 0;
-			this.isAlive = false;
+			this.destroyEntity();
 		}
 	}
 

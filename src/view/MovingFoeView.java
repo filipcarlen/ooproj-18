@@ -4,6 +4,7 @@ import model.MovingFoeModel;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -93,5 +94,10 @@ public class MovingFoeView {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		Vec2 worldPos = Camera.entityRender(this.model.getPosPixels());
 		g.drawAnimation(this.currentAnimation, worldPos.x, worldPos.y);
+		
+		Vec2 lifePos = worldPos.sub(new Vec2(0,8));
+		g.setColor(Color.red);
+		float life = (this.model.getHp()/this.model.getMaxHp())*30;
+		g.fillRect(lifePos.x, lifePos.y, life, 5);
 	}
 }
