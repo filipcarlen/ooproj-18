@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
-import com.sun.tools.javac.util.List;
-
 import utils.Navigation;
 import utils.WeaponType;
 
@@ -20,7 +18,7 @@ import utils.WeaponType;
 
 public class GunModel extends AbstractWeaponModel{
 	
-	private static ArrayList<BulletModel> bulletModels;
+	private ArrayList<BulletModel> bulletModels;
 	//private Vec2 firstPos;
 	
 	public GunModel(ArrayList<BulletModel> bulletModels, World world, double reloadTime){
@@ -52,8 +50,8 @@ public class GunModel extends AbstractWeaponModel{
 		//new BulletController(model);
 	}
 	
-	public static ArrayList<BulletModel> getBulletModels(){
-		return bulletModels;
+	public ArrayList<BulletModel> getBulletModels(){
+		return this.bulletModels;
 		
 	}
 	
