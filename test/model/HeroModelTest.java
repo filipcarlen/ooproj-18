@@ -62,7 +62,7 @@ public class HeroModelTest {
 	@Test
 	public void testGetID() {
 		HeroModel hero = new HeroModel(new World(new Vec2(0.0f, 9.8f)),"Character");
-		assertTrue(hero.getID() == 0);
+		assertTrue(hero.getID() == -1);
 	}
 
 	@Test
