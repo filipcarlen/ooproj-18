@@ -64,7 +64,7 @@ public class HeroModel implements IAliveModel{
 		body.setFixedRotation(true);
 		dead = false;
 		this.weapon = weapon;
-		this.weapontype = this.weapon.getWeaponType();
+		//this.weapontype = this.weapon.getWeaponType();
 	}
 	
 	public void attack(){
@@ -115,6 +115,15 @@ public class HeroModel implements IAliveModel{
 	
 	public Vec2 getPosPixels(){
 		return body.getPosition().add(new Vec2(width,height).mul(-1)).mul(Utils.METER_IN_PIXELS);
+	}
+	
+	public Vec2 getFrontPosPixels(){
+		if(navigation == Navigation.WEST){
+			return body.getPosition().add(new Vec2(width,height).mul(-1)).mul(Utils.METER_IN_PIXELS);
+		}else if(navigation == Navigation.EAST){
+			return body.getPosition().add(new Vec2(-width,height).mul(-1)).mul(Utils.METER_IN_PIXELS);
+		}else
+			return getPosPixels();
 	}
 	
 	public AbstractWeaponModel getWeapon(){
