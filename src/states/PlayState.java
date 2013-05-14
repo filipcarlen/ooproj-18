@@ -2,11 +2,14 @@ package states;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.List;
 
 import map.WorldMap;
 import map.WorldShapes;
+import model.BulletModel;
 import model.CoinModel;
 import model.GemModel;
+import model.GunModel;
 import model.HeroModel;
 import model.IEntityModel;
 
@@ -64,8 +67,14 @@ public class PlayState extends BasicGameState{
 		cd = new CollisionDetection();
 		world.setContactListener(cd);
 		wm = new WorldMap(world, true, "test");
+		//Weapon Create
+		ArrayList<BulletModel> bm = new ArrayList<BulletModel>();
+		for(int i = 0; i < 10; i++){
+			bm.add(new BulletModel(world, 400, 20, i));
+		}
+		GunModel gm = new GunModel(bm, world);
 		// Creating a character
-		hero = new HeroModel(world, "hero");
+		hero = new HeroModel(world, "hero", gm);
 		contHero = new HeroController(hero);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), new Rectangle(300,200), hero.getPosPixels());
