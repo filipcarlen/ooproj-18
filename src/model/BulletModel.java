@@ -95,7 +95,6 @@ public class BulletModel implements IEntityModel{
 		this.fighterBody = fighterBody;
 		this.firstPos = fighterBody.getPosition();
 		init(firstPos);
-		System.out.println("fight() in BulletModel2");
 
 	}
 	

@@ -62,7 +62,6 @@ public class FiringController implements IEntityController{
 					}
 		
 				} else{
-					System.out.println("Moving");
 					if(this.models.get(i).getRange() < distance.length()){
 						this.models.get(i).getBody().setActive(false);
 						this.models.get(i).destroyEntity();
