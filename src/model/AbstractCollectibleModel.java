@@ -12,13 +12,11 @@ import org.jbox2d.dynamics.World;
 
 import utils.Utils;
 
-/** A class representing a collectible object
+/** An abstract class representing a collectible object
  * 
  * @author filipcarlen
  * @version 1.0 
  */
-
-
 
 public abstract class AbstractCollectibleModel implements IEntityModel, ICollectibleModel {
 	
@@ -28,19 +26,21 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	/** A boolean that tells us if the body exists */
 	private boolean bodyExists;
 	
+	/** ID of a collectible object*/
 	private int id;
 	
+	/** The fixture of a body */
 	private FixtureDef fixturedef;
 	
 	
 	/**
 	 * Constructor for creating a Collectible item 
 	 * @param World w
-	 * @param Position pixelPos
+	 * @param Vec2 pixelPos(position)
 	 */
 	 
 	public AbstractCollectibleModel(World w, Vec2 pixelPos, int id){
-		createCollectable(Utils.pixelsToMeters(pixelPos), w);
+		createCollectible(Utils.pixelsToMeters(pixelPos), w);
 		this.id = id;
 	}
 	
@@ -48,7 +48,7 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	 * Method for creating a collectible object
 	 * @param Vec2 position in meters
 	 */
-	public void createCollectable(Vec2 meterPos, World world){
+	public void createCollectible(Vec2 meterPos, World world){
 	   	 
 	   	 BodyDef bodydef = new BodyDef();
 	   	 bodydef.type = BodyType.DYNAMIC;
@@ -78,22 +78,30 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 		return body.getPosition();
 	}
 	
+	@Override
     public void destroyBody(){
       	 body.getWorld().destroyBody(body);
     } 	 
 	
+	@Override
     public void killBody(){
       	 bodyExists = false;
     }
     
+	@Override
 	public boolean bodyExists(){
 		return this.bodyExists;
 	}
 	
+	@Override
 	public int getID(){
 		return id;
 	}
 	
+	/**
+	 * Get method for the bodies fixture
+	 * @return FixtureDef fixturedef
+	 */
 	public FixtureDef getFixtureDef(){
 		return this.fixturedef;
 	}

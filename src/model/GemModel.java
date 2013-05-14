@@ -6,16 +6,28 @@ import org.jbox2d.dynamics.World;
 
 import utils.Utils;
 
+/** A class representing a gem. A gem is a collectible object, that is
+ * more worth than a coin 
+ * @author filipcarlen
+ *
+ */
 
 public class GemModel extends AbstractCollectibleModel {
 	
 	/** What value a collectible item holds (which points you get) */
 	private int value = 5;
 	
-	/** Vertex */
+	/**  A array cointaining vertices for a gem */
 	Vec2[] vertices = {new Vec2(0.0f,0.25f), new Vec2(0.25f,0.0f),
 			new Vec2(0.5f,0.25f), new Vec2(0.25f,0.5f)};
 
+	/**
+	 * Constructor for a gem.
+	 * 
+	 * @param World w
+	 * @param Vec2 pixelPos (position)
+	 * @param int id
+	 */
 	public GemModel(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id);
 		
@@ -42,6 +54,10 @@ public class GemModel extends AbstractCollectibleModel {
 		return Utils.metersToPixels(this.getBody().getPosition().add(new Vec2(-0.25f,-0.025f)));
 	}
 	
+	/** 
+	 * Get method for array of vertices. Converts vertices to Pixels
+	 * @return Array of vertices
+	 */
 	public Vec2[] getVertices(){
 		Vec2[] tmp = new Vec2[4];
 		for(int i = 0; i<vertices.length; i++){

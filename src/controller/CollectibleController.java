@@ -15,22 +15,26 @@ import view.CollectibleView;
  * @author filipcarlen
  *
  */
-
 public class CollectibleController implements IEntityController {
 	
+	/** Reference to a CollectibleModel */
 	private ICollectibleModel model;
-	private CollectibleView view;
-	int id;
 	
+	/** Reference to a CollectibleView */
+	private CollectibleView view;
+	
+	/** ID of this CollectibleController */
+	private int id;
+	
+	/**
+	 * Constructor creating a CollectibleController
+	 * @param CollectibleModel model
+	 * @throws SlickException
+	 */
 	public CollectibleController(ICollectibleModel model) throws SlickException{	
 		this.model = model;
 		this.id = this.model.getID();
 		 view = new CollectibleView(model);
-	} 
-
-	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta) {
-		
 	}
 
 	@Override
@@ -40,14 +44,18 @@ public class CollectibleController implements IEntityController {
 		}
 		
 		else{
-   		 model.destroyBody();
-   		 PlayState.removeEntity(model.getID());
-   	 }
+			model.destroyBody();
+   		 	PlayState.removeEntity(model.getID());
+   	 	}
 	}
 	
+	@Override
 	public int getID(){
 		return this.id;
 	}
-	
+
+	@Override
+	public void update(GameContainer container, StateBasedGame game, int delta) {
+	}	
 	
 }
