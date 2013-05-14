@@ -25,7 +25,7 @@ public class SwordController implements IEntityController{
 		// det här är antagligen inte ett bra sätt att göra det på...
 		// Jag vill ge Swords Body samma position som den som håller i svärdet i varje update.
 		// vet inte ens om man kan göra såhär. Är positionen på BodyDef samma som positionen på Body?
-		model.init(AbstractWeaponModel.getFighterBody(model.getWorld(), model.getPosPixels()).getPosition());
+		//model.init(AbstractWeaponModel.getFighterBody(model.getWorld(), model.getPosPixels()).getPosition());
 		if(model.isFighting()){
 			
 			if(forward){

@@ -1,8 +1,6 @@
 package model;
 
-import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -10,7 +8,6 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
-import states.PlayState;
 import utils.Navigation;
 import utils.Utils;
 import utils.WeaponType;
@@ -25,6 +22,7 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 
 	private Body body;
 	private Vec2 firstPos;
+	private Body fighterBody;
 	private boolean fighting;
 	
 	public final float RADIUS = 0.5f;
@@ -39,7 +37,6 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	public SwordModel(World world, Vec2 myPos, int damage, float range){
 		super(world, damage, range);
 		super.setWeaponType(WeaponType.sword);
-		init(myPos);
 	}
 	
 	public void init(Vec2 myPos){
@@ -59,7 +56,7 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 		this.body = getWorld().createBody(bd);
 		this.body.createFixture(fd);
 		this.body.setUserData(this);
-		this.body.shouldCollide(AbstractWeaponModel.getFighterBody(super.getWorld(), this.firstPos));
+		this.body.shouldCollide(this.fighterBody);
 		
 	}
 
@@ -72,8 +69,10 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	}
 	
 	@Override
-	public void fight(Vec2 myPos, Navigation navigation) {
-		this.firstPos = myPos;
+	public void fight(Body fighterBody, Navigation navigation) {
+		this.fighterBody = fighterBody;
+		this.firstPos = fighterBody.getPosition();
+		init(this.firstPos);
 		this.fighting = true;
 			
 	}
