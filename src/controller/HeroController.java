@@ -170,7 +170,6 @@ public class HeroController implements IEntityController{
 			// Need to change to check if it is gun or sword
 			pa.setAttackAnimation();
 			model.attack();
-			model.hurt(10);
 		}
 		if(jump){
 			model.getBody().applyForce(model.getBody().getWorldVector(new Vec2(.0f, 10.0f)), model.getBody().getPosition());
