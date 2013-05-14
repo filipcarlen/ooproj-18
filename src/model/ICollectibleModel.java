@@ -1,6 +1,5 @@
 package model;
 
-import org.jbox2d.common.Vec2;
 
 public interface ICollectibleModel extends IEntityModel {
 	
@@ -8,5 +7,4 @@ public interface ICollectibleModel extends IEntityModel {
 	public void setValue(int value);
 	public boolean bodyExists();
 	public void destroyBody();
-
 }

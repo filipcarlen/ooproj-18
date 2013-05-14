@@ -25,13 +25,12 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	/** The body for a collectible item */
 	private Body body;
 	
-	/** The collectible items Radius in meters */
-	public final float RADIUS = .5f;
-	
 	/** A boolean that tells us if the body exists */
 	private boolean bodyExists;
 	
-	int id;
+	private int id;
+	
+	private FixtureDef fixturedef;
 	
 	
 	/**
@@ -55,23 +54,15 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	   	 bodydef.type = BodyType.DYNAMIC;
 	   	 bodydef.gravityScale = 0f;
 	   	 bodydef.position.set(meterPos.x,meterPos.y);
-	   	 
-	   	 //Circle shapes are perfect for collectible objects
-	   	 CircleShape circleshape = new CircleShape();
-	   	 circleshape.m_radius = RADIUS;
-	   	 
-	   	 FixtureDef fixturedef = new FixtureDef();
+		 body = world.createBody(bodydef);
+		 
 	   	 fixturedef = new FixtureDef();
-	   	 fixturedef.shape = circleshape;
 	   	 fixturedef.density = 0.1f;
 	   	 fixturedef.friction = 0.0f;
 	   	 fixturedef.restitution = 0.0f;
-		
-		//creating body
-		body = world.createBody(bodydef);
-		body.setUserData(this);
-		body.createFixture(fixturedef);	
-		bodyExists = true;
+	   	 
+	   	 body.setUserData(this);
+	   	 bodyExists = true;
 	}	
 	
 	/**
@@ -86,25 +77,10 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	public Vec2 getPosMeters() {
 		return body.getPosition();
 	}
-
-	@Override
-	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(body.getPosition().add(new Vec2(-RADIUS,-RADIUS)));
-	}
-	
-	/**
-	 * 
-	 * @return radius in pixels
-	 */
-	public float getRadius(){
-		return this.RADIUS * Utils.METER_IN_PIXELS;
-	}
-	
 	
     public void destroyBody(){
       	 body.getWorld().destroyBody(body);
     } 	 
-	
 	
     public void killBody(){
       	 bodyExists = false;
@@ -116,6 +92,10 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	
 	public int getID(){
 		return id;
+	}
+	
+	public FixtureDef getFixtureDef(){
+		return this.fixturedef;
 	}
 	
 }
