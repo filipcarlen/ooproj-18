@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.Timer;
 
-import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
 import utils.Navigation;
@@ -47,12 +47,12 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 	}
 
 
-	public void fight(Vec2 myPos, Navigation navigation){
+	public void fight(Body fighterBody, Navigation navigation){
 		// är timern igång??
 		if(!timer.isRunning()){
 			for(int i = 0; i < bulletModels.size(); i++){
 				if(bulletModels.get(i).getBody() == null){
-					bulletModels.get(i).fight(myPos, navigation);
+					bulletModels.get(i).fight(fighterBody, navigation);
 					// timer startas
 					timer.start();
 					return ;

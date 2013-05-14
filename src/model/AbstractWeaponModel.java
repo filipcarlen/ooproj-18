@@ -64,7 +64,7 @@ public abstract class AbstractWeaponModel {
 		
 	}
 	
-	public static Body getFighterBody(World world, Vec2 firstPos){
+	/*public static Body getFighterBody(World world, Body weaponBody, Vec2 firstPos){
 		// All bodies in the world
 		Body worldBodyList = world.getBodyList();
 		// Have to loop through all the bodies in the world and compare their position to the position 
@@ -73,7 +73,7 @@ public abstract class AbstractWeaponModel {
 			while(true){
 				Body nextBody = worldBodyList.getNext();
 				Vec2 nextBodyPos = nextBody.getPosition();
-				if(nextBodyPos == firstPos){
+				if((nextBodyPos == firstPos) && (nextBody != weaponBody)){
 					return nextBody;
 				}
 			}
@@ -81,9 +81,9 @@ public abstract class AbstractWeaponModel {
 			throw new NullPointerException("No body in the world was found at the bullets first position");
 		}
 		
-	}
+	}*/
 	
-	public abstract void fight(Vec2 myPos,  Navigation navigation);
+	public abstract void fight(Body fighterBody,  Navigation navigation);
 
 	
 

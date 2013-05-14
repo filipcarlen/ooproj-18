@@ -33,7 +33,7 @@ public class BulletModel implements IEntityModel{
 	private World world;
 	
 	/** The first position of the Bullet, from where it leaves the Gun */
-	private Vec2 firstPos;	
+	private Vec2 firstPos;
 	
 	/** The position of the character firing the Gun */
 	private Body fighterBody;
@@ -56,11 +56,6 @@ public class BulletModel implements IEntityModel{
 		this.range = range;
 		this.damage = damage;
 		this.world = world;
-		//this.firstPos = fighterPos;
-		//this.navigation = navigation;
-		//this.fighterBody = AbstractWeaponModel.getFighterBody(this.world, fighterPos);
-		//init(fighterPos);
-		//this.bulletBody.setActive(false);
 		
 	}
 	/**
@@ -94,9 +89,10 @@ public class BulletModel implements IEntityModel{
 		
 	}
 	
-	public void fight(Vec2 fighterPos, Navigation navigation){
-		this.firstPos = fighterPos;
-		init(fighterPos);
+	public void fight(Body fighterBody, Navigation navigation){
+		this.fighterBody = fighterBody;
+		this.firstPos = fighterBody.getPosition();
+		init(firstPos);
 		this.bulletBody.setActive(true);
 	}
 	
