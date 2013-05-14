@@ -9,6 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -87,7 +88,7 @@ public class CollectibleView {
 		coinImages[6] = new Image(PATH + "/Coin/coin_7.png");
 		coinImages[7] = new Image(PATH + "/Coin/coin_8.png");
 		
-		coinAnimation = new Animation(coinImages, duration);
+		coinAnimation = new Animation(coinImages, 100);
 	}
 	
 	public void initGem() throws SlickException{
@@ -100,8 +101,6 @@ public class CollectibleView {
 		gemImages[5] = new Image(PATH + "/Gem/gem_5.png");
 		gemImages[6] = new Image(PATH + "/Gem/gem_6.png");
 		gemImages[7] = new Image(PATH + "/Gem/gem_7.png");
-		
-		gemAnimation = new Animation(gemImages, duration);
-		
+		gemAnimation = new Animation(gemImages, 130);
 	}
 }
