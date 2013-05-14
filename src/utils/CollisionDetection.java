@@ -97,15 +97,15 @@ public class CollisionDetection  implements ContactListener{
 			}
 			
 			else if(objectB instanceof StaticFoeModel) {
-				foeModel.hurt(((StaticFoeModel)objectA).getDamage());
+				foeModel.hurt(((StaticFoeModel)objectB).getDamage());
 			}
 			
 			else if(objectB instanceof BulletModel) {
-				foeModel.hurt(((BulletModel)objectA).getDamage());
+				foeModel.hurt(((BulletModel)objectB).getDamage());
 			}
 			
 			else if(objectB instanceof SwordModel) {
-				foeModel.hurt(((SwordModel)objectA).getDamage());
+				foeModel.hurt(((SwordModel)objectB).getDamage());
 			}
 		}
 		
