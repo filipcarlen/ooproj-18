@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import utils.Navigation;
 import view.BulletView;
 import model.BulletModel;
+import model.GunModel;
 
 /** A controller class for a Bullet
  * 
@@ -17,9 +18,10 @@ import model.BulletModel;
  * @version 1.0 
  */
 
-public class BulletController implements IEntityController{
+public class FiringController implements IEntityController{
 
 	/** The model connected to this controller */
+	private GunModel gunModel;
 	private ArrayList<BulletModel> models ;
 	/** The view connected to this controller */
 	private ArrayList<BulletView> views = new ArrayList<BulletView>();;
@@ -27,8 +29,9 @@ public class BulletController implements IEntityController{
 	private Vec2 distance;
 
 	
-	public BulletController(ArrayList<BulletModel> models){
-		this.models = models;
+	public FiringController(GunModel gunModel){
+		this.gunModel = gunModel;
+		this.models = gunModel.getBulletModels();
 		//for(int i = 0; i < models.length(); i++){
 		//	this.views.add(new BulletView(this.models.get(i)));
 		//}
