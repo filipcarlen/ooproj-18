@@ -41,10 +41,8 @@ public class FiringController implements IEntityController{
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		
 		for(int i = 0; i < models.size(); i++){
-			System.out.println("update() loop");
-
+			if(models.get(i).getBody() != null){
 			if(models.get(i).getBody().isActive()){
-				System.out.println("update() isActive");
 
 				this.views.add(new BulletView(this.models.get(i)));
 				// To get the distance we take the position from where the bullet was fired minus the current position
@@ -52,20 +50,27 @@ public class FiringController implements IEntityController{
 		
 				if(!models.get(i).isMoving()){
 					if(this.models.get(i).getNavigation() == Navigation.WEST){
+						System.out.println("WEST");
+
 						this.models.get(i).getBody().applyForce(this.models.get(i).getBody().getWorldVector(new Vec2(-10.0f, 0.0f)), this.models.get(i).getBody().getPosition());
 						models.get(i).setMoving(true);
 					}else if(this.models.get(i).getNavigation() == Navigation.EAST){
+						System.out.println("EAST");
+
 						this.models.get(i).getBody().applyForce(this.models.get(i).getBody().getWorldVector(new Vec2(10.0f, 0.0f)), this.models.get(i).getBody().getPosition());
 						models.get(i).setMoving(true);
 					}
 		
 				} else{
+					System.out.println("Moving");
 					if(this.models.get(i).getRange() < distance.length()){
+						this.models.get(i).getBody().setActive(false);
 						this.models.get(i).destroyEntity();
 						models.get(i).setMoving(false);
 						
 					}
 				}
+			}
 			}
 		}
 	}

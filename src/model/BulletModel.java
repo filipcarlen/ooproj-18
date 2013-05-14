@@ -48,7 +48,7 @@ public class BulletModel implements IEntityModel{
  	private int id;
 
 	/** The radius of the circle shaped body */
-	public final float RADIUS = 10f;
+	public final float RADIUS = 5f;
 
 	
 	public BulletModel(World world, float range, int damage, int id){
@@ -91,11 +91,10 @@ public class BulletModel implements IEntityModel{
 	
 	public void fight(Body fighterBody, Navigation navigation){
 		System.out.println("fight() in BulletModel");
-
+		this.navigation = navigation;
 		this.fighterBody = fighterBody;
 		this.firstPos = fighterBody.getPosition();
 		init(firstPos);
-		this.bulletBody.setActive(true);
 		System.out.println("fight() in BulletModel2");
 
 	}
@@ -111,6 +110,7 @@ public class BulletModel implements IEntityModel{
 	 */
 	public void destroyEntity(){
 		this.world.destroyBody(bulletBody);
+		System.out.println("destroyed entity");
 	}
 	/**
 	 * 
