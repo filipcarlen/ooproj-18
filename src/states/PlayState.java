@@ -1,5 +1,6 @@
 package states;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import map.WorldMap;
@@ -67,7 +68,7 @@ public class PlayState extends BasicGameState{
 		hero = new HeroModel(world, "hero");
 		contHero = new HeroController(hero);
 		// Camera
-		camera = new Camera(gc.getWidth(), gc.getHeight(), hero.getPosPixels());
+		camera = new Camera(gc.getWidth(), gc.getHeight(), new Rectangle(300,200), hero.getPosPixels());
 		bodies.add(new GemModel(world, new Vec2(500,240), 1));
 		controllers.add(new CollectibleController((GemModel)bodies.get(bodies.size()-1)));
 		bodies.add(new CoinModel(world,new Vec2(400, 340), 2));
@@ -93,7 +94,7 @@ public class PlayState extends BasicGameState{
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		world.step(1f/60f, 8, 3);
-		camera.updateCamera(hero.getPosPixels());
+		camera.updateCamera(hero.getFrontPosPixels());
 		try{
 			contHero.update(gc, sbg, delta);
 		}catch(NullPointerException e){} 

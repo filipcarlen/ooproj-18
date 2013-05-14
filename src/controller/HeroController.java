@@ -186,7 +186,7 @@ public class HeroController implements IEntityController{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g){
 		if(!model.isDead()){
-			Vec2 tmp = Camera.heroRender(model.getPosPixels());
+			Vec2 tmp = Camera.entityRender(model.getPosPixels());
 			g.drawAnimation(pa.getAnimation(), tmp.x, tmp.y );
 			g.drawString(model.getName(), tmp.x , tmp.y- 40);
 			g.setColor(Color.white);
