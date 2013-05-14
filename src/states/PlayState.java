@@ -80,7 +80,7 @@ public class PlayState extends BasicGameState{
 		hero = new HeroModel(world, "hero", gm);
 		contHero = new HeroController(hero);
 		// Camera
-		camera = new Camera(gc.getWidth(), gc.getHeight(), new Rectangle(300,200), hero.getPosPixels());
+		camera = new Camera(gc.getWidth(), gc.getHeight(), wm.getWorldWidth(), wm.getWorldHeight(), new Rectangle(300,200), hero.getPosPixels());
 		
 		bodies.add(new MovingFoeModel(world, new Vec2(480,240), 100, new GunModel(world, 2000, 20, 100), 3));
 		controllers.add(new MovingFoeController((MovingFoeModel)bodies.get(bodies.size()-1)));
