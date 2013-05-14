@@ -67,8 +67,13 @@ public class BulletModel implements IEntityModel{
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.DYNAMIC;
 		bd.gravityScale = 0;
-		bd.position.set(fighterPos.x + fighterBody.getFixtureList().getShape().getRadius() + this.RADIUS, fighterPos.y);
-		
+		if(this.navigation == Navigation.EAST){
+			// antagligen inte det bästa sättet att lösa det på, x-positionen borde gå att få på något mer logiskt sätt.
+			bd.position.set(fighterPos.x + fighterBody.getFixtureList().getShape().getRadius() + Utils.pixelsToMeters(this.RADIUS*8), fighterPos.y);
+		} else if(this.navigation == Navigation.WEST){
+			bd.position.set(fighterPos.x - fighterBody.getFixtureList().getShape().getRadius() - Utils.pixelsToMeters(this.RADIUS*8), fighterPos.y);
+
+		}
 		CircleShape cs = new CircleShape();
 		cs.m_radius = Utils.pixelsToMeters(RADIUS);
 		
@@ -86,7 +91,7 @@ public class BulletModel implements IEntityModel{
 		// Making the Bullet object a bullet in JBox2D, then the Bullet will disappear when it collides with another body.
 		this.bulletBody.setBullet(true);
 		// This is done so that the Bullet will ignore collision with the shooting character.
-		this.bulletBody.shouldCollide(this.fighterBody);
+		//this.bulletBody.shouldCollide(this.fighterBody);
 		
 	}
 	

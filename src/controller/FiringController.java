@@ -58,18 +58,15 @@ public class FiringController implements IEntityController{
 						models.get(i).setMoving(true);
 					}
 		
-				} else{
-					if(this.models.get(i).getRange() < this.distance){
+				} else if(this.models.get(i).getRange() < this.distance){
 						this.models.get(i).destroyEntity();
 						
-					}
 				}
 			} 
 			}else{
 				for(int j = 0; j < views.size(); j++){
 					if((views.get(j)).getID() == models.get(i).getID()){
 						views.remove(j);
-						System.out.println("removed view");
 						return ;
 
 					}
