@@ -123,14 +123,22 @@ public class WorldMap{
 			height = height/tm.getTileHeight();
 		int sx= (int)x/tm.getTileWidth();
 		int sy = (int)y/tm.getTileHeight();
-		for(int i = sx; i < (x+width); i ++){
-			for(int j = sy; j < (y+height); j++){
+		for(int i = sx; i < (sx+width); i ++){
+			for(int j = sy; j < (sy+height); j++){
 				if(background[i][j] > 0)
 					g.drawImage(pictureName.get(background[i][j]), 
 							((i-sx)*tm.getTileWidth())-((x)%tm.getTileWidth()), 
 							(j-sy)* tm.getTileHeight()-((y)%tm.getTileHeight()));
 			}
 		}
+	}
+	
+	public int getWorldWidth(){
+		return tm.getWidth()*tm.getTileWidth();
+	}
+	
+	public int getWorldHeight(){
+		return tm.getHeight()*tm.getTileHeight();
 	}
 	
 	public List<WorldShapes> getListOfShapes(){

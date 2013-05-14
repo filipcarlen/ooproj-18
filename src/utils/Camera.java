@@ -6,11 +6,11 @@ import org.jbox2d.common.Vec2;
 import org.newdawn.slick.geom.Vector2f;
 
 public class Camera {
-	int width,height;
+	int displaywidth,displayheight,worldwidth,worldheight;
 	float x, y;
 	static Vector2f positionCamera;
-	int distFromWall = 100;
-	int distFromGToF = 100;
+	int distFromWall = 60;
+	int distFromGToF = 60;
 	Vec2 posOfHero;
 	/**
 	 * Creats a Camera that will follow the character
@@ -18,9 +18,11 @@ public class Camera {
 	 * @param displayheight - the height of the screen
 	 * @param posFocusPixel - the thing you want to focus on
 	 */
-	public Camera(int displaywidth, int displayheight,Vec2 posFocusPixel){
-		this.width = displaywidth;
-		this.height = displayheight;
+	public Camera(int displaywidth, int displayheight, int worldwidth, int worldheight,Vec2 posFocusPixel){
+		this.displaywidth = displaywidth;
+		this.displayheight = displayheight;
+		this.worldwidth = worldwidth;
+		this.worldheight = worldheight;
 		this.posOfHero = posFocusPixel;
 		positionCamera = new Vector2f(0,0);
 		x= 0;
@@ -28,12 +30,12 @@ public class Camera {
 	}
 	
 	
-	public Camera(int displaywidth, int displayheight, int distanceToWall, Vec2 posFocusPixel){
-		this(displaywidth, displayheight, posFocusPixel);
+	public Camera(int displaywidth, int displayheight, int worldwidth, int worldheight, int distanceToWall, Vec2 posFocusPixel){
+		this(displaywidth, displayheight, worldwidth, worldheight,posFocusPixel);
 	}
 	
-	public Camera(int displaywidth, int displayheight, Rectangle moveableArea, Vec2 posFocusPixel){
-		this(displaywidth, displayheight, posFocusPixel);
+	public Camera(int displaywidth, int displayheight, int worldwidth, int worldheight, Rectangle moveableArea, Vec2 posFocusPixel){
+		this(displaywidth, displayheight, worldwidth, worldheight, posFocusPixel);
 		distFromWall = (int) (displaywidth-moveableArea.getWidth())/2;
 		distFromGToF = (int) (displayheight - moveableArea.getHeight())/2;
 	}
@@ -50,11 +52,11 @@ public class Camera {
 	
 	public void updateCamera(Vec2 posFocusPixel){
 		posOfHero = posFocusPixel;
-		if(posOfHero.x > positionCamera.x+width-distFromWall){
-			x = positionCamera.x +(posOfHero.x-(positionCamera.x+width-distFromWall));
+		if(posOfHero.x > positionCamera.x+displaywidth-distFromWall && distFromWall < (worldwidth-posOfHero.x)){
+			x = positionCamera.x +(posOfHero.x-(positionCamera.x+displaywidth-distFromWall));
 		}
-		if(posOfHero.y > positionCamera.y+height-distFromGToF){
-			y = positionCamera.y +(posOfHero.y-(positionCamera.y+height-distFromGToF));
+		if(posOfHero.y > positionCamera.y+displayheight-distFromGToF && distFromGToF <(worldheight- posOfHero.y)){
+			y = positionCamera.y +(posOfHero.y-(positionCamera.y+displayheight-distFromGToF));
 		}
 		if(posOfHero.x < positionCamera.x+distFromWall && posOfHero.x > distFromWall){
 			x = positionCamera.x -(positionCamera.x +distFromWall - posOfHero.x);
