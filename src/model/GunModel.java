@@ -28,11 +28,11 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 	//private Vec2 firstPos;
 	
 	public GunModel(World world, int reloadTime){
-		this(world, reloadTime, 20, 400f);
+		this(world, reloadTime, 20, 15f);
 		
 	}
 	public GunModel(World world, int reloadTime, int damage){
-		this(world, reloadTime, damage, 400f);
+		this(world, reloadTime, damage, 15f);
 		
 	}
 	public GunModel(World world, int reloadTime, int damage, float range){
@@ -48,8 +48,6 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 
 
 	public void fight(Body fighterBody, Navigation navigation){
-		System.out.println("fight() in GunModel");
-
 		
 		// är timern igång??
 		if(!timer.isRunning()){
