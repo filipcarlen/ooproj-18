@@ -6,6 +6,7 @@ import java.util.List;
 
 import map.WorldMap;
 import map.WorldShapes;
+import model.AbstractCollectibleModel;
 import model.BulletModel;
 import model.CoinModel;
 import model.GemModel;
@@ -117,11 +118,24 @@ public class PlayState extends BasicGameState{
 		return hero;
 	}
 	
-	public static void removeController(int id){
+	public static void removeEntity(int id){
+		int j = 0;
 		for(int i = 0; i < controllers.size(); i++){
-			if(((CollectibleController)controllers.get(i)).getID() == id){
+			if(((IEntityController)controllers.get(i)).getID() == id){
+				j ++;
 				controllers.remove(i);
-				return;
+				if(j > 1){
+					j = 0;
+					return;
+				}
+			}
+			if(((IEntityModel)bodies.get(i)).getID() == id){
+				j ++;
+				bodies.remove(i);
+				if(j > 1){
+					j =0;
+					return;
+				}
 			}
 		}
 	}

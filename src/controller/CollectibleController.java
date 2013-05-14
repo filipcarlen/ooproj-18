@@ -41,7 +41,7 @@ public class CollectibleController implements IEntityController {
 		
 		else{
    		 model.destroyBody();
-   		 PlayState.removeController(model.getID());
+   		 PlayState.removeEntity(model.getID());
    	 }
 	}
 	
