@@ -13,10 +13,10 @@ import org.newdawn.slick.geom.Vector2f;
 public class HeroModel implements IAliveModel{
 	
 	AbstractWeaponModel weapon;
-	static final int maxHp = 100;
+	int maxHp = 100;
 	int hp = maxHp;
 	int doubleJump= 0;
-	
+	int killCount = 0;
 	float width;
 	float height;
 	
@@ -69,7 +69,7 @@ public class HeroModel implements IAliveModel{
 	
 	public void attack(){
 		// Call to the weapon in use
-		weapon.fight(getPosMeters(), navigation);
+		weapon.fight(getBody(), navigation);
 		
 	}
 	
@@ -147,6 +147,10 @@ public class HeroModel implements IAliveModel{
 	
 	public void incrementJumps(){
 		doubleJump +=1;
+	}
+	
+	public void incrementKillCount(){
+		killCount += 1;
 	}
 
 	public boolean isDead() {
