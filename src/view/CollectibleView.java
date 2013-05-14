@@ -101,6 +101,6 @@ public class CollectibleView {
 		gemImages[5] = new Image(PATH + "/Gem/gem_5.png");
 		gemImages[6] = new Image(PATH + "/Gem/gem_6.png");
 		gemImages[7] = new Image(PATH + "/Gem/gem_7.png");
-		gemAnimation = new Animation(gemImages, 130);
+		gemAnimation = new Animation(gemImages, 150);
 	}
 }
