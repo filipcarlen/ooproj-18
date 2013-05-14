@@ -27,6 +27,7 @@ import utils.CollisionDetection;
 import view.HeroView;
 import view.StaticFoeView;
 import controller.CollectibleController;
+import controller.FiringController;
 import controller.HeroController;
 import controller.IEntityController;
 import controller.MovingFoeController;
@@ -43,6 +44,7 @@ public class PlayState extends BasicGameState{
 	int nbr= 0;
 	int stateID;
 	Camera camera;
+	FiringController firingCont;
 	
 	
 	static ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
@@ -72,11 +74,8 @@ public class PlayState extends BasicGameState{
 		world.setContactListener(cd);
 		wm = new WorldMap(world, true, "test");
 		//Weapon Create
-		ArrayList<BulletModel> bm = new ArrayList<BulletModel>();
-		for(int i = 0; i < 10; i++){
-			bm.add(new BulletModel(world, 400, 20, i));
-		}
 		GunModel gm = new GunModel(world, 500);
+		firingCont = new FiringController(gm);
 		// Creating a character
 		hero = new HeroModel(world, "hero", gm);
 		contHero = new HeroController(hero);
@@ -113,6 +112,7 @@ public class PlayState extends BasicGameState{
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		world.step(1f/60f, 8, 3);
 		camera.updateCamera(hero.getFrontPosPixels());
+		firingCont.update(gc, sbg, delta);
 		try{
 			contHero.update(gc, sbg, delta);
 		}catch(NullPointerException e){} 
