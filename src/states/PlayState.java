@@ -23,10 +23,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Camera;
-import utils.CollisionDetection;
 import view.HeroView;
 import view.StaticFoeView;
 import controller.CollectibleController;
+import controller.CollisionDetection;
 import controller.FiringController;
 import controller.HeroController;
 import controller.IEntityController;
@@ -96,7 +96,6 @@ public class PlayState extends BasicGameState{
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		wm.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 		firingCont.render(gc, sbg, g);
-
 		try{
 			for(int i = 0; i < controllers.size(); i++){
 				controllers.get(i).render(gc, sbg, g);
@@ -115,7 +114,7 @@ public class PlayState extends BasicGameState{
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		world.step(1f/60f, 8, 3);
 		camera.updateCamera(hero.getFrontPosPixels());
-		//firingCont.update(gc, sbg, delta);
+		firingCont.update(gc, sbg, delta);
 		try{
 			contHero.update(gc, sbg, delta);
 		}catch(NullPointerException e){} 
