@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
@@ -18,18 +20,18 @@ import utils.WeaponType;
 
 public class GunModel extends AbstractWeaponModel{
 	
-	private static List<BulletModel> bulletModels;
+	private static ArrayList<BulletModel> bulletModels;
 	//private Vec2 firstPos;
 	
-	public GunModel(List<BulletModel> bulletModels, World world){
-		this(bulletModels, world, 20, 400f);
+	public GunModel(ArrayList<BulletModel> bulletModels, World world, double reloadTime){
+		this(bulletModels, world, reloadTime, 20, 400f);
 		
 	}
-	public GunModel(List<BulletModel> bulletModels, World world, int damage){
-		this(bulletModels, world, damage, 400f);
+	public GunModel(ArrayList<BulletModel> bulletModels, World world, double reloadTime, int damage){
+		this(bulletModels, world, reloadTime, damage, 400f);
 		
 	}
-	public GunModel(List<BulletModel> bulletModels, World world, int damage, float range){
+	public GunModel(ArrayList<BulletModel> bulletModels, World world, double reloadTime, int damage, float range){
 		super(world, damage, range);
 		super.setWeaponType(WeaponType.gun);
 		this.bulletModels = bulletModels;
@@ -39,7 +41,7 @@ public class GunModel extends AbstractWeaponModel{
 
 	public void fight(Vec2 myPos, Navigation navigation){
 		//this.firstPos = myPos;
-		for(int i = 0; i < bulletModels.length(); i++){
+		for(int i = 0; i < bulletModels.size(); i++){
 			if(!bulletModels.get(i).getBody().isActive()){
 				bulletModels.get(i).fight(myPos, navigation);
 				return ;
@@ -50,7 +52,7 @@ public class GunModel extends AbstractWeaponModel{
 		//new BulletController(model);
 	}
 	
-	public static List<BulletModel> getBulletModels(){
+	public static ArrayList<BulletModel> getBulletModels(){
 		return bulletModels;
 		
 	}

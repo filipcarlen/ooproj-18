@@ -44,8 +44,9 @@ public class BulletController implements IEntityController{
 		
 		for(int i = 0; i < models.length(); i++){
 			if(models.get(i).getBody().isActive()){
+				this.views.add(new BulletView(this.models.get(i)));
 				// To get the distance we take the position from where the bullet was fired minus the current position
-				this.distance = Vec2.abs(this.models.get(i).getPosPixels().sub(this.models.get(i).getFirstPos()));
+				this.distance = Vec2.abs(this.models.get(i).getPosMeters().sub(this.models.get(i).getFirstPos()));
 		
 				if(!models.get(i).isMoving()){
 					if(this.models.get(i).getNavigation() == Navigation.WEST){
