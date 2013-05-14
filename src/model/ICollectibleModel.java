@@ -6,7 +6,6 @@ public interface ICollectibleModel extends IEntityModel {
 	
 	public int getValue();
 	public void setValue(int value);
-	public float getRadius();
 	public boolean bodyExists();
 	public void destroyBody();
 

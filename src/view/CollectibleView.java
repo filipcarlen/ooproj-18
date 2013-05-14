@@ -12,6 +12,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.Camera;
+
 /**
  * A class that draw a collectible object
  * @author filipcarlen
@@ -63,13 +65,14 @@ public class CollectibleView {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
-		Vec2 tmp = model.getPosPixels();
+		Vec2 tmp = Camera.entityRender(model.getPosPixels());
+		
 		if(this.model instanceof CoinModel){
-			g.drawAnimation(coinAnimation, model.getPosPixels().x, model.getPosPixels().y);
+			g.drawAnimation(coinAnimation, tmp.x, tmp.y);
 		}
 		
 		else if(this.model instanceof GemModel){
-			g.drawAnimation(gemAnimation, model.getPosPixels().x, model.getPosPixels().y);
+			g.drawAnimation(gemAnimation, tmp.x, tmp.y);
 		}
 	}
 	
