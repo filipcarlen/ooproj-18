@@ -1,6 +1,10 @@
 package model;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.Timer;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
@@ -16,39 +20,52 @@ import utils.WeaponType;
  */
 
 
-public class GunModel extends AbstractWeaponModel{
+public class GunModel extends AbstractWeaponModel implements ActionListener{
 	
-	private double reloadTime;
-	private ArrayList<BulletModel> bulletModels;
+	private Timer timer;
+	private int reloadTime;
+	private ArrayList<BulletModel> bulletModels = new ArrayList<BulletModel>();
 	//private Vec2 firstPos;
 	
-	public GunModel(ArrayList<BulletModel> bulletModels, World world, double reloadTime){
-		this(bulletModels, world, reloadTime, 20, 400f);
+	public GunModel(World world, int reloadTime){
+		this(world, reloadTime, 20, 400f);
 		
 	}
-	public GunModel(ArrayList<BulletModel> bulletModels, World world, double reloadTime, int damage){
-		this(bulletModels, world, reloadTime, damage, 400f);
+	public GunModel(World world, int reloadTime, int damage){
+		this(world, reloadTime, damage, 400f);
 		
 	}
-	public GunModel(ArrayList<BulletModel> bulletModels, World world, double reloadTime, int damage, float range){
+	public GunModel(World world, int reloadTime, int damage, float range){
 		super(world, damage, range);
 		super.setWeaponType(WeaponType.gun);
-		this.bulletModels = bulletModels;
+		for(int i = 1; i <= 20; i++){
+			bulletModels.add(new BulletModel(super.getWorld(), super.getRange(), super.getDamage(), i));
+		}
 		this.reloadTime = reloadTime;
+		this.timer = new Timer(reloadTime, this);
 		
 	}
 
 
 	public void fight(Vec2 myPos, Navigation navigation){
 		// Šr timern igŒng??
-		for(int i = 0; i < bulletModels.size(); i++){
-			if(!bulletModels.get(i).getBody().isActive()){
-				bulletModels.get(i).fight(myPos, navigation);
-				// timer startas
-				return ;
-			}
+		if(!timer.isRunning()){
+			for(int i = 0; i < bulletModels.size(); i++){
+				if(!bulletModels.get(i).getBody().isActive()){
+					bulletModels.get(i).fight(myPos, navigation);
+					// timer startas
+					timer.start();
+					return ;
+				}
 			
+			}
 		}
+		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
 		
 	}
 	
@@ -60,6 +77,7 @@ public class GunModel extends AbstractWeaponModel{
 		return this.bulletModels;
 		
 	}
+	
 	
 	/*public Vec2 getFirstPos(){
 		return this.firstPos;
