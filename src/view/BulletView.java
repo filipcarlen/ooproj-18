@@ -1,6 +1,5 @@
 package view;
 
-
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.GameContainer;

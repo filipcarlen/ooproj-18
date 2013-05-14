@@ -42,7 +42,7 @@ public class BulletModel implements IEntityModel{
  	private Navigation navigation;
  	
  	
- 	private boolean isMoving;
+ 	private boolean isMoving = false;
  	
  	/** The ID of this Bullet */
  	private int id;
@@ -67,7 +67,7 @@ public class BulletModel implements IEntityModel{
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.DYNAMIC;
 		bd.gravityScale = 0;
-		bd.position.set(fighterPos.x, fighterPos.y);
+		bd.position.set(fighterPos.x + fighterBody.getFixtureList().getShape().getRadius() + this.RADIUS, fighterPos.y);
 		
 		CircleShape cs = new CircleShape();
 		cs.m_radius = Utils.pixelsToMeters(RADIUS);
@@ -112,7 +112,7 @@ public class BulletModel implements IEntityModel{
 		this.bulletBody.setActive(false);
 		this.world.destroyBody(bulletBody);
 		setMoving(false);
-
+		this.bulletBody = null;
 		System.out.println("destroyed entity");
 	}
 	/**
@@ -172,7 +172,7 @@ public class BulletModel implements IEntityModel{
 	
 	@Override
 	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.bulletBody.getPosition().add(new Vec2(-RADIUS, -RADIUS)));
+		return (Utils.metersToPixels(this.bulletBody.getPosition()).add(new Vec2(-RADIUS, -RADIUS)));
 	}
 	
 	@Override

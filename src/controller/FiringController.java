@@ -11,7 +11,6 @@ import utils.Navigation;
 import view.BulletView;
 import model.BulletModel;
 import model.GunModel;
-import model.IEntityModel;
 
 /** A controller class for a Bullet
  * 
@@ -22,7 +21,6 @@ import model.IEntityModel;
 public class FiringController implements IEntityController{
 
 	/** The model connected to this controller */
-	private GunModel gunModel;
 	private ArrayList<BulletModel> models ;
 	/** The view connected to this controller */
 	private ArrayList<BulletView> views = new ArrayList<BulletView>();;
@@ -31,9 +29,7 @@ public class FiringController implements IEntityController{
 
 	
 	public FiringController(GunModel gunModel){
-		this.gunModel = gunModel;
 		this.models = gunModel.getBulletModels();
-		
 	}
 	
 
@@ -66,26 +62,29 @@ public class FiringController implements IEntityController{
 					if(this.models.get(i).getRange() < this.distance){
 						this.models.get(i).destroyEntity();
 						
-						for(int j = 0; j < views.size(); j++){
-							if((views.get(j)).getID() == models.get(i).getID()){
-								views.remove(j);
-								System.out.println("removed view");
-								return ;
-
-							}
-							
-						}
-						
 					}
 				}
-			}
+			} 
+			}else{
+				for(int j = 0; j < views.size(); j++){
+					if((views.get(j)).getID() == models.get(i).getID()){
+						views.remove(j);
+						System.out.println("removed view");
+						return ;
+
+					}
+					
+				}
 			}
 		}
 	}
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		for(int i = 0; i < views.size(); i++){
-			this.views.get(i).render(container, game, g);
+			try{
+				this.views.get(i).render(container, game, g);
+			} catch(NullPointerException e){}
+		
 		}
 	}
 
