@@ -51,7 +51,7 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 		// är timern igång??
 		if(!timer.isRunning()){
 			for(int i = 0; i < bulletModels.size(); i++){
-				if(!bulletModels.get(i).getBody().isActive()){
+				if(bulletModels.get(i).getBody() == null){
 					bulletModels.get(i).fight(myPos, navigation);
 					// timer startas
 					timer.start();
@@ -65,7 +65,7 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		timer.stop();
 		
 	}
 	
