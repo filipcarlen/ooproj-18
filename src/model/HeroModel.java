@@ -53,7 +53,7 @@ public class HeroModel implements IAliveModel{
 		pg.setAsBox(this.width, this.height);
 		//The Fixture
 		FixtureDef fd = new FixtureDef();
-		fd.filter.categoryBits =2;
+		fd.filter.categoryBits = 2;
 		fd.filter.maskBits = 333;
 		fd.density = 0.1f;
 		fd.friction = 0.0f;

@@ -81,15 +81,16 @@ public class PlayState extends BasicGameState{
 		contHero = new HeroController(hero);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), new Rectangle(300,200), hero.getPosPixels());
-		bodies.add(new GemModel(world, new Vec2(500,240), 1));
-		controllers.add(new CollectibleController((GemModel)bodies.get(bodies.size()-1)));
-		bodies.add(new CoinModel(world,new Vec2(400, 340), 2));
-		controllers.add(new CollectibleController((CoinModel)bodies.get(bodies.size()-1)));
 		
 		bodies.add(new MovingFoeModel(world, new Vec2(480,240), 100, new GunModel(world, 2000, 20, 100), 3));
 		controllers.add(new MovingFoeController((MovingFoeModel)bodies.get(bodies.size()-1)));
 		bodies.add(new StaticFoeModel(world, new Vec2(530, 330), 20, 4));
 		controllers.add(new StaticFoeController((StaticFoeModel)bodies.get(bodies.size()-1), StaticFoeView.StaticFoeType.FIRE));
+		
+		bodies.add(new GemModel(world, new Vec2(500,240), 1));
+		controllers.add(new CollectibleController((GemModel)bodies.get(bodies.size()-1)));
+		bodies.add(new CoinModel(world,new Vec2(400, 340), 2));
+		controllers.add(new CollectibleController((CoinModel)bodies.get(bodies.size()-1)));
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
