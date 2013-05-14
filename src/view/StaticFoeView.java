@@ -2,6 +2,7 @@ package view;
 
 import model.StaticFoeModel;
 
+import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -9,6 +10,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import utils.Camera;
 
 import controller.StaticFoeController;
 
@@ -66,7 +69,8 @@ public class StaticFoeView {
 	}
 	
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) {
-		g.drawAnimation(animation, model.getPosPixels().x, model.getPosPixels().y);
+		Vec2 worldPos = Camera.entityRender(this.model.getPosPixels());
+		g.drawAnimation(animation, worldPos.x, worldPos.y);
 	}
 	
 }

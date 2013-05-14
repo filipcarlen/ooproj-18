@@ -2,17 +2,17 @@ package states;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.List;
 
 import map.WorldMap;
 import map.WorldShapes;
-import model.AbstractCollectibleModel;
 import model.BulletModel;
 import model.CoinModel;
 import model.GemModel;
 import model.GunModel;
 import model.HeroModel;
 import model.IEntityModel;
+import model.MovingFoeModel;
+import model.StaticFoeModel;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
@@ -25,9 +25,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import utils.Camera;
 import utils.CollisionDetection;
 import view.HeroView;
+import view.StaticFoeView;
 import controller.CollectibleController;
 import controller.HeroController;
 import controller.IEntityController;
+import controller.MovingFoeController;
+import controller.StaticFoeController;
 
 public class PlayState extends BasicGameState{
 	
@@ -73,7 +76,7 @@ public class PlayState extends BasicGameState{
 		for(int i = 0; i < 10; i++){
 			bm.add(new BulletModel(world, 400, 20, i));
 		}
-		GunModel gm = new GunModel(bm, world, 500);
+		GunModel gm = new GunModel(world, 500);
 		// Creating a character
 		hero = new HeroModel(world, "hero", gm);
 		contHero = new HeroController(hero);
@@ -83,13 +86,18 @@ public class PlayState extends BasicGameState{
 		controllers.add(new CollectibleController((GemModel)bodies.get(bodies.size()-1)));
 		bodies.add(new CoinModel(world,new Vec2(400, 340), 2));
 		controllers.add(new CollectibleController((CoinModel)bodies.get(bodies.size()-1)));
+		
+		bodies.add(new MovingFoeModel(world, new Vec2(480,240), 100, new GunModel(world, 2000, 20, 100), 3));
+		controllers.add(new MovingFoeController((MovingFoeModel)bodies.get(bodies.size()-1)));
+		bodies.add(new StaticFoeModel(world, new Vec2(530, 330), 20, 4));
+		controllers.add(new StaticFoeController((StaticFoeModel)bodies.get(bodies.size()-1), StaticFoeView.StaticFoeType.FIRE));
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		wm.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 		try{
 			for(int i = 0; i < controllers.size(); i++){
-				((CollectibleController)controllers.get(i)).render(gc, sbg, g);
+				controllers.get(i).render(gc, sbg, g);
 			}
 		}catch(IndexOutOfBoundsException e){}
 		try{
@@ -108,6 +116,10 @@ public class PlayState extends BasicGameState{
 		try{
 			contHero.update(gc, sbg, delta);
 		}catch(NullPointerException e){} 
+
+		for(int i = 0; i < controllers.size(); i++){
+			controllers.get(i).update(gc, sbg, delta);
+		}
 	}
 
 	public int getID() {

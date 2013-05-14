@@ -2,12 +2,15 @@ package view;
 
 import model.MovingFoeModel;
 
+import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import utils.Camera;
 
 public class MovingFoeView {
 
@@ -88,6 +91,7 @@ public class MovingFoeView {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		g.drawAnimation(this.currentAnimation, this.model.getPosPixels().x, this.model.getPosPixels().y);
+		Vec2 worldPos = Camera.entityRender(this.model.getPosPixels());
+		g.drawAnimation(this.currentAnimation, worldPos.x, worldPos.y);
 	}
 }

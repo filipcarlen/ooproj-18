@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+import states.PlayState;
 import utils.Utils;
 
 public class MovingFoeModel implements IAliveModel{
@@ -16,6 +17,8 @@ public class MovingFoeModel implements IAliveModel{
 	private World world;
 	private int hp;
 	private AbstractWeaponModel weapon;
+	
+	private int ID;
 	
 	private Body body;
 	
@@ -30,17 +33,19 @@ public class MovingFoeModel implements IAliveModel{
 	 */
 	public final int SIGHT_RANGE = 400;
 	
-	private final int MAX_HP = 100;
+	private final int MAX_HP;
 	
 	/**
 	 * @param world The World this enemy will belong to.
 	 * @param pos The position of this enemy's top left corner, in pixels!
 	 */
-	public MovingFoeModel(World world, Vec2 pixelPos, int hp, AbstractWeaponModel weapon) {
+	public MovingFoeModel(World world, Vec2 pixelPos, int maxHP, AbstractWeaponModel weapon, int ID) {
 		this.world = world;
-		this.hp = hp;
+		this.hp = maxHP;
 		this.weapon = weapon;
 		this.isAlive = true;
+		this.MAX_HP = maxHP;
+		this.ID = ID;
 		init(pixelPos);
 	}
 	
@@ -110,7 +115,7 @@ public class MovingFoeModel implements IAliveModel{
 
 	@Override
 	public int getMaxHp() {
-		return MAX_HP;
+		return this.MAX_HP;
 	}
 	
 	public AbstractWeaponModel getWeapon() {
@@ -118,11 +123,16 @@ public class MovingFoeModel implements IAliveModel{
 	}
 	
 	public void destroyEntity(){
-		this.isAlive = false;
 		this.world.destroyBody(this.body);
+		PlayState.removeEntity(this.getID());
 	}
 	
 	public boolean isAlive() {
 		return this.isAlive;
+	}
+
+	@Override
+	public int getID() {
+		return this.ID;
 	}
 }
