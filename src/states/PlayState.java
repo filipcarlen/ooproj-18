@@ -72,7 +72,7 @@ public class PlayState extends BasicGameState{
 		world.setContinuousPhysics(true);
 		cd = new CollisionDetection();
 		world.setContactListener(cd);
-		wm = new WorldMap(world, true, "test1");
+		wm = new WorldMap(world, true, "test");
 		//Weapon Create
 		GunModel gm = new GunModel(world, 500);
 		firingCont = new FiringController(gm);
@@ -94,7 +94,7 @@ public class PlayState extends BasicGameState{
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		wm.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
-		//firingCont.render(gc, sbg, g);
+		firingCont.render(gc, sbg, g);
 		try{
 			for(int i = 0; i < controllers.size(); i++){
 				controllers.get(i).render(gc, sbg, g);
@@ -113,7 +113,7 @@ public class PlayState extends BasicGameState{
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		world.step(1f/60f, 8, 3);
 		camera.updateCamera(hero.getFrontPosPixels());
-		//firingCont.update(gc, sbg, delta);
+		firingCont.update(gc, sbg, delta);
 		try{
 			contHero.update(gc, sbg, delta);
 		}catch(NullPointerException e){} 
