@@ -11,6 +11,7 @@ import utils.Navigation;
 import view.BulletView;
 import model.BulletModel;
 import model.GunModel;
+import model.IEntityModel;
 
 /** A controller class for a Bullet
  * 
@@ -26,16 +27,16 @@ public class FiringController implements IEntityController{
 	/** The view connected to this controller */
 	private ArrayList<BulletView> views = new ArrayList<BulletView>();;
 	/** The Distance the bullet has moved */
-	private Vec2 distance;
+	private float distance;
 
 	
 	public FiringController(GunModel gunModel){
 		this.gunModel = gunModel;
 		this.models = gunModel.getBulletModels();
-		//for(int i = 0; i < models.length(); i++){
-		//	this.views.add(new BulletView(this.models.get(i)));
-		//}
+		
 	}
+	
+
 	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
@@ -46,7 +47,7 @@ public class FiringController implements IEntityController{
 
 				this.views.add(new BulletView(this.models.get(i)));
 				// To get the distance we take the position from where the bullet was fired minus the current position
-				this.distance = Vec2.abs(this.models.get(i).getPosPixels().sub(this.models.get(i).getFirstPos()));
+				this.distance = this.models.get(i).getPosMeters().x - this.models.get(i).getFirstPos().x;
 		
 				if(!models.get(i).isMoving()){
 					if(this.models.get(i).getNavigation() == Navigation.WEST){
@@ -62,10 +63,18 @@ public class FiringController implements IEntityController{
 					}
 		
 				} else{
-					if(this.models.get(i).getRange() < distance.length()){
-						this.models.get(i).getBody().setActive(false);
+					if(this.models.get(i).getRange() < this.distance){
 						this.models.get(i).destroyEntity();
-						models.get(i).setMoving(false);
+						
+						for(int j = 0; j < views.size(); j++){
+							if((views.get(j)).getID() == models.get(i).getID()){
+								views.remove(j);
+								System.out.println("removed view");
+								return ;
+
+							}
+							
+						}
 						
 					}
 				}

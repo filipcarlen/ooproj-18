@@ -65,8 +65,9 @@ public class BulletModel implements IEntityModel{
 	 */
 	public void init(Vec2 fighterPos) throws NullPointerException{
 		BodyDef bd = new BodyDef();
-		bd.type = BodyType.KINEMATIC;
-		//bd.position.set(Utils.pixelsToMeters(fighterPos.x - RADIUS), Utils.pixelsToMeters(fighterPos.y - RADIUS));
+		bd.type = BodyType.DYNAMIC;
+		bd.gravityScale = 0;
+		bd.position.set(fighterPos.x, fighterPos.y);
 		
 		CircleShape cs = new CircleShape();
 		cs.m_radius = Utils.pixelsToMeters(RADIUS);
@@ -108,7 +109,10 @@ public class BulletModel implements IEntityModel{
 	 * A method used to destroy the body of this bullet
 	 */
 	public void destroyEntity(){
+		this.bulletBody.setActive(false);
 		this.world.destroyBody(bulletBody);
+		setMoving(false);
+
 		System.out.println("destroyed entity");
 	}
 	/**
