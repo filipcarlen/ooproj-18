@@ -1,11 +1,5 @@
-package utils;
+package controller;
 
-import model.BulletModel;
-import model.HeroModel;
-import model.ICollectibleModel;
-import model.MovingFoeModel;
-import model.StaticFoeModel;
-import model.SwordModel;
 import model.*;
 
 import org.jbox2d.callbacks.ContactImpulse;
@@ -14,6 +8,7 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import states.PlayState;
+import utils.EntityType;
 
 public class CollisionDetection  implements ContactListener{
 
@@ -51,6 +46,7 @@ public class CollisionDetection  implements ContactListener{
 			
 			else if(objectB instanceof BulletModel) {
 				heroModel.hurt(((BulletModel)objectB).getDamage());
+				((BulletModel)objectB).destroyEntity();
 			}
 			
 			else if(objectB instanceof SwordModel) {
@@ -79,6 +75,7 @@ public class CollisionDetection  implements ContactListener{
 			
 			else if(objectA instanceof BulletModel) {
 				heroModel.hurt(((BulletModel)objectA).getDamage());
+				((BulletModel)objectA).destroyEntity();
 			}
 			
 			else if(objectA instanceof SwordModel) {
