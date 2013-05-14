@@ -7,12 +7,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.sun.tools.javac.util.List;
-
 import utils.Navigation;
 import view.BulletView;
 import model.BulletModel;
-import model.GunModel;
 
 /** A controller class for a Bullet
  * 
@@ -23,16 +20,14 @@ import model.GunModel;
 public class BulletController implements IEntityController{
 
 	/** The model connected to this controller */
-	private List<BulletModel> models ;
+	private ArrayList<BulletModel> models ;
 	/** The view connected to this controller */
 	private ArrayList<BulletView> views = new ArrayList<BulletView>();;
 	/** The Distance the bullet has moved */
 	private Vec2 distance;
-	/** Tells us if the bullet is moving or not */
-	private boolean isMoving;
 
 	
-	public BulletController(List<BulletModel> models){
+	public BulletController(ArrayList<BulletModel> models){
 		this.models = models;
 		//for(int i = 0; i < models.length(); i++){
 		//	this.views.add(new BulletView(this.models.get(i)));
@@ -42,7 +37,8 @@ public class BulletController implements IEntityController{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		
-		for(int i = 0; i < models.length(); i++){
+		for(int i = 0; i < models.size(); i++){
+			
 			if(models.get(i).getBody().isActive()){
 				this.views.add(new BulletView(this.models.get(i)));
 				// To get the distance we take the position from where the bullet was fired minus the current position
