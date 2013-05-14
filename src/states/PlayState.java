@@ -72,7 +72,7 @@ public class PlayState extends BasicGameState{
 		world.setContinuousPhysics(true);
 		cd = new CollisionDetection();
 		world.setContactListener(cd);
-		wm = new WorldMap(world, true, "test1");
+		wm = new WorldMap(world, true, "test");
 		//Weapon Create
 		GunModel gm = new GunModel(world, 500);
 		firingCont = new FiringController(gm);
