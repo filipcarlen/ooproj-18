@@ -72,7 +72,7 @@ public class PlayState extends BasicGameState{
 		for(int i = 0; i < 10; i++){
 			bm.add(new BulletModel(world, 400, 20, i));
 		}
-		GunModel gm = new GunModel(bm, world);
+		GunModel gm = new GunModel(bm, world, 500);
 		// Creating a character
 		hero = new HeroModel(world, "hero", gm);
 		contHero = new HeroController(hero);

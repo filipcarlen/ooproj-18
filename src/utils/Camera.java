@@ -40,6 +40,7 @@ public class Camera {
 	
 	/**
 	 * Method that is used to place entitys in the world and not just on the screenwindow
+	 * (Pixels)
 	 * @param v - the coordinate that is located at the screen in the beginning
 	 * @return - the coordinate in the world
 	 */
