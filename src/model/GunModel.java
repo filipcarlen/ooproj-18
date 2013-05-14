@@ -18,6 +18,7 @@ import utils.WeaponType;
 
 public class GunModel extends AbstractWeaponModel{
 	
+	private double reloadTime;
 	private ArrayList<BulletModel> bulletModels;
 	//private Vec2 firstPos;
 	
@@ -33,21 +34,26 @@ public class GunModel extends AbstractWeaponModel{
 		super(world, damage, range);
 		super.setWeaponType(WeaponType.gun);
 		this.bulletModels = bulletModels;
+		this.reloadTime = reloadTime;
 		
 	}
 
 
 	public void fight(Vec2 myPos, Navigation navigation){
-		//this.firstPos = myPos;
+		// är timern igång??
 		for(int i = 0; i < bulletModels.size(); i++){
 			if(!bulletModels.get(i).getBody().isActive()){
 				bulletModels.get(i).fight(myPos, navigation);
+				// timer startas
 				return ;
 			}
 			
 		}
-		//BulletModel model = new BulletModel(super.getWorld(), myPos, navigation, super.getRange(), super.getDamage());
-		//new BulletController(model);
+		
+	}
+	
+	public double getReloadTime(){
+		return this.reloadTime;
 	}
 	
 	public ArrayList<BulletModel> getBulletModels(){
