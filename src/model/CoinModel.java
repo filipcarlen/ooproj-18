@@ -48,9 +48,4 @@ public class CoinModel extends AbstractCollectibleModel {
 	public Vec2 getPosPixels() {
 		return Utils.metersToPixels(this.getBody().getPosition().add(new Vec2(-RADIUS,-RADIUS)));
 	}
-
-	@Override
-	public Vec2[] getVertices() {
-		return null;
-	}
 }
