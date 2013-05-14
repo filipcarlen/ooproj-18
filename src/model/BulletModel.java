@@ -96,8 +96,8 @@ public class BulletModel implements IEntityModel{
 	
 	public void fight(Vec2 fighterPos, Navigation navigation){
 		this.firstPos = fighterPos;
-		this.bulletBody.setActive(true);
 		init(fighterPos);
+		this.bulletBody.setActive(true);
 	}
 	
 	public void setMoving(boolean b){

@@ -61,7 +61,6 @@ public class FiringController implements IEntityController{
 						this.models.get(i).destroyEntity();
 						models.get(i).setMoving(false);
 						
-						models.get(i).getBody().setActive(false);
 					}
 				}
 			}

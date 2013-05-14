@@ -1,9 +1,12 @@
 package view;
 
 
+import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
+
+import utils.Camera;
 
 import model.BulletModel;
 
@@ -19,7 +22,8 @@ public class BulletView {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
-		g.drawOval(model.getPosPixels().x, model.getPosPixels().y, model.RADIUS*2, model.RADIUS*2);
+		Vec2 temp = Camera.entityRender(model.getPosPixels());
+		g.drawOval(temp.x, temp.y, model.RADIUS*2, model.RADIUS*2);
 	}
 	
 	public int getID(){
