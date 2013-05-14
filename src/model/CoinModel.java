@@ -6,6 +6,11 @@ import org.jbox2d.dynamics.World;
 
 import utils.Utils;
 
+/**
+ * Class representing a collectible coin
+ * @author filipcarlen
+ *
+ */
 public class CoinModel extends AbstractCollectibleModel {
 	
 	/** What value a collectible item holds (which points you get) */
@@ -14,6 +19,12 @@ public class CoinModel extends AbstractCollectibleModel {
 	/** The collectible items Radius in meters */
 	public final float RADIUS = .5f;
 
+	/**
+	 * Constructor
+	 * @param World w
+	 * @param Vec2 pixelPos (Position)
+	 * @param int id
+	 */
 	public CoinModel(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id);
 		
@@ -37,7 +48,7 @@ public class CoinModel extends AbstractCollectibleModel {
 	}
 	
 	/**
-	 * 
+	 * Get method for the radius of a coin
 	 * @return radius in pixels
 	 */
 	public float getRadius(){
