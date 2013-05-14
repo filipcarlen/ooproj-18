@@ -41,8 +41,11 @@ public class FiringController implements IEntityController{
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		
 		for(int i = 0; i < models.size(); i++){
-			
+			System.out.println("update() loop");
+
 			if(models.get(i).getBody().isActive()){
+				System.out.println("update() isActive");
+
 				this.views.add(new BulletView(this.models.get(i)));
 				// To get the distance we take the position from where the bullet was fired minus the current position
 				this.distance = Vec2.abs(this.models.get(i).getPosPixels().sub(this.models.get(i).getFirstPos()));

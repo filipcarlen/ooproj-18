@@ -38,7 +38,7 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 	public GunModel(World world, int reloadTime, int damage, float range){
 		super(world, damage, range);
 		super.setWeaponType(WeaponType.gun);
-		for(int i = 1; i <= 20; i++){
+		for(int i = 1; i <= 10; i++){
 			bulletModels.add(new BulletModel(super.getWorld(), super.getRange(), super.getDamage(), i));
 		}
 		this.reloadTime = reloadTime;
@@ -48,6 +48,9 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 
 
 	public void fight(Body fighterBody, Navigation navigation){
+		System.out.println("fight() in GunModel");
+
+		
 		// Šr timern igŒng??
 		if(!timer.isRunning()){
 			for(int i = 0; i < bulletModels.size(); i++){

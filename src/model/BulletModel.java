@@ -90,10 +90,14 @@ public class BulletModel implements IEntityModel{
 	}
 	
 	public void fight(Body fighterBody, Navigation navigation){
+		System.out.println("fight() in BulletModel");
+
 		this.fighterBody = fighterBody;
 		this.firstPos = fighterBody.getPosition();
 		init(firstPos);
 		this.bulletBody.setActive(true);
+		System.out.println("fight() in BulletModel2");
+
 	}
 	
 	public void setMoving(boolean b){
