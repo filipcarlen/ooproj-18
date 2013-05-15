@@ -61,7 +61,10 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	   	 fixturedef.friction = 0.0f;
 	   	 fixturedef.restitution = 0.0f;
 	   	 
+	   	 
 	   	 fixturedef.filter.groupIndex = -1;
+	   	fixturedef.filter.maskBits = 65;
+	   	fixturedef.filter.categoryBits = 6;
 	   	 
 	   	 body.setUserData(this);
 	   	 bodyExists = true;

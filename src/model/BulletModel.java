@@ -82,6 +82,8 @@ public class BulletModel implements IEntityModel{
 		fd.density = 0.5f;
 		fd.friction = 0.3f;
 		fd.restitution = 0.5f;
+		fd.filter.maskBits = 65;
+		fd.filter.categoryBits = 4;
 		
 		this.bulletBody = this.world.createBody(bd);
 		this.bulletBody.createFixture(fd);
@@ -99,7 +101,7 @@ public class BulletModel implements IEntityModel{
 		System.out.println("fight() in BulletModel");
 		this.navigation = navigation;
 		this.fighterBody = fighterBody;
-		this.firstPos = fighterBody.getPosition();
+		this.firstPos = fighterBody.getPosition().clone();
 		init(firstPos);
 
 	}

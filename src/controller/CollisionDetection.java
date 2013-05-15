@@ -137,6 +137,9 @@ public class CollisionDetection  implements ContactListener{
 			else if(objectB instanceof SwordModel) {
 				bulletModel.destroyEntity();
 			}
+			else{
+				bulletModel.destroyEntity();
+			}
 		}
 				
 		// Check if objectB of the collision is a bullet and check what objectA is too 
@@ -154,6 +157,9 @@ public class CollisionDetection  implements ContactListener{
 			}
 					
 			else if(objectA instanceof SwordModel) {
+				bulletModel.destroyEntity();
+			}
+			else{
 				bulletModel.destroyEntity();
 			}
 		}
