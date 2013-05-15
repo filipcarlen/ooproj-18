@@ -44,7 +44,7 @@ public class PlayState extends BasicGameState{
 	int nbr= 0;
 	int stateID;
 	Camera camera;
-	FiringController firingCont;
+	FiringController firingCont, firingContE;
 	
 	
 	static ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
@@ -72,17 +72,19 @@ public class PlayState extends BasicGameState{
 		world.setContinuousPhysics(true);
 		cd = new CollisionDetection();
 		world.setContactListener(cd);
-		wm = new WorldMap(world, true, "test");
+		wm = new WorldMap(world, true, "test1");
 		//Weapon Create
 		GunModel gm = new GunModel(world, 500);
-		firingCont = new FiringController(gm);
+		firingCont = new FiringController(gm, -1);
+		GunModel gmE = new GunModel(world, 2000, 20, 15);
+		firingContE = new FiringController(gmE, 3);
 		// Creating a character
 		hero = new HeroModel(world, "hero", gm);
 		contHero = new HeroController(hero);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), wm.getWorldWidth(), wm.getWorldHeight(), new Rectangle(300,200), hero.getPosPixels());
-		
-		bodies.add(new MovingFoeModel(world, new Vec2(480,240), 100, new GunModel(world, 2000, 20, 100), 3));
+		 
+		bodies.add(new MovingFoeModel(world, new Vec2(480,240), 100, gmE, 3));
 		controllers.add(new MovingFoeController((MovingFoeModel)bodies.get(bodies.size()-1)));
 		bodies.add(new StaticFoeModel(world, new Vec2(530, 330), 20, 4));
 		controllers.add(new StaticFoeController((StaticFoeModel)bodies.get(bodies.size()-1), StaticFoeView.StaticFoeType.FIRE));
@@ -96,26 +98,24 @@ public class PlayState extends BasicGameState{
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		wm.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 		firingCont.render(gc, sbg, g);
+		firingContE.render(gc, sbg, g);
 		try{
 			for(int i = 0; i < controllers.size(); i++){
 				controllers.get(i).render(gc, sbg, g);
 			}
-		}catch(IndexOutOfBoundsException e){}
+		}catch(NullPointerException e){}
 		try{
 			contHero.render(gc, sbg, g);
 		}catch(NullPointerException e){} 
-		g.drawString("Force: " + hero.getBody().m_force +
-				"\nisAwake: " + hero.getBody().isAwake() +
-				"\nisActive: " + hero.getBody().isActive() +
-				"\nPosition: " + hero.getBody().getPosition() + 
-				"\nBodyCount" + world.getBodyCount(), 100, 100);
+		g.drawString(" BodyCount" + world.getBodyCount(), 100, 100);
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		world.step(1f/60f, 8, 3);
-		camera.updateCamera(hero.getFrontPosPixels());
 		firingCont.update(gc, sbg, delta);
+		firingContE.update(gc, sbg, delta);
 		try{
+			camera.updateCamera(hero.getFrontPosPixels());
 			contHero.update(gc, sbg, delta);
 		}catch(NullPointerException e){} 
 
@@ -158,9 +158,8 @@ public class PlayState extends BasicGameState{
 		return contHero;
 	}
 
-	public static void removeHeroController(IEntityController controller) {
-		if(controller == contHero){
-			contHero = null;
-		} 
+	public static void removeHero() {
+		contHero = null;
+		hero = null;
 	}
 }
