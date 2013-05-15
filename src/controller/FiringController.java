@@ -26,9 +26,11 @@ public class FiringController implements IEntityController{
 	private ArrayList<BulletView> views = new ArrayList<BulletView>();;
 	/** The Distance the bullet has moved */
 	private float distance;
+	private int id;
 
 	
-	public FiringController(GunModel gunModel){
+	public FiringController(GunModel gunModel, int id){
+		this.id = id;
 		this.models = gunModel.getBulletModels();
 	}
 	
@@ -43,7 +45,7 @@ public class FiringController implements IEntityController{
 
 				this.views.add(new BulletView(this.models.get(i)));
 				// To get the distance we take the position from where the bullet was fired minus the current position
-				this.distance = this.models.get(i).getPosMeters().x - this.models.get(i).getFirstPos().x;
+				this.distance = Math.abs(this.models.get(i).getPosMeters().x - this.models.get(i).getFirstPos().x);
 		
 				if(!models.get(i).isMoving()){
 					if(this.models.get(i).getNavigation() == Navigation.WEST){
@@ -87,7 +89,7 @@ public class FiringController implements IEntityController{
 
 	@Override
 	public int getID() {
-		return -1;
+		return this.id;
 	}
 	
 	

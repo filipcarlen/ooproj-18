@@ -63,25 +63,7 @@ public abstract class AbstractWeaponModel {
 		}
 		
 	}
-	
-	/*public static Body getFighterBody(World world, Body weaponBody, Vec2 firstPos){
-		// All bodies in the world
-		Body worldBodyList = world.getBodyList();
-		// Have to loop through all the bodies in the world and compare their position to the position 
-		// from which the bullet is fired to get the body of the shooting character. 
-		try {
-			while(true){
-				Body nextBody = worldBodyList.getNext();
-				Vec2 nextBodyPos = nextBody.getPosition();
-				if((nextBodyPos == firstPos) && (nextBody != weaponBody)){
-					return nextBody;
-				}
-			}
-		} catch(NullPointerException e){
-			throw new NullPointerException("No body in the world was found at the bullets first position");
-		}
-		
-	}*/
+
 	
 	public abstract void fight(Body fighterBody,  Navigation navigation);
 
