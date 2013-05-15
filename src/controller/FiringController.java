@@ -26,9 +26,11 @@ public class FiringController implements IEntityController{
 	private ArrayList<BulletView> views = new ArrayList<BulletView>();;
 	/** The Distance the bullet has moved */
 	private float distance;
+	private int id;
 
 	
-	public FiringController(GunModel gunModel){
+	public FiringController(GunModel gunModel, int id){
+		this.id = id;
 		this.models = gunModel.getBulletModels();
 	}
 	
@@ -87,7 +89,7 @@ public class FiringController implements IEntityController{
 
 	@Override
 	public int getID() {
-		return -1;
+		return this.id;
 	}
 	
 	
