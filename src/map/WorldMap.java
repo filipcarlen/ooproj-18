@@ -113,14 +113,14 @@ public class WorldMap{
 	}
 	
 	public void render(Graphics g, float x, float y, int width, int height){
-		if(width/tm.getTileWidth() > tm.getWidth())
+		if(width/tm.getTileWidth() >= tm.getWidth())
 			width = tm.getWidth();
 		else
-			width = width/tm.getTileWidth();
-		if(height/tm.getTileHeight() > tm.getHeight())
+			width = (width/tm.getTileWidth()) +1;
+		if(height/tm.getTileHeight() >= tm.getHeight())
 			height = tm.getHeight();
 		else
-			height = height/tm.getTileHeight();
+			height = (height/tm.getTileHeight())+1;
 		int sx= (int)x/tm.getTileWidth();
 		int sy = (int)y/tm.getTileHeight();
 		for(int i = sx; i < (sx+width); i ++){
