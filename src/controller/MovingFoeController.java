@@ -9,7 +9,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import states.PlayState;
 import utils.Navigation;
-import utils.Utils;
 import view.MovingFoeView;
 
 public class MovingFoeController implements IEntityController {
@@ -37,25 +36,25 @@ public class MovingFoeController implements IEntityController {
 				
 			//Make this foe walk towards the hero and set the correct animation. 
 			if((heroPos.x < this.model.getPosPixels().x) && 
-					!(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters())))){
+					!(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), PlayState.getHeroModel().getPosMeters()))){
 				
 				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
 				this.model.getBody().applyLinearImpulse(left, this.model.getPosMeters());
 				
 			} else if ((heroPos.x > this.model.getPosPixels().x) && 
-					!(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters())))){
+					!(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), PlayState.getHeroModel().getPosMeters()))){
 				
 				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
 				this.model.getBody().applyLinearImpulse(right, this.model.getPosMeters());
 			}
 			
 			//Attack the hero if he/she is within the range of this foe's weapon.
-			if(this.model.getWeapon().isWithinRange(Utils.metersToPixels(this.model.getPosMeters()), Utils.metersToPixels(PlayState.getHeroModel().getPosMeters()))){
+			if(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), PlayState.getHeroModel().getPosMeters())){
 					
 				if(heroPos.x < this.model.getPosPixels().x) {
 					this.model.getWeapon().fight(this.model.getBody(),Navigation.WEST);
 					this.view.setCurrentAnim(MovingFoeView.AnimationType.SWORD_LEFT);
-				} else {
+				} else if(heroPos.x > this.model.getPosPixels().x) {
 					this.model.getWeapon().fight(this.model.getBody(),Navigation.EAST);
 					this.view.setCurrentAnim(MovingFoeView.AnimationType.SWORD_RIGHT);
 				}
@@ -69,6 +68,8 @@ public class MovingFoeController implements IEntityController {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		if(this.model.isAlive()) {
 			this.view.render(gc, sbg, g);
+		} else {
+			PlayState.removeEntity(this.model.getID());
 		}
 	}
 

@@ -97,7 +97,7 @@ public class MovingFoeView {
 		
 		Vec2 lifePos = worldPos.sub(new Vec2(0,8));
 		g.setColor(Color.red);
-		float life = (this.model.getHp()/this.model.getMaxHp())*30;
+		float life = ((float)(this.model.getHp())/(float)(this.model.getMaxHp()))*30;
 		g.fillRect(lifePos.x, lifePos.y, life, 5);
 	}
 }

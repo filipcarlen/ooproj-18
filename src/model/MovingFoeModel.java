@@ -76,9 +76,9 @@ public class MovingFoeModel implements IAliveModel{
 		//This is for collision handling.
 		this.body.setUserData(this);
 		
-		body.setFixedRotation(true);
+		this.body.setFixedRotation(true);
 		
-		
+		this.isAlive = true;
 	}
 	
 	@Override
@@ -129,7 +129,7 @@ public class MovingFoeModel implements IAliveModel{
 	
 	public void destroyEntity(){
 		this.world.destroyBody(this.body);
-		PlayState.removeEntity(this.getID());
+		this.isAlive = false;
 	}
 	
 	public boolean isAlive() {
