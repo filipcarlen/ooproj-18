@@ -43,34 +43,35 @@ public class FiringController implements IEntityController{
 		for(int i = 0; i < models.size(); i++){
 			BulletModel currentModel = models.get(i);
 			Body currentBody = currentModel.getBody();
+			
 			if(currentBody != null){
-			if(currentBody.isActive()){
+				if(currentBody.isActive()){
 
-				this.views.add(new BulletView(currentModel));
-				// To get the distance we take the position from where the bullet was fired minus the current position
-				this.distance = Math.abs(currentModel.getPosMeters().x - currentModel.getFirstPos().x);
+					this.views.add(new BulletView(currentModel));
+					// To get the distance we take the position from where the bullet was fired minus the current position
+					this.distance = Math.abs(currentModel.getPosMeters().x - currentModel.getFirstPos().x);
 		
-				if(!currentModel.isMoving()){
-					if(currentModel.getNavigation() == Navigation.WEST){
-						System.out.println("WEST");
+					if(!currentModel.isMoving()){
+						if(currentModel.getNavigation() == Navigation.WEST){
+							System.out.println("WEST");
 
-						currentBody.applyForce(currentBody.getWorldVector(new Vec2(-10.0f, 0.0f)), currentBody.getPosition());
-						models.get(i).setMoving(true);
-					}else if(currentModel.getNavigation() == Navigation.EAST){
-						System.out.println("EAST");
+							currentBody.applyForce(currentBody.getWorldVector(new Vec2(-10.0f, 0.0f)), currentBody.getPosition());
+							models.get(i).setMoving(true);
+						}else if(currentModel.getNavigation() == Navigation.EAST){
+							System.out.println("EAST");
 
-						currentBody.applyForce(currentBody.getWorldVector(new Vec2(10.0f, 0.0f)), currentBody.getPosition());
-						models.get(i).setMoving(true);
-					}
+							currentBody.applyForce(currentBody.getWorldVector(new Vec2(10.0f, 0.0f)), currentBody.getPosition());
+							models.get(i).setMoving(true);
+						}
 		
-				} else if(currentModel.getRange() < this.distance){
+					} else if(currentModel.getRange() < this.distance){
 						currentModel.destroyEntity();
 						
-				} else if(!currentModel.isAlive()){
-					currentModel.destroyEntity();
+					} else if(!currentModel.isAlive()){
+						currentModel.destroyEntity();
 
-				}
-			} 
+					}
+				} 
 			}else{
 				for(int j = 0; j < views.size(); j++){
 					if((views.get(j)).getID() == currentModel.getID()){

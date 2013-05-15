@@ -13,6 +13,7 @@ public class MainMenuState extends BasicGameState {
 	private int stateID = -1;
 	private final String PATH = "res/MainMenu/";
 	
+	private Image title = null;
 	private Image background = null;
 	private Image startGame = null;
 	private Image startGameHighlighted = null;
@@ -23,14 +24,14 @@ public class MainMenuState extends BasicGameState {
 	private Image options = null;
 	private Image optionsHighlighted = null;
 	
-	private static int startMenuX = 230;
-	private static int startMenuY = 150;
-	private static int optionsMenuX = 230;
-	private static int optionsMenuY = 350;
-	private static int loadGameMenuX = 230;
-	private static int loadGameMenuY = 250;
-	private static int endGameX = 230;
-	private static int endGameY = 450;
+	private static int startMenuX = 330;
+	private static int startMenuY = 170;
+	private static int optionsMenuX = 330;
+	private static int optionsMenuY = 370;
+	private static int loadGameMenuX = 330;
+	private static int loadGameMenuY = 270;
+	private static int endGameX = 330;
+	private static int endGameY = 470;
 	
 	private boolean insideStartGame = false;
 	private boolean insideOptionsMenu = false;
@@ -54,8 +55,9 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		background = new Image(PATH+"MainMenu.png");
-		startGame = new Image(PATH+"startgame.png");
+		title = new Image("res/title.png");
+		background = new Image("res/Background.png");
+		startGame = new Image(PATH+"Startgame.png");
 		startGameHighlighted = new Image(PATH+"StartgameHighlighted.png");
 		endGame = new Image(PATH+"endgame.png");
 		endGameHighlighted = new Image(PATH+"endgamehighlighted.png");
@@ -71,6 +73,7 @@ public class MainMenuState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		background.draw(0,0);
+		title.draw(0,0);
 		
 		if(insideStartGame){
 			startGameHighlighted.draw(startMenuX, startMenuY);

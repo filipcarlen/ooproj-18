@@ -122,16 +122,11 @@ public class CollisionDetection  implements ContactListener{
 			bulletModel = (BulletModel)objectA;
 			
 			if(objectB instanceof BulletModel) {
-				bulletModel.setAlive(false);
 				((BulletModel)objectB).setAlive(false);
 			}
-					
-			else if(objectB instanceof SwordModel) {
-				bulletModel.setAlive(false);
-			}
-			else{
-				bulletModel.setAlive(false);
-			}
+			
+			bulletModel.setAlive(false);
+
 		}
 				
 		// Check if objectB of the collision is a bullet and check what objectA is too 
@@ -139,13 +134,8 @@ public class CollisionDetection  implements ContactListener{
 		else if(objectB instanceof BulletModel){
 					
 			bulletModel = (BulletModel)objectB;
-			
-			if(objectA instanceof SwordModel) {
-				bulletModel.setAlive(false);
-			}
-			else{
-				bulletModel.setAlive(false);
-			}
+			bulletModel.setAlive(false);
+
 		}
 		
 		System.out.println(objectA + "\n" + objectB);
