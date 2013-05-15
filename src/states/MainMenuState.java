@@ -9,6 +9,8 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.Sounds;
+
 public class MainMenuState extends BasicGameState {
 	
 	private int stateID = -1;
@@ -57,7 +59,7 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		soundtrack = new Sound(PATH+"Soundtrack.wav");
+		soundtrack = Sounds.getInstance().soundtrack;
 		soundtrack.loop();
 		title = new Image("res/title.png");
 		background = new Image("res/Background.png");
