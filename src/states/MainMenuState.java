@@ -58,7 +58,7 @@ public class MainMenuState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 		soundtrack = new Sound(PATH+"Soundtrack.wav");
-		soundtrack.loop(0, 1f);
+		soundtrack.loop();
 		title = new Image("res/title.png");
 		background = new Image("res/Background.png");
 		startGame = new Image(PATH+"Startgame.png");
