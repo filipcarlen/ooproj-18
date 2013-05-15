@@ -16,9 +16,19 @@ public class GameOverState extends BasicGameState{
 	private Animation coin;
 	private Animation gem;
 	private Animation dancingHero;
+	private Animation sadHero;
 	private Animation discoBall;
+	private Image failSign;
 	private Image danceFloor;
-	private Image zero, one, two, three, four, five, six, seven, eight, nine;
+	private Image zero, one, two, three, four, five, six, seven, eight, nine, cross;
+	private Image playAgain, playAgainH;
+	private Image tryAgain, tryAgainH;
+	private Image mainMenu, mainMenuH;
+	private Image quit, quitH;
+	private Image total, points;
+	private Image youWin, youLose;
+	
+	private Image background;
 	
 	
 	
@@ -36,6 +46,7 @@ public class GameOverState extends BasicGameState{
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
+		this.background.draw(0,0);
 		
 	}
 
