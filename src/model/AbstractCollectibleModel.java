@@ -63,8 +63,8 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	   	 
 	   	 
 	   	 fixturedef.filter.groupIndex = -1;
-	   	fixturedef.filter.maskBits = 65;
-	   	fixturedef.filter.categoryBits = 6;
+	   	 //fixturedef.filter.maskBits = 555;
+	   	 //fixturedef.filter.categoryBits = 4;
 	   	 
 	   	 body.setUserData(this);
 	   	 bodyExists = true;

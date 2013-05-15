@@ -82,8 +82,8 @@ public class BulletModel implements IEntityModel{
 		fd.density = 0.5f;
 		fd.friction = 0.3f;
 		fd.restitution = 0.5f;
-		fd.filter.maskBits = 65;
-		fd.filter.categoryBits = 4;
+		//fd.filter.maskBits = 555;
+		//fd.filter.categoryBits = 4;
 		
 		this.bulletBody = this.world.createBody(bd);
 		this.bulletBody.createFixture(fd);

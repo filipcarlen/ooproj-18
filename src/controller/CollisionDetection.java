@@ -57,7 +57,7 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectB of the collision is the hero and check what objectA is too 
 		// make the right changes.
-		if(objectB ==  PlayState.getHeroModel()){
+		else if(objectB ==  PlayState.getHeroModel()){
 			
 			heroModel = (HeroModel)objectB;
 			
@@ -86,7 +86,7 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectA of the collision is a moving foe and check what objectB is too 
 		// make the right changes.
-		if(objectA instanceof MovingFoeModel){
+		else if(objectA instanceof MovingFoeModel){
 	
 			foeModel = (MovingFoeModel)objectA;
 			
@@ -102,7 +102,7 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectB of the collision is a moving foe and check what objectA is too 
 		// make the right changes.
-		if(objectB instanceof MovingFoeModel){
+		else if(objectB instanceof MovingFoeModel){
 			
 			foeModel = (MovingFoeModel)objectB;
 			
@@ -118,7 +118,7 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectA of the collision is a bullet and check what objectB is too 
 		// make the right changes.
-		if(objectA instanceof BulletModel){
+		else if(objectA instanceof BulletModel){
 			bulletModel = (BulletModel)objectA;
 					
 			if(objectB instanceof ICollectibleModel){
@@ -144,7 +144,7 @@ public class CollisionDetection  implements ContactListener{
 				
 		// Check if objectB of the collision is a bullet and check what objectA is too 
 		// make the right changes.
-		if(objectB instanceof BulletModel){
+		else if(objectB instanceof BulletModel){
 					
 			bulletModel = (BulletModel)objectB;
 			
