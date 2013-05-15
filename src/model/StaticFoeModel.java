@@ -57,6 +57,8 @@ public class StaticFoeModel implements IEntityModel {
 		fixDef.friction = 0.0f;
 		fixDef.restitution = 2f;
 		fixDef.filter.groupIndex = -1;
+		fixDef.filter.categoryBits = 4;
+		fixDef.filter.maskBits = 555;
 		
 		body = this.world.createBody(bodyDef);
 		body.createFixture(fixDef);

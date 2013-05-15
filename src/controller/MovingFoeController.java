@@ -9,6 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import states.PlayState;
 import utils.Navigation;
+import utils.Utils;
 import view.MovingFoeView;
 
 public class MovingFoeController implements IEntityController {
@@ -26,8 +27,9 @@ public class MovingFoeController implements IEntityController {
 		Vec2 right = this.model.getBody().getWorldVector(new Vec2(-0.05f, 0.0f));
 		Vec2 left = this.model.getBody().getWorldVector(new Vec2(0.05f, 0.0f));
 		
-		Vec2 heroPos = PlayState.getHeroModel().getPosPixels();
-		Vec2 diffVec = this.model.getPosPixels().sub(heroPos);
+		Vec2 heroPos = Utils.metersToPixels(PlayState.getHeroModel().getPosMeters());
+		Vec2 foePos = Utils.metersToPixels(this.model.getPosMeters());
+		Vec2 diffVec = foePos.sub(heroPos);
 			
 		this.model.getBody().setLinearDamping(2.5f);
 			
@@ -35,28 +37,40 @@ public class MovingFoeController implements IEntityController {
 		if(diffVec.length() < this.model.SIGHT_RANGE){
 				
 			//Make this foe walk towards the hero and set the correct animation. 
-			if((heroPos.x < this.model.getPosPixels().x) && 
+			if((heroPos.x < foePos.x) && 
 					!(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), PlayState.getHeroModel().getPosMeters()))){
 				
 				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
 				this.model.getBody().applyLinearImpulse(left, this.model.getPosMeters());
 				
-			} else if ((heroPos.x > this.model.getPosPixels().x) && 
+			} else if((heroPos.x > foePos.x) && 
 					!(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), PlayState.getHeroModel().getPosMeters()))){
 				
 				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
 				this.model.getBody().applyLinearImpulse(right, this.model.getPosMeters());
+				
+			} else if((heroPos.x < foePos.x) && (Math.abs(foePos.y-heroPos.y)>=(Utils.METER_IN_PIXELS/2))) {
+				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
+				this.model.getBody().applyLinearImpulse(left, this.model.getPosMeters());
+				
+			} else if((heroPos.x > foePos.x) && (Math.abs(foePos.y-heroPos.y)>=(Utils.METER_IN_PIXELS/2))) {
+				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
+				this.model.getBody().applyLinearImpulse(right, this.model.getPosMeters());
+				
 			}
 			
 			//Attack the hero if he/she is within the range of this foe's weapon.
-			if(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), PlayState.getHeroModel().getPosMeters())){
+			if((this.model.getWeapon().isWithinRange(this.model.getPosMeters(), PlayState.getHeroModel().getPosMeters())) && 
+					(Math.abs(foePos.y-heroPos.y)<(Utils.METER_IN_PIXELS/2))){
 					
 				if(heroPos.x < this.model.getPosPixels().x) {
-					this.model.getWeapon().fight(this.model.getBody(),Navigation.WEST);
-					this.view.setCurrentAnim(MovingFoeView.AnimationType.SWORD_LEFT);
+					if(this.model.getWeapon().fight(this.model.getBody(),Navigation.WEST)){
+						this.view.setCurrentAnim(MovingFoeView.AnimationType.GUN_LEFT);
+					}
 				} else if(heroPos.x > this.model.getPosPixels().x) {
-					this.model.getWeapon().fight(this.model.getBody(),Navigation.EAST);
-					this.view.setCurrentAnim(MovingFoeView.AnimationType.SWORD_RIGHT);
+					if(this.model.getWeapon().fight(this.model.getBody(),Navigation.EAST)){
+						this.view.setCurrentAnim(MovingFoeView.AnimationType.GUN_RIGHT);
+					}
 				}
 			}
 		}
@@ -69,6 +83,7 @@ public class MovingFoeController implements IEntityController {
 		if(this.model.isAlive()) {
 			this.view.render(gc, sbg, g);
 		} else {
+			this.model.destroyEntity();
 			PlayState.removeEntity(this.model.getID());
 		}
 	}

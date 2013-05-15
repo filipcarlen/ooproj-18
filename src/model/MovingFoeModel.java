@@ -110,11 +110,11 @@ public class MovingFoeModel implements IAliveModel{
 
 	@Override
 	public void hurt(int hpDecrement) {
-		if(!(hp - hpDecrement < 0)){
+		if(!(hp - hpDecrement <= 0)){
 			this.hp -= hpDecrement;
 		} else {
 			this.hp = 0;
-			this.destroyEntity();
+			this.isAlive = false;
 		}
 	}
 
@@ -128,8 +128,7 @@ public class MovingFoeModel implements IAliveModel{
 	}
 	
 	public void destroyEntity(){
-		this.world.destroyBody(this.body);
-		this.isAlive = false;
+		this.body.getWorld().destroyBody(this.body);
 	}
 	
 	public boolean isAlive() {
