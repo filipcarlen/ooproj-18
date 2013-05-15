@@ -40,7 +40,7 @@ public class Controls {
 	private Controls(){
 		loadCommands();
 		try {
-			bindToKey(CMD_PAUSE, Input.KEY_ESCAPE);
+			bindToKey(CMD_PAUSE, Input.KEY_ESCAPE, Input.KEY_P);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -125,7 +125,7 @@ public class Controls {
 	 * @param key - Gives the integer to the key 
 	 * @throws SlickException - when a string that isn't use as a command is put in method
 	 */
-	public void bindToKey(String s, int key, int key1) throws Exception{
+	public void bindToKey(String s, int key, int key1) throws SlickException{
 		bindToKey(s, key);
 		bindToKey(s, key1);
 	}
@@ -137,7 +137,7 @@ public class Controls {
 	 * 			false- if the string isn't binded to a key
 	 */
 	public boolean check(String s){
-		if(!s.equals(CMD_JUMP) && !s.equals(CMD_FIGHT)){
+		if(!s.equals(CMD_JUMP) && !s.equals(CMD_FIGHT) && !s.equals(CMD_PAUSE)){
 			for(int i = 0; i < keys.get(s).size(); i++){
 				if(input.isKeyDown(keys.get(s).get(i)))
 					return input.isKeyDown(keys.get(s).get(i));
