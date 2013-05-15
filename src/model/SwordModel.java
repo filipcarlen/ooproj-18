@@ -69,11 +69,12 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	}
 	
 	@Override
-	public void fight(Body fighterBody, Navigation navigation) {
+	public boolean fight(Body fighterBody, Navigation navigation) {
 		this.fighterBody = fighterBody;
 		this.firstPos = fighterBody.getPosition();
 		init(this.firstPos);
 		this.fighting = true;
+		return true;
 			
 	}
 	@Override

@@ -44,6 +44,9 @@ public class BulletModel implements IEntityModel{
  	
  	private boolean isMoving = false;
  	
+ 	
+ 	private boolean isAlive;
+ 	
  	/** The ID of this Bullet */
  	private int id;
 
@@ -82,8 +85,8 @@ public class BulletModel implements IEntityModel{
 		fd.density = 0.5f;
 		fd.friction = 0.3f;
 		fd.restitution = 0.5f;
-		//fd.filter.maskBits = 555;
-		//fd.filter.categoryBits = 4;
+		fd.filter.maskBits = 555;
+		fd.filter.categoryBits = 4;
 		
 		this.bulletBody = this.world.createBody(bd);
 		this.bulletBody.createFixture(fd);
@@ -99,6 +102,7 @@ public class BulletModel implements IEntityModel{
 	
 	public void fight(Body fighterBody, Navigation navigation){
 		System.out.println("fight() in BulletModel");
+		this.isAlive = true;
 		this.navigation = navigation;
 		this.fighterBody = fighterBody;
 		this.firstPos = fighterBody.getPosition().clone();
@@ -111,6 +115,12 @@ public class BulletModel implements IEntityModel{
 	}
 	public boolean isMoving(){
 		return this.isMoving;
+	}
+	public boolean isAlive(){
+		return this.isAlive;
+	}
+	public void setAlive(boolean isAlive){
+		this.isAlive = isAlive;
 	}
 	/**
 	 * A method used to destroy the body of this bullet

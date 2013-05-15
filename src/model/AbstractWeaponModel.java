@@ -65,7 +65,7 @@ public abstract class AbstractWeaponModel {
 	}
 
 	
-	public abstract void fight(Body fighterBody,  Navigation navigation);
+	public abstract boolean fight(Body fighterBody,  Navigation navigation);
 
 	
 

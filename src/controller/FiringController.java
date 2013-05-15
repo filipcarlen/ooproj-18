@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
@@ -40,34 +41,39 @@ public class FiringController implements IEntityController{
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		
 		for(int i = 0; i < models.size(); i++){
-			if(models.get(i).getBody() != null){
-			if(models.get(i).getBody().isActive()){
+			BulletModel currentModel = models.get(i);
+			Body currentBody = currentModel.getBody();
+			if(currentBody != null){
+			if(currentBody.isActive()){
 
-				this.views.add(new BulletView(this.models.get(i)));
+				this.views.add(new BulletView(currentModel));
 				// To get the distance we take the position from where the bullet was fired minus the current position
-				this.distance = Math.abs(this.models.get(i).getPosMeters().x - this.models.get(i).getFirstPos().x);
+				this.distance = Math.abs(currentModel.getPosMeters().x - currentModel.getFirstPos().x);
 		
-				if(!models.get(i).isMoving()){
-					if(this.models.get(i).getNavigation() == Navigation.WEST){
+				if(!currentModel.isMoving()){
+					if(currentModel.getNavigation() == Navigation.WEST){
 						System.out.println("WEST");
 
-						this.models.get(i).getBody().applyForce(this.models.get(i).getBody().getWorldVector(new Vec2(-10.0f, 0.0f)), this.models.get(i).getBody().getPosition());
+						currentBody.applyForce(currentBody.getWorldVector(new Vec2(-10.0f, 0.0f)), currentBody.getPosition());
 						models.get(i).setMoving(true);
-					}else if(this.models.get(i).getNavigation() == Navigation.EAST){
+					}else if(currentModel.getNavigation() == Navigation.EAST){
 						System.out.println("EAST");
 
-						this.models.get(i).getBody().applyForce(this.models.get(i).getBody().getWorldVector(new Vec2(10.0f, 0.0f)), this.models.get(i).getBody().getPosition());
+						currentBody.applyForce(currentBody.getWorldVector(new Vec2(10.0f, 0.0f)), currentBody.getPosition());
 						models.get(i).setMoving(true);
 					}
 		
-				} else if(this.models.get(i).getRange() < this.distance){
-						this.models.get(i).destroyEntity();
+				} else if(currentModel.getRange() < this.distance){
+						currentModel.destroyEntity();
 						
+				} else if(!currentModel.isAlive()){
+					currentModel.destroyEntity();
+
 				}
 			} 
 			}else{
 				for(int j = 0; j < views.size(); j++){
-					if((views.get(j)).getID() == models.get(i).getID()){
+					if((views.get(j)).getID() == currentModel.getID()){
 						views.remove(j);
 						return ;
 
