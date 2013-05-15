@@ -84,22 +84,15 @@ public class CollisionDetection  implements ContactListener{
 			}
 		}
 		
-		// Check if objectB of the collision is a moving foe and check what objectA is too 
+		// Check if objectA of the collision is a moving foe and check what objectB is too 
 		// make the right changes.
 		if(objectA instanceof MovingFoeModel){
 	
 			foeModel = (MovingFoeModel)objectA;
 			
-			if(objectB instanceof ICollectibleModel){
-				
-			}
-			
-			else if(objectB instanceof StaticFoeModel) {
-				foeModel.hurt(((StaticFoeModel)objectB).getDamage());
-			}
-			
-			else if(objectB instanceof BulletModel) {
+			if(objectB instanceof BulletModel) {
 				foeModel.hurt(((BulletModel)objectB).getDamage());
+				((BulletModel)objectB).destroyEntity();
 			}
 			
 			else if(objectB instanceof SwordModel) {
@@ -112,17 +105,10 @@ public class CollisionDetection  implements ContactListener{
 		if(objectB instanceof MovingFoeModel){
 			
 			foeModel = (MovingFoeModel)objectB;
-	
-			if(objectA instanceof ICollectibleModel){
-				
-			}
 			
-			else if(objectA instanceof StaticFoeModel) {
-				foeModel.hurt(((StaticFoeModel)objectA).getDamage());
-			}
-			
-			else if(objectA instanceof BulletModel) {
+			if(objectA instanceof BulletModel) {
 				foeModel.hurt(((BulletModel)objectA).getDamage());
+				((BulletModel)objectA).destroyEntity();
 			}
 			
 			else if(objectA instanceof SwordModel) {
@@ -130,7 +116,7 @@ public class CollisionDetection  implements ContactListener{
 			}
 		}
 		
-		// Check if objectA of the collision is a bullet and check what objectA is too 
+		// Check if objectA of the collision is a bullet and check what objectB is too 
 		// make the right changes.
 		if(objectA instanceof BulletModel){
 			bulletModel = (BulletModel)objectA;
@@ -140,11 +126,6 @@ public class CollisionDetection  implements ContactListener{
 			}
 					
 			else if(objectB instanceof StaticFoeModel) {
-				bulletModel.destroyEntity();
-			}
-					
-			else if(objectB instanceof MovingFoeModel) {
-				((MovingFoeModel)objectB).hurt(bulletModel.getDamage());
 				bulletModel.destroyEntity();
 			}
 			
@@ -169,11 +150,6 @@ public class CollisionDetection  implements ContactListener{
 			}
 					
 			else if(objectA instanceof StaticFoeModel) {
-				bulletModel.destroyEntity();
-			}
-					
-			else if(objectA instanceof MovingFoeModel) {
-				((MovingFoeModel)objectA).hurt(bulletModel.getDamage());
 				bulletModel.destroyEntity();
 			}
 					
