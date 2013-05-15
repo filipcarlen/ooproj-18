@@ -19,10 +19,12 @@ import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Camera;
+import utils.Controls;
 import view.HeroView;
 import view.StaticFoeView;
 import controller.CollectibleController;
@@ -74,12 +76,12 @@ public class PlayState extends BasicGameState{
 		world.setContactListener(cd);
 		wm = new WorldMap(world, true, "test1");
 		//Weapon Create
-		GunModel gm = new GunModel(world, 500);
+		GunModel gm = new GunModel(world, 200);
 		firingCont = new FiringController(gm, -1);
 		GunModel gmE = new GunModel(world, 2000, 20, 15);
 		firingContE = new FiringController(gmE, 3);
 		// Creating a character
-		hero = new HeroModel(world, "hero", gm);
+		hero = new HeroModel(world ,"hero", new Vector2f(0,2800), 50,50, gm);
 		contHero = new HeroController(hero);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), wm.getWorldWidth(), wm.getWorldHeight(), new Rectangle(300,200), hero.getPosPixels());
@@ -96,6 +98,10 @@ public class PlayState extends BasicGameState{
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		if(Controls.getInstance().check("pause")){
+			this.pauseUpdate();
+			this.pauseRender();
+		}
 		wm.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 		firingCont.render(gc, sbg, g);
 		firingContE.render(gc, sbg, g);
