@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -12,6 +13,7 @@ public class MainMenuState extends BasicGameState {
 	
 	private int stateID = -1;
 	private final String PATH = "res/MainMenu/";
+	private Sound soundtrack = null;
 	
 	private Image title = null;
 	private Image background = null;
@@ -55,6 +57,8 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
+		soundtrack = new Sound(PATH+"Soundtrack.wav");
+		soundtrack.loop(0, 1f);
 		title = new Image("res/title.png");
 		background = new Image("res/Background.png");
 		startGame = new Image(PATH+"Startgame.png");
