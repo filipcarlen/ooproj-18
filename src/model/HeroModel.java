@@ -54,27 +54,7 @@ public class HeroModel implements IAliveModel{
 		this.width = width/2/Utils.METER_IN_PIXELS;
 		this.height = height/2/Utils.METER_IN_PIXELS;
 		
-		/* Create the Body defination*/
-		BodyDef b = new BodyDef();
-		b.type = BodyType.DYNAMIC;
-		b.position.set(pos.x/Utils.METER_IN_PIXELS , pos.y/Utils.METER_IN_PIXELS );
-		b.angle = MathUtils.PI;
-		/* Creating the structure*/
-		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(this.width, this.height);
-		/* The Fixture*/
-		FixtureDef fd = new FixtureDef();
-		fd.filter.categoryBits = 2;
-		fd.filter.maskBits = 333;
-		fd.density = 0.1f;
-		fd.friction = 0.0f;
-		fd.restitution = 0.0f;
-		fd.shape = pg;
-		/* Creating an body in the world and applying a Fixture to the body*/
-		body = w.createBody(b);
-		body.createFixture(fd);
-		body.setUserData(this);
-		body.setFixedRotation(true);
+		init(w, pos);
 		dead = false;
 		/* Gives The hero a weapon*/
 		if(weapon != null){
@@ -97,6 +77,10 @@ public class HeroModel implements IAliveModel{
 	 */
 	public void collectCoin(int c){
 		collectedItem += c;
+	}
+	
+	public void destroyBody(){
+		body.getWorld().destroyBody(body);
 	}
 	
 	/**
@@ -226,6 +210,30 @@ public class HeroModel implements IAliveModel{
 	public void incrementKillCount(){
 		killCount += 1;
 	}
+	
+	public void init(World w, Vector2f pos){
+		/* Create the Body defination*/
+		BodyDef b = new BodyDef();
+		b.type = BodyType.DYNAMIC;
+		b.position.set(pos.x/Utils.METER_IN_PIXELS , pos.y/Utils.METER_IN_PIXELS );
+		b.angle = MathUtils.PI;
+		/* Creating the structure*/
+		PolygonShape pg = new PolygonShape();
+		pg.setAsBox(this.width, this.height);
+		/* The Fixture*/
+		FixtureDef fd = new FixtureDef();
+		fd.filter.categoryBits = 2;
+		fd.filter.maskBits = 333;
+		fd.density = 0.1f;
+		fd.friction = 0.0f;
+		fd.restitution = 0.0f;
+		fd.shape = pg;
+		/* Creating an body in the world and applying a Fixture to the body*/
+		body = w.createBody(b);
+		body.createFixture(fd);
+		body.setUserData(this);
+		body.setFixedRotation(true);
+	}
 
 	/**
 	 * Method to se if you are dead or not
@@ -248,12 +256,11 @@ public class HeroModel implements IAliveModel{
 	 */
 	public void setDirection(Navigation n){
 		this.direction = n;
-	} 
+	}
 	
 	@Override
 	public void setHp(int hp){
 		if(hp <= 0){
-			body.getWorld().destroyBody(body);
 			dead= true;
 		}else if(hp >getMaxHp()){
 			this.hp = getMaxHp();

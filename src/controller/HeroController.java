@@ -155,6 +155,7 @@ public class HeroController implements IEntityController {
 			g.drawString("Coins:" + model.getCollectedCoins() +
 					"\nKills:" + model.getKills(), gc.getWidth() -100, 2);
 		} else {
+			model.destroyBody();
 			PlayState.removeHero();
 		}
 	}

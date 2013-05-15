@@ -165,6 +165,5 @@ public class PlayState extends BasicGameState{
 
 	public static void removeHero() {
 		contHero = null;
-		hero = null;
 	}
 }
