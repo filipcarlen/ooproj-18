@@ -39,6 +39,11 @@ public class CollisionDetection  implements ContactListener{
 			else if(objectB instanceof ICollectibleModel){
 				((AbstractCollectibleModel)objectB).killBody();
 				heroModel.collectCoin(((AbstractCollectibleModel)objectB).getValue());
+				if(objectB instanceof GemModel){
+					heroModel.incrementGem();
+				}else{
+					heroModel.incrementCoin();
+				}
 			}
 			
 			else if(objectB instanceof StaticFoeModel) {
@@ -68,6 +73,11 @@ public class CollisionDetection  implements ContactListener{
 			else if(objectA instanceof ICollectibleModel){
 				((AbstractCollectibleModel)objectA).killBody();
 				heroModel.collectCoin(((AbstractCollectibleModel)objectB).getValue());
+				if(objectA instanceof GemModel){
+					heroModel.incrementGem();
+				}else{
+					heroModel.incrementCoin();
+				}
 			}
 			
 			else if(objectA instanceof StaticFoeModel) {

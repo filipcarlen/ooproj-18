@@ -25,6 +25,10 @@ public class HeroModel implements IAliveModel{
 	private int killCount = 0;
 	private int collectedItem = 0;
 	
+	/* Loads the amoun of coins and gems*/
+	private int coinAmount= 0;
+	private int gemAmount = 0;
+	
 	/* The Dimension of the hero*/
 	private float width;
 	private float height;
@@ -96,6 +100,14 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	/**
+	 * 
+	 * @return - The current amount of coins the hero has collected
+	 */
+	public int getCoinAmount(){
+		return coinAmount;
+	}
+	
+	/**
 	 * @return - The Direction that the hero is heading
 	 */
 	public Navigation getDirection(){
@@ -107,6 +119,14 @@ public class HeroModel implements IAliveModel{
 	 */
 	public int getDoubleJump(){
 		return doubleJump;
+	}
+	
+	/**
+	 * 
+	 * @return - the current amount of gems
+	 */
+	public int getGemAmount(){
+		return gemAmount;
 	}
 	
 	/**
@@ -195,6 +215,20 @@ public class HeroModel implements IAliveModel{
 	@Override
 	public void hurt(int hpDecrement){
 		setHp(getHp()-hpDecrement);
+	}
+	
+	/**
+	 * Increments the amount of coins
+	 */
+	public void incrementCoin(){
+		coinAmount +=1;
+	}
+	
+	/**
+	 * Increments the amount of gems
+	 */
+	public void incrementGem(){
+		gemAmount +=1;
 	}
 	
 	/**
