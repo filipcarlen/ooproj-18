@@ -194,7 +194,7 @@ public class HeroController implements IEntityController{
 			g.fillRect(tmp.x+1, tmp.y - 14, model.getHp(), 10);
 			g.setColor(Color.white);
 		}else{
-			PlayState.removeHeroController(this);
+			PlayState.removeHero();
 		}
 	}
 
