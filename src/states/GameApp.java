@@ -2,8 +2,11 @@ package states;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import utils.Controls;
 
 public class GameApp extends StateBasedGame{
 	public static final String gamename = "The Game";
@@ -23,6 +26,22 @@ public class GameApp extends StateBasedGame{
 		//this.getState(MAINMENUSTATE).init(gc, this);
 		//this.getState(PLAYSTATE).init(gc, this);
 		//this.getState(OPTIONSSTATE).init(gc, this);
+
+	}
+	
+	@Override
+	public void update(GameContainer gc, int delta){
+		try {
+			super.update(gc, delta);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		if(this.getCurrentStateID() == PLAYSTATE){
+			if(Controls.getInstance().check("pause") && this.getState(PLAYSTATE).isUpdatePaused()){
+				this.getState(PLAYSTATE).unpauseRender();
+				this.getState(PLAYSTATE).unpauseUpdate();
+			}
+		}
 	}
 	
 	public static void main(String []args){

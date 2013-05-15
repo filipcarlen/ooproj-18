@@ -98,10 +98,6 @@ public class PlayState extends BasicGameState{
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		if(Controls.getInstance().check("pause")){
-			this.pauseUpdate();
-			this.pauseRender();
-		}
 		wm.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 		firingCont.render(gc, sbg, g);
 		firingContE.render(gc, sbg, g);
@@ -127,6 +123,9 @@ public class PlayState extends BasicGameState{
 
 		for(int i = 0; i < controllers.size(); i++){
 			controllers.get(i).update(gc, sbg, delta);
+		}
+		if(Controls.getInstance().check("pause")){
+			this.pauseUpdate();
 		}
 	}
 
