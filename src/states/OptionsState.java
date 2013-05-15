@@ -26,7 +26,7 @@ public class OptionsState extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		background = new Image(PATH+"optionsbackground.png");
+		background = new Image("res/Background.png");
 		back = new Image(PATH+"back.png");
 		backHighlighted = new Image(PATH+"backhighlighted.png");
 		
