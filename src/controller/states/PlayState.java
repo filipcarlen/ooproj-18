@@ -1,4 +1,4 @@
-package states;
+package controller.states;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
