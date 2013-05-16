@@ -65,7 +65,7 @@ public abstract class AbstractWeaponModel {
 	}
 
 	
-	public abstract boolean fight(Body fighterBody,  Navigation navigation);
+	public abstract boolean fight(IAliveModel fighterModel,  Navigation navigation);
 
 	
 

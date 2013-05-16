@@ -47,13 +47,13 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 	}
 
 
-	public boolean fight(Body fighterBody, Navigation navigation){
+	public boolean fight(IAliveModel fighterModel, Navigation navigation){
 		
 		// är timern igång??
 		if(!timer.isRunning()){
 			for(int i = 0; i < bulletModels.size(); i++){
 				if(bulletModels.get(i).getBody() == null){
-					bulletModels.get(i).fight(fighterBody, navigation);
+					bulletModels.get(i).fight(fighterModel, navigation);
 					// timer startas
 					timer.start();
 					return true;

@@ -22,6 +22,7 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 
 	private Body body;
 	private Vec2 firstPos;
+	private IAliveModel fighterModel;
 	private Body fighterBody;
 	private boolean fighting;
 	
@@ -69,8 +70,9 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	}
 	
 	@Override
-	public boolean fight(Body fighterBody, Navigation navigation) {
-		this.fighterBody = fighterBody;
+	public boolean fight(IAliveModel fighterModel, Navigation navigation) {
+		this.fighterModel = fighterModel;
+		this.fighterBody = fighterModel.getBody();
 		this.firstPos = fighterBody.getPosition();
 		init(this.firstPos);
 		this.fighting = true;

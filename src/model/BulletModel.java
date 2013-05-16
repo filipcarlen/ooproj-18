@@ -35,6 +35,9 @@ public class BulletModel implements IEntityModel{
 	/** The first position of the Bullet, from where it leaves the Gun */
 	private Vec2 firstPos;
 	
+	
+	private IAliveModel fighterModel;
+	
 	/** The position of the character firing the Gun */
 	private Body fighterBody;
 	
@@ -72,9 +75,10 @@ public class BulletModel implements IEntityModel{
 		bd.gravityScale = 0;
 		if(this.navigation == Navigation.EAST){
 			// antagligen inte det bästa sättet att lösa det på, x-positionen borde gå att få på något mer logiskt sätt.
-			bd.position.set(fighterPos.x + fighterBody.getFixtureList().getShape().getRadius() + Utils.pixelsToMeters(this.RADIUS*8), fighterPos.y);
+			System.out.println(fighterBody.getFixtureList().getShape().getRadius());
+			bd.position.set(fighterPos.x + fighterModel.getWidth() + this.RADIUS, fighterPos.y);
 		} else if(this.navigation == Navigation.WEST){
-			bd.position.set(fighterPos.x - fighterBody.getFixtureList().getShape().getRadius() - Utils.pixelsToMeters(this.RADIUS*8), fighterPos.y);
+			bd.position.set(fighterPos.x - fighterModel.getWidth() - this.RADIUS, fighterPos.y);
 
 		}
 		CircleShape cs = new CircleShape();
@@ -82,8 +86,8 @@ public class BulletModel implements IEntityModel{
 		
 		FixtureDef fd = new FixtureDef();
 		fd.shape = cs;
-		fd.density = 0.5f;
-		fd.friction = 0.3f;
+		fd.density = 0.1f;
+		fd.friction = 0.0f;
 		fd.restitution = 0.5f;
 		fd.filter.maskBits = 555;
 		fd.filter.categoryBits = 4;
@@ -100,12 +104,13 @@ public class BulletModel implements IEntityModel{
 		
 	}
 	
-	public void fight(Body fighterBody, Navigation navigation){
+	public void fight(IAliveModel fighterModel, Navigation navigation){
 		System.out.println("fight() in BulletModel");
 		this.isAlive = true;
 		this.navigation = navigation;
-		this.fighterBody = fighterBody;
-		this.firstPos = fighterBody.getPosition().clone();
+		this.fighterModel = fighterModel;
+		this.fighterBody = fighterModel.getBody();
+		this.firstPos = this.fighterBody.getPosition().clone();
 		init(firstPos);
 
 	}
