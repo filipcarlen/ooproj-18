@@ -75,10 +75,9 @@ public class BulletModel implements IEntityModel{
 		bd.gravityScale = 0;
 		if(this.navigation == Navigation.EAST){
 			// antagligen inte det bästa sättet att lösa det på, x-positionen borde gå att få på något mer logiskt sätt.
-			System.out.println(fighterBody.getFixtureList().getShape().getRadius());
-			bd.position.set(fighterPos.x + fighterModel.getWidth() + this.RADIUS, fighterPos.y);
+			bd.position.set(fighterPos.x + fighterModel.getWidth()/2 + this.RADIUS, fighterPos.y);
 		} else if(this.navigation == Navigation.WEST){
-			bd.position.set(fighterPos.x - fighterModel.getWidth() - this.RADIUS, fighterPos.y);
+			bd.position.set(fighterPos.x - fighterModel.getWidth()/2 - this.RADIUS, fighterPos.y);
 
 		}
 		CircleShape cs = new CircleShape();
@@ -86,7 +85,7 @@ public class BulletModel implements IEntityModel{
 		
 		FixtureDef fd = new FixtureDef();
 		fd.shape = cs;
-		fd.density = 0.1f;
+		fd.density = 0.4f;
 		fd.friction = 0.0f;
 		fd.restitution = 0.5f;
 		fd.filter.maskBits = 555;

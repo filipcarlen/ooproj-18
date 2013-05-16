@@ -12,19 +12,22 @@ public class GameApp extends StateBasedGame{
 	public static final int MAINMENUSTATE = 0;
 	public static final int PLAYSTATE = 1;
 	public static final int OPTIONSSTATE = 2;
+	public static final int GAMEOVERSTATE = 3;
+
 	
 	public GameApp(String gamename) {
 		super(gamename);
 		this.addState(MainMenuState.getInstance());
-		this.addState(new PlayState(PLAYSTATE));
+		PlayState playState = new PlayState(PLAYSTATE);
+		this.addState(playState);
 		this.addState(new OptionsState(OPTIONSSTATE));
+		GameOverState gameOverState = new GameOverState(GAMEOVERSTATE);
+		gameOverState.setPlayState(playState);
+		this.addState(gameOverState);
 		this.enterState(MAINMENUSTATE);
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException {
-		//this.getState(MAINMENUSTATE).init(gc, this);
-		//this.getState(PLAYSTATE).init(gc, this);
-		//this.getState(OPTIONSSTATE).init(gc, this);
 
 	}
 	
