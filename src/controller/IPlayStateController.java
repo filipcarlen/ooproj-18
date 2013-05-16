@@ -6,7 +6,7 @@ public interface IPlayStateController {
 
 	public HeroController getHeroController();
 	
-	public HeroModel GetHeroModel();
+	public HeroModel getHeroModel();
 	
 	public void removeHero();
 	

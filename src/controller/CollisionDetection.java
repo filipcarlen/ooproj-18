@@ -7,7 +7,6 @@ import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.contacts.Contact;
 
-import states.PlayState;
 import utils.EntityType;
 
 public class CollisionDetection  implements ContactListener{
@@ -27,7 +26,7 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectA of the collision is the hero and check what objectB is too 
 		// make the right changes.
-		if(objectA == PlayState.getHeroModel()){
+		if(objectA instanceof HeroModel){
 			
 			heroModel = (HeroModel)objectA;
 			
@@ -62,7 +61,7 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectB of the collision is the hero and check what objectA is too 
 		// make the right changes.
-		else if(objectB ==  PlayState.getHeroModel()){
+		else if(objectB instanceof HeroModel){
 			
 			heroModel = (HeroModel)objectB;
 			
