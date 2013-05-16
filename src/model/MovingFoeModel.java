@@ -9,7 +9,6 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
-import states.PlayState;
 import utils.Utils;
 
 public class MovingFoeModel implements IAliveModel{
@@ -115,7 +114,6 @@ public class MovingFoeModel implements IAliveModel{
 		} else {
 			this.hp = 0;
 			this.isAlive = false;
-			PlayState.getHeroModel().incrementKillCount();
 		}
 	}
 
