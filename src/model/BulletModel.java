@@ -206,5 +206,13 @@ public class BulletModel implements IEntityModel{
 	public int getID() {
 		return this.id;
 	}
+	@Override
+	public float getHeight() {
+		return this.RADIUS*2;
+	}
+	@Override
+	public float getWidth() {
+		return this.RADIUS*2;
+	}
 		
 }
