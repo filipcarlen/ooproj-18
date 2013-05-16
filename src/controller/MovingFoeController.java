@@ -7,7 +7,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import controller.states.PlayState;
 import utils.Navigation;
 import utils.Utils;
 import view.MovingFoeView;
@@ -88,7 +87,8 @@ public class MovingFoeController implements IEntityController {
 			this.view.render(gc, sbg, g);
 		} else {
 			this.model.destroyEntity();
-			this.playState.GetHeroModel().incrementKillCount();
+			this.playState.getHeroModel().incrementKillCount();
+			this.playState.getHeroModel().incrementScore(this.model.getValue());
 			this.playState.removeEntity(this.model.getID());
 		}
 	}

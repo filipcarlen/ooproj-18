@@ -19,6 +19,8 @@ public class MovingFoeModel implements IAliveModel{
 	
 	private int ID;
 	
+	private int points;
+	
 	private Body body;
 	
 	private final float WIDTH = 30f; 
@@ -38,12 +40,13 @@ public class MovingFoeModel implements IAliveModel{
 	 * @param world The World this enemy will belong to.
 	 * @param pos The position of this enemy's top left corner, in pixels!
 	 */
-	public MovingFoeModel(World world, Vec2 pixelPos, int maxHP, AbstractWeaponModel weapon, int ID) {
+	public MovingFoeModel(World world, Vec2 pixelPos, int maxHP, AbstractWeaponModel weapon, int points, int ID) {
 		this.world = world;
 		this.hp = maxHP;
 		this.weapon = weapon;
 		this.isAlive = true;
 		this.MAX_HP = maxHP;
+		this.points = points;
 		this.ID = ID;
 		init(pixelPos);
 	}
@@ -147,5 +150,9 @@ public class MovingFoeModel implements IAliveModel{
 	@Override
 	public float getHeight() {
 		return Utils.pixelsToMeters(this.HEIGHT);
+	}
+	
+	public int getValue() {
+		return this.points;
 	}
 }
