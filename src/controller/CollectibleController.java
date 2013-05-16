@@ -6,8 +6,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-
-import states.PlayState;
 import view.CollectibleView;
 
 /**
@@ -26,13 +24,16 @@ public class CollectibleController implements IEntityController {
 	/** ID of this CollectibleController */
 	private int id;
 	
+	private IPlayStateController controller;
+	
 	/**
 	 * Constructor creating a CollectibleController
 	 * @param CollectibleModel model
 	 * @throws SlickException
 	 */
-	public CollectibleController(ICollectibleModel model) throws SlickException{	
+	public CollectibleController(ICollectibleModel model, IPlayStateController controller) throws SlickException{	
 		this.model = model;
+		this.controller = controller;
 		this.id = this.model.getID();
 		 view = new CollectibleView(model);
 	}
@@ -45,7 +46,7 @@ public class CollectibleController implements IEntityController {
 		
 		else{
 			model.destroyBody();
-   		 	PlayState.removeEntity(model.getID());
+   		 	controller.removeEntity(model.getID());
    	 	}
 	}
 	
