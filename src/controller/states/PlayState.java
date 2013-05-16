@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import map.WorldMap;
 import map.WorldShapes;
-import model.BulletModel;
 import model.CoinModel;
 import model.GemModel;
 import model.GunModel;
@@ -32,6 +31,7 @@ import controller.CollisionDetection;
 import controller.FiringController;
 import controller.HeroController;
 import controller.IEntityController;
+import controller.IPlayStateController;
 import controller.MovingFoeController;
 import controller.StaticFoeController;
 
@@ -92,9 +92,9 @@ public class PlayState extends BasicGameState implements IPlayStateController{
 		controllers.add(new StaticFoeController((StaticFoeModel)bodies.get(bodies.size()-1), StaticFoeView.StaticFoeType.FIRE));
 		
 		bodies.add(new GemModel(world, new Vec2(470,2720), 1));
-		controllers.add(new CollectibleController((GemModel)bodies.get(bodies.size()-1)));
+		controllers.add(new CollectibleController((GemModel)bodies.get(bodies.size()-1), this));
 		bodies.add(new CoinModel(world,new Vec2(400, 2850), 2));
-		controllers.add(new CollectibleController((CoinModel)bodies.get(bodies.size()-1)));
+		controllers.add(new CollectibleController((CoinModel)bodies.get(bodies.size()-1), this));
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
