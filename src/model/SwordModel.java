@@ -26,7 +26,7 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	private Body fighterBody;
 	private boolean fighting;
 	
-	public final float RADIUS = 0.5f;
+	public final float RADIUS = 5f;
 	
 	
 	public SwordModel(World world, Vec2 myPos){
@@ -94,6 +94,14 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	@Override
 	public int getID() {
 		return -1;
+	}
+	@Override
+	public float getHeight() {
+		return this.RADIUS*2;
+	}
+	@Override
+	public float getWidth() {
+		return this.RADIUS*2;
 	}
 
 }

@@ -115,6 +115,7 @@ public class MovingFoeModel implements IAliveModel{
 		} else {
 			this.hp = 0;
 			this.isAlive = false;
+			PlayState.getHeroModel().incrementKillCount();
 		}
 	}
 
@@ -138,5 +139,15 @@ public class MovingFoeModel implements IAliveModel{
 	@Override
 	public int getID() {
 		return this.ID;
+	}
+	
+	@Override
+	public float getWidth() {
+		return Utils.pixelsToMeters(this.WIDTH);
+	}
+	
+	@Override
+	public float getHeight() {
+		return Utils.pixelsToMeters(this.HEIGHT);
 	}
 }

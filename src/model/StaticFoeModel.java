@@ -90,4 +90,14 @@ public class StaticFoeModel implements IEntityModel {
 	public int getID() {
 		return this.ID;
 	}
+	
+	@Override
+	public float getWidth() {
+		return Utils.pixelsToMeters(this.WIDTH);
+	}
+	
+	@Override
+	public float getHeight() {
+		return Utils.pixelsToMeters(this.HEIGHT);
+	}
 }
