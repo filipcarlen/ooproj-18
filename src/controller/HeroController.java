@@ -8,7 +8,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import states.PlayState;
 import utils.Camera;
 import utils.Controls;
 import utils.Navigation;
@@ -25,6 +24,8 @@ import view.HeroView;
 public class HeroController implements IEntityController {
 	/* A Boolean to check if the Character is in the air or not */
 	private boolean jump;
+	
+	private IPlayStateController pc;
 
 	/*
 	 * This is a count how many times i will apply force in the y axis, this is
@@ -44,11 +45,11 @@ public class HeroController implements IEntityController {
 	/* This is the View */
 	private HeroView pa;
 
-	public HeroController(HeroModel hm) {
-		this(hm, false);
+	public HeroController(HeroModel hm, IPlayStateController ipc) {
+		this(hm, false, ipc);
 	}
 
-	public HeroController(HeroModel hm, boolean keyRegistrated) {
+	public HeroController(HeroModel hm, boolean keyRegistrated, IPlayStateController ipc) {
 		model = hm;
 		pa = new HeroView(hm.getName(), model.getWeaponType());
 		if (!keyRegistrated)
@@ -158,7 +159,7 @@ public class HeroController implements IEntityController {
 					"\nKills:" + model.getKills(), gc.getWidth() -100, 2);
 		} else {
 			model.destroyBody();
-			PlayState.removeHero();
+			pc.removeHero();
 		}
 	}
 
