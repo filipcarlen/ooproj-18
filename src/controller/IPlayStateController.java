@@ -10,6 +10,6 @@ public interface IPlayStateController {
 	
 	public void removeHero();
 	
-	public void removeEntity();
+	public void removeEntity(int ID);
 	
 }
