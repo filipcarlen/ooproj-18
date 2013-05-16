@@ -35,11 +35,11 @@ import controller.IEntityController;
 import controller.MovingFoeController;
 import controller.StaticFoeController;
 
-public class PlayState extends BasicGameState{
+public class PlayState extends BasicGameState implements IPlayStateController{
 	
 	World world;
-	static HeroModel hero;
-	static HeroController contHero;
+	HeroModel hero;
+	HeroController contHero;
 	HeroView pa;
 	WorldMap wm;
 	CollisionDetection cd;
@@ -82,7 +82,7 @@ public class PlayState extends BasicGameState{
 		firingContE = new FiringController(gmE, 3);
 		// Creating a character
 		hero = new HeroModel(world ,"hero", new Vector2f(0,2800), 50,50, gm);
-		contHero = new HeroController(hero);
+		contHero = new HeroController(hero, this);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), wm.getWorldWidth(), wm.getWorldHeight(), new Rectangle(300,200), hero.getPosPixels());
 		 
@@ -133,11 +133,11 @@ public class PlayState extends BasicGameState{
 		return stateID;
 	}
 	
-	public static HeroModel getHeroModel(){
+	public HeroModel getHeroModel(){
 		return hero;
 	}
 	
-	public static void removeEntity(int id){
+	public void removeEntity(int id){
 		int j = 0;
 		for(int i = 0; i < controllers.size(); i++){
 			if(((IEntityController)controllers.get(i)).getID() == id){
@@ -163,7 +163,7 @@ public class PlayState extends BasicGameState{
 		return contHero;
 	}
 
-	public static void removeHero() {
+	public void removeHero() {
 		contHero = null;
 	}
 }
