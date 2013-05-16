@@ -129,9 +129,7 @@ public class HeroModel implements IAliveModel{
 		return gemAmount;
 	}
 	
-	/**
-	 * @return - The height of the hero in Meters
-	 */
+	@Override
 	public float getHeight(){
 		return height*2;
 	}
@@ -204,10 +202,7 @@ public class HeroModel implements IAliveModel{
 		return weapontype;
 	}
 	
-	/**
-	 * 
-	 * @return- The width of the hero in Meter
-	 */
+	@Override
 	public float getWidth(){
 		return width*2;
 	}
