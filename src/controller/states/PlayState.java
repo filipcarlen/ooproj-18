@@ -87,7 +87,7 @@ public class PlayState extends BasicGameState implements IPlayStateController{
 		camera = new Camera(gc.getWidth(), gc.getHeight(), wm.getWorldWidth(), wm.getWorldHeight(), new Rectangle(300,200), hero.getPosPixels());
 		 
 		bodies.add(new MovingFoeModel(world, new Vec2(480,2900), 100, gmE, 3));
-		controllers.add(new MovingFoeController((MovingFoeModel)bodies.get(bodies.size()-1)));
+		controllers.add(new MovingFoeController((MovingFoeModel)bodies.get(bodies.size()-1), this));
 		bodies.add(new StaticFoeModel(world, new Vec2(530, 2912), 20, 4));
 		controllers.add(new StaticFoeController((StaticFoeModel)bodies.get(bodies.size()-1), StaticFoeView.StaticFoeType.FIRE));
 		
