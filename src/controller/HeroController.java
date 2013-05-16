@@ -152,7 +152,9 @@ public class HeroController implements IEntityController {
 			g.drawString(model.getName(), tmp.x, tmp.y - 40);
 			/* Draws your scores*/
 			g.setColor(Color.white);
-			g.drawString("Coins:" + model.getCollectedCoins() +
+			g.drawString("\nCoins;" + model.getCoinAmount() +
+					"\nGems:" + model.getGemAmount() +
+					"\nScore:" + model.getCollectedCoins() +
 					"\nKills:" + model.getKills(), gc.getWidth() -100, 2);
 		} else {
 			model.destroyBody();
