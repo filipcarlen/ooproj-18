@@ -1,4 +1,4 @@
-package states;
+package controller.states;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;

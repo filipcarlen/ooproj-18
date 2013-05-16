@@ -1,4 +1,4 @@
-package states;
+package controller.states;
 
 public class PauseState {
 
