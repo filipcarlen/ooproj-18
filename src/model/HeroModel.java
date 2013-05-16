@@ -23,7 +23,7 @@ public class HeroModel implements IAliveModel{
 	
 	/* Integer to count kills and Coins*/
 	private int killCount = 0;
-	private int collectedItem = 0;
+	private int score = 0;
 	
 	/* Loads the amoun of coins and gems*/
 	private int coinAmount= 0;
@@ -79,8 +79,8 @@ public class HeroModel implements IAliveModel{
 	 * Adds the value of a coin to your coin count.
 	 * @param c - The value of a Coin
 	 */
-	public void collectCoin(int c){
-		collectedItem += c;
+	public void incrementScore(int c){
+		score += c;
 	}
 	
 	public void destroyBody(){
@@ -91,7 +91,7 @@ public class HeroModel implements IAliveModel{
 	 * @return - The Current value of the amount of coin points
 	 */
 	public int getCollectedCoins(){
-		return this.collectedItem;
+		return this.score;
 	}
 	
 	@Override
