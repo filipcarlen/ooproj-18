@@ -129,4 +129,16 @@ public class WorldShapes implements IEntityModel {
 				.mul(Utils.METER_IN_PIXELS);
 	}
 
+	@Override
+	public float getHeight() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getWidth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
