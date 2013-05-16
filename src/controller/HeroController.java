@@ -141,13 +141,13 @@ public class HeroController implements IEntityController {
 			Vec2 tmp = Camera.entityRender(model.getPosPixels());
 			/* Draws the animation */
 			g.drawAnimation(pa.getAnimation(), tmp.x, tmp.y);
-			/* Draws the healthbar above the hero */
+			/* Draws the health bar above the hero */
 			g.setColor(Color.white);
 			g.drawRect(tmp.x, tmp.y - 15, 101, 11);
 			g.setColor(Color.red);
 			g.fillRect(tmp.x + 1, tmp.y - 14, model.getHp(), 10);
 			g.setColor(Color.white);
-			/* Draws the name of the hero above the character and healthbar */
+			/* Draws the name of the hero above the character and health bar */
 			g.setColor(Color.white);
 			g.drawString(model.getName(), tmp.x, tmp.y - 40);
 			/* Draws your scores*/

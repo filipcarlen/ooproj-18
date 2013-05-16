@@ -72,7 +72,7 @@ public class HeroModel implements IAliveModel{
 	 * @return - If your able to fight
 	 */
 	public boolean attack(){
-		return weapon.fight(getBody(), direction);
+		return weapon.fight(this, direction);
 	}
 	
 	/**
