@@ -1,5 +1,8 @@
 package controller.states;
 
+import java.util.Random;
+
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -27,6 +30,10 @@ public class MainMenuState extends BasicGameState {
 	private Image loadGameHighlighted = null;
 	private Image options = null;
 	private Image optionsHighlighted = null;
+	private Image[] leafs;
+	
+	private Animation leafAnimation;
+	
 	
 	private static int startMenuX = 330;
 	private static int startMenuY = 170;
@@ -36,6 +43,11 @@ public class MainMenuState extends BasicGameState {
 	private static int loadGameMenuY = 270;
 	private static int endGameX = 330;
 	private static int endGameY = 470;
+	
+	private float leafPositionX = 0;
+	private float leafPositionY = 0;
+	private float leafStartPositionX = 0;
+	private float[] leafStartPositionY = {-500,-400,-300,-200,-100,0,100,200,300,400,500,600};
 	
 	private boolean insideStartGame = false;
 	private boolean insideOptionsMenu = false;
@@ -72,12 +84,16 @@ public class MainMenuState extends BasicGameState {
 		options = new Image(PATH+"options.png");
 		optionsHighlighted = new Image(PATH+"optionshighlighted.png");
 		
+		initLeafs();
+		
 		
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
+		
+		changeLeafPosition();
 		background.draw(0,0);
 		title.draw(0,0);
 		
@@ -109,6 +125,8 @@ public class MainMenuState extends BasicGameState {
 			options.draw(optionsMenuX,optionsMenuY);
 		}
 		
+		g.drawAnimation(leafAnimation, leafPositionX, leafPositionY);
+		
 		
 	}
 
@@ -125,6 +143,8 @@ public class MainMenuState extends BasicGameState {
 		insideOptionsMenu = checkMouse(mouseX, mouseY, optionsMenuX, optionsMenuY, options);
 			
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideStartGame){
+				soundtrack.stop();
+				Sounds.getInstance().musicIngame.loop(1, 0.4f);
 				sbg.enterState(GameApp.PLAYSTATE);
 		}
 		
@@ -149,6 +169,42 @@ public class MainMenuState extends BasicGameState {
 		}
 		else{
 			return false;
+		}
+	}
+	
+	public void initLeafs() throws SlickException{
+		leafs = new Image[14];
+		leafs[0] =  new Image(PATH + "/Leafanimation/1.png");
+		leafs[1] =  new Image(PATH + "/Leafanimation/2.png");
+		leafs[2] =  new Image(PATH + "/Leafanimation/3.png");
+		leafs[3] =  new Image(PATH + "/Leafanimation/4.png");
+		leafs[4] =  new Image(PATH + "/Leafanimation/5.png");
+		leafs[5] =  new Image(PATH + "/Leafanimation/6.png");
+		leafs[6] =  new Image(PATH + "/Leafanimation/7.png");
+		leafs[7] =  new Image(PATH + "/Leafanimation/8.png");
+		leafs[8] =  new Image(PATH + "/Leafanimation/9.png");
+		leafs[9] =  new Image(PATH + "/Leafanimation/10.png");
+		leafs[10] =  new Image(PATH + "/Leafanimation/11.png");
+		leafs[11] =  new Image(PATH + "/Leafanimation/12.png");
+		leafs[12] =  new Image(PATH + "/Leafanimation/13.png");
+		leafs[13] =  new Image(PATH + "/Leafanimation/14.png");
+		
+		leafAnimation = new Animation(leafs, 100);
+	}
+	
+	public void changeLeafPosition(){
+		Random rand = new Random();
+		this.leafPositionX = this.leafPositionX + 1.5f;
+		this.leafPositionY = this.leafPositionY + 1f;
+		
+		if(this.leafPositionX >= 900){
+			this.leafPositionX = leafStartPositionX;
+			this.leafPositionY = leafStartPositionY[rand.nextInt(12)];
+		}
+		
+		if(this.leafPositionY >= 600){
+			this.leafPositionX = leafStartPositionX;
+			this.leafPositionY = leafStartPositionY[rand.nextInt(12)];
 		}
 	}
 }
