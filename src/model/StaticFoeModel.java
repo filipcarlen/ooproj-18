@@ -12,6 +12,8 @@ import utils.Utils;
 
 public class StaticFoeModel implements IEntityModel {
 
+	public static enum StaticFoeType {FIRE, PLANT, WATER, SPIKES};
+	
 	private World world;
 	
 	private Body body;
@@ -23,6 +25,8 @@ public class StaticFoeModel implements IEntityModel {
 	
 	private int ID;
 	
+	private StaticFoeType type;
+	
 	/**
 	 * Creates a new static foe.
 	 * @param world 	the world to which the 
@@ -31,9 +35,10 @@ public class StaticFoeModel implements IEntityModel {
 	 * @param height 	the height of this entity in pixels
 	 * @param animation the animation of this entity
 	 */
-	public StaticFoeModel(World world, Vec2 pixelPos, int damage, int ID) {
+	public StaticFoeModel(World world, Vec2 pixelPos, int damage, StaticFoeType type, int ID) {
 		this.world = world;
 		this.damage = damage;
+		this.type = type;
 		this.ID = ID;
 		init(pixelPos);
 	}
@@ -99,5 +104,9 @@ public class StaticFoeModel implements IEntityModel {
 	@Override
 	public float getHeight() {
 		return Utils.pixelsToMeters(this.HEIGHT);
+	}
+	
+	public StaticFoeType getType() {
+		return this.type;
 	}
 }

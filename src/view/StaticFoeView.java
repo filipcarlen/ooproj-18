@@ -16,18 +16,16 @@ import utils.Camera;
 import controller.StaticFoeController;
 
 public class StaticFoeView {
-
-	public static enum StaticFoeType {FIRE, PLANT, WATER, SPIKES};
 	
 	private StaticFoeModel model;
 	private Animation animation;
 	
 	private final String PATH = "res/Characters/staticfoe/";
 	
-	public StaticFoeView(StaticFoeModel model, StaticFoeType type){
+	public StaticFoeView(StaticFoeModel model){
 		this.model = model;
 		try {
-			initAnimation(type);
+			initAnimation(this.model.getType());
 		} catch (SlickException e) {
 			System.out.println("Couldn't initiate the animation of the static foe at position: " + this.model.getPosPixels());
 		}
@@ -38,7 +36,7 @@ public class StaticFoeView {
 	 * @param type
 	 * @throws SlickException
 	 */
-	public void initAnimation(StaticFoeType type) throws SlickException{
+	public void initAnimation(StaticFoeModel.StaticFoeType type) throws SlickException{
 		Image[] images = new Image[2];
 		int duration = 500;
 		

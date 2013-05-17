@@ -13,8 +13,8 @@ public class StaticFoeController implements IEntityController {
 	private StaticFoeView view;
 	private StaticFoeModel model;
 	
-	public StaticFoeController(StaticFoeModel model, StaticFoeView.StaticFoeType type){
-		this.view = new StaticFoeView(model, type);
+	public StaticFoeController(StaticFoeModel model){
+		this.view = new StaticFoeView(model);
 		this.model = model;
 	}
 	
