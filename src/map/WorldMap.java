@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import model.CoinModel;
+import model.GemModel;
+import model.GunModel;
+import model.IEntityModel;
+import model.MovingFoeModel;
+import model.StaticFoeModel;
+import model.SwordModel;
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
-
-import utils.EntityType;
 
 /**
  * A cLass to read a Map from a tmx file
@@ -34,6 +40,11 @@ public class WorldMap{
 	//Background
 	int [][] background;
 	
+	Vec2 positionHero;
+	
+	ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
+
+	
 	public WorldMap(World world){
 		this(world,  false, null);
 	}
@@ -45,45 +56,64 @@ public class WorldMap{
 		}		
 	}
 	
-	public void loadAllPictures(String pathName){
-		
-	}
-	
-	
-	/*
-	 * Egna Anteckningar för att göra render bättre 
-	 *  * kanske hashmap för att kunna <Integer, wsm> vilket hade gjort att man kan få alla x 
-	 *  men gör också så att man renderar alla som är y i den xleden
-	 *  * hashmap med hashMap funkar de !? <Integer, HashMap> kolla upp när allt e klar;
-	 * 
-	 */
-	 
 	//Loads a file from from the resourses folder with a levelName
 	public void loadMapFromTMX(String levelName){
 		try {
-			//Ladda en mapp
-			//skapa en 2d Array
-			//kolla upp en punkt
-			// ifall punkten inte är använd 
-			// använd en metod som skapar worldShapes om det tar slut lixom
 			tm = new TiledMap("res/Map/" + levelName + ".tmx");
 			background = new int[tm.getWidth()][tm.getHeight()];
+			GunModel gun = new GunModel(w, 1500, 10, 10);
+			SwordModel sword = new SwordModel(w, null);
 			int collision = tm.getLayerIndex("collision");
 			int numberOfTiles = 0;
+			int idtile;
+			int id = 1;
+			Vec2 pos;
 			//Adds all tiles to the list represented by a world shape
 			for(int j = 0; j < tm.getHeight(); j++){
 				for(int i = 0; i <tm.getWidth(); i ++){
 					background[i][j] = tm.getTileId(i, j, collision);
-					if(tm.getTileId(i, j, collision) > 0){
-						while(tm.getTileId(i, j, collision)> 0){
+					pos = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
+					idtile = tm.getTileId(i, j, collision);
+					if(idtile < 91 && idtile > 0){
+						while(idtile< 91 && idtile > 0){
 							if(!pictureName.containsKey(tm.getTileId(i, j, collision)))
 								pictureName.put(background[i][j], tm.getTileImage(i, j, collision));
 							++numberOfTiles;
 							++i;
+							System.out.println(i + "  " + j + "  " + pictureName.size());
+							idtile = tm.getTileId(i, j, collision);
 							background[i][j] = tm.getTileId(i, j, collision);
+							pos = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
 						}
 						addWorldShape(i - numberOfTiles, j, tm.getTileWidth(), tm.getTileHeight(), numberOfTiles);
 						numberOfTiles = 0;
+					}
+					if(idtile == 91){
+						positionHero = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
+					}else if(idtile == 92){
+						bodies.add(new MovingFoeModel(w, pos, 50, sword, 5, id));
+						++id;
+					}else if(idtile == 93){
+						bodies.add(new MovingFoeModel(w, pos, 50, gun, 5, id));
+						++id;
+					}else if(idtile == 94){
+						bodies.add(new StaticFoeModel(w, pos, 50, StaticFoeModel.StaticFoeType.FIRE, 5));
+						++id;
+					}else if(idtile == 95){
+						bodies.add(new StaticFoeModel(w, pos, 50, StaticFoeModel.StaticFoeType.WATER, 5));
+						++id;
+					}else if(idtile == 96){
+						bodies.add(new StaticFoeModel(w, pos, 50, StaticFoeModel.StaticFoeType.SPIKES, 5));
+						++id;
+					}else if(idtile == 97){
+						bodies.add(new StaticFoeModel(w, pos, 50, StaticFoeModel.StaticFoeType.PLANT, 5));
+						++id;
+					}else if(idtile == 99){
+						bodies.add(new CoinModel(w, pos, id));
+						++id;
+					}else if(idtile == 100){
+						bodies.add(new GemModel(w, pos, id));
+						++id;
 					}
 				}
 			}
@@ -95,8 +125,6 @@ public class WorldMap{
 		
 		//loadAllPictures("hej");
 	}
-	
-	
 	
 	public void addWorldShape(float xCoordinate, float yCoordinate, int width, int height, int numberOfTiles){
 		wsm.add(new WorldShapes(w, xCoordinate, yCoordinate, width, height, numberOfTiles));
@@ -125,12 +153,20 @@ public class WorldMap{
 		int sy = (int)y/tm.getTileHeight();
 		for(int i = sx; i < (sx+width); i ++){
 			for(int j = sy; j < (sy+height); j++){
-				if(background[i][j] > 0)
+				if(background[i][j] < 90 && background[i][j] > 0)
 					g.drawImage(pictureName.get(background[i][j]), 
 							((i-sx)*tm.getTileWidth())-((x)%tm.getTileWidth()), 
 							(j-sy)* tm.getTileHeight()-((y)%tm.getTileHeight()));
 			}
 		}
+	}
+	
+	public ArrayList<IEntityModel> getListOfBodies(){
+		return bodies;
+	}
+	
+	public Vec2 getHeroPosition(){
+		return positionHero;
 	}
 	
 	public int getWorldWidth(){
