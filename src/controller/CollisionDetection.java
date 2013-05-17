@@ -71,7 +71,7 @@ public class CollisionDetection  implements ContactListener{
 	
 			else if(objectA instanceof ICollectibleModel){
 				((AbstractCollectibleModel)objectA).killBody();
-				heroModel.incrementScore(((AbstractCollectibleModel)objectB).getValue());
+				heroModel.incrementScore(((AbstractCollectibleModel)objectA).getValue());
 				if(objectA instanceof GemModel){
 					heroModel.incrementGem();
 				}else{
