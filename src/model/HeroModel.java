@@ -38,6 +38,8 @@ public class HeroModel implements IAliveModel{
 	
 	private boolean hurted = false;
 	
+	private boolean isFalling = false;
+	
 	private Body body;
 	
 	private Navigation direction;
@@ -80,6 +82,10 @@ public class HeroModel implements IAliveModel{
 	public void destroyBody(){
 		body.getWorld().destroyBody(body);
 		body = null;
+	}
+	
+	public void falling(){
+		this.isFalling = true;
 	}
 	
 	@Override
@@ -276,6 +282,10 @@ public class HeroModel implements IAliveModel{
 		return dead;
 	}
 	
+	public boolean isFalling(){
+		return isFalling;
+	}
+	
 	public boolean isHurted(){
 		return hurted;
 	}
@@ -293,6 +303,7 @@ public class HeroModel implements IAliveModel{
 	 */
 	public void setGroundContact(){
 		doubleJump= 0;
+		isFalling = false;
 	}
 	
 	public void setHurted(boolean isHurted){

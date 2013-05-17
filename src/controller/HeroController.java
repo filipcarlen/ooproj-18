@@ -93,9 +93,6 @@ public class HeroController implements IEntityController, ActionListener {
 			timer.start();
 		}
 		
-		if(model.getBody().m_linearVelocity.y > 0.1f ){
-			view.setAnimation(HeroView.Movement.fall, model.getDirection());
-		}
 		/*
 		 * Tells the view to applay the animation for standing, if the character
 		 * isn't jumping or fighting
@@ -157,6 +154,10 @@ public class HeroController implements IEntityController, ActionListener {
 				jump = false;
 				jumpCount = 23;
 			}
+		}
+		if(model.getBody().m_linearVelocity.y > 0.1f ){
+			view.setAnimation(HeroView.Movement.fall, model.getDirection());
+			model.falling();
 		}
 		firing.update(gc, sbg, delta);
 		if(model.isDead()){
