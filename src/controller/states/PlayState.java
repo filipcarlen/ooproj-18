@@ -32,7 +32,7 @@ import view.HeroView;
 import view.StaticFoeView;
 import controller.CollectibleController;
 import controller.CollisionDetection;
-import controller.FiringController;
+import controller.GunController;
 import controller.HeroController;
 import controller.IEntityController;
 import controller.IPlayStateController;
@@ -50,7 +50,7 @@ public class PlayState extends BasicGameState implements IPlayStateController{
 	int nbr= 0;
 	int stateID;
 	Camera camera;
-	FiringController firingCont, firingContE;
+	GunController gunCont, gunContE;
 	
 	
 	ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
@@ -96,7 +96,7 @@ public class PlayState extends BasicGameState implements IPlayStateController{
 		
 		loadCharacters(wm.getListOfBodies());
 		
-		GunModel gm = new GunModel(world, 500, 10, 10);
+		GunModel gm = new GunModel(world, 500, 10, 10, 56);
 		
 		loadHero("hero", wm.getHeroPosition(), new Dimension(50, 50), gm);
 		// Camera
@@ -113,10 +113,16 @@ public class PlayState extends BasicGameState implements IPlayStateController{
 				controllers.get(i).render(gc, sbg, g);
 			}
 			contHero.render(gc, sbg, g);
-		}catch(NullPointerException e){}
-		g.drawString(" BodyCount" + world.getBodyCount() +
-				"\n HeroModelBody " + hero.getBody() + 
+		}catch(NullPointerException e){
+			sbg.enterState(GameApp.GAMEOVERSTATE);
+		}
+		try{
+			g.drawString(" BodyCount" + world.getBodyCount() +"\n HeroModelBody " + hero.getBody() + 
 				"\n Force:" + hero.getBody().m_linearVelocity.y, 100, 100);
+		} catch(NullPointerException e){			
+			sbg.enterState(GameApp.GAMEOVERSTATE);
+		}
+				
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {

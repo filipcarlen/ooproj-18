@@ -61,8 +61,8 @@ public class WorldMap{
 		try {
 			tm = new TiledMap("res/Map/" + levelName + ".tmx");
 			background = new int[tm.getWidth()][tm.getHeight()];
-			GunModel gun = new GunModel(w, 1500, 10, 10);
-			SwordModel sword = new SwordModel(w, null);
+			GunModel gun = new GunModel(w, 1500, 10, 10, 72);
+			SwordModel sword = new SwordModel(w, null, 10, 10);
 			int collision = tm.getLayerIndex("collision");
 			int numberOfTiles = 0;
 			int idtile;

@@ -55,7 +55,7 @@ public class HeroController implements IEntityController, ActionListener {
 	private HeroView view;
 	
 	/* This is the controller that controls the weapon*/
-	private FiringController firing;
+	private GunController firing;
 	
 	private Timer timer = new Timer(200, this);
 
@@ -68,7 +68,7 @@ public class HeroController implements IEntityController, ActionListener {
 		view = new HeroView(hm, model.getWeaponType());
 		this.ipc = ipc;
 		if(model.getWeaponType() == WeaponType.gun)
-			firing = new FiringController((GunModel) model.getWeapon(), 1);
+			firing = new GunController((GunModel) model.getWeapon());
 		if (!keyRegistrated)
 			/* Sets the Controls to the default options */
 			Controls.getInstance().setDeafaultControls();

@@ -51,7 +51,7 @@ public class CollisionDetection  implements ContactListener{
 			
 			else if(objectB instanceof BulletModel) {
 				heroModel.hurt(((BulletModel)objectB).getDamage());
-				((BulletModel)objectB).setAlive(false);
+				((BulletModel)objectB).destroyEntity();
 			}
 			
 			else if(objectB instanceof SwordModel) {
@@ -85,7 +85,7 @@ public class CollisionDetection  implements ContactListener{
 			
 			else if(objectA instanceof BulletModel) {
 				heroModel.hurt(((BulletModel)objectA).getDamage());
-				((BulletModel)objectA).setAlive(false);
+				((BulletModel)objectA).destroyEntity();
 			}
 			
 			else if(objectA instanceof SwordModel) {
@@ -101,7 +101,7 @@ public class CollisionDetection  implements ContactListener{
 			
 			if(objectB instanceof BulletModel) {
 				foeModel.hurt(((BulletModel)objectB).getDamage());
-				((BulletModel)objectB).setAlive(false);
+				((BulletModel)objectB).destroyEntity();
 			}
 			
 			else if(objectB instanceof SwordModel) {
@@ -117,7 +117,7 @@ public class CollisionDetection  implements ContactListener{
 			
 			if(objectA instanceof BulletModel) {
 				foeModel.hurt(((BulletModel)objectA).getDamage());
-				((BulletModel)objectA).setAlive(false);
+				((BulletModel)objectA).destroyEntity();
 			}
 			
 			else if(objectA instanceof SwordModel) {
@@ -131,10 +131,10 @@ public class CollisionDetection  implements ContactListener{
 			bulletModel = (BulletModel)objectA;
 			
 			if(objectB instanceof BulletModel) {
-				((BulletModel)objectB).setAlive(false);
+				((BulletModel)objectB).destroyEntity();
 			}
 			
-			bulletModel.setAlive(false);
+			bulletModel.destroyEntity();
 
 		}
 				
@@ -143,7 +143,7 @@ public class CollisionDetection  implements ContactListener{
 		else if(objectB instanceof BulletModel){
 					
 			bulletModel = (BulletModel)objectB;
-			bulletModel.setAlive(false);
+			bulletModel.destroyEntity();
 
 		}
 		

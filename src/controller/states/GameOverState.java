@@ -198,7 +198,7 @@ public class GameOverState extends BasicGameState{
 		this.coinAmount = numberToImages(model.getCoinAmount());
 		this.foeAmount = numberToImages(model.getKills());
 		this.gemAmount = numberToImages(model.getGemAmount());
-		this.totalScore = numberToImages(model.getCollectedCoins());
+		this.totalScore = numberToImages(model.getScore());
 	}
 
 	@Override
