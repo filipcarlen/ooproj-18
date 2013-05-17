@@ -1,16 +1,25 @@
 package controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
+import model.GunModel;
 import model.HeroModel;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Camera;
 import utils.Controls;
 import utils.Navigation;
+import utils.Sounds;
+import utils.WeaponType;
 import view.HeroView;
 
 /**
@@ -21,17 +30,17 @@ import view.HeroView;
  * 
  */
 
-public class HeroController implements IEntityController {
+public class HeroController implements IEntityController, ActionListener {
 	/* A Boolean to check if the Character is in the air or not */
 	private boolean jump;
 	
-	private IPlayStateController pc;
+	private IPlayStateController ipc;
 
 	/*
 	 * This is a count how many times i will apply force in the y axis, this is
 	 * use to simulate a real jump
 	 */
-	private int jumpCount = 20;
+	private int jumpCount = 23;
 
 	/*
 	 * This is a integer that will be set if somebody calls fight, and will
@@ -40,10 +49,15 @@ public class HeroController implements IEntityController {
 	private int fightTimer = 0;
 
 	/* This is the Model */
-	private static HeroModel model;
+	private HeroModel model;
 
 	/* This is the View */
-	private HeroView pa;
+	private HeroView view;
+	
+	/* This is the controller that controls the weapon*/
+	private FiringController firing;
+	
+	private Timer timer = new Timer(200, this);
 
 	public HeroController(HeroModel hm, IPlayStateController ipc) {
 		this(hm, false, ipc);
@@ -51,7 +65,10 @@ public class HeroController implements IEntityController {
 
 	public HeroController(HeroModel hm, boolean keyRegistrated, IPlayStateController ipc) {
 		model = hm;
-		pa = new HeroView(hm.getName(), model.getWeaponType());
+		view = new HeroView(hm, model.getWeaponType());
+		this.ipc = ipc;
+		if(model.getWeaponType() == WeaponType.gun)
+			firing = new FiringController((GunModel) model.getWeapon(), 1);
 		if (!keyRegistrated)
 			/* Sets the Controls to the default options */
 			Controls.getInstance().setDeafaultControls();
@@ -68,26 +85,34 @@ public class HeroController implements IEntityController {
 		 * Sets the linearDamping so that the body dosen't continue to go to the
 		 * left, right or up
 		 */
+		
 		model.getBody().setLinearDamping(1.5f);
 
+		if(model.isHurted()){
+			view.setAnimation(HeroView.Movement.hurt, model.getDirection());
+			timer.start();
+		}
+		
+		if(model.getBody().m_linearVelocity.y > 0.1f ){
+			view.setAnimation(HeroView.Movement.fall, model.getDirection());
+		}
 		/*
 		 * Tells the view to applay the animation for standing, if the character
 		 * isn't jumping or fighting
 		 */
-		if (!jump && model.getDoubleJump() < 1 || fightTimer == 0)
-			pa.setStandAnimation();
+		if (!jump && model.getDoubleJump() < 1 && !model.isHurted()|| fightTimer == 0)
+			view.setAnimation(HeroView.Movement.stand, model.getDirection());
 
 		/* This if statements handels the inputs from the keyboard */
 		if (Controls.getInstance().check("left")) {
 			model.setDirection(Navigation.WEST);
-			model.getBody().applyForce(heroVec.mul(-1),
-					model.getBody().getPosition());
+			model.getBody().applyForce(heroVec.mul(-1), model.getBody().getPosition());
 			/*
 			 * If the character isn't jumping this will start the moving to the
 			 * left animation
 			 */
 			if (!jump && model.getDoubleJump() < 1)
-				pa.setLeftAnimation();
+				view.setAnimation(HeroView.Movement.move, model.getDirection());
 		}
 		if (Controls.getInstance().check("right")) {
 			model.setDirection(Navigation.EAST);
@@ -97,11 +122,11 @@ public class HeroController implements IEntityController {
 			 * right animation
 			 */
 			if (!jump && model.getDoubleJump() < 1)
-				pa.setRightAnimation();
+				view.setAnimation(HeroView.Movement.move, model.getDirection());
 		}
 		if (Controls.getInstance().check("jump")) {
 			/* This will start the jump animation */
-			pa.setJumpAnimation();
+			view.setAnimation(HeroView.Movement.jump, model.getDirection());
 			/* This check that we haven't jumped two times */
 			if (model.getDoubleJump() < 2)
 				jump = true;
@@ -112,7 +137,10 @@ public class HeroController implements IEntityController {
 			 * If you push the jump button it will start the animation and call
 			 * the attack method with it's weapon
 			 */
-			pa.setAttackAnimation();
+			try {
+				Sounds.getInstance().gunfire.play();
+			} catch (SlickException e) {}
+			view.setAttackAnimation(model.getDirection());
 			model.attack();
 		}
 
@@ -127,44 +155,33 @@ public class HeroController implements IEntityController {
 			jumpCount -= 1;
 			if (jumpCount <= 0) {
 				jump = false;
-				jumpCount = 20;
+				jumpCount = 23;
 			}
+		}
+		firing.update(gc, sbg, delta);
+		if(model.isDead()){
+			model.destroyBody();
 		}
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		/*
-		 * Draws the hero if it isn't dead. But if its dead it will remove the
-		 * controller and model
-		 */
-		if (!model.isDead()) {
-			Vec2 tmp = Camera.entityRender(model.getPosPixels());
-			/* Draws the animation */
-			g.drawAnimation(pa.getAnimation(), tmp.x, tmp.y);
-			/* Draws the health bar above the hero */
-			g.setColor(Color.white);
-			g.drawRect(tmp.x, tmp.y - 15, 101, 11);
-			g.setColor(Color.red);
-			g.fillRect(tmp.x + 1, tmp.y - 14, model.getHp(), 10);
-			g.setColor(Color.white);
-			/* Draws the name of the hero above the character and health bar */
-			g.setColor(Color.white);
-			g.drawString(model.getName(), tmp.x, tmp.y - 40);
-			/* Draws your scores*/
-			g.setColor(Color.white);
-			g.drawString("\nCoins;" + model.getCoinAmount() +
-					"\nGems:" + model.getGemAmount() +
-					"\nScore:" + model.getCollectedCoins() +
-					"\nKills:" + model.getKills(), gc.getWidth() -100, 2);
-		} else {
-			model.destroyBody();
-			pc.removeHero();
-		}
+		view.render(gc, sbg, g);
+		firing.render(gc, sbg, g);
+		g.drawString("\nCoins;" + model.getCoinAmount() +
+				"\nGems:" + model.getGemAmount() +
+				"\nScore:" + model.getScore() +
+				"\nKills:" + model.getKills(), gc.getWidth() -100, 2);
 	}
 
 	@Override
 	public int getID() {
 		return -1;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		model.setHurted(false);
+		timer.stop();
 	}
 }
