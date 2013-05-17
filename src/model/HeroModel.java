@@ -8,7 +8,7 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
-import org.newdawn.slick.geom.Vector2f;
+
 
 public class HeroModel implements IAliveModel{
 	
@@ -36,6 +36,8 @@ public class HeroModel implements IAliveModel{
 	/* Boolean to check if the model is alive or dead*/
 	private boolean dead = true;
 	
+	private boolean hurted = false;
+	
 	private Body body;
 	
 	private Navigation direction;
@@ -45,14 +47,14 @@ public class HeroModel implements IAliveModel{
 	private String characterName;
 	
 	public HeroModel(World w, String characterName){
-		this(w, characterName, new Vector2f(0,0), 50, 50, null);
+		this(w, characterName, new Vec2(0,0), 50, 50, null);
 	}
 	
 	public HeroModel(World w, String characterName, AbstractWeaponModel awm){
-		this(w, characterName, new Vector2f(0,0), 50, 50, awm);
+		this(w, characterName, new Vec2(0,0), 50, 50, awm);
 	}
 
-	public HeroModel(World w, String characterName, Vector2f pos, int width, int height, AbstractWeaponModel weapon){
+	public HeroModel(World w, String characterName, Vec2 pos, int width, int height, AbstractWeaponModel weapon){
 		this.characterName = characterName;
 		
 		this.width = width/2/Utils.METER_IN_PIXELS;
@@ -75,23 +77,9 @@ public class HeroModel implements IAliveModel{
 		return weapon.fight(this, direction);
 	}
 	
-	/**
-	 * Adds the value of a coin to your coin count.
-	 * @param c - The value of a Coin
-	 */
-	public void incrementScore(int c){
-		score += c;
-	}
-	
 	public void destroyBody(){
 		body.getWorld().destroyBody(body);
-	}
-	
-	/**
-	 * @return - The Current value of the amount of coin points
-	 */
-	public int getCollectedCoins(){
-		return this.score;
+		body = null;
 	}
 	
 	@Override
@@ -174,6 +162,13 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	/**
+	 * @return - The Current value of the amount of coin points
+	 */
+	public int getScore(){
+		return this.score;
+	}
+
+	/**
 	 * This is a method to locate the position on forehead of the characeter
 	 * @return - A position in the top right or left corner
 	 */
@@ -210,6 +205,7 @@ public class HeroModel implements IAliveModel{
 	@Override
 	public void hurt(int hpDecrement){
 		setHp(getHp()-hpDecrement);
+		setHurted(true);
 	}
 	
 	/**
@@ -234,13 +230,21 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	/**
+	 * Adds the value of a coin to your coin count.
+	 * @param c - The value of a Coin
+	 */
+	public void incrementScore(int c){
+		score += c;
+	}
+
+	/**
 	 * Increments the kills you got
 	 */
 	public void incrementKillCount(){
 		killCount += 1;
 	}
 	
-	public void init(World w, Vector2f pos){
+	public void init(World w, Vec2 pos){
 		/* Create the Body defination*/
 		BodyDef b = new BodyDef();
 		b.type = BodyType.DYNAMIC;
@@ -271,12 +275,9 @@ public class HeroModel implements IAliveModel{
 	public boolean isDead() {
 		return dead;
 	}
-
-	/**
-	 * This is a method to call whenever you get a contact with ground
-	 */
-	public void setGroundContact(){
-		doubleJump= 0;
+	
+	public boolean isHurted(){
+		return hurted;
 	}
 	
 	/**
@@ -285,6 +286,17 @@ public class HeroModel implements IAliveModel{
 	 */
 	public void setDirection(Navigation n){
 		this.direction = n;
+	}
+	
+	/**
+	 * This is a method to call whenever you get a contact with ground
+	 */
+	public void setGroundContact(){
+		doubleJump= 0;
+	}
+	
+	public void setHurted(boolean isHurted){
+		this.hurted = isHurted;
 	}
 	
 	@Override
