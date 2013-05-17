@@ -22,21 +22,13 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 
 	private Body body;
 	private Vec2 firstPos;
-	private IAliveModel fighterModel;
 	private Body fighterBody;
 	private boolean fighting;
 	
 	public final float RADIUS = 5f;
 	
-	
-	public SwordModel(World world, Vec2 myPos){
-		this(world, myPos, 20, Utils.METER_IN_PIXELS);
-	}
-	public SwordModel(World world, Vec2 myPos, int damage){
-		this(world, myPos, damage, Utils.METER_IN_PIXELS);
-	}
 	public SwordModel(World world, Vec2 myPos, int damage, float range){
-		super(world, damage, range);
+		super(world, damage, range, WeaponType.gun);
 		super.setWeaponType(WeaponType.sword);
 	}
 	
@@ -71,7 +63,6 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	
 	@Override
 	public boolean fight(IAliveModel fighterModel, Navigation navigation) {
-		this.fighterModel = fighterModel;
 		this.fighterBody = fighterModel.getBody();
 		this.firstPos = fighterBody.getPosition();
 		init(this.firstPos);

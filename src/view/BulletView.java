@@ -6,6 +6,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Camera;
+import utils.Utils;
 
 import model.BulletModel;
 
@@ -22,7 +23,7 @@ public class BulletView {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		Vec2 temp = Camera.entityRender(model.getPosPixels());
-		g.drawOval(temp.x, temp.y, model.RADIUS*2, model.RADIUS*2);
+		g.drawOval(temp.x, temp.y, Utils.metersToPixels(model.RADIUS*2), Utils.metersToPixels(model.RADIUS*2));
 	}
 	
 	public int getID(){

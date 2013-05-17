@@ -6,12 +6,11 @@ import java.util.ArrayList;
 
 import javax.swing.Timer;
 
-import org.jbox2d.dynamics.Body;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
 import utils.Navigation;
 import utils.WeaponType;
-
 
 /** A class representing a Gun
  * 
@@ -19,68 +18,57 @@ import utils.WeaponType;
  * @version 1.0 
  */
 
-
 public class GunModel extends AbstractWeaponModel implements ActionListener{
 	
 	private Timer timer;
-	private int reloadTime;
+	private int ID;
 	private ArrayList<BulletModel> bulletModels = new ArrayList<BulletModel>();
-	//private Vec2 firstPos;
-	
-	public GunModel(World world, int reloadTime){
-		this(world, reloadTime, 20, 15f);
-		
-	}
-	public GunModel(World world, int reloadTime, int damage){
-		this(world, reloadTime, damage, 15f);
-		
-	}
-	public GunModel(World world, int reloadTime, int damage, float range){
-		super(world, damage, range);
-		super.setWeaponType(WeaponType.gun);
-		for(int i = 1; i <= 10; i++){
-			bulletModels.add(new BulletModel(super.getWorld(), super.getRange(), super.getDamage(), i));
-		}
-		this.reloadTime = reloadTime;
-		this.timer = new Timer(reloadTime, this);
-		
-	}
 
+	public GunModel(World world, int reloadTime, int damage, float range, int ID){
+		super(world, damage, range, WeaponType.gun);
+		for(int i = 1; i <= 10; i++){
+			bulletModels.add(new BulletModel(this, i));
+		}
+		this.ID = ID;
+		this.timer = new Timer(reloadTime, this);
+	}
 
 	public boolean fight(IAliveModel fighterModel, Navigation navigation){
+		Vec2 firstPos = fighterModel.getPosMeters().clone();
 		
-		// Šr timern igŒng??
+		if(navigation == Navigation.EAST){
+			firstPos.x += fighterModel.getWidth()/2;
+		}
+		
+		if(navigation == Navigation.WEST){
+			firstPos.x -= fighterModel.getWidth()/2;
+		}
+		
 		if(!timer.isRunning()){
+			
 			for(int i = 0; i < bulletModels.size(); i++){
-				if(bulletModels.get(i).getBody() == null){
-					bulletModels.get(i).fight(fighterModel, navigation);
-					// timer startas
+				
+				if(!bulletModels.get(i).isAlive()){
+					bulletModels.get(i).fight(firstPos, navigation);
 					timer.start();
 					return true;
 				}
 			}
 		}
 		return false;
-		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		timer.stop();
-		
-	}
-	
-	public double getReloadTime(){
-		return this.reloadTime;
 	}
 	
 	public ArrayList<BulletModel> getBulletModels(){
 		return this.bulletModels;
-		
 	}
 	
+	public int getID(){
+		return this.ID;
+	}
 	
-	/*public Vec2 getFirstPos(){
-		return this.firstPos;
-	}*/
 }

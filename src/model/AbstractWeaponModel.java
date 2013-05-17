@@ -13,39 +13,44 @@ import utils.WeaponType;
  * @version 1.0 
  */
 
-
 public abstract class AbstractWeaponModel {
 	
 	private int damage;
 	private float range;
 	private World world;
-	private WeaponType weaponType = null;
+	private WeaponType weaponType;
 	
-	
-	public AbstractWeaponModel(World world, int damage, float range){
+	public AbstractWeaponModel(World world, int damage, float range, WeaponType weaponType){
 		this.world = world;
 		this.damage = damage;
 		this.range = range;
+		this.weaponType = weaponType;
 	}
 	
 	public int getDamage(){
 		return this.damage;
 	}
+	
 	public void setDamage(int damage){
 		this.damage = damage;
 	}
+	
 	public float getRange(){
 		return this.range;
 	}
+	
 	public void setRange(float range){
 		this.range = range;
 	}
+	
 	public World getWorld() {
 		return world;
 	}
+	
 	public WeaponType getWeaponType(){
 		return this.weaponType;
 	}
+	
 	public void setWeaponType(WeaponType weaponType){
 		this.weaponType = weaponType;
 	}
@@ -61,12 +66,7 @@ public abstract class AbstractWeaponModel {
 		} else{
 			return false;
 		}
-		
 	}
-
 	
 	public abstract boolean fight(IAliveModel fighterModel,  Navigation navigation);
-
-	
-
 }
