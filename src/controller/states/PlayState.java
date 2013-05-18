@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import map.WorldMap;
-import map.WorldShapes;
+import map.WorldShapeModel;
 import model.AbstractCollectibleModel;
 import model.AbstractWeaponModel;
 import model.CoinModel;
@@ -55,10 +55,15 @@ public class PlayState extends BasicGameState implements IPlayStateController{
 	
 	ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
 	ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
-	ArrayList<WorldShapes> terrain = new ArrayList <WorldShapes>();
+	ArrayList<WorldShapeModel> terrain = new ArrayList <WorldShapeModel>();
 	
 	public PlayState(int id){
 		stateID = id;
+	}
+	
+	public void loadWorld(String levelName){
+		wm = new WorldMap(world, true, "test1");
+		wm.setBounds();
 	}
 	
 	public void loadCharacters(ArrayList<IEntityModel> bodies)throws SlickException{
@@ -72,14 +77,12 @@ public class PlayState extends BasicGameState implements IPlayStateController{
 				controllers.add(new CollectibleController((AbstractCollectibleModel)b, this));
 			}else{
 				throw new SlickException("Couldn't load the entity " + b);
-			}			
-				
+			}
 		}
-		
 	}
 	
-	public void loadHero(String heroName, Vec2 pos, Dimension character, AbstractWeaponModel awm){
-		hero = new HeroModel(world ,heroName, pos, (int)character.getWidth(), (int)character.getHeight(), awm);
+	public void loadHero(String heroName, Vec2 pos, AbstractWeaponModel awm){
+		hero = new HeroModel(world ,heroName, pos, awm);
 		contHero = new HeroController(hero, this);
 	}
 
@@ -92,13 +95,13 @@ public class PlayState extends BasicGameState implements IPlayStateController{
 		world.setContinuousPhysics(true);
 		cd = new CollisionDetection();
 		world.setContactListener(cd);
-		wm = new WorldMap(world, true, "test1");
+		loadWorld("test1");
 		
 		loadCharacters(wm.getListOfBodies());
 		
 		GunModel gm = new GunModel(world, 500, 10, 10, 56);
 		
-		loadHero("BluePants", wm.getHeroPosition(), new Dimension(50, 50), gm);
+		loadHero("BluePants", wm.getHeroPosition(), gm);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), 
 				wm.getWorldWidth(), wm.getWorldHeight(), 

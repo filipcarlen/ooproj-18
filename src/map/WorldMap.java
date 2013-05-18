@@ -32,7 +32,7 @@ public class WorldMap{
 	World w;
 	TiledMap tm;
 	//Contains all the shaps that is used for collisions and so on.....
-	List<WorldShapes> wsm = new ArrayList<WorldShapes>();
+	List<WorldShapeModel> wsm = new ArrayList<WorldShapeModel>();
 	//HashMap that contains the path and id to pictures 
 	HashMap<Integer, Image> pictureName = new HashMap<Integer, Image>();
 	//List Containing all images that is needed to load the Map
@@ -127,7 +127,7 @@ public class WorldMap{
 	}
 	
 	public void addWorldShape(float xCoordinate, float yCoordinate, int width, int height, int numberOfTiles){
-		wsm.add(new WorldShapes(w, xCoordinate, yCoordinate, width, height, numberOfTiles));
+		wsm.add(new WorldShapeModel(w, xCoordinate, yCoordinate, width, height, numberOfTiles));
 		
 	}
 	
@@ -161,6 +161,10 @@ public class WorldMap{
 		}
 	}
 	
+	public void setBounds(){
+		WorldShapeModel wsm = new WorldShapeModel(w, 0, 0, tm.getWidth()*tm.getTileWidth(), tm.getHeight()*tm.getTileHeight(), 1);
+	}
+	
 	public ArrayList<IEntityModel> getListOfBodies(){
 		return bodies;
 	}
@@ -177,7 +181,7 @@ public class WorldMap{
 		return tm.getHeight()*tm.getTileHeight();
 	}
 	
-	public List<WorldShapes> getListOfShapes(){
+	public List<WorldShapeModel> getListOfShapes(){
 		return wsm;
 	}
 	
