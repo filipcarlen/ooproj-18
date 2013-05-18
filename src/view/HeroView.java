@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,7 @@ public class HeroView {
 			ArrayList<Image> image = new ArrayList<Image>();
 			for(int j = 0; j < nbrOfAnimations.length; j ++){
 				try{
+					System.out.println("Loaded Weapon on pos ");
 					image.add(new Image("res/Characters/"+ s + "/"+ weapontype + "_" + direction[i] + "_" + nbrOfAnimations[j] + ".png"));
 				}catch(RuntimeException e){
 					break;
@@ -80,6 +82,7 @@ public class HeroView {
 			}
 			animations.add(new Animation(toArray(image), duration, true));
 		}
+		currentAnimation = animations.get(1);
 	}
 	
 	public Image[] toArray(ArrayList<Image> imageList){
@@ -150,7 +153,7 @@ public class HeroView {
 	public void setAttackAnimation(Navigation n){
 		if(n ==Navigation.EAST){
 			currentAnimation = animations.get(14);
-		}else{
+		}else if(n == Navigation.WEST){
 			currentAnimation = animations.get(15);
 		}
 	}
@@ -161,5 +164,9 @@ public class HeroView {
 	
 	public int getHeight(){
 		return currentAnimation.getHeight();
+	}
+
+	public Dimension getDimension() {
+		return new Dimension(getWidth(), getHeight());
 	}
 }
