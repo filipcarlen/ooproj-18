@@ -98,7 +98,7 @@ public class PlayState extends BasicGameState implements IPlayStateController{
 		
 		GunModel gm = new GunModel(world, 500, 10, 10, 56);
 		
-		loadHero("hero", wm.getHeroPosition(), new Dimension(50, 50), gm);
+		loadHero("BluePants", wm.getHeroPosition(), new Dimension(50, 50), gm);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), 
 				wm.getWorldWidth(), wm.getWorldHeight(), 
