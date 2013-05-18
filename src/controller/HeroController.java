@@ -109,7 +109,7 @@ public class HeroController implements IEntityController, ActionListener {
 			 * left animation
 			 */
 			if (!jump && model.getDoubleJump() < 1)
-				view.setAnimation(HeroView.Movement.move, model.getDirection());
+				view.setAnimation(HeroView.Movement.run, model.getDirection());
 		}
 		if (Controls.getInstance().check("right")) {
 			model.setDirection(Navigation.EAST);
@@ -119,7 +119,7 @@ public class HeroController implements IEntityController, ActionListener {
 			 * right animation
 			 */
 			if (!jump && model.getDoubleJump() < 1)
-				view.setAnimation(HeroView.Movement.move, model.getDirection());
+				view.setAnimation(HeroView.Movement.run, model.getDirection());
 		}
 		if (Controls.getInstance().check("jump")) {
 			/* This will start the jump animation */
