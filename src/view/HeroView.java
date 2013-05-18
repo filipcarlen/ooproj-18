@@ -23,10 +23,10 @@ public class HeroView {
 	private HeroModel heroModel;
 	private Animation currentAnimation = new Animation();
 	private List <Animation> animations = new ArrayList<Animation>();
-	private int [] duration = {500, 500};
-	public enum Movement{move, stand, jump, fall, hurt, die};
+	private int [] duration = {200, 200};
+	public enum Movement{run, stand, jump, fall, hurt, hurtback, die};
 	private String[] nbrOfAnimations = {"1", "2", "3", "4", "5", "6", "7", "8"};
-	private String[] direction= {"Right", "Left"};
+	private String[] direction= {"right", "left"};
 	
 	public HeroView(HeroModel hm, WeaponType weaponType){
 		this.heroModel = hm;
@@ -49,7 +49,7 @@ public class HeroView {
 				ArrayList<Image> image = new ArrayList<Image>();
 				for(int k = 0; k < nbrOfAnimations.length; k++){
 					try{
-						image.add(new Image("res/Characters/"+ s + "/"+ Movement.values()[j] + direction[i]+ nbrOfAnimations[k] + ".png"));
+						image.add(new Image("res/Characters/"+ s + "/"+ Movement.values()[j] + "_" + direction[i] + "_" + nbrOfAnimations[k] + ".png"));
 					}catch(RuntimeException e){
 						break;
 					}
@@ -57,7 +57,7 @@ public class HeroView {
 				if(image.size() != duration.length){
 					duration = new int[image.size()];
 					for(int k = 0; k < image.size(); k++){
-						duration[k]= 500;
+						duration[k]= 200;
 					}
 				}
 				animations.add(new Animation(toArray(image) , duration, true));
@@ -67,7 +67,7 @@ public class HeroView {
 			ArrayList<Image> image = new ArrayList<Image>();
 			for(int j = 0; j < nbrOfAnimations.length; j ++){
 				try{
-					image.add(new Image("res/Characters/"+ s + "/"+ weapontype + direction[i]+ nbrOfAnimations[j] + ".png"));
+					image.add(new Image("res/Characters/"+ s + "/"+ weapontype + "_" + direction[i] + "_" + nbrOfAnimations[j] + ".png"));
 				}catch(RuntimeException e){
 					break;
 				}
@@ -75,7 +75,7 @@ public class HeroView {
 			if(image.size() != duration.length){
 				duration = new int[image.size()];
 				for(int k = 0; k < image.size(); k++){
-					duration[k]= 500;
+					duration[k]= 200;
 				}
 			}
 			animations.add(new Animation(toArray(image), duration, true));
@@ -118,12 +118,12 @@ public class HeroView {
 	public void setAnimation(Movement m, Navigation n){
 		int i;
 		if(n ==Navigation.WEST){
-			i = 6;
+			i = 7;
 		}else{
 			i = 0;
 		}
 		switch(m){
-		case move:
+		case run:
 			currentAnimation = animations.get(0 + i);
 			break;
 		case stand:
@@ -138,17 +138,20 @@ public class HeroView {
 		case hurt:
 			currentAnimation = animations.get(4 + i);
 			break;
-		case die:
+		case hurtback:
 			currentAnimation = animations.get(5 + i);
+			break;
+		case die:
+			currentAnimation = animations.get(6 + i);
 			break;
 		}
 	}
 	
 	public void setAttackAnimation(Navigation n){
 		if(n ==Navigation.EAST){
-			currentAnimation = animations.get(12);
+			currentAnimation = animations.get(14);
 		}else{
-			currentAnimation = animations.get(13);
+			currentAnimation = animations.get(15);
 		}
 	}
 	
