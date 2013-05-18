@@ -46,7 +46,9 @@ public class HeroController implements IEntityController, ActionListener {
 	 * This is a integer that will be set if somebody calls fight, and will
 	 * prevent that the standing animation will be active
 	 */
-	private int fightTimer = 0;
+	private int fightTimer = 20;
+	
+	private boolean fight = false;
 
 	/* This is the Model */
 	private HeroModel model;
@@ -57,7 +59,7 @@ public class HeroController implements IEntityController, ActionListener {
 	/* This is the controller that controls the weapon*/
 	private GunController firing;
 	
-	private Timer timer = new Timer(200, this);
+	private Timer timer = new Timer(500, this);
 
 	public HeroController(HeroModel hm, IPlayStateController ipc) {
 		this(hm, false, ipc);
@@ -66,6 +68,10 @@ public class HeroController implements IEntityController, ActionListener {
 	public HeroController(HeroModel hm, boolean keyRegistrated, IPlayStateController ipc) {
 		model = hm;
 		view = new HeroView(hm, model.getWeaponType());
+		if(!model.gotFixture()){
+			hm.setDimension(view.getDimension());
+			hm.createFixture();
+		}
 		this.ipc = ipc;
 		if(model.getWeaponType() == WeaponType.gun)
 			firing = new GunController((GunModel) model.getWeapon());
@@ -97,7 +103,7 @@ public class HeroController implements IEntityController, ActionListener {
 		 * Tells the view to applay the animation for standing, if the character
 		 * isn't jumping or fighting
 		 */
-		if (!jump && model.getDoubleJump() < 1 && !model.isHurted()|| fightTimer == 0)
+		if (!jump && !model.isFalling() && !model.isHurted()&& !fight)
 			view.setAnimation(HeroView.Movement.stand, model.getDirection());
 
 		/* This if statements handels the inputs from the keyboard */
@@ -108,7 +114,7 @@ public class HeroController implements IEntityController, ActionListener {
 			 * If the character isn't jumping this will start the moving to the
 			 * left animation
 			 */
-			if (!jump && model.getDoubleJump() < 1)
+			if (!jump || !model.isFalling() || !model.isHurted()|| !fight)
 				view.setAnimation(HeroView.Movement.run, model.getDirection());
 		}
 		if (Controls.getInstance().check("right")) {
@@ -118,7 +124,7 @@ public class HeroController implements IEntityController, ActionListener {
 			 * If the character isn't jumping this will start the moving to the
 			 * right animation
 			 */
-			if (!jump && model.getDoubleJump() < 1)
+			if (!jump || !model.isFalling() || !model.isHurted()|| !fight)
 				view.setAnimation(HeroView.Movement.run, model.getDirection());
 		}
 		if (Controls.getInstance().check("jump")) {
@@ -137,8 +143,17 @@ public class HeroController implements IEntityController, ActionListener {
 			try {
 				Sounds.getInstance().gunfire.play();
 			} catch (SlickException e) {}
-			view.setAttackAnimation(model.getDirection());
 			model.attack();
+			fight = true;
+			view.setAttackAnimation(model.getDirection());
+		}
+		
+		if(fight){
+			fightTimer -=1;
+			if(fightTimer <= 0){
+				fightTimer = 20;
+				fight = false;
+			}
 		}
 
 		/*

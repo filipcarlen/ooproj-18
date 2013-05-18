@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Dimension;
+
 import utils.Navigation;
 import utils.Utils;
 import utils.WeaponType;
@@ -40,6 +42,8 @@ public class HeroModel implements IAliveModel{
 	
 	private boolean isFalling = false;
 	
+	private boolean fixtureLoaded = false;
+	
 	private Body body;
 	
 	private Navigation direction;
@@ -49,21 +53,21 @@ public class HeroModel implements IAliveModel{
 	private String characterName;
 	
 	public HeroModel(World w, String characterName){
-		this(w, characterName, new Vec2(0,0), 50, 50, null);
+		this(w, characterName, new Vec2(0,0), 0, 0, null, false);
 	}
 	
-	public HeroModel(World w, String characterName, AbstractWeaponModel awm){
-		this(w, characterName, new Vec2(0,0), 50, 50, awm);
+	public HeroModel(World w, String characterName, Vec2 pos, AbstractWeaponModel awm){
+		this(w, characterName, pos, 0, 0, awm, false);
 	}
 
-	public HeroModel(World w, String characterName, Vec2 pos, int width, int height, AbstractWeaponModel weapon){
+	public HeroModel(World w, String characterName, Vec2 pos, int width, int height, AbstractWeaponModel weapon, boolean creatBody){
 		this.characterName = characterName;
-		
-		this.width = width/2/Utils.METER_IN_PIXELS;
-		this.height = height/2/Utils.METER_IN_PIXELS;
-		
-		init(w, pos);
-		dead = false;
+		createHero(w, pos);
+		if(creatBody){
+			setDimension(new Dimension(width, height));
+			createFixture();
+			dead = false;
+		}
 		/* Gives The hero a weapon*/
 		if(weapon != null){
 			this.weapon = weapon;
@@ -77,6 +81,37 @@ public class HeroModel implements IAliveModel{
 	 */
 	public boolean attack(){
 		return weapon.fight(this, direction);
+	}
+	
+	public void createFixture(){
+		/* Creating the structure*/
+		PolygonShape pg = new PolygonShape();
+		pg.setAsBox(this.width, this.height);
+		/* The Fixture*/
+		FixtureDef fd = new FixtureDef();
+		fd.filter.categoryBits = 2;
+		fd.filter.maskBits = 333;
+		fd.density = 0.1f;
+		fd.friction = 0.0f;
+		fd.restitution = 0.0f;
+		fd.shape = pg;
+		
+		body.createFixture(fd);
+		fixtureLoaded = true;
+		dead = false; 
+		setDirection(Navigation.EAST);
+	}
+	
+	public void createHero(World w, Vec2 pos){
+		/* Create the Body defination*/
+		BodyDef b = new BodyDef();
+		b.type = BodyType.DYNAMIC;
+		b.position.set(pos.x/Utils.METER_IN_PIXELS , pos.y/Utils.METER_IN_PIXELS );
+		b.angle = MathUtils.PI;
+		/* Creating an body in the world and applying a Fixture to the body*/
+		body = w.createBody(b);
+		body.setUserData(this);
+		body.setFixedRotation(true);
 	}
 	
 	public void destroyBody(){
@@ -208,6 +243,10 @@ public class HeroModel implements IAliveModel{
 		return width*2;
 	}
 	
+	public boolean gotFixture(){
+		return fixtureLoaded;
+	}
+	
 	@Override
 	public void hurt(int hpDecrement){
 		setHp(getHp()-hpDecrement);
@@ -304,6 +343,15 @@ public class HeroModel implements IAliveModel{
 	public void setGroundContact(){
 		doubleJump= 0;
 		isFalling = false;
+	}
+	
+	/**
+	 * 
+	 * @param dimension - the Dimension of the character in pixels
+	 */
+	public void setDimension(Dimension dimension){
+		this.width = (float) (dimension.getWidth()/2/Utils.METER_IN_PIXELS);
+		this.height = (float) (dimension.getWidth()/2/Utils.METER_IN_PIXELS);
 	}
 	
 	public void setHurted(boolean isHurted){
