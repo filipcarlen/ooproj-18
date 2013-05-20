@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import map.WorldMap;
-import map.WorldShapeModel;
 import model.AbstractCollectibleModel;
 import model.AbstractWeaponModel;
 import model.CoinModel;
@@ -15,6 +14,7 @@ import model.HeroModel;
 import model.IEntityModel;
 import model.MovingFoeModel;
 import model.StaticFoeModel;
+import model.WorldShapeModel;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
