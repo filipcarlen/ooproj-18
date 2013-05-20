@@ -43,10 +43,10 @@ import controller.SwordController;
 public class PlayState extends BasicGameState implements IPlayStateController, ActionListener{
 	
 	private World world;
-	private HeroModel heromodel;
-	private HeroController herocontroller;
-	private WorldMap worldmap;
-	private CollisionDetection collisiondetection;
+	private HeroModel heroModel;
+	private HeroController heroController;
+	private WorldMap worldMap;
+	private CollisionDetection collisionDetection;
 	private int stateID;
 	private Camera camera;
 	private Timer endGameDelay = new Timer(2000, this);
@@ -72,16 +72,16 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	public void newGame(String level, String name, AbstractWeaponModel herosWeapon){
 		try {
 			loadWorld(level);
-			loadEntity(worldmap.getListOfBodies());
-			loadHero(name, worldmap.getHeroPosition(), herosWeapon);
+			loadEntity(worldMap.getListOfBodies());
+			loadHero(name, worldMap.getHeroPosition(), herosWeapon);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void loadWorld(String levelName){
-		worldmap = new WorldMap(world, true, "test1");
-		worldmap.setBounds();
+		worldMap = new WorldMap(world, true, "test1");
+		worldMap.setBounds();
 	}
 	
 	public void loadEntity(ArrayList<IEntityModel> bodies)throws SlickException{
@@ -104,10 +104,10 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 	
 	public void loadHero(String heroName, Vec2 pos, AbstractWeaponModel awm) throws SlickException{
-		heromodel = new HeroModel(world ,heroName, pos, awm);
-		herocontroller = new HeroController(heromodel);
-		if(heromodel.canLoadBody())
-			heromodel.createNewHero(worldmap.getHeroPosition(), awm);
+		heroModel = new HeroModel(world ,heroName, pos, awm);
+		heroController = new HeroController(heroModel);
+		if(heroModel.canLoadBody())
+			heroModel.createNewHero(worldMap.getHeroPosition(), awm);
 		else
 			throw new SlickException("Unable to load Hero");
 	}
@@ -117,18 +117,18 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	 */
 	public void reTry(){
 		endGame = false;
-		removeAllEntity();
-		worldmap.destroyWorld();
-		worldmap.loadMapFromTMX(worldmap.getMapName());
-		worldmap.setBounds();
-		heromodel.resurrection(worldmap.getHeroPosition());
+		removeAllEntities();
+		worldMap.destroyWorld();
+		worldMap.loadMapFromTMX(worldMap.getMapName());
+		worldMap.setBounds();
+		heroModel.resurrection(worldMap.getHeroPosition());
 		try {
-			this.loadEntity(worldmap.getListOfBodies());
+			this.loadEntity(worldMap.getListOfBodies());
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 		camera.resetCamera();
-		camera.updateCamera(heromodel.getFrontPosPixels());
+		camera.updateCamera(heroModel.getFrontPosPixels());
 	}
 	
 	@Override
@@ -145,33 +145,33 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		world = new World(gravity);
 		world.setAllowSleep(true);
 		world.setContinuousPhysics(true);
-		collisiondetection = new CollisionDetection();
-		world.setContactListener(collisiondetection);
+		collisionDetection = new CollisionDetection();
+		world.setContactListener(collisionDetection);
 		
 		GunModel gm = new GunModel(world, 500, 10, 10, 56);
 
 		newGame("test1", "BluePants", gm);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), 
-				worldmap.getWorldWidth(), worldmap.getWorldHeight(), 
-				new Rectangle(300,200), heromodel.getPosPixels());
+				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
+				new Rectangle(300,200), heroModel.getPosPixels());
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		g.drawImage(new Image("res/Map/Background-game.png"), 0, 0);
-		worldmap.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
+		worldMap.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 
 		try{
 			for(int i = 0; i < controllers.size(); i++){
 				controllers.get(i).render(gc, sbg, g);
 			}
-			herocontroller.render(gc, sbg, g);
+			heroController.render(gc, sbg, g);
 		}catch(NullPointerException e){}
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		world.step(1f/60f, 8, 3);
-		if(heromodel.isDead() && !endGame){
+		if(heroModel.isDead() && !endGame){
 			this.pauseUpdate();
 			endGameDelay.start();
 		}
@@ -179,11 +179,11 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			sbg.enterState(GameApp.GAMEOVERSTATE);
 		}
 		try{
-			camera.updateCamera(heromodel.getFrontPosPixels());
+			camera.updateCamera(heroModel.getFrontPosPixels());
 			for(int i = 0; i < controllers.size(); i++){
 				controllers.get(i).update(gc, sbg, delta);
 			}
-			herocontroller.update(gc, sbg, delta);
+			heroController.update(gc, sbg, delta);
 		}catch(NullPointerException e){}
 		if(Controls.getInstance().check("pause")){
 			this.pauseUpdate();
@@ -195,7 +195,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 	
 	public HeroModel getHeroModel(){
-		return heromodel;
+		return heroModel;
 	}
 	
 	public void removeBullet(){
@@ -207,7 +207,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		}
 	}
 	
-	public void removeAllEntity(){
+	public void removeAllEntities(){
 		for(int i = controllers.size()-1; i >= 0; i--){
 			controllers.remove(0);
 		}
@@ -253,15 +253,5 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		endGame = true;
 		this.unpauseUpdate();
 		endGameDelay.stop();
-	}
-	@Override
-	public HeroController getHeroController() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void removeHero() {
-		// TODO Auto-generated method stub
-		
 	}
 }
