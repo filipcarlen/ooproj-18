@@ -19,7 +19,7 @@ public class WorldShapeModel implements IEntityModel {
 	int id;
 	float width;
 	float height;
-	float diff = -.01f;
+	float diff = -.02f;
 	World world;
 
 	public WorldShapeModel(World world, float xCoordinate, float yCoordinate,
@@ -131,14 +131,12 @@ public class WorldShapeModel implements IEntityModel {
 
 	@Override
 	public float getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return height;
 	}
 
 	@Override
 	public float getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return width;
 	}
 
 }
