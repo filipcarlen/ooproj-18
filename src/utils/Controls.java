@@ -16,10 +16,10 @@ public class Controls {
 	/*
 	 * This for Strings are the diffrent commands you can do
 	 */
-	private static final String CMD_LEFT = "left";
-	private static final String CMD_RIGHT = "right";
-	private static final String CMD_JUMP = "jump";
-	private static final String CMD_FIGHT = "fight";
+	public static final String CMD_LEFT = "left";
+	public static final String CMD_RIGHT = "right";
+	public static final String CMD_JUMP = "jump";
+	public static final String CMD_FIGHT = "fight";
 	private static final String CMD_PAUSE = "pause";
 	
 	private Input input;
