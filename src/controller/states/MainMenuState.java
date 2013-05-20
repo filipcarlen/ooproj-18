@@ -12,13 +12,13 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.SoundType;
 import utils.Sounds;
 
 public class MainMenuState extends BasicGameState {
 	
 	private int stateID = -1;
 	private final String PATH = "res/MainMenu/";
-	private Sound soundtrack = null;
 	
 	private Image title = null;
 	private Image background = null;
@@ -71,8 +71,7 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		soundtrack = Sounds.getInstance().soundtrack;
-		soundtrack.loop();
+		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		title = new Image("res/title.png");
 		background = new Image("res/Background.png");
 		startGame = new Image(PATH+"Startgame.png");
@@ -143,9 +142,9 @@ public class MainMenuState extends BasicGameState {
 		insideOptionsMenu = checkMouse(mouseX, mouseY, optionsMenuX, optionsMenuY, options);
 			
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideStartGame){
-				soundtrack.stop();
-				Sounds.getInstance().musicIngame.loop(1, 0.4f);
-				sbg.enterState(GameApp.PLAYSTATE);
+			Sounds.getInstance().stopMusic();
+			Sounds.getInstance().playSound(SoundType.GAME_MUSIC);
+			 sbg.enterState(GameApp.PLAYSTATE);
 		}
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideOptionsMenu){

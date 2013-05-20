@@ -33,7 +33,7 @@ private static Sounds instance = null;
 		musicInGame = new Sound(PATH+"Musicingame.wav");
 		hurt = new Sound(PATH+"hurt.wav");
 		collectCoin = new Sound(PATH+"collect_coin.wav");
-		collectGem = new Sound(PATH+"collect_gem.wav");
+		//collectGem = new Sound(PATH+"collect_gem.wav");
 		die = new Sound(PATH+"die.wav");
 		
 	}
@@ -55,11 +55,11 @@ private static Sounds instance = null;
 		switch(music){
 		
 		case MENU_MUSIC:
-			soundtrack.loop(0, volumeMusic);
+			soundtrack.loop(1, volumeMusic);
 			break;
 			
 		case GAME_MUSIC:
-			musicInGame.loop(0, volumeMusic);
+			musicInGame.loop(1, volumeMusic);
 			break;
 			
 		default:
@@ -78,31 +78,31 @@ private static Sounds instance = null;
 		switch(sound){
 		
 		case GUN:
-			gunfire.play(0, volumeSound);
+			gunfire.play(1, volumeSound);
 			break;
 			
 		case DIE:
-			die.play(0,volumeSound);
+			die.play(1,volumeSound);
 			break;
 			
 		case HURT:
-			hurt.loop(0, volumeSound);
+			hurt.loop(1, volumeSound);
 			break;
 		
 		case ENEMY_DIE:
-			enemyDie.play(0, volumeSound);
+			enemyDie.play(1, volumeSound);
 			break;
 		
 		case ENEMY_HURT:
-			enemyHurt.play(0, volumeSound);
+			enemyHurt.play(1, volumeSound);
 			break;
 			
 		case COLLECT_COIN:
-			collectCoin.play(0,volumeSound);
+			collectCoin.play(1,volumeSound);
 			break;
 			
 		case COLLECT_GEM:
-			collectGem.play(0,volumeSound);
+			collectGem.play(1,volumeSound);
 			break;
 			
 		default:
@@ -148,5 +148,10 @@ private static Sounds instance = null;
 			musicInGame.stop();
 			playMusic(SoundType.GAME_MUSIC);
 		}
+	}
+	
+	public void stopMusic(){
+		soundtrack.stop();
+		musicInGame.stop();
 	}
 }
