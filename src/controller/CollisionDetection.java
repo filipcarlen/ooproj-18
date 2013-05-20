@@ -49,7 +49,6 @@ public class CollisionDetection  implements ContactListener{
 			}
 			
 			else if(objectB instanceof BulletModel) {
-				System.out.println(((BulletModel)objectB).getNavigation());
 				heroModel.setHurted(((BulletModel)objectB).getNavigation(),((BulletModel)objectB).getDamage());
 				((BulletModel)objectB).destroyEntity();
 			}
@@ -84,7 +83,6 @@ public class CollisionDetection  implements ContactListener{
 			}
 			
 			else if(objectA instanceof BulletModel) {
-				System.out.println(((BulletModel)objectB).getNavigation());
 				heroModel.setHurted( ((BulletModel)objectA).getNavigation() ,((BulletModel)objectA).getDamage());
 				((BulletModel)objectA).destroyEntity();
 			}
@@ -147,8 +145,6 @@ public class CollisionDetection  implements ContactListener{
 			bulletModel.destroyEntity();
 
 		}
-		
-		System.out.println(objectA + "\n" + objectB);
 	}
 
 	@Override

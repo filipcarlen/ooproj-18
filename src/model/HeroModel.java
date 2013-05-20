@@ -118,7 +118,6 @@ public class HeroModel implements IAliveModel{
 	public void destroyBody(){
 		world.destroyBody(body);
 		body.setActive(false);
-		System.out.println("It removes body");
 	}
 
 	

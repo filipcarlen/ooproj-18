@@ -83,8 +83,8 @@ public class WorldMap{
 							++numberOfTiles;
 							++i;
 							idtile = tm.getTileId(i, j, collision);
-							background[i][j] = tm.getTileId(i, j, collision);
 							pos = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
+							background[i][j] = tm.getTileId(i, j, collision);
 						}
 						addWorldShape(i - numberOfTiles, j, tm.getTileWidth(), tm.getTileHeight(), numberOfTiles);
 						numberOfTiles = 0;
@@ -112,12 +112,8 @@ public class WorldMap{
 				}
 			}
 		} catch (SlickException e) {
-			System.out.println("Couldn't load Map");
 			e.printStackTrace();
 		}
-		
-		
-		//loadAllPictures("hej");
 	}
 	
 	public void addWorldShape(float xCoordinate, float yCoordinate, int width, int height, int numberOfTiles){
@@ -156,7 +152,7 @@ public class WorldMap{
 	}
 	
 	public void setBounds(){
-		WorldShapeModel wsm = new WorldShapeModel(w, 0, 0, tm.getWidth()*tm.getTileWidth(), tm.getHeight()*tm.getTileHeight(), 1);
+		wsm.add(new WorldShapeModel(w, 0, 0, tm.getWidth()*tm.getTileWidth(), tm.getHeight()*tm.getTileHeight(), 1));
 	}
 	
 	public ArrayList<IEntityModel> getListOfBodies(){

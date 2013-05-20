@@ -68,7 +68,6 @@ public class HeroView {
 			ArrayList<Image> image = new ArrayList<Image>();
 			for(int j = 0; j < nbrOfAnimations.length; j ++){
 				try{
-					System.out.println("Loaded Weapon on pos ");
 					image.add(new Image("res/Characters/"+ s + "/"+ weapontype + "_" + direction[i] + "_" + nbrOfAnimations[j] + ".png"));
 				}catch(RuntimeException e){
 					break;

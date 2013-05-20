@@ -69,7 +69,6 @@ public class HeroController implements IEntityController, ActionListener {
 		if(!model.isBodyCreated()){
 			model.setDimension(30, view.getHeight());
 		}
-		System.out.println(model.getWeaponType());
 		if(model.getWeaponType() == WeaponType.gun)
 			firing = new GunController((GunModel) model.getWeapon());
 		if (!keyRegistrated)
@@ -93,7 +92,6 @@ public class HeroController implements IEntityController, ActionListener {
 		model.getBody().setLinearDamping(1.5f);
 
 		if(model.isHurted() && !hurtTimer.isRunning()){
-			System.out.println(model.isHurtedFront()? HeroView.Movement.hurt: HeroView.Movement.hurtback);
 			view.setAnimation(model.isHurtedFront()? HeroView.Movement.hurt: HeroView.Movement.hurtback, model.getDirection());
 			hurtTimer.start();
 		}
