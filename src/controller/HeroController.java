@@ -9,13 +9,11 @@ import model.GunModel;
 import model.HeroModel;
 
 import org.jbox2d.common.Vec2;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import utils.Camera;
 import utils.Controls;
 import utils.Navigation;
 import utils.SoundType;
@@ -35,8 +33,6 @@ public class HeroController implements IEntityController, ActionListener {
 	/* A Boolean to check if the Character is in the air or not */
 	private boolean jump;
 	
-	private IPlayStateController ipc;
-
 	/*
 	 * This is a count how many times i will apply force in the y axis, this is
 	 * use to simulate a real jump
@@ -60,19 +56,19 @@ public class HeroController implements IEntityController, ActionListener {
 	/* This is the controller that controls the weapon*/
 	private GunController firing;
 	
+	/* This timer controls how long time the hurt animations should continue*/
 	private Timer hurtTimer = new Timer(200, this);
 
-	public HeroController(HeroModel hm, IPlayStateController ipc) {
-		this(hm, false, ipc);
+	public HeroController(HeroModel hm) {
+		this(hm, false);
 	}
 
-	public HeroController(HeroModel hm, boolean keyRegistrated, IPlayStateController ipc) {
+	public HeroController(HeroModel hm, boolean keyRegistrated) {
 		model = hm;
 		view = new HeroView(hm, model.getWeaponType());
 		if(!model.isBodyCreated()){
 			model.setDimension(30, view.getHeight());
 		}
-		this.ipc = ipc;
 		System.out.println(model.getWeaponType());
 		if(model.getWeaponType() == WeaponType.gun)
 			firing = new GunController((GunModel) model.getWeapon());
@@ -86,13 +82,14 @@ public class HeroController implements IEntityController, ActionListener {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		/* Tells the Control which key i'm pressing */
 		Controls.getInstance().updateInput(gc.getInput());
+		
 		/* Get the vector that is used to apply force to the character */
 		Vec2 heroVec = model.getBody().getWorldVector(new Vec2(-1.0f, 0.0f));
+		
 		/*
 		 * Sets the linearDamping so that the body dosen't continue to go to the
 		 * left, right or up
 		 */
-		
 		model.getBody().setLinearDamping(1.5f);
 
 		if(model.isHurted() && !hurtTimer.isRunning()){
@@ -180,7 +177,7 @@ public class HeroController implements IEntityController, ActionListener {
 		}
 		firing.update(gc, sbg, delta);
 		
-		if(model.isDead()){			
+		if(model.isDead()){	
 			model.destroyBody();
 		}
 	}
