@@ -398,14 +398,15 @@ public class HeroModel implements IAliveModel{
 				Sounds.getInstance().playSound(SoundType.DIE);
 			}catch(SlickException e){}
 		}else if(hp >getMaxHp()){
+			this.hp = getMaxHp();
+		}else{
 			try {
 				Sounds.getInstance().playSound(SoundType.HURT);
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
-			this.hp = getMaxHp();
-		}else
 			this.hp = hp;
+		}
 	}
 	
 	/**
