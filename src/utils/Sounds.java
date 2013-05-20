@@ -33,7 +33,7 @@ private static Sounds instance = null;
 		musicInGame = new Sound(PATH+"Musicingame.wav");
 		hurt = new Sound(PATH+"hurt.wav");
 		collectCoin = new Sound(PATH+"collect_coin.wav");
-		//collectGem = new Sound(PATH+"collect_gem.wav");
+		collectGem = new Sound(PATH+"collect_gem.wav");
 		die = new Sound(PATH+"die.wav");
 		
 	}
