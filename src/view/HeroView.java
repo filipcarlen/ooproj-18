@@ -142,7 +142,7 @@ public class HeroView {
 			currentAnimation = animations.get(4 + i);
 			break;
 		case hurtback:
-			currentAnimation = animations.get(5 + i);
+			currentAnimation = animations.get(12 - i);
 			break;
 		case die:
 			currentAnimation = animations.get(6 + i);
