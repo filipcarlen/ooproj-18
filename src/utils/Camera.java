@@ -25,8 +25,7 @@ public class Camera {
 		this.worldheight = worldheight;
 		this.posOfHero = posFocusPixel;
 		positionCamera = new Vector2f(0,0);
-		x= 0;
-		y = 0;
+		resetCamera();
 	}
 	
 	
@@ -55,17 +54,22 @@ public class Camera {
 		if(posOfHero.x > positionCamera.x+displaywidth-distFromWall && distFromWall < (worldwidth-posOfHero.x)){
 			x = positionCamera.x +(posOfHero.x-(positionCamera.x+displaywidth-distFromWall));
 		}
-		if(posOfHero.y > positionCamera.y+displayheight-distFromGToF && distFromGToF <(worldheight- posOfHero.y)){
-			y = positionCamera.y +(posOfHero.y-(positionCamera.y+displayheight-distFromGToF));
-		}
-		if(posOfHero.x < positionCamera.x+distFromWall && posOfHero.x > distFromWall){
+		else if(posOfHero.x < positionCamera.x+distFromWall && posOfHero.x > distFromWall){
 			x = positionCamera.x -(positionCamera.x +distFromWall - posOfHero.x);
 		}
-		if(posOfHero.y < positionCamera.y+distFromGToF && posOfHero.y > distFromGToF){
+		if(posOfHero.y > positionCamera.y+displayheight-distFromGToF && distFromGToF <(worldheight- posOfHero.y)){
+			y = positionCamera.y +(posOfHero.y-(positionCamera.y+displayheight-distFromGToF));
+		}else if(posOfHero.y < positionCamera.y+distFromGToF && posOfHero.y > distFromGToF){
 			y = positionCamera.y -(positionCamera.y +distFromGToF - posOfHero.y);
 		}
 		positionCamera.set(x, y);
 	}
+	
+	public void resetCamera(){
+		x = 0;
+		y = 0;
+	}
+	
 	public Vector2f getCameraPosition(){
 		return positionCamera;
 	}
