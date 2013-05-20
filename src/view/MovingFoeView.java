@@ -15,7 +15,7 @@ import utils.Camera;
 
 public class MovingFoeView {
 
-	public static enum AnimationType {WALK_LEFT, WALK_RIGHT, GUN_LEFT, GUN_RIGHT, SWORD_LEFT, SWORD_RIGHT};
+	public static enum AnimationType {STAND, WALK_LEFT, WALK_RIGHT, GUN_LEFT, GUN_RIGHT, SWORD_LEFT, SWORD_RIGHT};
 	
 	private Animation[] animations;
 	
@@ -35,56 +35,63 @@ public class MovingFoeView {
 	}
 	
 	public void initAnimations() throws SlickException {
-		this.animations = new Animation[6];
+		this.animations = new Animation[7];
 		Image[] images = new Image[2];
 		int duration = 500;
 		
 		images[0] = new Image(this.PATH + "walkleft1.jpg");
 		images[1] = new Image(this.PATH + "walkleft2.jpg");
 		animations[0] = (new Animation(images, duration));
+		
+		images[0] = new Image(this.PATH + "walkleft1.jpg");
+		images[1] = new Image(this.PATH + "walkleft2.jpg");
+		animations[1] = (new Animation(images, duration));
 			
 		images[0] = new Image(this.PATH + "walkright1.jpg");
 		images[1] = new Image(this.PATH + "walkright2.jpg");
-		animations[1] = new Animation(images, duration);
+		animations[2] = new Animation(images, duration);
 			
 		images[0] = new Image(this.PATH + "gunleft1.jpg");
 		images[1] = new Image(this.PATH + "gunleft2.jpg");
-		animations[2] = new Animation(images, duration);
+		animations[3] = new Animation(images, duration);
 			
 		images[0] = new Image(this.PATH + "gunright1.jpg");
 		images[1] = new Image(this.PATH + "gunright2.jpg");
-		animations[3] = new Animation(images, duration);
+		animations[4] = new Animation(images, duration);
 		
 		images[0] = new Image(this.PATH + "swordleft1.jpg");
 		images[1] = new Image(this.PATH + "swordleft2.jpg");
-		animations[4] = new Animation(images, duration);
+		animations[5] = new Animation(images, duration);
 			
 		images[0] = new Image(this.PATH + "swordright1.jpg");
 		images[1] = new Image(this.PATH + "swordright2.jpg");
-		animations[5] = new Animation(images, duration);
+		animations[6] = new Animation(images, duration);
 		
 		this.currentAnimation = this.animations[0];
 	}
 	
 	public void setCurrentAnim(AnimationType type) {
 		switch(type) {
-		case WALK_LEFT:
+		case STAND:
 			this.currentAnimation = this.animations[0];
 			break;
-		case WALK_RIGHT:
+		case WALK_LEFT:
 			this.currentAnimation = this.animations[1];
 			break;
-		case GUN_LEFT:
+		case WALK_RIGHT:
 			this.currentAnimation = this.animations[2];
 			break;
-		case GUN_RIGHT:
+		case GUN_LEFT:
 			this.currentAnimation = this.animations[3];
 			break;
-		case SWORD_LEFT:
+		case GUN_RIGHT:
 			this.currentAnimation = this.animations[4];
 			break;
-		case SWORD_RIGHT:
+		case SWORD_LEFT:
 			this.currentAnimation = this.animations[5];
+			break;
+		case SWORD_RIGHT:
+			this.currentAnimation = this.animations[6];
 			break;
 		default:
 			break;

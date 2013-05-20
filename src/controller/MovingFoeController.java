@@ -26,7 +26,8 @@ public class MovingFoeController implements IEntityController {
 	}
 
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta) {
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+		
 		Vec2 right = this.model.getBody().getWorldVector(new Vec2(-0.05f, 0.0f));
 		Vec2 left = this.model.getBody().getWorldVector(new Vec2(0.05f, 0.0f));
 		
@@ -46,25 +47,25 @@ public class MovingFoeController implements IEntityController {
 				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
 				this.model.getBody().applyLinearImpulse(left, this.model.getPosMeters());
 				
-			} else if((heroPos.x > foePos.x) && 
+			} else if((foePos.x < heroPos.x) && 
 					!(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), playState.getHeroModel().getPosMeters()))){
 				
 				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
 				this.model.getBody().applyLinearImpulse(right, this.model.getPosMeters());
 				
-			} else if((heroPos.x < foePos.x) && (Math.abs(foePos.y-heroPos.y)>=(Utils.METER_IN_PIXELS/2))) {
+			} else if((heroPos.x < foePos.x) && (Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS))) {
 				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
 				this.model.getBody().applyLinearImpulse(left, this.model.getPosMeters());
 				
-			} else if((heroPos.x > foePos.x) && (Math.abs(foePos.y-heroPos.y)>=(Utils.METER_IN_PIXELS/2))) {
+			} else if((heroPos.x > foePos.x) && (Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS))) {
 				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
 				this.model.getBody().applyLinearImpulse(right, this.model.getPosMeters());
 				
 			}
 			
-			//Attack the hero if he/she is within the range of this foe's weapon.
+			//Attack the hero if he/she is within the range of this foe's weapon and if this foe is not to high above or too low below the hero.
 			if((this.model.getWeapon().isWithinRange(this.model.getPosMeters(), this.playState.getHeroModel().getPosMeters())) && 
-					(Math.abs(foePos.y-heroPos.y)<(Utils.METER_IN_PIXELS/2))){
+					(Math.abs(foePos.y-heroPos.y) < (Utils.METER_IN_PIXELS))){
 					
 				if(heroPos.x < this.model.getPosPixels().x) {
 					if(this.model.getWeapon().fight(this.model,Navigation.WEST)){
@@ -76,10 +77,10 @@ public class MovingFoeController implements IEntityController {
 					}
 				}
 			}
+		} else {
+			this.view.setCurrentAnim(MovingFoeView.AnimationType.STAND);
 		}
 	}
-
-	
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
