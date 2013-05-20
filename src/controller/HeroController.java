@@ -59,7 +59,7 @@ public class HeroController implements IEntityController, ActionListener {
 	/* This is the controller that controls the weapon*/
 	private GunController firing;
 	
-	private Timer timer = new Timer(500, this);
+	private Timer timer = new Timer(1000, this);
 
 	public HeroController(HeroModel hm, IPlayStateController ipc) {
 		this(hm, false, ipc);
@@ -94,8 +94,9 @@ public class HeroController implements IEntityController, ActionListener {
 		
 		model.getBody().setLinearDamping(1.5f);
 
-		if(model.isHurted()){
-			view.setAnimation(HeroView.Movement.hurt, model.getDirection());
+		if(model.isHurted() && !timer.isRunning()){
+			System.out.println(model.isHurtedFront()? HeroView.Movement.hurt: HeroView.Movement.hurtback);
+			view.setAnimation(model.isHurtedFront()? HeroView.Movement.hurt: HeroView.Movement.hurtback, model.getDirection());
 			timer.start();
 		}
 		
@@ -114,7 +115,7 @@ public class HeroController implements IEntityController, ActionListener {
 			 * If the character isn't jumping this will start the moving to the
 			 * left animation
 			 */
-			if (!jump || !model.isFalling() || !model.isHurted()|| !fight)
+			if (!jump && !model.isFalling() && !model.isHurted()&& !fight)
 				view.setAnimation(HeroView.Movement.run, model.getDirection());
 		}
 		if (Controls.getInstance().check("right")) {
@@ -124,10 +125,10 @@ public class HeroController implements IEntityController, ActionListener {
 			 * If the character isn't jumping this will start the moving to the
 			 * right animation
 			 */
-			if (!jump || !model.isFalling() || !model.isHurted()|| !fight)
+			if (!jump && !model.isFalling() && !model.isHurted()&& !fight)
 				view.setAnimation(HeroView.Movement.run, model.getDirection());
 		}
-		if (Controls.getInstance().check("jump")) {
+		if (Controls.getInstance().check("jump") && !model.isFalling()) {
 			/* This will start the jump animation */
 			view.setAnimation(HeroView.Movement.jump, model.getDirection());
 			/* This check that we haven't jumped two times */
@@ -197,7 +198,7 @@ public class HeroController implements IEntityController, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		model.setHurted(false);
+		model.resetHurted();
 		timer.stop();
 	}
 }
