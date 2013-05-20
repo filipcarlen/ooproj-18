@@ -27,6 +27,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Camera;
 import utils.Controls;
+import utils.SoundType;
+import utils.Sounds;
 import utils.WeaponType;
 import controller.CollectibleController;
 import controller.CollisionDetection;
@@ -125,7 +127,15 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+		camera.resetCamera();
 		camera.updateCamera(heromodel.getFrontPosPixels());
+	}
+	
+	@Override
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
+		Sounds.getInstance().playSound(SoundType.GAME_MUSIC);
+		if(endGame)
+			reTry();
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -198,14 +208,14 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 	
 	public void removeAllEntity(){
-		for(int i = controllers.size(); i > 0; i--){
+		for(int i = controllers.size()-1; i >= 0; i--){
 			controllers.remove(0);
 		}
-		for(int i = bodies.size()-1; i > 0; i--){
+		for(int i = bodies.size()-1; i >= 0; i--){
 			world.destroyBody(bodies.get(i).getBody());
 			bodies.remove(i);
 		}
-		for(int i = gunThatsActive.size(); i > 0; i--){
+		for(int i = gunThatsActive.size()-1; i >= 0; i--){
 			gunThatsActive.remove(i);
 		}
 	}
@@ -243,7 +253,6 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		endGame = true;
 		this.unpauseUpdate();
 		endGameDelay.stop();
-		
 	}
 	@Override
 	public HeroController getHeroController() {
