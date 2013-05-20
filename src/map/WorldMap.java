@@ -41,6 +41,8 @@ public class WorldMap{
 	//Background
 	int [][] background;
 	
+	String levelName;
+	
 	Vec2 positionHero;
 	
 	ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
@@ -51,6 +53,7 @@ public class WorldMap{
 	}
 
 	public WorldMap(World world, boolean loadMap, String levelName){
+		this.levelName = levelName;
 		this.w = world;
 		if(loadMap){
 			loadMapFromTMX(levelName);
@@ -62,8 +65,6 @@ public class WorldMap{
 		try {
 			tm = new TiledMap("res/Map/" + levelName + ".tmx");
 			background = new int[tm.getWidth()][tm.getHeight()];
-			GunModel gun = new GunModel(w, 1500, 10, 10, 72);
-			SwordModel sword = new SwordModel(w, null, 10, 10);
 			int collision = tm.getLayerIndex("collision");
 			int numberOfTiles = 0;
 			int idtile;
@@ -91,30 +92,23 @@ public class WorldMap{
 					if(idtile == 91){
 						positionHero = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
 					}else if(idtile == 92){
-						bodies.add(new MovingFoeModel(w, pos, 50, sword, 5, id));
-						++id;
+						bodies.add(new MovingFoeModel(w, pos, 50, new SwordModel(w, 35, id), 5, id));
 					}else if(idtile == 93){
-						bodies.add(new MovingFoeModel(w, pos, 50, gun, 5, id));
-						++id;
+						bodies.add(new MovingFoeModel(w, pos, 50, new GunModel(w, 1500, 10, 10, id), 5, id));
 					}else if(idtile == 94){
-						bodies.add(new StaticFoeModel(w, pos, 50, StaticFoeModel.StaticFoeType.FIRE, 5));
-						++id;
+						bodies.add(new StaticFoeModel(w, pos, 15, StaticFoeModel.StaticFoeType.FIRE, 5));
 					}else if(idtile == 95){
-						bodies.add(new StaticFoeModel(w, pos, 50, StaticFoeModel.StaticFoeType.WATER, 5));
-						++id;
+						bodies.add(new StaticFoeModel(w, pos, 80, StaticFoeModel.StaticFoeType.WATER, 5));
 					}else if(idtile == 96){
-						bodies.add(new StaticFoeModel(w, pos, 50, StaticFoeModel.StaticFoeType.SPIKES, 5));
-						++id;
+						bodies.add(new StaticFoeModel(w, pos, 5, StaticFoeModel.StaticFoeType.SPIKES, 5));
 					}else if(idtile == 97){
-						bodies.add(new StaticFoeModel(w, pos, 50, StaticFoeModel.StaticFoeType.PLANT, 5));
-						++id;
+						bodies.add(new StaticFoeModel(w, pos, 20, StaticFoeModel.StaticFoeType.PLANT, 5));
 					}else if(idtile == 99){
 						bodies.add(new CoinModel(w, pos, id));
-						++id;
 					}else if(idtile == 100){
 						bodies.add(new GemModel(w, pos, id));
-						++id;
 					}
+					++id;
 				}
 			}
 		} catch (SlickException e) {
@@ -187,5 +181,17 @@ public class WorldMap{
 	
 	public List<Image> getImages(){
 		return mapImage;
+	}
+	
+	public String getMapName(){
+		return levelName;
+	}
+
+	public void destroyWorld() {
+		for(int i=0 ; i < wsm.size(); i++){
+			wsm.get(i).destroyBody();
+			wsm.remove(i);
+		}
+		
 	}
 }

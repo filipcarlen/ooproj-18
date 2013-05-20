@@ -112,6 +112,13 @@ public class WorldShapeModel implements IEntityModel {
 	public Body getBody() {
 		return null;
 	}
+	
+	public void destroyBody(){
+		world.destroyBody(bodyGround);
+		world.destroyBody(bodyRoof);
+		world.destroyBody(bodyWallLeft);
+		world.destroyBody(bodyWallRight);
+	}
 
 	public int getID() {
 		return id;
