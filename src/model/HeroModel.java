@@ -57,8 +57,6 @@ public class HeroModel implements IAliveModel{
 	
 	private Navigation direction;
 	
-	private WeaponType weapontype = null;
-	
 	private String characterName;
 	
 	public HeroModel(World w, String characterName){
@@ -106,14 +104,15 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	public void continueUseHero(Vec2 pos){
-		resetHurted();
-		BodyDef b = new BodyDef();
-		b.type = BodyType.DYNAMIC;
-		b.position.set(pos.x/Utils.METER_IN_PIXELS , pos.y/Utils.METER_IN_PIXELS );
-		
-		world.destroyBody(body);
-		body = world.createBody(b);
-		this.hp = maxHp;
+		int gems = this.getGemAmount();
+		int coins = this.getCoinAmount();
+		int kills = this.getKills();
+		int score = this.getScore();
+		createNewHero(pos, weapon);
+		this.gemAmount = gems;
+		this.coinAmount = coins;
+		this.killCount = kills;
+		this.score = score;
 	}
 	
 	public void destroyBody(){
@@ -301,7 +300,7 @@ public class HeroModel implements IAliveModel{
 		FixtureDef fd = new FixtureDef();
 		fd.filter.categoryBits = 2;
 		fd.filter.maskBits = 333;
-		fd.density = 0.1f;
+		fd.density = 0.15f;
 		fd.friction = 0.0f;
 		fd.restitution = 0.0f;
 		fd.shape = pg;
@@ -343,9 +342,9 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	public void resurrection(Vec2 pos){
-		continueUseHero(pos);
-		body.setActive(true);
+		createNewHero(pos, weapon);
 		dead = false;
+		body.setActive(true);
 	}
 	
 	/**
