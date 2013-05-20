@@ -57,7 +57,7 @@ public class MainMenuState extends BasicGameState {
 	
 	private boolean insideStartGame = false;
 	private boolean insideOptionsMenu = false;
-	private boolean insideLoadGame = false;
+	private boolean insideHighscore = false;
 	private boolean insideQuitGame = false;
 	
 	private static MainMenuState instance = null;
@@ -121,7 +121,7 @@ public class MainMenuState extends BasicGameState {
 			quit.draw(quitGamePos.x, quitGamePos.y);
 		}
 		
-		if(insideLoadGame){
+		if(insideHighscore){
 			highscoreHighlighted.draw(highscorePos.x,highscorePos.y);
 		}
 		else{
@@ -149,7 +149,7 @@ public class MainMenuState extends BasicGameState {
 		
 		insideStartGame = checkMouse(mouseX, mouseY, startGamePos, startGame);
 		insideQuitGame = checkMouse(mouseX, mouseY, quitGamePos, quit);
-		insideLoadGame = checkMouse(mouseX, mouseY, highscorePos, highscore);
+		insideHighscore= checkMouse(mouseX, mouseY, highscorePos, highscore);
 		insideOptionsMenu = checkMouse(mouseX, mouseY, optionsPos, options);
 			
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideStartGame){
@@ -160,6 +160,10 @@ public class MainMenuState extends BasicGameState {
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideOptionsMenu){
 			sbg.enterState(GameApp.OPTIONSSTATE);
+		}
+		
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideHighscore){
+			sbg.enterState(GameApp.HIGHSCORESTATE);
 		}
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideQuitGame){

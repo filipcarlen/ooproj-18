@@ -13,6 +13,7 @@ public class GameApp extends StateBasedGame{
 	public static final int PLAYSTATE = 1;
 	public static final int OPTIONSSTATE = 2;
 	public static final int GAMEOVERSTATE = 3;
+	public static final int HIGHSCORESTATE = 4;
 
 	
 	public GameApp(String gamename) {
@@ -24,6 +25,7 @@ public class GameApp extends StateBasedGame{
 		GameOverState gameOverState = new GameOverState(GAMEOVERSTATE);
 		gameOverState.setPlayState(playState);
 		this.addState(gameOverState);
+		this.addState(HighscoreState.getInstance());
 		this.enterState(MAINMENUSTATE);
 	}
 
