@@ -11,6 +11,7 @@ import model.IEntityModel;
 import model.MovingFoeModel;
 import model.StaticFoeModel;
 import model.SwordModel;
+import model.WorldShapeModel;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
