@@ -1,6 +1,5 @@
 package controller.states;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,31 +10,24 @@ import javax.swing.Timer;
 import map.WorldMap;
 import model.AbstractCollectibleModel;
 import model.AbstractWeaponModel;
-import model.CoinModel;
-import model.GemModel;
 import model.GunModel;
 import model.HeroModel;
 import model.IEntityModel;
 import model.MovingFoeModel;
 import model.StaticFoeModel;
 import model.SwordModel;
-import model.WorldShapeModel;
-
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Camera;
 import utils.Controls;
 import utils.WeaponType;
-import view.HeroView;
-import view.StaticFoeView;
 import controller.CollectibleController;
 import controller.CollisionDetection;
 import controller.GunController;
@@ -48,34 +40,46 @@ import controller.SwordController;
 
 public class PlayState extends BasicGameState implements IPlayStateController, ActionListener{
 	
-	World world;
-	HeroModel hero;
-	HeroController contHero;
-	HeroView pa;
-	WorldMap wm;
-	CollisionDetection cd;
-	int nbr= 0;
-	int stateID;
-	Camera camera;
-	GunController heroGunController;
-	SwordController heroSwordController;
-	Timer endGameDelay = new Timer(2000, this);
-	boolean endGame = false;
+	private World world;
+	private HeroModel heromodel;
+	private HeroController herocontroller;
+	private WorldMap worldmap;
+	private CollisionDetection collisiondetection;
+	private int stateID;
+	private Camera camera;
+	private Timer endGameDelay = new Timer(2000, this);
+	private boolean endGame = false;
 	
-	
+	/* This list contains all the bodies in the world*/
 	ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
+	/* This list contains all the controllers for the bodies in the list above*/
 	ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
-	ArrayList<WorldShapeModel> terrain = new ArrayList <WorldShapeModel>();
-	
+	/* This list contains all the guns without any Entity
+	 * (the entity has died before the bullet has transport the distance)*/
 	ArrayList<GunModel> gunThatsActive= new ArrayList<GunModel>();
 	
 	public PlayState(int id){
 		stateID = id;
 	}
+	/**
+	 * This method load everything in world.
+	 * @param level
+	 * @param name
+	 * @param herosWeapon
+	 */
+	public void newGame(String level, String name, AbstractWeaponModel herosWeapon){
+		try {
+			loadWorld(level);
+			loadEntity(worldmap.getListOfBodies());
+			loadHero(name, worldmap.getHeroPosition(), herosWeapon);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void loadWorld(String levelName){
-		wm = new WorldMap(world, true, "test1");
-		wm.setBounds();
+		worldmap = new WorldMap(world, true, "test1");
+		worldmap.setBounds();
 	}
 	
 	public void loadEntity(ArrayList<IEntityModel> bodies)throws SlickException{
@@ -98,31 +102,30 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 	
 	public void loadHero(String heroName, Vec2 pos, AbstractWeaponModel awm) throws SlickException{
-		hero = new HeroModel(world ,heroName, pos, awm);
-		contHero = new HeroController(hero, this);
-		if(hero.canLoadBody())
-			hero.createNewHero(wm.getHeroPosition(), awm);
+		heromodel = new HeroModel(world ,heroName, pos, awm);
+		herocontroller = new HeroController(heromodel);
+		if(heromodel.canLoadBody())
+			heromodel.createNewHero(worldmap.getHeroPosition(), awm);
 		else
 			throw new SlickException("Unable to load Hero");
 	}
 	
+	/**
+	 * You should call this method when you want to restart a Level 
+	 */
 	public void reTry(){
-		//removeAllEntity();
-		wm.destroyWorld();
-		wm.loadMapFromTMX(wm.getMapName());
-		hero.resurrection(wm.getHeroPosition());
-		camera.updateCamera(hero.getFrontPosPixels());
 		endGame = false;
-	}
-	
-	public void newGame(String level, String name, AbstractWeaponModel herosWeapon){
+		removeAllEntity();
+		worldmap.destroyWorld();
+		worldmap.loadMapFromTMX(worldmap.getMapName());
+		worldmap.setBounds();
+		heromodel.resurrection(worldmap.getHeroPosition());
 		try {
-			loadWorld(level);
-			loadEntity(wm.getListOfBodies());
-			loadHero(name, wm.getHeroPosition(), herosWeapon);
+			this.loadEntity(worldmap.getListOfBodies());
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+		camera.updateCamera(heromodel.getFrontPosPixels());
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -132,40 +135,33 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		world = new World(gravity);
 		world.setAllowSleep(true);
 		world.setContinuousPhysics(true);
-		cd = new CollisionDetection();
-		world.setContactListener(cd);
+		collisiondetection = new CollisionDetection();
+		world.setContactListener(collisiondetection);
 		
 		GunModel gm = new GunModel(world, 500, 10, 10, 56);
 
 		newGame("test1", "BluePants", gm);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), 
-				wm.getWorldWidth(), wm.getWorldHeight(), 
-				new Rectangle(300,200), hero.getPosPixels());
+				worldmap.getWorldWidth(), worldmap.getWorldHeight(), 
+				new Rectangle(300,200), heromodel.getPosPixels());
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		g.drawImage(new Image("res/Map/Background-game.png"), 0, 0);
-		wm.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
+		worldmap.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 
 		try{
 			for(int i = 0; i < controllers.size(); i++){
 				controllers.get(i).render(gc, sbg, g);
 			}
-			contHero.render(gc, sbg, g);
-		}catch(NullPointerException e){
-		}
-		try{
-			g.drawString(" BodyCount" + world.getBodyCount() +"\n HeroModelBody " + hero.getBody() + 
-				"\n Force:" + hero.getBody().m_linearVelocity.y, 100, 100);
-		} catch(NullPointerException e){
-		}
-				
+			herocontroller.render(gc, sbg, g);
+		}catch(NullPointerException e){}
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		world.step(1f/60f, 8, 3);
-		if(hero.isDead()){
+		if(heromodel.isDead() && !endGame){
 			this.pauseUpdate();
 			endGameDelay.start();
 		}
@@ -173,11 +169,11 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			sbg.enterState(GameApp.GAMEOVERSTATE);
 		}
 		try{
-			camera.updateCamera(hero.getFrontPosPixels());
+			camera.updateCamera(heromodel.getFrontPosPixels());
 			for(int i = 0; i < controllers.size(); i++){
 				controllers.get(i).update(gc, sbg, delta);
 			}
-			contHero.update(gc, sbg, delta);
+			herocontroller.update(gc, sbg, delta);
 		}catch(NullPointerException e){}
 		if(Controls.getInstance().check("pause")){
 			this.pauseUpdate();
@@ -189,25 +185,28 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 	
 	public HeroModel getHeroModel(){
-		return hero;
+		return heromodel;
 	}
 	
 	public void removeBullet(){
 		for(GunModel gm: gunThatsActive){
-			gm.isDone();
+			if(gm.isDone()){
+				removeEntity(gm.getID());
+				gunThatsActive.remove(gm);
+			}
 		}
 	}
 	
 	public void removeAllEntity(){
-		for(IEntityController iec: controllers){
-			controllers.remove(iec);
+		for(int i = controllers.size(); i > 0; i--){
+			controllers.remove(0);
 		}
-		for(IEntityModel iem: bodies){
-			world.destroyBody(iem.getBody());
-			bodies.remove(iem);
+		for(int i = bodies.size()-1; i > 0; i--){
+			world.destroyBody(bodies.get(i).getBody());
+			bodies.remove(i);
 		}
-		for(GunModel gm: gunThatsActive){
-			bodies.remove(gm);
+		for(int i = gunThatsActive.size(); i > 0; i--){
+			gunThatsActive.remove(i);
 		}
 	}
 	
@@ -238,20 +237,22 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			}
 		}
 	}
-	
-	public HeroController getHeroController(){
-		return contHero;
-	}
-
-	public void removeHero() {
-		contHero = null;
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		endGame = true;
 		this.unpauseUpdate();
 		endGameDelay.stop();
+		
+	}
+	@Override
+	public HeroController getHeroController() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void removeHero() {
+		// TODO Auto-generated method stub
 		
 	}
 }
