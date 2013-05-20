@@ -152,7 +152,7 @@ public class MainMenuState extends BasicGameState {
 		insideHighscore= checkMouse(mouseX, mouseY, highscorePos, highscore);
 		insideOptionsMenu = checkMouse(mouseX, mouseY, optionsPos, options);
 			
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideStartGame){
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideStartGame){	
 			Sounds.getInstance().stopMusic();
 			Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
 			sbg.enterState(GameApp.PLAYSTATE);
