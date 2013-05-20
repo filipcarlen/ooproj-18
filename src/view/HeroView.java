@@ -94,6 +94,8 @@ public class HeroView {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		if(heroModel.isDead())
+			setAnimation(Movement.die, heroModel.getDirection());
 		Vec2 tmp = Camera.entityRender(heroModel.getPosPixels());
 		/* Draws the animation */
 		g.drawAnimation(currentAnimation, tmp.x, tmp.y);
@@ -142,7 +144,7 @@ public class HeroView {
 			currentAnimation = animations.get(4 + i);
 			break;
 		case hurtback:
-			currentAnimation = animations.get(12 - i);
+			currentAnimation = animations.get(5 + i);
 			break;
 		case die:
 			currentAnimation = animations.get(6 + i);
