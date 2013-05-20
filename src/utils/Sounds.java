@@ -86,7 +86,7 @@ private static Sounds instance = null;
 			break;
 			
 		case HURT:
-			hurt.loop(1, volumeSound);
+			hurt.play(1, volumeSound);
 			break;
 		
 		case ENEMY_DIE:
