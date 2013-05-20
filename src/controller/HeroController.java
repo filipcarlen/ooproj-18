@@ -7,6 +7,7 @@ import javax.swing.Timer;
 
 import model.GunModel;
 import model.HeroModel;
+import model.SwordModel;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
@@ -54,7 +55,7 @@ public class HeroController implements IEntityController, ActionListener {
 	private HeroView view;
 	
 	/* This is the controller that controls the weapon*/
-	private GunController firing;
+	private IEntityController controller;
 	
 	/* This timer controls how long time the hurt animations should continue*/
 	private Timer hurtTimer = new Timer(200, this);
@@ -70,7 +71,10 @@ public class HeroController implements IEntityController, ActionListener {
 			model.setDimension(30, view.getHeight());
 		}
 		if(model.getWeaponType() == WeaponType.gun)
-			firing = new GunController((GunModel) model.getWeapon());
+			controller = new GunController((GunModel) model.getWeapon());
+		else if(model.getWeaponType() == WeaponType.sword){
+			controller = new SwordController((SwordModel) model.getWeapon());
+		}
 		if (!keyRegistrated)
 			/* Sets the Controls to the default options */
 			Controls.getInstance().setDeafaultControls();
@@ -173,7 +177,7 @@ public class HeroController implements IEntityController, ActionListener {
 			view.setAnimation(HeroView.Movement.fall, model.getDirection());
 			model.falling();
 		}
-		firing.update(gc, sbg, delta);
+		controller.update(gc, sbg, delta);
 		
 		if(model.isDead()){	
 			model.destroyBody();
@@ -183,7 +187,7 @@ public class HeroController implements IEntityController, ActionListener {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		view.render(gc, sbg, g);
-		firing.render(gc, sbg, g);
+		controller.render(gc, sbg, g);
 		g.drawString("\nCoins;" + model.getCoinAmount() +
 				"\nGems:" + model.getGemAmount() +
 				"\nScore:" + model.getScore() +

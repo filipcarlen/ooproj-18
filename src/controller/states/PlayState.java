@@ -150,7 +150,10 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		
 		GunModel gm = new GunModel(world, 500, 10, 10, 56);
 
-		newGame("test1", "BluePants", gm);
+		SwordModel sm = new SwordModel(world, 20, 1337);
+		
+		
+		newGame("test1", "BluePants", sm);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), 
 				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
