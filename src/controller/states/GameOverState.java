@@ -14,6 +14,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.SoundType;
 import utils.Sounds;
 
 import controller.IPlayStateController;
@@ -190,8 +191,8 @@ public class GameOverState extends BasicGameState{
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame sbg) throws SlickException{
-		Sounds.getInstance().musicIngame.stop();
-		Sounds.getInstance().soundtrack.loop();
+		Sounds.getInstance().stopMusic();
+		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		HeroModel model = this.playState.getHeroModel();
 		this.isWin = !model.isDead();
 
@@ -278,8 +279,7 @@ public class GameOverState extends BasicGameState{
 			sbg.enterState(GameApp.MAINMENUSTATE);
 		}
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insidePlayAgain){
-			Sounds.getInstance().soundtrack.stop();
-			Sounds.getInstance().musicIngame.loop(1, 0.4f);
+			Sounds.getInstance().stopMusic();
 			sbg.enterState(GameApp.PLAYSTATE);
 	}
 		
