@@ -59,7 +59,7 @@ public class HeroController implements IEntityController, ActionListener {
 	/* This is the controller that controls the weapon*/
 	private GunController firing;
 	
-	private Timer timer = new Timer(1000, this);
+	private Timer hurtTimer = new Timer(200, this);
 
 	public HeroController(HeroModel hm, IPlayStateController ipc) {
 		this(hm, false, ipc);
@@ -68,11 +68,11 @@ public class HeroController implements IEntityController, ActionListener {
 	public HeroController(HeroModel hm, boolean keyRegistrated, IPlayStateController ipc) {
 		model = hm;
 		view = new HeroView(hm, model.getWeaponType());
-		if(!model.gotFixture()){
-			hm.setDimension(view.getDimension());
-			hm.createFixture();
+		if(!model.isBodyCreated()){
+			model.setDimension(30, view.getHeight());
 		}
 		this.ipc = ipc;
+		System.out.println(model.getWeaponType());
 		if(model.getWeaponType() == WeaponType.gun)
 			firing = new GunController((GunModel) model.getWeapon());
 		if (!keyRegistrated)
@@ -94,10 +94,10 @@ public class HeroController implements IEntityController, ActionListener {
 		
 		model.getBody().setLinearDamping(1.5f);
 
-		if(model.isHurted() && !timer.isRunning()){
+		if(model.isHurted() && !hurtTimer.isRunning()){
 			System.out.println(model.isHurtedFront()? HeroView.Movement.hurt: HeroView.Movement.hurtback);
 			view.setAnimation(model.isHurtedFront()? HeroView.Movement.hurt: HeroView.Movement.hurtback, model.getDirection());
-			timer.start();
+			hurtTimer.start();
 		}
 		
 		/*
@@ -141,12 +141,14 @@ public class HeroController implements IEntityController, ActionListener {
 			 * If you push the jump button it will start the animation and call
 			 * the attack method with it's weapon
 			 */
-			try {
-				Sounds.getInstance().gunfire.play();
-			} catch (SlickException e) {}
-			model.attack();
-			fight = true;
-			view.setAttackAnimation(model.getDirection());
+			if(model.attack()){
+				try {
+					Sounds.getInstance().gunfire.play();
+				} catch (SlickException e) {}
+				fight = true;
+				view.setAttackAnimation(model.getDirection());
+			}
+	
 		}
 		
 		if(fight){
@@ -176,7 +178,8 @@ public class HeroController implements IEntityController, ActionListener {
 			model.falling();
 		}
 		firing.update(gc, sbg, delta);
-		if(model.isDead()){
+		
+		if(model.isDead()){			
 			model.destroyBody();
 		}
 	}
@@ -199,6 +202,6 @@ public class HeroController implements IEntityController, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		model.resetHurted();
-		timer.stop();
+		hurtTimer.stop();
 	}
 }
