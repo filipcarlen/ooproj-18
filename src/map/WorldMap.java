@@ -80,7 +80,6 @@ public class WorldMap{
 								pictureName.put(background[i][j], tm.getTileImage(i, j, collision));
 							++numberOfTiles;
 							++i;
-							System.out.println(i + "  " + j + "  " + pictureName.size());
 							idtile = tm.getTileId(i, j, collision);
 							background[i][j] = tm.getTileId(i, j, collision);
 							pos = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
