@@ -51,6 +51,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	private Camera camera;
 	private Timer endGameDelay = new Timer(2000, this);
 	private boolean endGame = false;
+	private static PlayState instance;
 	
 	/* This list contains all the bodies in the world*/
 	ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
@@ -60,9 +61,16 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	 * (the entity has died before the bullet has transport the distance)*/
 	ArrayList<GunModel> gunThatsActive= new ArrayList<GunModel>();
 	
-	public PlayState(int id){
+	private PlayState(int id){
 		stateID = id;
 	}
+	
+	public static PlayState getInstance(){
+		if(instance == null)
+			instance = new PlayState(GameApp.PLAYSTATE);
+		return instance;
+	}
+	
 	/**
 	 * This method load everything in world.
 	 * @param level
