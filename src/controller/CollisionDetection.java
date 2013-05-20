@@ -31,7 +31,6 @@ public class CollisionDetection  implements ContactListener{
 			heroModel = (HeroModel)objectA;
 			
 			if(objectB ==  EntityType.GROUND){
-				
 				heroModel.setGroundContact();
 			}
 	
@@ -46,16 +45,17 @@ public class CollisionDetection  implements ContactListener{
 			}
 			
 			else if(objectB instanceof StaticFoeModel) {
-				heroModel.hurt(((StaticFoeModel)objectB).getDamage());
+				heroModel.setHurted(null,((StaticFoeModel)objectB).getDamage());
 			}
 			
 			else if(objectB instanceof BulletModel) {
-				heroModel.hurt(((BulletModel)objectB).getDamage());
+				System.out.println(((BulletModel)objectB).getNavigation());
+				heroModel.setHurted(((BulletModel)objectB).getNavigation(),((BulletModel)objectB).getDamage());
 				((BulletModel)objectB).destroyEntity();
 			}
 			
 			else if(objectB instanceof SwordModel) {
-				heroModel.hurt(((SwordModel)objectB).getDamage());
+				heroModel.setHurted(null ,((SwordModel)objectB).getDamage());
 			}
 		}
 		
@@ -80,11 +80,12 @@ public class CollisionDetection  implements ContactListener{
 			}
 			
 			else if(objectA instanceof StaticFoeModel) {
-				heroModel.hurt(((StaticFoeModel)objectA).getDamage());
+				heroModel.setHurted(null,((StaticFoeModel)objectA).getDamage());
 			}
 			
 			else if(objectA instanceof BulletModel) {
-				heroModel.hurt(((BulletModel)objectA).getDamage());
+				System.out.println(((BulletModel)objectB).getNavigation());
+				heroModel.setHurted( ((BulletModel)objectA).getNavigation() ,((BulletModel)objectA).getDamage());
 				((BulletModel)objectA).destroyEntity();
 			}
 			

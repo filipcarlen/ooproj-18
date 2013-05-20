@@ -38,7 +38,9 @@ public class HeroModel implements IAliveModel{
 	/* Boolean to check if the model is alive or dead*/
 	private boolean dead = true;
 	
-	private boolean hurted = false;
+	private boolean hurted= false;
+	
+	private boolean hurtedFront = false;
 	
 	private boolean isFalling = false;
 	
@@ -116,7 +118,7 @@ public class HeroModel implements IAliveModel{
 	
 	public void destroyBody(){
 		body.getWorld().destroyBody(body);
-		body = null;
+		body.setActive(false);
 	}
 	
 	public void falling(){
@@ -250,7 +252,7 @@ public class HeroModel implements IAliveModel{
 	@Override
 	public void hurt(int hpDecrement){
 		setHp(getHp()-hpDecrement);
-		setHurted(true);
+		hurted = true;
 	}
 	
 	/**
@@ -329,6 +331,15 @@ public class HeroModel implements IAliveModel{
 		return hurted;
 	}
 	
+	public boolean isHurtedFront(){
+		return hurtedFront;
+	}
+	
+	public void resetHurted(){
+		hurtedFront = false;
+		hurted = false;
+	}
+	
 	/**
 	 * Method to update the Direction
 	 * @param n - The new Direction
@@ -354,8 +365,11 @@ public class HeroModel implements IAliveModel{
 		this.height = (float) (dimension.getWidth()/2/Utils.METER_IN_PIXELS);
 	}
 	
-	public void setHurted(boolean isHurted){
-		this.hurted = isHurted;
+	public void setHurted(Navigation direction, int decrementHp){
+		hurt(decrementHp);
+		if(direction != getDirection()){
+			this.hurtedFront = true;
+		}
 	}
 	
 	@Override
