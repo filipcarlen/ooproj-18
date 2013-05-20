@@ -22,23 +22,36 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 
 	private Body body;
 	private Vec2 firstPos;
-	private Body fighterBody;
-	private boolean fighting;
+	private Navigation navigation;
+	private boolean isAlive;
+	private boolean isMoving;
+	int ID;
 	
-	public final float RADIUS = 5f;
+	Vec2[] vertices = {new Vec2(0,0), new Vec2(0.1f, 0.05f), new Vec2(0, 0.1f)};
 	
-	public SwordModel(World world, Vec2 myPos, int damage, float range){
-		super(world, damage, range, WeaponType.gun);
-		super.setWeaponType(WeaponType.sword);
+	public final float RADIUS = 0.05f;
+	
+	public SwordModel(World world, int damage, int ID){
+		super(world, damage, 0.5f, WeaponType.sword);
+		this.ID = ID;
 	}
 	
-	public void init(Vec2 myPos){
+	public void init(Vec2 firstPos){
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.KINEMATIC;
-		bd.position.set(Utils.pixelsToMeters(myPos.x), Utils.pixelsToMeters(myPos.y));
+		this.firstPos = firstPos;
+		
+		if(this.navigation == Navigation.EAST){
+			this.firstPos.x += this.RADIUS + 0.2f;
+			bd.position.set(firstPos.x, firstPos.y);
+			
+		} else if(this.navigation == Navigation.WEST){
+			this.firstPos.x -= (this.RADIUS + 0.2f);
+			bd.position.set(firstPos.x, firstPos.y);
+		}
 		
 		PolygonShape ps = new PolygonShape();
-		ps.m_radius = RADIUS;
+		ps.set(vertices, 3);
 		
 		FixtureDef fd = new FixtureDef();
 		fd.shape = ps;
@@ -49,47 +62,88 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 		this.body = getWorld().createBody(bd);
 		this.body.createFixture(fd);
 		this.body.setUserData(this);
-		this.body.shouldCollide(this.fighterBody);
 		
-	}
-
-	public boolean isFighting(){
-		return fighting;
-	}
-	
-	public void setFighting(boolean b){
-		fighting = b;
 	}
 	
 	@Override
 	public boolean fight(IAliveModel fighterModel, Navigation navigation) {
-		this.fighterBody = fighterModel.getBody();
-		this.firstPos = fighterBody.getPosition();
-		init(this.firstPos);
-		this.fighting = true;
-		return true;
-			
+		Vec2 firstPos = fighterModel.getPosMeters().clone();
+		
+		if(navigation == Navigation.EAST){
+			firstPos.x += fighterModel.getWidth()/2;
+		}
+		
+		if(navigation == Navigation.WEST){
+			firstPos.x -= fighterModel.getWidth()/2;
+		}
+		
+		if(!isAlive){
+			this.isAlive = true;
+			this.navigation = navigation;
+			init(firstPos);	
+			return true;
+		}
+		return false;
 	}
+	
+	public void destroyEntity(){
+		this.isAlive = false;
+		this.isMoving = false;
+	}
+
+	public boolean isAlive(){
+		return isAlive;
+	}
+	
+	public void setAlive(boolean isAlive){
+		this.isAlive = isAlive;
+	}
+	
+	public boolean isMoving(){
+		return isMoving;
+	}
+	
+	public void setMoving(boolean moving){
+		this.isMoving = moving;
+	}
+	
+	public Vec2 getFirstPos(){
+		return this.firstPos;
+	}
+	
 	@Override
 	public Vec2 getPosMeters() {
 		return this.body.getPosition();
 	}
+	
 	@Override
 	public Vec2 getPosPixels() {
 		return Utils.metersToPixels(this.body.getPosition());
 	}
+	
 	@Override
 	public Body getBody() {
 		return body;
 	}
+	
+	public void setBody(Body body){
+		this.body = body;
+	}
+	
+	public Navigation getNavigation(){
+		return this.navigation;
+	}
+	
 	@Override
 	public int getID() {
-		return -1;
+		return this.ID;
 	}
+	
 	@Override
 	public float getHeight() {
 		return this.RADIUS*2;
 	}
+	
 	@Override
 	public float getWidth() {
 		return this.RADIUS*2;

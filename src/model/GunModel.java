@@ -63,6 +63,19 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 		timer.stop();
 	}
 	
+	/**
+	 * A method called to check if the Gun and all the bullets are ready to be removed from the world. 
+	 * Returns true when no bullet is in action.
+	 */
+	public boolean isDone(){
+		for(int i = 0; i < bulletModels.size(); i++){
+			if(bulletModels.get(i).isAlive()){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public ArrayList<BulletModel> getBulletModels(){
 		return this.bulletModels;
 	}

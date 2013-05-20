@@ -1,7 +1,6 @@
 package model;
 
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
 import utils.Navigation;
@@ -16,6 +15,7 @@ import utils.WeaponType;
 public abstract class AbstractWeaponModel {
 	
 	private int damage;
+	/* The range in meters */
 	private float range;
 	private World world;
 	private WeaponType weaponType;
