@@ -2,13 +2,13 @@ package controller.states;
 
 import java.util.Random;
 
+import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -24,10 +24,10 @@ public class MainMenuState extends BasicGameState {
 	private Image background = null;
 	private Image startGame = null;
 	private Image startGameHighlighted = null;
-	private Image endGame = null;
-	private Image endGameHighlighted = null;
-	private Image loadGame = null;
-	private Image loadGameHighlighted = null;
+	private Image quit = null;
+	private Image quitHighlighted = null;
+	private Image highscore = null;
+	private Image highscoreHighlighted = null;
 	private Image options = null;
 	private Image optionsHighlighted = null;
 	private Image[] leafs;
@@ -35,14 +35,20 @@ public class MainMenuState extends BasicGameState {
 	private Animation leafAnimation;
 	
 	
-	private static int startMenuX = 330;
-	private static int startMenuY = 170;
-	private static int optionsMenuX = 330;
-	private static int optionsMenuY = 370;
-	private static int loadGameMenuX = 330;
-	private static int loadGameMenuY = 270;
-	private static int endGameX = 330;
-	private static int endGameY = 470;
+	//private static int startMenuX = 330;
+	//private static int startMenuY = 170;
+	//private static int optionsMenuX = 330;
+	//private static int optionsMenuY = 370;
+	//private static int loadGameMenuX = 330;
+	//private static int loadGameMenuY = 270;
+	//private static int endGameX = 330;
+	//private static int endGameY = 470;
+	
+	private Vec2 startGamePos;
+	private Vec2 optionsPos;
+	private Vec2 highscorePos;
+	private Vec2 quitGamePos;
+		
 	
 	private float leafPositionX = 0;
 	private float leafPositionY = 0;
@@ -52,12 +58,12 @@ public class MainMenuState extends BasicGameState {
 	private boolean insideStartGame = false;
 	private boolean insideOptionsMenu = false;
 	private boolean insideLoadGame = false;
-	private boolean insideEndGame = false;
+	private boolean insideQuitGame = false;
 	
 	private static MainMenuState instance = null;
 	
 	
-	public MainMenuState(int stateID){
+	private MainMenuState(int stateID){
 		this.stateID = stateID;
 	}
 	
@@ -76,12 +82,17 @@ public class MainMenuState extends BasicGameState {
 		background = new Image("res/Background.png");
 		startGame = new Image(PATH+"Startgame.png");
 		startGameHighlighted = new Image(PATH+"StartgameHighlighted.png");
-		endGame = new Image(PATH+"endgame.png");
-		endGameHighlighted = new Image(PATH+"endgamehighlighted.png");
-		loadGame = new Image(PATH+"loadgame.png");
-		loadGameHighlighted = new Image(PATH+"loadgamehighlighted.png");
+		quit = new Image(PATH+"quit.png");
+		quitHighlighted = new Image(PATH+"quithighlighted.png");
+		highscore = new Image(PATH+"highscore.png");
+		highscoreHighlighted = new Image(PATH+"highscorehighlighted.png");
 		options = new Image(PATH+"options.png");
 		optionsHighlighted = new Image(PATH+"optionshighlighted.png");
+		
+		startGamePos = new Vec2(background.getWidth()/2-startGame.getWidth()/2,170);
+		optionsPos = new Vec2(background.getWidth()/2-options.getWidth()/2, 380);
+		highscorePos = new Vec2(background.getWidth()/2-highscore.getWidth()/2, 270);
+		quitGamePos = new Vec2(background.getWidth()/2-quit.getWidth()/2,470);
 		
 		initLeafs();
 		
@@ -97,31 +108,31 @@ public class MainMenuState extends BasicGameState {
 		title.draw(0,0);
 		
 		if(insideStartGame){
-			startGameHighlighted.draw(startMenuX, startMenuY);
+			startGameHighlighted.draw(startGamePos.x,startGamePos.y);
 		}
 		else{
-			startGame.draw(startMenuX,startMenuY);
+			startGame.draw(startGamePos.x, startGamePos.y);
 		}
 		
-		if(insideEndGame){
-			endGameHighlighted.draw(endGameX,endGameY);
+		if(insideQuitGame){
+			quitHighlighted.draw(quitGamePos.x,quitGamePos.y);
 		}
 		else{
-			endGame.draw(endGameX, endGameY);
+			quit.draw(quitGamePos.x, quitGamePos.y);
 		}
 		
 		if(insideLoadGame){
-			loadGameHighlighted.draw(loadGameMenuX,loadGameMenuY);
+			highscoreHighlighted.draw(highscorePos.x,highscorePos.y);
 		}
 		else{
-			loadGame.draw(loadGameMenuX, loadGameMenuY);
+			highscore.draw(highscorePos.x, highscorePos.y);
 		}
 		
 		if(insideOptionsMenu){
-			optionsHighlighted.draw(optionsMenuX,optionsMenuY);
+			optionsHighlighted.draw(optionsPos.x,optionsPos.y);
 		}
 		else{
-			options.draw(optionsMenuX,optionsMenuY);
+			options.draw(optionsPos.x,optionsPos.y);
 		}
 		
 		g.drawAnimation(leafAnimation, leafPositionX, leafPositionY);
@@ -136,10 +147,10 @@ public class MainMenuState extends BasicGameState {
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
 		
-		insideStartGame = checkMouse(mouseX, mouseY, startMenuX, startMenuY, startGame);
-		insideEndGame = checkMouse(mouseX, mouseY, endGameX, endGameY, endGame);
-		insideLoadGame = checkMouse(mouseX, mouseY, loadGameMenuX, loadGameMenuY, loadGame);
-		insideOptionsMenu = checkMouse(mouseX, mouseY, optionsMenuX, optionsMenuY, options);
+		insideStartGame = checkMouse(mouseX, mouseY, startGamePos, startGame);
+		insideQuitGame = checkMouse(mouseX, mouseY, quitGamePos, quit);
+		insideLoadGame = checkMouse(mouseX, mouseY, highscorePos, highscore);
+		insideOptionsMenu = checkMouse(mouseX, mouseY, optionsPos, options);
 			
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideStartGame){
 			Sounds.getInstance().stopMusic();
@@ -151,7 +162,7 @@ public class MainMenuState extends BasicGameState {
 			sbg.enterState(GameApp.OPTIONSSTATE);
 		}
 		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideEndGame){
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideQuitGame){
 			gc.exit();
 		}
 	}
@@ -161,9 +172,9 @@ public class MainMenuState extends BasicGameState {
 		return this.stateID;
 	}
 	
-	public boolean checkMouse(int mouseX, int mouseY, int menuX, int menuY, Image image){
-		if((mouseX >= menuX && mouseX <= menuX + image.getWidth()) &&
-	            (mouseY >= menuY && mouseY <= menuY + image.getHeight())){
+	public boolean checkMouse(int mouseX, int mouseY, Vec2 pos, Image image){
+		if((mouseX >= pos.x && mouseX <= pos.x + image.getWidth()) &&
+	            (mouseY >= pos.y && mouseY <= pos.y + image.getHeight())){
 					return true;
 		}
 		else{
