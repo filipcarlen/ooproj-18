@@ -154,8 +154,8 @@ public class MainMenuState extends BasicGameState {
 			
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideStartGame){
 			Sounds.getInstance().stopMusic();
-			Sounds.getInstance().playSound(SoundType.GAME_MUSIC);
-			 sbg.enterState(GameApp.PLAYSTATE);
+			Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
+			sbg.enterState(GameApp.PLAYSTATE);
 		}
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideOptionsMenu){

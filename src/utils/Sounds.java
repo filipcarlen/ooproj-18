@@ -152,6 +152,6 @@ private static Sounds instance = null;
 	
 	public void stopMusic(){
 		soundtrack.stop();
-		musicInGame.stop();
+		//musicInGame.stop();
 	}
 }
