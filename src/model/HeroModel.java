@@ -255,6 +255,9 @@ public class HeroModel implements IAliveModel{
 	 * Increments the amount of coins
 	 */
 	public void incrementCoin(){
+		try {
+			Sounds.getInstance().playSound(SoundType.COLLECT_COIN);
+		} catch (SlickException e) {}
 		coinAmount +=1;
 	}
 	
@@ -262,6 +265,9 @@ public class HeroModel implements IAliveModel{
 	 * Increments the amount of gems
 	 */
 	public void incrementGem(){
+		try {
+			Sounds.getInstance().playSound(SoundType.COLLECT_GEM);
+		} catch (SlickException e) {}
 		gemAmount +=1;
 	}
 	
@@ -379,11 +385,6 @@ public class HeroModel implements IAliveModel{
 	
 	public void setHurted(Navigation direction, int decrementHp){
 		hurt(decrementHp);
-		try {
-			Sounds.getInstance().playSound(SoundType.HURT);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
 		if(direction != getDirection()){
 			this.hurtedFront = true;
 		}
@@ -394,7 +395,15 @@ public class HeroModel implements IAliveModel{
 		if(hp <= 0){
 			this.hp = 0;
 			dead= true;
+			try{
+				Sounds.getInstance().playSound(SoundType.DIE);
+			}catch(SlickException e){}
 		}else if(hp >getMaxHp()){
+			try {
+				Sounds.getInstance().playSound(SoundType.HURT);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 			this.hp = getMaxHp();
 		}else
 			this.hp = hp;
