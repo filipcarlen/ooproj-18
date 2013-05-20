@@ -18,6 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import utils.Camera;
 import utils.Controls;
 import utils.Navigation;
+import utils.SoundType;
 import utils.Sounds;
 import utils.WeaponType;
 import view.HeroView;
@@ -143,7 +144,7 @@ public class HeroController implements IEntityController, ActionListener {
 			 */
 			if(model.attack()){
 				try {
-					Sounds.getInstance().gunfire.play();
+					Sounds.getInstance().playSound(SoundType.GUN);
 				} catch (SlickException e) {}
 				fight = true;
 				view.setAttackAnimation(model.getDirection());

@@ -3,6 +3,8 @@ package model;
 import java.awt.Dimension;
 
 import utils.Navigation;
+import utils.SoundType;
+import utils.Sounds;
 import utils.Utils;
 import utils.WeaponType;
 
@@ -10,6 +12,7 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
+import org.newdawn.slick.SlickException;
 
 
 public class HeroModel implements IAliveModel{
@@ -116,13 +119,14 @@ public class HeroModel implements IAliveModel{
 	public void destroyBody(){
 		world.destroyBody(body);
 		body.setActive(false);
+		System.out.println("It removes body");
 	}
+
 	
 	public void falling(){
 		this.isFalling = true;
 	}
 	
-	@Override
 	public Body getBody(){
 		return body;
 	}
@@ -376,6 +380,11 @@ public class HeroModel implements IAliveModel{
 	
 	public void setHurted(Navigation direction, int decrementHp){
 		hurt(decrementHp);
+		try {
+			Sounds.getInstance().playSound(SoundType.HURT);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 		if(direction != getDirection()){
 			this.hurtedFront = true;
 		}
