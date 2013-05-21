@@ -88,7 +88,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 	
 	public void loadWorld(String levelName){
-		worldMap = new WorldMap(world, true, "test1");
+		worldMap = new WorldMap(world, true, levelName);
 		worldMap.setBounds();
 	}
 	
@@ -142,8 +142,9 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Sounds.getInstance().playSound(SoundType.GAME_MUSIC);
-		if(endGame)
+		if(endGame){
 			reTry();
+		}
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -161,7 +162,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		SwordModel sm = new SwordModel(world, 20, 1337);
 		
 		
-		newGame("test1", "BluePants", sm);
+		newGame("level1", "BluePants", sm);
 		// Camera
 		camera = new Camera(gc.getWidth(), gc.getHeight(), 
 				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 

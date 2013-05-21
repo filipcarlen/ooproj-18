@@ -76,8 +76,8 @@ public class WorldMap{
 					background[i][j] = tm.getTileId(i, j, collision);
 					pos = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
 					idtile = tm.getTileId(i, j, collision);
-					if(idtile < 91 && idtile > 0){
-						while(idtile< 91 && idtile > 0){
+					if(isWorldTile(idtile)){
+						while(isWorldTile(idtile)){
 							if(!pictureName.containsKey(tm.getTileId(i, j, collision)))
 								pictureName.put(background[i][j], tm.getTileImage(i, j, collision));
 							++numberOfTiles;
@@ -88,8 +88,13 @@ public class WorldMap{
 						}
 						addWorldShape(i - numberOfTiles, j, tm.getTileWidth(), tm.getTileHeight(), numberOfTiles);
 						numberOfTiles = 0;
-					}
-					if(idtile == 91){
+					}else if(idtile < 61){
+						if(!pictureName.containsKey(tm.getTileId(i, j, collision)))
+							pictureName.put(background[i][j], tm.getTileImage(i, j, collision));
+						
+					}else if(idtile <91 && idtile > 80){
+						
+					}else if(idtile == 91){
 						positionHero = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
 					}else if(idtile == 92){
 						bodies.add(new MovingFoeModel(w, pos, 50, new SwordModel(w, 35, id), 5, id));
@@ -130,6 +135,33 @@ public class WorldMap{
 		}
 	}
 	
+	/**
+	 * This method is used to only load and the create bodys that is wall ground and roof ,
+	 * this checks is the id is the id on the terrain in the world
+	 * (This is useful to separate the world objects from the picture)
+	 * @param id
+	 * @return
+	 */
+	public boolean isWorldTile(int id){
+		if(id > 0){
+			if(id < 16){
+				return true;
+			}else if(id < 51){
+				if(((double)(id-1)/5 % 2 < 1)){
+					return true;
+				}else{
+					return false;
+				}
+			}else if(id < 61){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+	
 	public void render(Graphics g, float x, float y, int width, int height){
 		if(width/tm.getTileWidth() >= tm.getWidth())
 			width = tm.getWidth();
@@ -143,7 +175,7 @@ public class WorldMap{
 		int sy = (int)y/tm.getTileHeight();
 		for(int i = sx; i < (sx+width); i ++){
 			for(int j = sy; j < (sy+height); j++){
-				if(background[i][j] < 90 && background[i][j] > 0)
+				if(background[i][j] < 81 && background[i][j] > 0)
 					g.drawImage(pictureName.get(background[i][j]), 
 							((i-sx)*tm.getTileWidth())-((x)%tm.getTileWidth()), 
 							(j-sy)* tm.getTileHeight()-((y)%tm.getTileHeight()));
