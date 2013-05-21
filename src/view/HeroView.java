@@ -146,7 +146,10 @@ public class HeroView {
 			currentAnimation = animations.get(5 + i);
 			break;
 		case die:
-			currentAnimation = animations.get(6 + i);
+			if(currentAnimation != animations.get(13 - i)){
+				currentAnimation = animations.get(13 - i);
+				currentAnimation.setLooping(false);
+			}
 			break;
 		}
 	}

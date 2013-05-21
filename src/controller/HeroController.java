@@ -61,21 +61,17 @@ public class HeroController implements IEntityController, ActionListener {
 	private Timer hurtTimer = new Timer(200, this);
 
 	public HeroController(HeroModel hm) {
-		this(hm, false);
-	}
-
-	public HeroController(HeroModel hm, boolean keyRegistrated) {
 		model = hm;
 		view = new HeroView(hm, model.getWeaponType());
 		if(!model.isBodyCreated()){
-			model.setDimension(30, view.getHeight());
+			model.setDimension(view.getWidth(), view.getHeight());
 		}
 		if(model.getWeaponType() == WeaponType.gun)
 			controller = new GunController((GunModel) model.getWeapon());
 		else if(model.getWeaponType() == WeaponType.sword){
 			controller = new SwordController((SwordModel) model.getWeapon());
 		}
-		if (!keyRegistrated)
+		if (!Controls.getInstance().isControlsSet())
 			/* Sets the Controls to the default options */
 			Controls.getInstance().setDeafaultControls();
 		/* Otherwise the controls already is set */
