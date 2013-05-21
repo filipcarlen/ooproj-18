@@ -25,8 +25,9 @@ private static Sounds instance = null;
 	private Sound collectCoin;
 	private Sound collectGem;
 	private Sound die;
+	private Sound sword;
 		
-	private Sounds() throws SlickException {
+	private Sounds() {
 		try{
 			soundtrack = new Sound(PATH+"soundtrack.wav");
 			gunfire = new Sound(PATH+"GE_KF7_Soviet.wav");
@@ -37,6 +38,7 @@ private static Sounds instance = null;
 			collectGem = new Sound(PATH+"collect_gem.wav");
 			die = new Sound(PATH+"die.wav");
 			enemyHurt = new Sound(PATH+"enemyhurt.wav");
+			sword = new Sound(PATH+"sword.wav");
 		
 		} catch(SlickException e){
 			System.out.println("Can't load sound file in Sounds class");
@@ -44,7 +46,7 @@ private static Sounds instance = null;
 		
 	}
 		
-	public static Sounds getInstance() throws SlickException{
+	public static Sounds getInstance(){
 		if(instance == null){
 			instance = new Sounds();
 		}
@@ -110,6 +112,9 @@ private static Sounds instance = null;
 		case COLLECT_GEM:
 			collectGem.play(1,volumeSound);
 			break;
+			
+		case SWORD:
+			sword.play(1,volumeSound);
 			
 		default:
 			break;

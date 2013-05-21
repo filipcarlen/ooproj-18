@@ -156,18 +156,18 @@ public class HighscoreState extends BasicGameState {
 	
 	public void initFoe() throws SlickException{
 		Image[] foeImages = new Image[12];
-		foeImages[0] = new Image("res/Enemy_animations/enemy_right/enemy_right_1.png");
-		foeImages[1] = new Image("res/Enemy_animations/enemy_right/enemy_right_2.png");
-		foeImages[2] = new Image("res/Enemy_animations/enemy_right/enemy_right_3.png");
-		foeImages[3] = new Image("res/Enemy_animations/enemy_right/enemy_right_4.png");
-		foeImages[4] = new Image("res/Enemy_animations/enemy_right/enemy_right_5.png");
-		foeImages[5] = new Image("res/Enemy_animations/enemy_right/enemy_right_6.png");
-		foeImages[6] = new Image("res/Enemy_animations/enemy_right/enemy_right_7.png");
-		foeImages[7] = new Image("res/Enemy_animations/enemy_right/enemy_right_8.png");
-		foeImages[8] = new Image("res/Enemy_animations/enemy_right/enemy_right_9.png");
-		foeImages[9] = new Image("res/Enemy_animations/enemy_right/enemy_right_10.png");
-		foeImages[10] = new Image("res/Enemy_animations/enemy_right/enemy_right_11.png");
-		foeImages[11] = new Image("res/Enemy_animations/enemy_right/enemy_right_12.png");
+		foeImages[0] = new Image("res/moving_foe/foe_right/foe_right_1.png");
+		foeImages[1] = new Image("res/moving_foe/foe_right/foe_right_2.png");
+		foeImages[2] = new Image("res/moving_foe/foe_right/foe_right_3.png");
+		foeImages[3] = new Image("res/moving_foe/foe_right/foe_right_4.png");
+		foeImages[4] = new Image("res/moving_foe/foe_right/foe_right_5.png");
+		foeImages[5] = new Image("res/moving_foe/foe_right/foe_right_6.png");
+		foeImages[6] = new Image("res/moving_foe/foe_right/foe_right_7.png");
+		foeImages[7] = new Image("res/moving_foe/foe_right/foe_right_8.png");
+		foeImages[8] = new Image("res/moving_foe/foe_right/foe_right_9.png");
+		foeImages[9] = new Image("res/moving_foe/foe_right/foe_right_10.png");
+		foeImages[10] = new Image("res/moving_foe/foe_right/foe_right_11.png");
+		foeImages[11] = new Image("res/moving_foe/foe_right/foe_right_12.png");
 		
 		foe= new Animation(foeImages, 150);
 	}

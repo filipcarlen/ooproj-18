@@ -69,11 +69,11 @@ public class MovingFoeController implements IEntityController {
 					
 				if(heroPos.x < this.model.getPosPixels().x) {
 					if(this.model.getWeapon().fight(this.model,Navigation.WEST)){
-						this.view.setCurrentAnim(MovingFoeView.AnimationType.GUN_LEFT);
+						this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
 					}
 				} else if(heroPos.x > this.model.getPosPixels().x) {
 					if(this.model.getWeapon().fight(this.model,Navigation.EAST)){
-						this.view.setCurrentAnim(MovingFoeView.AnimationType.GUN_RIGHT);
+						this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
 					}
 				}
 			} else {

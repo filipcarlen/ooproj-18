@@ -16,7 +16,7 @@ import utils.Utils;
 
 public class MovingFoeView {
 
-	public static enum AnimationType {STAND, WALK_LEFT, WALK_RIGHT, GUN_LEFT, GUN_RIGHT, SWORD_LEFT, SWORD_RIGHT};
+	public static enum AnimationType {STAND, WALK_LEFT, WALK_RIGHT};
 	
 	private Animation[] animations;
 	
@@ -75,18 +75,6 @@ public class MovingFoeView {
 			break;
 		case WALK_RIGHT:
 			this.currentAnimation = this.animations[2];
-			break;
-		case GUN_LEFT:
-			this.currentAnimation = this.animations[3];
-			break;
-		case GUN_RIGHT:
-			this.currentAnimation = this.animations[4];
-			break;
-		case SWORD_LEFT:
-			this.currentAnimation = this.animations[5];
-			break;
-		case SWORD_RIGHT:
-			this.currentAnimation = this.animations[6];
 			break;
 		default:
 			break;
