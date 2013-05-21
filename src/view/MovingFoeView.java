@@ -38,7 +38,7 @@ public class MovingFoeView {
 	}
 	
 	public void initAnimations() throws SlickException {
-		this.animations = new Animation[7];
+		this.animations = new Animation[3];
 		
 		Image[] images = new Image[1];
 		int duration = 100;
@@ -52,15 +52,11 @@ public class MovingFoeView {
 			images[i] = new Image(PATH_LEFT + "foe_left_" + (i+1) + ".png");
 		}
 		animations[1] = (new Animation(images, duration));
-		animations[3] = (new Animation(images, duration));
-		animations[5] = (new Animation(images, duration));
 		
 		for(int i = 0; i < images.length; i++){
 			images[i] = new Image(PATH_RIGHT + "foe_right_" + (i+1) + ".png");
 		}
 		animations[2] = (new Animation(images, duration));
-		animations[4] = (new Animation(images, duration));
-		animations[6] = (new Animation(images, duration));
 		
 		this.currentAnimation = this.animations[0];
 	}
