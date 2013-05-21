@@ -22,17 +22,16 @@ public class HighscoreState extends BasicGameState {
 	private final String PATH = "res/HighscoreMenu/";
 	private static HighscoreState instance = null;
 	
-	private Image background, title, name, time, mob, mainmenu, mainmenuH, clear, clearH;
-	private Animation gem, coin;
-	private Vec2 titlePos, clearPos;
+	private Image background, title, mainmenu, mainmenuH, clear, clearH, total;
+	private Animation gem, coin, foe;
+	private Vec2 titlePos, clearPos,mainMenuPos, coinPos, gemPos, foePos, totalPos;
 	
 	private boolean insideMainMenu = false;
 	private boolean insideClear = false;
-	private Vec2 mainMenuPos;
 	
 	private HighscoreManager highscoremanager;
 	
-	AngelCodeFont acf;
+	private AngelCodeFont acf;
 	
 	private HighscoreState(int id){
 		this.stateID = id;
@@ -53,6 +52,8 @@ public class HighscoreState extends BasicGameState {
 		
 		initCoin();
 		initGem();
+		initFoe();
+		total = new Image(PATH+"total.png");
 		clear = new Image(PATH+"clear.png");
 		clearH = new Image(PATH+"clearhighlighted.png");
 		background = new Image("res/background.png");
@@ -63,6 +64,10 @@ public class HighscoreState extends BasicGameState {
 		titlePos = new Vec2(background.getWidth()/2 - title.getWidth()/2, 10);
 		clearPos = new Vec2(500,500);
 		mainMenuPos = new Vec2(650,500);
+		coinPos = new Vec2(368,135);
+		gemPos = new Vec2(485,135);
+		foePos = new Vec2(610,135);
+		totalPos = new Vec2(720,140);
 		
 	}
 
@@ -72,6 +77,10 @@ public class HighscoreState extends BasicGameState {
 		background.draw(0, 0);
 		title.draw(titlePos.x,titlePos.y);	
 		acf.drawString(70, 170, highscoremanager.getHighscoreString());
+		coin.draw(coinPos.x, coinPos.y);
+		gem.draw(gemPos.x, gemPos.y);
+		foe.draw(foePos.x,foePos.y);
+		total.draw(totalPos.x,totalPos.y);
 		
 		if(insideMainMenu){
 			mainmenuH.draw(mainMenuPos.x,mainMenuPos.y);
@@ -143,6 +152,24 @@ public class HighscoreState extends BasicGameState {
 		gemImages[6] = new Image("res/Collectibles/Gem/gem_6.png");
 		gemImages[7] = new Image("res/Collectibles/Gem/gem_7.png");
 		gem = new Animation(gemImages, 150);
+	}
+	
+	public void initFoe() throws SlickException{
+		Image[] foeImages = new Image[12];
+		foeImages[0] = new Image("res/Enemy_animations/enemy_right/enemy_right_1.png");
+		foeImages[1] = new Image("res/Enemy_animations/enemy_right/enemy_right_2.png");
+		foeImages[2] = new Image("res/Enemy_animations/enemy_right/enemy_right_3.png");
+		foeImages[3] = new Image("res/Enemy_animations/enemy_right/enemy_right_4.png");
+		foeImages[4] = new Image("res/Enemy_animations/enemy_right/enemy_right_5.png");
+		foeImages[5] = new Image("res/Enemy_animations/enemy_right/enemy_right_6.png");
+		foeImages[6] = new Image("res/Enemy_animations/enemy_right/enemy_right_7.png");
+		foeImages[7] = new Image("res/Enemy_animations/enemy_right/enemy_right_8.png");
+		foeImages[8] = new Image("res/Enemy_animations/enemy_right/enemy_right_9.png");
+		foeImages[9] = new Image("res/Enemy_animations/enemy_right/enemy_right_10.png");
+		foeImages[10] = new Image("res/Enemy_animations/enemy_right/enemy_right_11.png");
+		foeImages[11] = new Image("res/Enemy_animations/enemy_right/enemy_right_12.png");
+		
+		foe= new Animation(foeImages, 150);
 	}
 	
 	public boolean checkMouse(int mouseX, int mouseY, Vec2 pos, Image image){
