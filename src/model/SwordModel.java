@@ -29,16 +29,18 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	
 	Vec2[] vertices = {new Vec2(0,0), new Vec2(0.1f, 0.05f), new Vec2(0, 0.1f)};
 	
-	public final float RADIUS = 0.05f;
+	public final float RADIUS = 0.15f;
 	
 	public SwordModel(World world, int damage, int ID){
-		super(world, damage, 0.5f, WeaponType.sword);
+		super(world, damage, 1f, WeaponType.sword);
 		this.ID = ID;
 	}
 	
 	public void init(Vec2 firstPos){
 		BodyDef bd = new BodyDef();
-		bd.type = BodyType.KINEMATIC;
+		bd.type = BodyType.DYNAMIC;
+		bd.gravityScale = 0;
+
 		this.firstPos = firstPos;
 		
 		if(this.navigation == Navigation.EAST){
@@ -55,9 +57,11 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 		
 		FixtureDef fd = new FixtureDef();
 		fd.shape = ps;
-		fd.density = 0.5f;
-		fd.friction = 0.3f;
+		fd.density = 0.4f;
+		fd.friction = 0f;
 		fd.restitution = 0.5f;
+		fd.filter.maskBits = 555;
+		fd.filter.categoryBits = 4;
 		
 		this.body = getWorld().createBody(bd);
 		this.body.createFixture(fd);
@@ -67,6 +71,7 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	
 	@Override
 	public boolean fight(IAliveModel fighterModel, Navigation navigation) {
+		super.setFighterModel(fighterModel);
 		Vec2 firstPos = fighterModel.getPosMeters().clone();
 		
 		if(navigation == Navigation.EAST){

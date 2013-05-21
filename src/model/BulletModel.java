@@ -68,6 +68,12 @@ public class BulletModel implements IEntityModel{
 		fd.restitution = 0.5f;
 		fd.filter.maskBits = 555;
 		fd.filter.categoryBits = 4;
+		if(gunModel.getFighterModel() instanceof HeroModel){
+			fd.filter.maskBits = 555;
+			fd.filter.categoryBits = 4;
+		} else{
+			fd.filter.groupIndex = gunModel.getFighterModel().getBody().getFixtureList().getFilterData().groupIndex;
+		}
 		
 		this.bulletBody = this.gunModel.getWorld().createBody(bd);
 		this.bulletBody.createFixture(fd);
