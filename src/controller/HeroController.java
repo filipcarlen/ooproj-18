@@ -12,7 +12,6 @@ import model.SwordModel;
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Controls;
@@ -139,9 +138,10 @@ public class HeroController implements IEntityController, ActionListener {
 			 * the attack method with it's weapon
 			 */
 			if(model.attack()){
-				try {
+				if(model.getWeaponType() == WeaponType.gun)
 					Sounds.getInstance().playSound(SoundType.GUN);
-				} catch (SlickException e) {}
+				else if(model.getWeaponType() == WeaponType.sword)
+					Sounds.getInstance().playSound(SoundType.SWORD);
 				fight = true;
 				view.setAttackAnimation(model.getDirection());
 			}

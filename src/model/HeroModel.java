@@ -12,7 +12,6 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
-import org.newdawn.slick.SlickException;
 
 
 public class HeroModel implements IAliveModel{
@@ -254,9 +253,7 @@ public class HeroModel implements IAliveModel{
 	 * Increments the amount of coins
 	 */
 	public void incrementCoin(){
-		try {
-			Sounds.getInstance().playSound(SoundType.COLLECT_COIN);
-		} catch (SlickException e) {}
+		Sounds.getInstance().playSound(SoundType.COLLECT_COIN);
 		coinAmount +=1;
 	}
 	
@@ -264,9 +261,7 @@ public class HeroModel implements IAliveModel{
 	 * Increments the amount of gems
 	 */
 	public void incrementGem(){
-		try {
-			Sounds.getInstance().playSound(SoundType.COLLECT_GEM);
-		} catch (SlickException e) {}
+		Sounds.getInstance().playSound(SoundType.COLLECT_GEM);
 		gemAmount +=1;
 	}
 	
@@ -394,17 +389,11 @@ public class HeroModel implements IAliveModel{
 		if(hp <= 0){
 			this.hp = 0;
 			dead= true;
-			try{
-				Sounds.getInstance().playSound(SoundType.DIE);
-			}catch(SlickException e){}
+			Sounds.getInstance().playSound(SoundType.DIE);
 		}else if(hp >getMaxHp()){
 			this.hp = getMaxHp();
 		}else{
-			try {
-				Sounds.getInstance().playSound(SoundType.HURT);
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+			Sounds.getInstance().playSound(SoundType.HURT);
 			this.hp = hp;
 		}
 	}
