@@ -1,14 +1,24 @@
 package controller.states;
 
+import java.awt.Font;
+import java.io.IOException;
+
 import org.jbox2d.common.Vec2;
+import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import controller.HighscoreManager;
+
 
 public class HighscoreState extends BasicGameState {
 	
@@ -25,6 +35,10 @@ public class HighscoreState extends BasicGameState {
 	private boolean insideMainMenu = false;
 	private Vec2 mainMenuPos;
 	
+	private HighscoreManager highscoremanager;
+	
+	AngelCodeFont acf;
+	
 	private HighscoreState(int id){
 		this.stateID = id;
 	}
@@ -39,7 +53,9 @@ public class HighscoreState extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		
+		highscoremanager = new HighscoreManager();
+		acf = new AngelCodeFont("res/Font/font.fnt", "res/Font/font_0.png");
+		addHighscores();
 		initCoin();
 		initGem();
 		one = new Image(PATH+"1.png");
@@ -64,16 +80,17 @@ public class HighscoreState extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
 		background.draw(0, 0);
-		title.draw(titlePos.x,titlePos.y);
-		
-		one.draw(75,150);
+		title.draw(titlePos.x,titlePos.y);	
+		//arg2.drawString(highscoremanager.getHighscoreString(),background.getWidth()/2,170);
+		acf.drawString(70, 170, highscoremanager.getHighscoreString());
+		/**one.draw(75,150);
 		two.draw(75,200);
 		three.draw(75,250);
 		four.draw(75,300);
 		five.draw(75,350);
 		six.draw(75,400);
 		seven.draw(75,450);
-		eight.draw(75,500);
+		eight.draw(75,500);*/
 		
 		if(insideMainMenu){
 			mainmenuH.draw(mainMenuPos.x,mainMenuPos.y);
@@ -139,6 +156,17 @@ public class HighscoreState extends BasicGameState {
 		else{
 			return false;
 		}
+	}
+	
+	public void addHighscores(){
+		highscoremanager.addScore("Carlén", 100, 5, 15, 20);
+		highscoremanager.addScore("Lager", 104, 7, 45, 40);
+		highscoremanager.addScore("Elin", 150, 8, 59, 50);
+		highscoremanager.addScore("Linnéa", 140, 7, 13, 258);
+	}
+	
+	public void clearHighscore() throws IOException{
+		highscoremanager.clearFile();
 	}
 	
 
