@@ -28,10 +28,10 @@ public class CollisionDetection  implements ContactListener{
 		if(objectA instanceof HeroModel){
 			
 			heroModel = (HeroModel)objectA;
-			
+			//This if statements checks what you're colliding with
 			if(objectB ==  EntityType.GROUND){
 				heroModel.setGroundContact();
-			}else if(objectB instanceof MovingFoeModel){
+			}else if(objectB instanceof MovingFoeModel){// This if Statement will call setGroundcontact when you jump on a enemies head
 				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectB).getPosMeters().y)
 					heroModel.setGroundContact();
 			}else if(objectB instanceof ICollectibleModel){
@@ -58,10 +58,10 @@ public class CollisionDetection  implements ContactListener{
 		else if(objectB instanceof HeroModel){
 			
 			heroModel = (HeroModel)objectB;
-			
+			//This if statements checks what you're colliding with
 			if(objectA == EntityType.GROUND){
 				heroModel.setGroundContact();
-			}else if(objectA instanceof MovingFoeModel){
+			}else if(objectA instanceof MovingFoeModel){// This if Statement will call setGroundcontact when you jump on a enemies head
 				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectA).getPosMeters().y){
 					heroModel.setGroundContact();
 				}
