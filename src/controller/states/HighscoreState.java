@@ -1,19 +1,15 @@
 package controller.states;
 
-import java.awt.Font;
 import java.io.IOException;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -162,6 +158,4 @@ public class HighscoreState extends BasicGameState {
 	public void clearHighscore() throws IOException{
 		highscoremanager.clearFile();
 	}
-	
-
 }
