@@ -41,7 +41,7 @@ public class GameOverState extends BasicGameState{
 	private final String IMAGE_PATH = "res/GameOver/";
 	private final String DISCO_BALL_PATH = "res/GameOver/disco_ball/";
 	private final String COIN_PATH = "res/Collectibles/Coin/";
-	private final String FOE_PATH = "res/Enemy_animations/enemy_right/";
+	private final String FOE_PATH = "res/foe/moving_foe/foe_right/";
 	private final String GEM_PATH = "res/Collectibles/Gem/";
 	
 	private Animation coin, foe, gem;
@@ -193,7 +193,7 @@ public class GameOverState extends BasicGameState{
 		Image[] foeImages = new Image[12];
 		try{
 			for(int i = 0; i < foeImages.length; i++){
-				foeImages[i] = new Image(FOE_PATH + "enemy_right_" + (i+1) + ".png");
+				foeImages[i] = new Image(FOE_PATH + "foe_right_" + (i+1) + ".png");
 			}
 		} catch(SlickException e){}
 		foe = new Animation(foeImages, 100);
