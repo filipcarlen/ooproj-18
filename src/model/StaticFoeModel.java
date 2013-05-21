@@ -62,7 +62,7 @@ public class StaticFoeModel implements IEntityModel {
 			fixDef.shape = polyShape;
 		} else if(this.type == StaticFoeType.PLANT) {
 			CircleShape circleShape = new CircleShape();
-			circleShape.m_radius = this.WIDTH/2;
+			circleShape.m_radius = Utils.pixelsToMeters(this.WIDTH/2);
 			fixDef.shape = circleShape;
 		}
 
