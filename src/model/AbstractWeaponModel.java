@@ -19,6 +19,7 @@ public abstract class AbstractWeaponModel {
 	private float range;
 	private World world;
 	private WeaponType weaponType;
+	private IAliveModel fighterModel;
 	
 	public AbstractWeaponModel(World world, int damage, float range, WeaponType weaponType){
 		this.world = world;
@@ -45,6 +46,15 @@ public abstract class AbstractWeaponModel {
 	
 	public World getWorld() {
 		return world;
+	}
+	
+	
+	public IAliveModel getFighterModel(){
+		return this.fighterModel;
+	}
+	
+	public void setFighterModel(IAliveModel fighterModel){
+		this.fighterModel = fighterModel;
 	}
 	
 	public WeaponType getWeaponType(){

@@ -11,9 +11,8 @@ import utils.EntityType;
 
 public class CollisionDetection  implements ContactListener{
 
-	MovingFoeModel foeModel;
-	HeroModel heroModel;
-	private BulletModel bulletModel;
+	private MovingFoeModel foeModel;
+	private HeroModel heroModel;
 	
 	public CollisionDetection(){
 		
@@ -54,7 +53,8 @@ public class CollisionDetection  implements ContactListener{
 			}
 			
 			else if(objectB instanceof SwordModel) {
-				heroModel.setHurted(null ,((SwordModel)objectB).getDamage());
+				heroModel.setHurted(((SwordModel)objectB).getNavigation() ,((SwordModel)objectB).getDamage());
+				((SwordModel)objectB).destroyEntity();
 			}
 		}
 		
@@ -88,7 +88,9 @@ public class CollisionDetection  implements ContactListener{
 			}
 			
 			else if(objectA instanceof SwordModel) {
-				heroModel.hurt(((SwordModel)objectA).getDamage());
+				heroModel.setHurted(((SwordModel)objectA).getNavigation(), ((SwordModel)objectA).getDamage());
+				((SwordModel)objectA).destroyEntity();
+
 			}
 		}
 		
@@ -105,6 +107,7 @@ public class CollisionDetection  implements ContactListener{
 			
 			else if(objectB instanceof SwordModel) {
 				foeModel.hurt(((SwordModel)objectB).getDamage());
+				((SwordModel)objectB).destroyEntity();
 			}
 		}
 		
@@ -121,28 +124,35 @@ public class CollisionDetection  implements ContactListener{
 			
 			else if(objectA instanceof SwordModel) {
 				foeModel.hurt(((SwordModel)objectA).getDamage());
+				((SwordModel)objectA).destroyEntity();
 			}
 		}
 		
-		// Check if objectA of the collision is a bullet and check what objectB is too 
-		// make the right changes.
+		// Check if objectA of the collision is a sword and remove it if it hits anything
 		else if(objectA instanceof BulletModel){
-			bulletModel = (BulletModel)objectA;
 			
-			if(objectB instanceof BulletModel) {
-				((BulletModel)objectB).destroyEntity();
-			}
-			
-			bulletModel.destroyEntity();
+			((BulletModel)objectA).destroyEntity();
 
 		}
 				
-		// Check if objectB of the collision is a bullet and check what objectA is too 
-		// make the right changes.
+		// Check if objectB of the collision is a bullet and remove it if it hits anything
 		else if(objectB instanceof BulletModel){
 					
-			bulletModel = (BulletModel)objectB;
-			bulletModel.destroyEntity();
+			((BulletModel)objectB).destroyEntity();
+
+		}
+		
+		// Check if objectA of the collision is a sword and remove it if it hits anything
+		else if(objectA instanceof SwordModel){
+			
+			((SwordModel)objectA).destroyEntity();
+
+		}
+				
+		// Check if objectB of the collision is a sword and remove it if it hits anything
+		else if(objectB instanceof SwordModel){
+					
+			((SwordModel)objectB).destroyEntity();
 
 		}
 	}

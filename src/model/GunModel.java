@@ -34,6 +34,7 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 	}
 
 	public boolean fight(IAliveModel fighterModel, Navigation navigation){
+		super.setFighterModel(fighterModel);
 		Vec2 firstPos = fighterModel.getPosMeters().clone();
 		
 		if(navigation == Navigation.EAST){
@@ -78,6 +79,10 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 	
 	public ArrayList<BulletModel> getBulletModels(){
 		return this.bulletModels;
+	}
+	
+	public IAliveModel getFighterModel(){
+		return super.getFighterModel();
 	}
 	
 	public int getID(){
