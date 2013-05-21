@@ -22,6 +22,8 @@ public class Controls {
 	public static final String CMD_FIGHT = "fight";
 	private static final String CMD_PAUSE = "pause";
 	
+	private boolean isControlsSet;
+	
 	private Input input;
 	
 	/*
@@ -44,6 +46,7 @@ public class Controls {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+		isControlsSet = false;
 	}
 	
 	/**
@@ -94,6 +97,7 @@ public class Controls {
 	 */
 	public void removeKeySettings(){
 		keys.clear();
+		isControlsSet = false;
 	}
 	
 	/**
@@ -117,6 +121,7 @@ public class Controls {
 			throw new SlickException("Unable to load the Command: " + s 
 					+ "\nWith the keys\n1: " + Input.getKeyName(key));
 		}
+		isControlsSet= true;
 	}
 	
 	/**
@@ -148,5 +153,9 @@ public class Controls {
 				return input.isKeyPressed(keys.get(s).get(i));
 		}
 		return false;
+	}
+	
+	public boolean isControlsSet(){
+		return isControlsSet;
 	}
 }
