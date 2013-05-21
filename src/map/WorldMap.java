@@ -101,13 +101,13 @@ public class WorldMap{
 					}else if(idtile == 93){
 						bodies.add(new MovingFoeModel(w, pos, 50, new GunModel(w, 1500, 10, 10, id), 5, id));
 					}else if(idtile == 94){
-						bodies.add(new StaticFoeModel(w, pos, 15, StaticFoeModel.StaticFoeType.FIRE, 5));
+						bodies.add(new StaticFoeModel(w, pos, 15, StaticFoeModel.StaticFoeType.FIRE, id));
 					}else if(idtile == 95){
 
 					}else if(idtile == 96){
 						
 					}else if(idtile == 97){
-						bodies.add(new StaticFoeModel(w, pos, 20, StaticFoeModel.StaticFoeType.PLANT, 5));
+						bodies.add(new StaticFoeModel(w, pos, 20, StaticFoeModel.StaticFoeType.PLANT, id));
 					}else if(idtile == 99){
 						bodies.add(new CoinModel(w, pos, id));
 					}else if(idtile == 100){
