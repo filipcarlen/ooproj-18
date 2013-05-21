@@ -9,17 +9,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Navigation;
-import view.SwordView;
 
 public class SwordController implements IEntityController{
 
 	private SwordModel model;	
-	private SwordView view;
-	private IPlayStateController playState;
 	
 	public SwordController(SwordModel model){
 		this.model = model;
-		this.view = new SwordView(model);
 	}
 	
 	@Override
@@ -59,11 +55,7 @@ public class SwordController implements IEntityController{
 	}
 
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		if(this.model.isAlive()){
-			this.view.render(container, game, g);
-		}
-	}
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {}
 
 	@Override
 	public int getID() {

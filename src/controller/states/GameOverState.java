@@ -1,6 +1,7 @@
 package controller.states;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.HeroModel;
 
@@ -25,21 +26,23 @@ public class GameOverState extends BasicGameState{
 	private HighscoreManager highscoreManager;
 	private int stateID;
 	private IPlayStateController playState;
-	private float spacing, scaling;
+	private float spacing;
 	private float crossScaling = 0.8f;
 	
 	private boolean isWin;
 	
-	private ArrayList<Image> coinAmount = new ArrayList<Image>(); 
-	private ArrayList<Image> foeAmount = new ArrayList<Image>(); 
-	private ArrayList<Image> gemAmount = new ArrayList<Image>(); 
-	private ArrayList<Image> totalScore = new ArrayList<Image>(); 
+	private List<Image> coinAmount = new ArrayList<Image>(); 
+	private List<Image> foeAmount = new ArrayList<Image>(); 
+	private List<Image> gemAmount = new ArrayList<Image>(); 
+	private List<Image> totalScore = new ArrayList<Image>(); 
 	
 	private Vec2 coinAmountPos, foeAmountPos, gemAmountPos, totalScorePos;
 	
-	private String IMAGE_PATH = "res/GameOver/";
-	private String COIN_PATH = "res/Collectibles/Coin/";
-	private String GEM_PATH = "res/Collectibles/Gem/";
+	private final String IMAGE_PATH = "res/GameOver/";
+	private final String DISCO_BALL_PATH = "res/GameOver/disco_ball/";
+	private final String COIN_PATH = "res/Collectibles/Coin/";
+	private final String FOE_PATH = "res/Enemy_animations/enemy_right/";
+	private final String GEM_PATH = "res/Collectibles/Gem/";
 	
 	private Animation coin, foe, gem;
 	private Animation dancingHero, sadHero, discoBall;
@@ -49,6 +52,7 @@ public class GameOverState extends BasicGameState{
 	
 	private Image failSign;
 	private Image danceFloor;
+	private Vec2 failSignPos, danceFloorPos;
 	
 	private Image zero, one, two, three, four, five, six, seven, eight, nine, cross;
 	private Image total, points;
@@ -65,7 +69,8 @@ public class GameOverState extends BasicGameState{
 	private Image background;	
 	
 	private Vec2 youWinPos, youLosePos;
-	private Vec2 crossPos1, crossPos2, crossPos3;
+	
+	private Vec2[] crossPosses = new Vec2[3];
 	private Vec2 totalPos, pointsPos;
 	private Vec2 playAgainPos, mainMenuPos, quitGamePos;
 	
@@ -84,13 +89,16 @@ public class GameOverState extends BasicGameState{
 		
 		float screenWidth = arg1.getContainer().getWidth();
 		float screenHeight = arg1.getContainer().getHeight();
-		this.scaling = 7;
 		this.spacing = 20;
 		
+		initDiscoBall();
 		initCoin();
+		initFoe();
 		initGem();
 		
 		this.background = new Image("res/background.png");
+		
+		this.danceFloor = new Image(IMAGE_PATH + "danceFloor.png");
 		
 		this.zero = new Image(IMAGE_PATH + "zero.png");
 		this.one = new Image(IMAGE_PATH + "one.png");
@@ -124,39 +132,42 @@ public class GameOverState extends BasicGameState{
 		this.youWinPos = new Vec2(screenWidth/2 - youWin.getWidth()/2, this.spacing);
 		this.youLosePos = new Vec2(screenWidth/2 - youLose.getWidth()/2, this.spacing);
 		
-		this.crossPos1 = new Vec2(this.spacing*this.scaling, youWinPos.y + youWin.getHeight() + this.spacing*2);
-		this.crossPos2 = new Vec2(this.spacing*this.scaling, crossPos1.y + cross.getHeight()*this.crossScaling + this.spacing*2);
-		this.crossPos3 = new Vec2(this.spacing*this.scaling, crossPos2.y + cross.getHeight()*this.crossScaling + this.spacing*2);
-
-		this.coinAmountPos = new Vec2(this.crossPos1.x + cross.getWidth()*this.crossScaling + this.spacing*2, crossPos1.y + cross.getHeight()*this.crossScaling/2 - zero.getHeight()/2);
-		this.foeAmountPos = new Vec2(this.crossPos2.x + cross.getWidth()*this.crossScaling + this.spacing*2, crossPos2.y + cross.getHeight()*this.crossScaling/2 - zero.getHeight()/2);
-		this.gemAmountPos = new Vec2(this.crossPos3.x + cross.getWidth()*this.crossScaling + this.spacing*2, crossPos3.y + cross.getHeight()*this.crossScaling/2 - zero.getHeight()/2);
-
-		this.coinPos = new Vec2(crossPos1.x/2 - coin.getWidth()/2, crossPos1.y + cross.getHeight()*this.crossScaling/2 - coin.getHeight()/2);
-		this.foePos = new Vec2(crossPos1.x/2 - nine.getWidth()/2, crossPos2.y + cross.getHeight()*this.crossScaling/2 - nine.getHeight()/2);
-		this.gemPos = new Vec2(crossPos1.x/2 - gem.getWidth()/2, crossPos3.y + cross.getHeight()*this.crossScaling/2 - gem.getHeight()/2);
-		
-		this.totalPos = new Vec2(this.spacing*2, this.crossPos3.y + this.cross.getHeight() + this.spacing);
-		this.totalScorePos = new Vec2(this.totalPos.x + this.total.getWidth() + this.spacing, this.totalPos.y + this.total.getHeight()/2 - this.zero.getHeight()/2);
-		this.pointsPos = new Vec2(this.totalScorePos.x + this.zero.getWidth()*3 + this.spacing, this.totalPos.y + this.total.getHeight()/2 - this.points.getHeight()/2);
-		
 		float tmpSpacing = (float)(screenWidth - quitGame.getWidth()*3)/4f;
 		this.quitGamePos = new Vec2(tmpSpacing, screenHeight - quitGame.getHeight() - this.spacing);
 		this.mainMenuPos = new Vec2(tmpSpacing*2 + quitGame.getWidth(), screenHeight - quitGame.getHeight() - this.spacing);
 		this.playAgainPos = new Vec2(tmpSpacing*3 + quitGame.getWidth()*2, screenHeight - quitGame.getHeight() - this.spacing);
+		
+		float spaceY = (screenHeight - youWinPos.y - youWin.getHeight() - (screenHeight - this.mainMenuPos.y) 
+				- (this.zero.getHeight()*4 + this.spacing*4))/2;
+
+		this.coinAmountPos = new Vec2(this.youLosePos.x, this.youLosePos.y + youLose.getHeight() + spaceY);
+		this.foeAmountPos = new Vec2(this.youLosePos.x, coinAmountPos.y + this.zero.getHeight() + this.spacing);
+		this.gemAmountPos = new Vec2(this.youLosePos.x, foeAmountPos.y + this.zero.getHeight() + this.spacing);
+
+		this.danceFloorPos = new Vec2(this.youLosePos.x + youLose.getWidth() - this.zero.getWidth()*3, screenHeight/2 - danceFloor.getHeight()/2 - this.spacing);
+		this.discoBallPos = new Vec2(this.danceFloorPos.x + this.danceFloor.getWidth()/2 - this.discoBall.getWidth()/2, this.danceFloorPos.y - this.spacing);
+		
+		this.crossPosses[0] = new Vec2(this.coinAmountPos.x - this.cross.getWidth()*this.crossScaling - this.spacing*2, this.coinAmountPos.y + this.zero.getHeight()/2 - this.cross.getHeight()*this.crossScaling/2);
+		this.crossPosses[1] = new Vec2(this.foeAmountPos.x - this.cross.getWidth()*this.crossScaling - this.spacing*2, this.foeAmountPos.y + this.zero.getHeight()/2 - this.cross.getHeight()*this.crossScaling/2);
+		this.crossPosses[2] = new Vec2(this.gemAmountPos.x - this.cross.getWidth()*this.crossScaling - this.spacing*2, this.gemAmountPos.y + this.zero.getHeight()/2 - this.cross.getHeight()*this.crossScaling/2);
+		
+		this.coinPos = new Vec2(crossPosses[0].x/2 - coin.getWidth()/2, crossPosses[0].y + cross.getHeight()*this.crossScaling/2 - coin.getHeight()/2);
+		this.foePos = new Vec2(crossPosses[1].x/2 - nine.getWidth()/2, crossPosses[1].y + cross.getHeight()*this.crossScaling/2 - nine.getHeight()/2);
+		this.gemPos = new Vec2(crossPosses[2].x/2 - gem.getWidth()/2, crossPosses[2].y + cross.getHeight()*this.crossScaling/2 - gem.getHeight()/2);
+		
+		this.totalScorePos = new Vec2(this.youLosePos.x, this.gemAmountPos.y + this.zero.getHeight() + this.spacing*2);
+		this.totalPos = new Vec2(this.totalScorePos.x - this.total.getWidth() - this.spacing, this.totalScorePos.y + this.zero.getHeight()/2 - this.total.getHeight()/2);
+		this.pointsPos = new Vec2(this.totalScorePos.x + this.zero.getWidth()*3 + this.spacing, this.totalPos.y + this.total.getHeight()/2 - this.points.getHeight()/2);
+		
 	}
 	
-	public void initCoin() throws SlickException{
+	public void initCoin(){
 		Image[] coinImages = new Image[8];
-		coinImages[0] = new Image(COIN_PATH + "coin_1.png");
-		coinImages[1] = new Image(COIN_PATH + "coin_2.png");
-		coinImages[2] = new Image(COIN_PATH + "coin_3.png");
-		coinImages[3] = new Image(COIN_PATH + "coin_4.png");
-		coinImages[4] = new Image(COIN_PATH + "coin_5.png");
-		coinImages[5] = new Image(COIN_PATH + "coin_6.png");
-		coinImages[6] = new Image(COIN_PATH + "coin_7.png");
-		coinImages[7] = new Image(COIN_PATH + "coin_8.png");
-		
+		try{
+			for(int i = 0; i < coinImages.length; i++){
+				coinImages[i] = new Image(COIN_PATH + "coin_" + (i+1) + ".png");
+			}
+		} catch(SlickException e){}
 		coin = new Animation(coinImages, 100);
 	}
 	
@@ -164,17 +175,43 @@ public class GameOverState extends BasicGameState{
 	 * Initialize the animation of a gem
 	 * @throws SlickException
 	 */
-	public void initGem() throws SlickException{
+	public void initGem(){
 		Image[] gemImages = new Image[8];
-		gemImages[0] = new Image(GEM_PATH + "gem_0.png");
-		gemImages[1] = new Image(GEM_PATH + "gem_1.png");
-		gemImages[2] = new Image(GEM_PATH + "gem_2.png");
-		gemImages[3] = new Image(GEM_PATH + "gem_3.png");
-		gemImages[4] = new Image(GEM_PATH + "gem_4.png");
-		gemImages[5] = new Image(GEM_PATH + "gem_5.png");
-		gemImages[6] = new Image(GEM_PATH + "gem_6.png");
-		gemImages[7] = new Image(GEM_PATH + "gem_7.png");
+		try{
+			for(int i = 0; i < gemImages.length; i++){
+				gemImages[i] = new Image(GEM_PATH + "gem_" + i + ".png");
+			}
+		} catch(SlickException e){}
 		gem = new Animation(gemImages, 150);
+	}
+	
+	/**
+	 * Initialize the animation of a gem
+	 * @throws SlickException
+	 */
+	public void initFoe(){
+		Image[] foeImages = new Image[12];
+		try{
+			for(int i = 0; i < foeImages.length; i++){
+				foeImages[i] = new Image(FOE_PATH + "enemy_right_" + (i+1) + ".png");
+			}
+		} catch(SlickException e){}
+		foe = new Animation(foeImages, 100);
+	}
+	
+	/**
+	 * Initialize the animation of a disco ball
+	 * @throws SlickException
+	 */
+	public void initDiscoBall(){
+		Image[] discoBallImages = new Image[12];
+		try{
+			for(int i = 0; i < discoBallImages.length; i++){
+				discoBallImages[i] = new Image(DISCO_BALL_PATH + "discoBall" + (i+1) + ".png");
+			}
+		} catch(SlickException e){}
+		
+		discoBall = new Animation(discoBallImages, 150);
 	}
 	
 	@Override
@@ -206,17 +243,19 @@ public class GameOverState extends BasicGameState{
 		
 		if(isWin){
 			this.youWin.draw(youWinPos.x, youWinPos.y);
+			this.danceFloor.draw(danceFloorPos.x, danceFloorPos.y);
+			this.discoBall.draw(discoBallPos.x, discoBallPos.y);
 		} else{
 			this.youLose.draw(youLosePos.x, youLosePos.y);
 		}
 		
 		this.coin.draw(coinPos.x, coinPos.y);
-		this.nine.draw(foePos.x, foePos.y);
+		this.foe.draw(foePos.x, foePos.y);
 		this.gem.draw(gemPos.x, gemPos.y);
 		
-		this.cross.draw(crossPos1.x, crossPos1.y, crossScaling);
-		this.cross.draw(crossPos2.x, crossPos2.y, crossScaling);
-		this.cross.draw(crossPos3.x, crossPos3.y, crossScaling);
+		for(int i = 0; i < crossPosses.length; i++){
+			this.cross.draw(crossPosses[i].x, crossPosses[i].y, crossScaling);
+		}
 		
 		for(int i = 0; i < coinAmount.size(); i++){
 			this.coinAmount.get(i).draw(coinAmountPos.x + this.zero.getWidth()*i, coinAmountPos.y);
