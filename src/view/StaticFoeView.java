@@ -4,7 +4,6 @@ import model.StaticFoeModel;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,19 +12,18 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Camera;
 
-import controller.StaticFoeController;
-
 public class StaticFoeView {
 	
 	private StaticFoeModel model;
 	private Animation animation;
 	
-	private final String PATH = "res/Characters/staticfoe/";
+	private final String PATH_FIRE = "res/foe/static_foe/fire_animation/";
+	private final String PATH_PLANT = "res/foe/static_foe/plant_animation/";
 	
 	public StaticFoeView(StaticFoeModel model){
 		this.model = model;
 		try {
-			initAnimation(this.model.getType());
+			init();
 		} catch (SlickException e) {
 			System.out.println("Couldn't initiate the animation of the static foe at position: " + this.model.getPosPixels());
 		}
@@ -36,30 +34,22 @@ public class StaticFoeView {
 	 * @param type
 	 * @throws SlickException
 	 */
-	public void initAnimation(StaticFoeModel.StaticFoeType type) throws SlickException{
-		Image[] images = new Image[2];
-		int duration = 500;
+	public void init() throws SlickException{
+		Image[] images = new Image[5];
+		int duration = 100;
 		
-		switch(type) {
+		switch(this.model.getType()) {
 		case FIRE:
-			images[0] = new Image(this.PATH + "fire1.jpg");
-			images[1] = new Image(this.PATH + "fire2.jpg");
-			animation = new Animation(images, duration);
+			for(int i = 0; i < images.length; i++) {
+				images[i] = new Image(PATH_FIRE + "fire_" + (i+1) + ".png");
+			}
+			this.animation = new Animation(images, duration);
 			break;
 		case PLANT:
-			images[0] = new Image(this.PATH + "plant1.jpg");
-			images[1] = new Image(this.PATH + "plant2.jpg");
-			animation = new Animation(images, duration);
-			break;
-		case WATER:
-			images[0] = new Image(this.PATH + "water1.jpg");
-			images[1] = new Image(this.PATH + "water2.jpg");
-			animation = new Animation(images, duration);
-			break;
-		case SPIKES:
-			images[0] = new Image(this.PATH + "spikes1.jpg");
-			images[1] = new Image(this.PATH + "spikes2.jpg");
-			animation = new Animation(images, duration);
+			for(int i = 0; i < images.length; i++) {
+				images[i] = new Image(PATH_PLANT + "plant_" + (i+1) + ".png");
+			}
+			this.animation = new Animation(images, duration);
 			break;
 		default:
 			break;
@@ -68,7 +58,7 @@ public class StaticFoeView {
 	
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) {
 		Vec2 worldPos = Camera.entityRender(this.model.getPosPixels());
-		g.drawAnimation(animation, worldPos.x, worldPos.y);
+		this.animation.draw(worldPos.x, worldPos.y);
 	}
 	
 }
