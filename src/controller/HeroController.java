@@ -64,6 +64,7 @@ public class HeroController implements IEntityController, ActionListener {
 		model = hm;
 		view = new HeroView(hm, model.getWeaponType());
 		if(!model.isBodyCreated()){
+			/* Sets the dimension of the hero after the slimmest animation standing*/
 			model.setDimension(view.getWidth(), view.getHeight());
 		}
 		if(model.getWeaponType() == WeaponType.gun)
