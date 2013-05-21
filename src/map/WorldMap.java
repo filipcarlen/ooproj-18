@@ -63,7 +63,7 @@ public class WorldMap{
 	//Loads a file from from the resourses folder with a levelName
 	public void loadMapFromTMX(String levelName){
 		try {
-			tm = new TiledMap("res/Map/" + levelName + ".tmx");
+			tm = new TiledMap("res/map/" + levelName + ".tmx");
 			background = new int[tm.getWidth()][tm.getHeight()];
 			int collision = tm.getLayerIndex("collision");
 			int numberOfTiles = 0;
@@ -103,9 +103,9 @@ public class WorldMap{
 					}else if(idtile == 94){
 						bodies.add(new StaticFoeModel(w, pos, 15, StaticFoeModel.StaticFoeType.FIRE, 5));
 					}else if(idtile == 95){
-						bodies.add(new StaticFoeModel(w, pos, 80, StaticFoeModel.StaticFoeType.WATER, 5));
+
 					}else if(idtile == 96){
-						bodies.add(new StaticFoeModel(w, pos, 5, StaticFoeModel.StaticFoeType.SPIKES, 5));
+						
 					}else if(idtile == 97){
 						bodies.add(new StaticFoeModel(w, pos, 20, StaticFoeModel.StaticFoeType.PLANT, 5));
 					}else if(idtile == 99){
