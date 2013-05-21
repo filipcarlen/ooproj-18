@@ -1,6 +1,8 @@
 package model;
 
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -12,7 +14,7 @@ import utils.Utils;
 
 public class StaticFoeModel implements IEntityModel {
 
-	public static enum StaticFoeType {FIRE, PLANT, WATER, SPIKES};
+	public static enum StaticFoeType {FIRE, PLANT};
 	
 	private World world;
 	
@@ -48,16 +50,22 @@ public class StaticFoeModel implements IEntityModel {
 	 * @param pixelPos	the chosen position of this entity
 	 */
 	public void init(Vec2 pixelPos) {
-		
+
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(Utils.pixelsToMeters(pixelPos.add(new Vec2(this.WIDTH/2, this.HEIGHT/2))));
 		bodyDef.type = BodyType.STATIC;
 		
-		PolygonShape polyShape = new PolygonShape();
-		polyShape.setAsBox(Utils.pixelsToMeters(this.WIDTH/2), Utils.pixelsToMeters(this.HEIGHT/2));
-		
 		FixtureDef fixDef = new FixtureDef();
-		fixDef.shape = polyShape;
+		if(this.type == StaticFoeType.FIRE) {
+			PolygonShape polyShape = new PolygonShape();
+			polyShape.setAsBox(Utils.pixelsToMeters(this.WIDTH/2), Utils.pixelsToMeters(this.HEIGHT/2));
+			fixDef.shape = polyShape;
+		} else if(this.type == StaticFoeType.PLANT) {
+			CircleShape circleShape = new CircleShape();
+			circleShape.m_radius = this.WIDTH/2;
+			fixDef.shape = circleShape;
+		}
+
 		fixDef.density = 1f;
 		fixDef.friction = 0.0f;
 		fixDef.restitution = 2f;

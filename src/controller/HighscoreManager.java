@@ -9,12 +9,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import model.HighscoreModel;
 
 public class HighscoreManager {
 	
-	private ArrayList<HighscoreModel> highscores;
+	private List<HighscoreModel> highscores;
 	private static final String HIGHSCORE_FILE = "highscores.dat";
 	
 	ObjectOutputStream outputStream = null;
@@ -24,7 +25,7 @@ public class HighscoreManager {
 		highscores = new ArrayList<HighscoreModel>();
 	}
 	
-	public ArrayList<HighscoreModel> getScores(){
+	public List<HighscoreModel> getScores(){
 		loadScoreFile();
 		sort();
 		return highscores;
@@ -87,9 +88,9 @@ public class HighscoreManager {
 	
 	public String getHighscoreString(){
 		String highscoreString = "";
-		int max = 10;
+		int max = 8;
 		
-		ArrayList<HighscoreModel> highscores;
+		List<HighscoreModel> highscores;
 		highscores = getScores();
 		
 		int i = 0;
@@ -115,8 +116,7 @@ public class HighscoreManager {
 	}
 	
 	public void clearFile() throws IOException{
-		FileOutputStream writer = new FileOutputStream(HIGHSCORE_FILE);
-		writer.write((new String()).getBytes());
-		writer.close();
+		highscores.clear();
+		updateScoreFile();
 	}
 }	

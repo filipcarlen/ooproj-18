@@ -1,19 +1,15 @@
 package controller.states;
 
-import java.awt.Font;
 import java.io.IOException;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -26,18 +22,16 @@ public class HighscoreState extends BasicGameState {
 	private final String PATH = "res/HighscoreMenu/";
 	private static HighscoreState instance = null;
 	
-	private Image background, title, name, time, mob, mainmenu, mainmenuH;
-	private Image one, two, three, four, five, six,
-					seven, eight, nine;
-	private Animation gem, coin;
-	private Vec2 titlePos;
+	private Image background, title, mainmenu, mainmenuH, clear, clearH, total;
+	private Animation gem, coin, foe;
+	private Vec2 titlePos, clearPos,mainMenuPos, coinPos, gemPos, foePos, totalPos;
 	
 	private boolean insideMainMenu = false;
-	private Vec2 mainMenuPos;
+	private boolean insideClear = false;
 	
 	private HighscoreManager highscoremanager;
 	
-	AngelCodeFont acf;
+	private AngelCodeFont acf;
 	
 	private HighscoreState(int id){
 		this.stateID = id;
@@ -55,24 +49,25 @@ public class HighscoreState extends BasicGameState {
 			throws SlickException {
 		highscoremanager = new HighscoreManager();
 		acf = new AngelCodeFont("res/Font/font.fnt", "res/Font/font_0.png");
-		addHighscores();
+		
 		initCoin();
 		initGem();
-		one = new Image(PATH+"1.png");
-		two = new Image(PATH+"2.png");
-		three = new Image(PATH+"3.png");
-		four = new Image(PATH+"4.png");
-		five = new Image(PATH+"5.png");
-		six = new Image(PATH+"6.png");
-		seven = new Image(PATH+"7.png");
-		eight = new Image(PATH+"8.png");
+		initFoe();
+		total = new Image(PATH+"total.png");
+		clear = new Image(PATH+"clear.png");
+		clearH = new Image(PATH+"clearhighlighted.png");
 		background = new Image("res/background.png");
 		title = new Image(PATH+"highscore_title.png");
 		mainmenu = new Image("res/GameOver/MainMenu.png");
 		mainmenuH = new Image("res/GameOver/MainMenuH.png");
 		
 		titlePos = new Vec2(background.getWidth()/2 - title.getWidth()/2, 10);
+		clearPos = new Vec2(500,500);
 		mainMenuPos = new Vec2(650,500);
+		coinPos = new Vec2(368,135);
+		gemPos = new Vec2(485,135);
+		foePos = new Vec2(610,135);
+		totalPos = new Vec2(720,140);
 		
 	}
 
@@ -81,23 +76,25 @@ public class HighscoreState extends BasicGameState {
 			throws SlickException {
 		background.draw(0, 0);
 		title.draw(titlePos.x,titlePos.y);	
-		//arg2.drawString(highscoremanager.getHighscoreString(),background.getWidth()/2,170);
 		acf.drawString(70, 170, highscoremanager.getHighscoreString());
-		/**one.draw(75,150);
-		two.draw(75,200);
-		three.draw(75,250);
-		four.draw(75,300);
-		five.draw(75,350);
-		six.draw(75,400);
-		seven.draw(75,450);
-		eight.draw(75,500);*/
+		coin.draw(coinPos.x, coinPos.y);
+		gem.draw(gemPos.x, gemPos.y);
+		foe.draw(foePos.x,foePos.y);
+		total.draw(totalPos.x,totalPos.y);
 		
 		if(insideMainMenu){
 			mainmenuH.draw(mainMenuPos.x,mainMenuPos.y);
 		}
 		else{
 			mainmenu.draw(mainMenuPos.x,mainMenuPos.y);
-		}	
+		}
+		
+		if(insideClear){
+			clearH.draw(clearPos.x, clearPos.y);
+		}
+		else{
+			clear.draw(clearPos.x, clearPos.y);
+		}
 		
 	}
 
@@ -110,9 +107,18 @@ public class HighscoreState extends BasicGameState {
 		int mouseY = input.getMouseY();
 		
 		insideMainMenu = checkMouse(mouseX,mouseY,mainMenuPos,mainmenu);
+		insideClear = checkMouse(mouseX, mouseY, clearPos, clear);
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideMainMenu){
 			arg1.enterState(GameApp.MAINMENUSTATE);
+		}
+		
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideClear){
+			try {
+				clearHighscore();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -148,6 +154,24 @@ public class HighscoreState extends BasicGameState {
 		gem = new Animation(gemImages, 150);
 	}
 	
+	public void initFoe() throws SlickException{
+		Image[] foeImages = new Image[12];
+		foeImages[0] = new Image("res/Enemy_animations/enemy_right/enemy_right_1.png");
+		foeImages[1] = new Image("res/Enemy_animations/enemy_right/enemy_right_2.png");
+		foeImages[2] = new Image("res/Enemy_animations/enemy_right/enemy_right_3.png");
+		foeImages[3] = new Image("res/Enemy_animations/enemy_right/enemy_right_4.png");
+		foeImages[4] = new Image("res/Enemy_animations/enemy_right/enemy_right_5.png");
+		foeImages[5] = new Image("res/Enemy_animations/enemy_right/enemy_right_6.png");
+		foeImages[6] = new Image("res/Enemy_animations/enemy_right/enemy_right_7.png");
+		foeImages[7] = new Image("res/Enemy_animations/enemy_right/enemy_right_8.png");
+		foeImages[8] = new Image("res/Enemy_animations/enemy_right/enemy_right_9.png");
+		foeImages[9] = new Image("res/Enemy_animations/enemy_right/enemy_right_10.png");
+		foeImages[10] = new Image("res/Enemy_animations/enemy_right/enemy_right_11.png");
+		foeImages[11] = new Image("res/Enemy_animations/enemy_right/enemy_right_12.png");
+		
+		foe= new Animation(foeImages, 150);
+	}
+	
 	public boolean checkMouse(int mouseX, int mouseY, Vec2 pos, Image image){
 		if((mouseX >= pos.x && mouseX <= pos.x + image.getWidth()) &&
 	            (mouseY >= pos.y && mouseY <= pos.y + image.getHeight())){
@@ -158,16 +182,7 @@ public class HighscoreState extends BasicGameState {
 		}
 	}
 	
-	public void addHighscores(){
-		highscoremanager.addScore("CarlŽn", 100, 5, 15, 20);
-		highscoremanager.addScore("Lager", 104, 7, 45, 40);
-		highscoremanager.addScore("Elin", 150, 8, 59, 50);
-		highscoremanager.addScore("LinnŽa", 140, 7, 13, 258);
-	}
-	
 	public void clearHighscore() throws IOException{
 		highscoremanager.clearFile();
 	}
-	
-
 }

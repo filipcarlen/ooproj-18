@@ -7,7 +7,7 @@ public class Sounds{
 	
 private static Sounds instance = null;
 	
-	public static String PATH = "res/Sounds/";
+	private static final String PATH = "res/Sounds/";
 		
 	private float volumeMusic = 1.0f;
 	private boolean volumeMusicOn = true;
@@ -27,14 +27,20 @@ private static Sounds instance = null;
 	private Sound die;
 		
 	private Sounds() throws SlickException {
-		soundtrack = new Sound(PATH+"soundtrack.wav");
-		gunfire = new Sound(PATH+"GE_KF7_Soviet.wav");
-		enemyDie = new Sound(PATH+"enemyDie.wav");
-		musicInGame = new Sound(PATH+"Musicingame.wav");
-		hurt = new Sound(PATH+"hurt.wav");
-		collectCoin = new Sound(PATH+"collect_coin.wav");
-		collectGem = new Sound(PATH+"collect_gem.wav");
-		die = new Sound(PATH+"die.wav");
+		try{
+			soundtrack = new Sound(PATH+"soundtrack.wav");
+			gunfire = new Sound(PATH+"GE_KF7_Soviet.wav");
+			enemyDie = new Sound(PATH+"enemyDie.wav");
+			musicInGame = new Sound(PATH+"Musicingame.wav");
+			hurt = new Sound(PATH+"hurt.wav");
+			collectCoin = new Sound(PATH+"collect_coin.wav");
+			collectGem = new Sound(PATH+"collect_gem.wav");
+			die = new Sound(PATH+"die.wav");
+			enemyHurt = new Sound(PATH+"enemyhurt.wav");
+		
+		} catch(SlickException e){
+			System.out.println("Can't load sound file in Sounds class");
+		}
 		
 	}
 		

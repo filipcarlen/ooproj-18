@@ -24,7 +24,7 @@ public class StaticFoeController implements IEntityController {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		view.render(container, game, g);
+		this.view.render(container, game, g);
 	}
 
 	@Override
