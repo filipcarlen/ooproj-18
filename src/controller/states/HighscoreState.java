@@ -55,6 +55,7 @@ public class HighscoreState extends BasicGameState {
 			throws SlickException {
 		highscoremanager = new HighscoreManager();
 		acf = new AngelCodeFont("res/Font/font.fnt", "res/Font/font_0.png");
+		addHighscores();
 		initCoin();
 		initGem();
 		one = new Image(PATH+"1.png");
@@ -155,6 +156,13 @@ public class HighscoreState extends BasicGameState {
 		else{
 			return false;
 		}
+	}
+	
+	public void addHighscores(){
+		highscoremanager.addScore("Carlén", 100, 5, 15, 20);
+		highscoremanager.addScore("Lager", 104, 7, 45, 40);
+		highscoremanager.addScore("Elin", 150, 8, 59, 50);
+		highscoremanager.addScore("Linnéa", 140, 7, 13, 258);
 	}
 	
 	public void clearHighscore() throws IOException{
