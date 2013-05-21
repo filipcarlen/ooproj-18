@@ -31,9 +31,9 @@ bin
 
 # OS generated files #
 ######################
-.DS_Store?
+.DS_Store
 .classpath
-.DAT
+.dat
 ehthumbs.db
 Icon?
 Thumbs.db
