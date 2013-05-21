@@ -161,5 +161,6 @@ private static Sounds instance = null;
 	
 	public float getMusicVolume(){
 		return this.volumeMusic;		
+
 	}
 }
