@@ -115,18 +115,11 @@ public class MovingFoeModel implements IAliveModel{
 	@Override
 	public void hurt(int hpDecrement) {
 		if(!(hp - hpDecrement <= 0)){
-			/*try {
-				Sounds.getInstance().playSound(SoundType.ENEMY_HURT);
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}*/
+			Sounds.getInstance().playSound(SoundType.ENEMY_HURT);
+			
 			this.hp -= hpDecrement;
 		} else {
-			try {
-				Sounds.getInstance().playMusic(SoundType.ENEMY_DIE);
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+			Sounds.getInstance().playMusic(SoundType.ENEMY_DIE);
 			this.hp = 0;
 			this.isAlive = false;
 		}
