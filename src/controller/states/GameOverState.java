@@ -17,6 +17,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import utils.SoundType;
 import utils.Sounds;
 
+import controller.HighscoreManager;
 import controller.IPlayStateController;
 
 public class GameOverState extends BasicGameState{
