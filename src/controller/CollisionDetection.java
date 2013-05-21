@@ -31,9 +31,10 @@ public class CollisionDetection  implements ContactListener{
 			
 			if(objectB ==  EntityType.GROUND){
 				heroModel.setGroundContact();
-			}
-	
-			else if(objectB instanceof ICollectibleModel){
+			}else if(objectB instanceof MovingFoeModel){
+				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectB).getPosMeters().y)
+					heroModel.setGroundContact();
+			}else if(objectB instanceof ICollectibleModel){
 				((AbstractCollectibleModel)objectB).killBody();
 				heroModel.incrementScore(((AbstractCollectibleModel)objectB).getValue());
 				if(objectB instanceof GemModel){
@@ -41,18 +42,12 @@ public class CollisionDetection  implements ContactListener{
 				}else{
 					heroModel.incrementCoin();
 				}
-			}
-			
-			else if(objectB instanceof StaticFoeModel) {
+			}else if(objectB instanceof StaticFoeModel) {
 				heroModel.setHurted(null,((StaticFoeModel)objectB).getDamage());
-			}
-			
-			else if(objectB instanceof BulletModel) {
+			}else if(objectB instanceof BulletModel) {
 				heroModel.setHurted(((BulletModel)objectB).getNavigation(),((BulletModel)objectB).getDamage());
 				((BulletModel)objectB).destroyEntity();
-			}
-			
-			else if(objectB instanceof SwordModel) {
+			}else if(objectB instanceof SwordModel) {
 				heroModel.setHurted(((SwordModel)objectB).getNavigation() ,((SwordModel)objectB).getDamage());
 				((SwordModel)objectB).destroyEntity();
 			}
@@ -66,9 +61,11 @@ public class CollisionDetection  implements ContactListener{
 			
 			if(objectA == EntityType.GROUND){
 				heroModel.setGroundContact();
-			}
-	
-			else if(objectA instanceof ICollectibleModel){
+			}else if(objectA instanceof MovingFoeModel){
+				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectA).getPosMeters().y){
+					heroModel.setGroundContact();
+				}
+			}else if(objectA instanceof ICollectibleModel){
 				((AbstractCollectibleModel)objectA).killBody();
 				heroModel.incrementScore(((AbstractCollectibleModel)objectA).getValue());
 				if(objectA instanceof GemModel){
@@ -76,21 +73,14 @@ public class CollisionDetection  implements ContactListener{
 				}else{
 					heroModel.incrementCoin();
 				}
-			}
-			
-			else if(objectA instanceof StaticFoeModel) {
+			}else if(objectA instanceof StaticFoeModel) {
 				heroModel.setHurted(null,((StaticFoeModel)objectA).getDamage());
-			}
-			
-			else if(objectA instanceof BulletModel) {
+			}else if(objectA instanceof BulletModel) {
 				heroModel.setHurted( ((BulletModel)objectA).getNavigation() ,((BulletModel)objectA).getDamage());
 				((BulletModel)objectA).destroyEntity();
-			}
-			
-			else if(objectA instanceof SwordModel) {
+			}else if(objectA instanceof SwordModel) {
 				heroModel.setHurted(((SwordModel)objectA).getNavigation(), ((SwordModel)objectA).getDamage());
 				((SwordModel)objectA).destroyEntity();
-
 			}
 		}
 		
