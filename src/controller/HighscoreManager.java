@@ -87,7 +87,7 @@ public class HighscoreManager {
 	
 	public String getHighscoreString(){
 		String highscoreString = "";
-		int max = 10;
+		int max = 8;
 		
 		ArrayList<HighscoreModel> highscores;
 		highscores = getScores();

@@ -33,6 +33,7 @@ bin
 ######################
 .DS_Store?
 .classpath
+.DAT
 ehthumbs.db
 Icon?
 Thumbs.db
