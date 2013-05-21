@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Camera;
+import utils.Utils;
 
 public class MovingFoeView {
 
@@ -19,7 +20,9 @@ public class MovingFoeView {
 	
 	private Animation[] animations;
 	
-	private final String PATH = "res/Characters/movingfoe/";
+	private final String PATH_LEFT = "res/Enemy_animations/enemy_left/";
+	private final String PATH_RIGHT = "res/Enemy_animations/enemy_right/";
+	private final String PATH_STAND = "res/Enemy_animations/enemy_standing/";
 	
 	private MovingFoeModel model;
 	
@@ -36,36 +39,28 @@ public class MovingFoeView {
 	
 	public void initAnimations() throws SlickException {
 		this.animations = new Animation[7];
-		Image[] images = new Image[2];
-		int duration = 500;
 		
-		images[0] = new Image(this.PATH + "walkleft1.jpg");
-		images[1] = new Image(this.PATH + "walkleft2.jpg");
-		animations[0] = (new Animation(images, duration));
+		Image[] images = new Image[1];
+		int duration = 100;
 		
-		images[0] = new Image(this.PATH + "walkleft1.jpg");
-		images[1] = new Image(this.PATH + "walkleft2.jpg");
+		images[0] = new Image(this.PATH_STAND + "enemy_standing.png");
+		animations[0] = new Animation(images, duration);
+		
+		images = new Image[12];
+		
+		for(int i = 0; i < images.length; i++){
+			images[i] = new Image(PATH_LEFT + "enemy_left_" + (i+1) + ".png");
+		}
 		animations[1] = (new Animation(images, duration));
-			
-		images[0] = new Image(this.PATH + "walkright1.jpg");
-		images[1] = new Image(this.PATH + "walkright2.jpg");
-		animations[2] = new Animation(images, duration);
-			
-		images[0] = new Image(this.PATH + "gunleft1.jpg");
-		images[1] = new Image(this.PATH + "gunleft2.jpg");
-		animations[3] = new Animation(images, duration);
-			
-		images[0] = new Image(this.PATH + "gunright1.jpg");
-		images[1] = new Image(this.PATH + "gunright2.jpg");
-		animations[4] = new Animation(images, duration);
+		animations[3] = (new Animation(images, duration));
+		animations[5] = (new Animation(images, duration));
 		
-		images[0] = new Image(this.PATH + "swordleft1.jpg");
-		images[1] = new Image(this.PATH + "swordleft2.jpg");
-		animations[5] = new Animation(images, duration);
-			
-		images[0] = new Image(this.PATH + "swordright1.jpg");
-		images[1] = new Image(this.PATH + "swordright2.jpg");
-		animations[6] = new Animation(images, duration);
+		for(int i = 0; i < images.length; i++){
+			images[i] = new Image(PATH_RIGHT + "enemy_right_" + (i+1) + ".png");
+		}
+		animations[2] = (new Animation(images, duration));
+		animations[4] = (new Animation(images, duration));
+		animations[6] = (new Animation(images, duration));
 		
 		this.currentAnimation = this.animations[0];
 	}
@@ -104,7 +99,7 @@ public class MovingFoeView {
 		
 		Vec2 lifePos = worldPos.sub(new Vec2(0,8));
 		g.setColor(Color.red);
-		float life = ((float)(this.model.getHp())/(float)(this.model.getMaxHp()))*30;
+		float life = ((float)(this.model.getHp())/(float)(this.model.getMaxHp()))*Utils.metersToPixels(this.model.getWidth());
 		g.fillRect(lifePos.x, lifePos.y, life, 5);
 	}
 }

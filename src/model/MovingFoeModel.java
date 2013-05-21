@@ -8,7 +8,10 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.newdawn.slick.SlickException;
 
+import utils.SoundType;
+import utils.Sounds;
 import utils.Utils;
 
 public class MovingFoeModel implements IAliveModel{
@@ -23,8 +26,8 @@ public class MovingFoeModel implements IAliveModel{
 	
 	private Body body;
 	
-	private final float WIDTH = 30f; 
-	private final float HEIGHT = 30f;
+	private final float WIDTH = 40f; 
+	private final float HEIGHT = 40f;
 	
 	private boolean isAlive;
 	
@@ -32,7 +35,8 @@ public class MovingFoeModel implements IAliveModel{
 	 * When the hero is within the SIGHT_RANGE from this enemy, this enemy will move
 	 * towards to the hero. 
 	 */
-	public final int SIGHT_RANGE = 400;
+	public final int SIGHT_RANGE_X = 500;
+	public final int SIGHT_RANGE_Y = 200;
 	
 	private final int MAX_HP;
 	
@@ -69,8 +73,6 @@ public class MovingFoeModel implements IAliveModel{
 		fixDef.density = 0f;
 		fixDef.friction = 0f;
 		fixDef.filter.groupIndex = -1;
-		fixDef.filter.categoryBits = 2;
-		fixDef.filter.maskBits = 333;
 		
 		this.body = this.world.createBody(bodyDef);
 		this.body.createFixture(fixDef);
@@ -113,8 +115,18 @@ public class MovingFoeModel implements IAliveModel{
 	@Override
 	public void hurt(int hpDecrement) {
 		if(!(hp - hpDecrement <= 0)){
+			/*try {
+				Sounds.getInstance().playSound(SoundType.ENEMY_HURT);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}*/
 			this.hp -= hpDecrement;
 		} else {
+			try {
+				Sounds.getInstance().playMusic(SoundType.ENEMY_DIE);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 			this.hp = 0;
 			this.isAlive = false;
 		}
