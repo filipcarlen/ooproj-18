@@ -26,13 +26,12 @@ public class HighscoreState extends BasicGameState {
 	private final String PATH = "res/HighscoreMenu/";
 	private static HighscoreState instance = null;
 	
-	private Image background, title, name, time, mob, mainmenu, mainmenuH;
-	private Image one, two, three, four, five, six,
-					seven, eight, nine;
+	private Image background, title, name, time, mob, mainmenu, mainmenuH, clear, clearH;
 	private Animation gem, coin;
-	private Vec2 titlePos;
+	private Vec2 titlePos, clearPos;
 	
 	private boolean insideMainMenu = false;
+	private boolean insideClear = false;
 	private Vec2 mainMenuPos;
 	
 	private HighscoreManager highscoremanager;
@@ -58,20 +57,15 @@ public class HighscoreState extends BasicGameState {
 		
 		initCoin();
 		initGem();
-		one = new Image(PATH+"1.png");
-		two = new Image(PATH+"2.png");
-		three = new Image(PATH+"3.png");
-		four = new Image(PATH+"4.png");
-		five = new Image(PATH+"5.png");
-		six = new Image(PATH+"6.png");
-		seven = new Image(PATH+"7.png");
-		eight = new Image(PATH+"8.png");
+		clear = new Image(PATH+"clear.png");
+		clearH = new Image(PATH+"clearhighlighted.png");
 		background = new Image("res/background.png");
 		title = new Image(PATH+"highscore_title.png");
 		mainmenu = new Image("res/GameOver/MainMenu.png");
 		mainmenuH = new Image("res/GameOver/MainMenuH.png");
 		
 		titlePos = new Vec2(background.getWidth()/2 - title.getWidth()/2, 10);
+		clearPos = new Vec2(500,500);
 		mainMenuPos = new Vec2(650,500);
 		
 	}
@@ -81,23 +75,21 @@ public class HighscoreState extends BasicGameState {
 			throws SlickException {
 		background.draw(0, 0);
 		title.draw(titlePos.x,titlePos.y);	
-		//arg2.drawString(highscoremanager.getHighscoreString(),background.getWidth()/2,170);
 		acf.drawString(70, 170, highscoremanager.getHighscoreString());
-		/**one.draw(75,150);
-		two.draw(75,200);
-		three.draw(75,250);
-		four.draw(75,300);
-		five.draw(75,350);
-		six.draw(75,400);
-		seven.draw(75,450);
-		eight.draw(75,500);*/
 		
 		if(insideMainMenu){
 			mainmenuH.draw(mainMenuPos.x,mainMenuPos.y);
 		}
 		else{
 			mainmenu.draw(mainMenuPos.x,mainMenuPos.y);
-		}	
+		}
+		
+		if(insideClear){
+			clearH.draw(clearPos.x, clearPos.y);
+		}
+		else{
+			clear.draw(clearPos.x, clearPos.y);
+		}
 		
 	}
 
@@ -110,9 +102,18 @@ public class HighscoreState extends BasicGameState {
 		int mouseY = input.getMouseY();
 		
 		insideMainMenu = checkMouse(mouseX,mouseY,mainMenuPos,mainmenu);
+		insideClear = checkMouse(mouseX, mouseY, clearPos, clear);
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideMainMenu){
 			arg1.enterState(GameApp.MAINMENUSTATE);
+		}
+		
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideClear){
+			try {
+				clearHighscore();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
