@@ -21,6 +21,7 @@ import controller.IPlayStateController;
 
 public class GameOverState extends BasicGameState{
 
+	private HighscoreManager highscoreManager;
 	private int stateID;
 	private IPlayStateController playState;
 	private float spacing, scaling;
@@ -33,26 +34,17 @@ public class GameOverState extends BasicGameState{
 	private ArrayList<Image> gemAmount = new ArrayList<Image>(); 
 	private ArrayList<Image> totalScore = new ArrayList<Image>(); 
 	
-	private Vec2 coinAmountPos = new Vec2(0,0);
-	private Vec2 foeAmountPos = new Vec2(0,0);
-	private Vec2 gemAmountPos = new Vec2(0,0);
-	private Vec2 totalScorePos = new Vec2(0,0);
+	private Vec2 coinAmountPos, foeAmountPos, gemAmountPos, totalScorePos;
 	
-	private String PATH = "res/Collectibles";
+	private String IMAGE_PATH = "res/GameOver/";
+	private String COIN_PATH = "res/Collectibles/Coin/";
+	private String GEM_PATH = "res/Collectibles/Gem/";
 	
-	private Animation coin;
-	private Animation foe;
-	private Animation gem;
-	private Animation dancingHero;
-	private Animation sadHero;
-	private Animation discoBall;
+	private Animation coin, foe, gem;
+	private Animation dancingHero, sadHero, discoBall;
 	
-	private Vec2 coinPos = new Vec2(20,0);
-	private Vec2 foePos = new Vec2(20,0);
-	private Vec2 gemPos = new Vec2(20,0); 
-	private Vec2 dancingHeroPos = new Vec2(0,0);
-	private Vec2 sadHeroPos = new Vec2(0,0);
-	private Vec2 discoBallPos = new Vec2(0,0);
+	private Vec2 coinPos, foePos, gemPos; 
+	private Vec2 dancingHeroPos, sadHeroPos, discoBallPos;
 	
 	private Image failSign;
 	private Image danceFloor;
@@ -71,16 +63,10 @@ public class GameOverState extends BasicGameState{
 	
 	private Image background;	
 	
-	private Vec2 crossPos1 = new Vec2(0,0);
-	private Vec2 crossPos2 = new Vec2(0,0);
-	private Vec2 crossPos3 = new Vec2(0,0);
-	private Vec2 totalPos = new Vec2(0,0);
-	private Vec2 pointsPos = new Vec2(0,0);
-	private Vec2 playAgainPos = new Vec2(0,0); 
-	private Vec2 mainMenuPos = new Vec2(0,0);
-	private Vec2 quitGamePos = new Vec2(0,0);
-	private Vec2 youWinPos;
-	private Vec2 youLosePos;
+	private Vec2 youWinPos, youLosePos;
+	private Vec2 crossPos1, crossPos2, crossPos3;
+	private Vec2 totalPos, pointsPos;
+	private Vec2 playAgainPos, mainMenuPos, quitGamePos;
 	
 	private boolean insideQuitGame = false;
 	private boolean insideMainMenu = false;
@@ -94,6 +80,7 @@ public class GameOverState extends BasicGameState{
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
+		
 		float screenWidth = arg1.getContainer().getWidth();
 		float screenHeight = arg1.getContainer().getHeight();
 		this.scaling = 7;
@@ -104,34 +91,34 @@ public class GameOverState extends BasicGameState{
 		
 		this.background = new Image("res/background.png");
 		
-		this.zero = new Image("res/GameOver/zero.png");
-		this.one = new Image("res/GameOver/one.png");
-		this.two = new Image("res/GameOver/two.png");
-		this.three = new Image("res/GameOver/three.png");
-		this.four = new Image("res/GameOver/four.png");
-		this.five = new Image("res/GameOver/five.png");
-		this.six = new Image("res/GameOver/six.png");
-		this.seven = new Image("res/GameOver/seven.png");
-		this.eight = new Image("res/GameOver/eight.png");
-		this.nine = new Image("res/GameOver/nine.png");
-		this.cross = new Image("res/GameOver/cross.png");
+		this.zero = new Image(IMAGE_PATH + "zero.png");
+		this.one = new Image(IMAGE_PATH + "one.png");
+		this.two = new Image(IMAGE_PATH + "two.png");
+		this.three = new Image(IMAGE_PATH + "three.png");
+		this.four = new Image(IMAGE_PATH + "four.png");
+		this.five = new Image(IMAGE_PATH + "five.png");
+		this.six = new Image(IMAGE_PATH + "six.png");
+		this.seven = new Image(IMAGE_PATH + "seven.png");
+		this.eight = new Image(IMAGE_PATH + "eight.png");
+		this.nine = new Image(IMAGE_PATH + "nine.png");
+		this.cross = new Image(IMAGE_PATH + "cross.png");
 		
-		this.total = new Image("res/GameOver/total.png");
-		this.points = new Image("res/GameOver/points.png");
+		this.total = new Image(IMAGE_PATH + "total.png");
+		this.points = new Image(IMAGE_PATH + "points.png");
 		
-		this.playAgain = new Image("res/GameOver/playAgain.png");
-		this.playAgainH = new Image("res/GameOver/playAgainH.png");
-		this.tryAgain = new Image("res/GameOver/tryAgain.png");
-		this.tryAgainH = new Image("res/GameOver/tryAgainH.png");
+		this.playAgain = new Image(IMAGE_PATH + "playAgain.png");
+		this.playAgainH = new Image(IMAGE_PATH + "playAgainH.png");
+		this.tryAgain = new Image(IMAGE_PATH + "tryAgain.png");
+		this.tryAgainH = new Image(IMAGE_PATH + "tryAgainH.png");
 		
-		this.mainMenu = new Image("res/GameOver/mainMenu.png");
-		this.mainMenuH = new Image("res/GameOver/mainMenuH.png");
+		this.mainMenu = new Image(IMAGE_PATH + "mainMenu.png");
+		this.mainMenuH = new Image(IMAGE_PATH + "mainMenuH.png");
 		
-		this.quitGame = new Image("res/GameOver/quitGame.png");
-		this.quitGameH = new Image("res/GameOver/quitGameH.png");
+		this.quitGame = new Image(IMAGE_PATH + "quitGame.png");
+		this.quitGameH = new Image(IMAGE_PATH + "quitGameH.png");
 		
-		this.youWin = new Image("res/GameOver/youWin.png");
-		this.youLose = new Image("res/GameOver/youLose.png");
+		this.youWin = new Image(IMAGE_PATH + "youWin.png");
+		this.youLose = new Image(IMAGE_PATH + "youLose.png");
 		
 		this.youWinPos = new Vec2(screenWidth/2 - youWin.getWidth()/2, this.spacing);
 		this.youLosePos = new Vec2(screenWidth/2 - youLose.getWidth()/2, this.spacing);
@@ -160,14 +147,14 @@ public class GameOverState extends BasicGameState{
 	
 	public void initCoin() throws SlickException{
 		Image[] coinImages = new Image[8];
-		coinImages[0] = new Image(PATH + "/Coin/coin_1.png");
-		coinImages[1] = new Image(PATH + "/Coin/coin_2.png");
-		coinImages[2] = new Image(PATH + "/Coin/coin_3.png");
-		coinImages[3] = new Image(PATH + "/Coin/coin_4.png");
-		coinImages[4] = new Image(PATH + "/Coin/coin_5.png");
-		coinImages[5] = new Image(PATH + "/Coin/coin_6.png");
-		coinImages[6] = new Image(PATH + "/Coin/coin_7.png");
-		coinImages[7] = new Image(PATH + "/Coin/coin_8.png");
+		coinImages[0] = new Image(COIN_PATH + "coin_1.png");
+		coinImages[1] = new Image(COIN_PATH + "coin_2.png");
+		coinImages[2] = new Image(COIN_PATH + "coin_3.png");
+		coinImages[3] = new Image(COIN_PATH + "coin_4.png");
+		coinImages[4] = new Image(COIN_PATH + "coin_5.png");
+		coinImages[5] = new Image(COIN_PATH + "coin_6.png");
+		coinImages[6] = new Image(COIN_PATH + "coin_7.png");
+		coinImages[7] = new Image(COIN_PATH + "coin_8.png");
 		
 		coin = new Animation(coinImages, 100);
 	}
@@ -178,14 +165,14 @@ public class GameOverState extends BasicGameState{
 	 */
 	public void initGem() throws SlickException{
 		Image[] gemImages = new Image[8];
-		gemImages[0] = new Image(PATH + "/Gem/gem_0.png");
-		gemImages[1] = new Image(PATH + "/Gem/gem_1.png");
-		gemImages[2] = new Image(PATH + "/Gem/gem_2.png");
-		gemImages[3] = new Image(PATH + "/Gem/gem_3.png");
-		gemImages[4] = new Image(PATH + "/Gem/gem_4.png");
-		gemImages[5] = new Image(PATH + "/Gem/gem_5.png");
-		gemImages[6] = new Image(PATH + "/Gem/gem_6.png");
-		gemImages[7] = new Image(PATH + "/Gem/gem_7.png");
+		gemImages[0] = new Image(GEM_PATH + "gem_0.png");
+		gemImages[1] = new Image(GEM_PATH + "gem_1.png");
+		gemImages[2] = new Image(GEM_PATH + "gem_2.png");
+		gemImages[3] = new Image(GEM_PATH + "gem_3.png");
+		gemImages[4] = new Image(GEM_PATH + "gem_4.png");
+		gemImages[5] = new Image(GEM_PATH + "gem_5.png");
+		gemImages[6] = new Image(GEM_PATH + "gem_6.png");
+		gemImages[7] = new Image(GEM_PATH + "gem_7.png");
 		gem = new Animation(gemImages, 150);
 	}
 	
@@ -196,10 +183,19 @@ public class GameOverState extends BasicGameState{
 		HeroModel model = this.playState.getHeroModel();
 		this.isWin = !model.isDead();
 
-		this.coinAmount = numberToImages(model.getCoinAmount());
-		this.foeAmount = numberToImages(model.getKills());
-		this.gemAmount = numberToImages(model.getGemAmount());
-		this.totalScore = numberToImages(model.getScore());
+		int coins = model.getCoinAmount();
+		int foes = model.getKills();
+		int gems = model.getGemAmount();
+		int score = model.getScore();
+		String playerName = "Player";
+		
+		this.highscoreManager = new HighscoreManager();
+		highscoreManager.addScore(playerName, score, coins, gems, foes);
+		
+		this.coinAmount = numberToImages(coins);
+		this.foeAmount = numberToImages(foes);
+		this.gemAmount = numberToImages(gems);
+		this.totalScore = numberToImages(score);
 	}
 
 	@Override
@@ -216,9 +212,11 @@ public class GameOverState extends BasicGameState{
 		this.coin.draw(coinPos.x, coinPos.y);
 		this.nine.draw(foePos.x, foePos.y);
 		this.gem.draw(gemPos.x, gemPos.y);
+		
 		this.cross.draw(crossPos1.x, crossPos1.y, crossScaling);
 		this.cross.draw(crossPos2.x, crossPos2.y, crossScaling);
 		this.cross.draw(crossPos3.x, crossPos3.y, crossScaling);
+		
 		for(int i = 0; i < coinAmount.size(); i++){
 			this.coinAmount.get(i).draw(coinAmountPos.x + this.zero.getWidth()*i, coinAmountPos.y);
 		}
@@ -268,9 +266,9 @@ public class GameOverState extends BasicGameState{
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
 		
-		insideQuitGame = checkMouse(mouseX, mouseY, quitGamePos.x, quitGamePos.y, quitGame);
-		insideMainMenu = checkMouse(mouseX, mouseY, mainMenuPos.x, mainMenuPos.y, mainMenu);
-		insidePlayAgain = checkMouse(mouseX, mouseY, playAgainPos.x, playAgainPos.y, playAgain);
+		insideQuitGame = checkMouse(mouseX, mouseY, quitGamePos, quitGame);
+		insideMainMenu = checkMouse(mouseX, mouseY, mainMenuPos, mainMenu);
+		insidePlayAgain = checkMouse(mouseX, mouseY, playAgainPos, playAgain);
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideQuitGame){
 			gc.exit();
@@ -322,9 +320,9 @@ public class GameOverState extends BasicGameState{
 		
 	}
 	
-	public boolean checkMouse(float mouseX, float mouseY, float menuX, float menuY, Image image){
-		if((mouseX >= menuX && mouseX <= menuX + image.getWidth()) &&
-	            (mouseY >= menuY && mouseY <= menuY + image.getHeight())){
+	public boolean checkMouse(float mouseX, float mouseY, Vec2 imagePos, Image image){
+		if((mouseX >= imagePos.x && mouseX <= imagePos.x + image.getWidth()) &&
+	            (mouseY >= imagePos.y && mouseY <= imagePos.y + image.getHeight())){
 					return true;
 		}
 		else{
