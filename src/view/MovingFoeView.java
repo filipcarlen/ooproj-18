@@ -20,9 +20,9 @@ public class MovingFoeView {
 	
 	private Animation[] animations;
 	
-	private final String PATH_LEFT = "res/Enemy_animations/enemy_left/";
-	private final String PATH_RIGHT = "res/Enemy_animations/enemy_right/";
-	private final String PATH_STAND = "res/Enemy_animations/enemy_standing/";
+	private final String PATH_LEFT = "res/foe/moving_foe/foe_left/";
+	private final String PATH_RIGHT = "res/foe/moving_foe/foe_right/";
+	private final String PATH_STAND = "res/foe/moving_foe/foe_standing/";
 	
 	private MovingFoeModel model;
 	
@@ -43,20 +43,20 @@ public class MovingFoeView {
 		Image[] images = new Image[1];
 		int duration = 100;
 		
-		images[0] = new Image(this.PATH_STAND + "enemy_standing.png");
+		images[0] = new Image(this.PATH_STAND + "foe_standing.png");
 		animations[0] = new Animation(images, duration);
 		
 		images = new Image[12];
 		
 		for(int i = 0; i < images.length; i++){
-			images[i] = new Image(PATH_LEFT + "enemy_left_" + (i+1) + ".png");
+			images[i] = new Image(PATH_LEFT + "foe_left_" + (i+1) + ".png");
 		}
 		animations[1] = (new Animation(images, duration));
 		animations[3] = (new Animation(images, duration));
 		animations[5] = (new Animation(images, duration));
 		
 		for(int i = 0; i < images.length; i++){
-			images[i] = new Image(PATH_RIGHT + "enemy_right_" + (i+1) + ".png");
+			images[i] = new Image(PATH_RIGHT + "foe_right_" + (i+1) + ".png");
 		}
 		animations[2] = (new Animation(images, duration));
 		animations[4] = (new Animation(images, duration));

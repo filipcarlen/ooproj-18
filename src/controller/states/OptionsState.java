@@ -15,7 +15,7 @@ import utils.Sounds;
 public class OptionsState extends BasicGameState {
 	
 	private int stateID;
-	private final String PATH = "res/OptionsMenu/";
+	private final String PATH = "res/options_menu/";
 	
 	private float arrowSpace = 32, spacing = 20, mouseHandleSpace;
 	private float arrowSpeed = 1f;
