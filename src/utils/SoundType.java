@@ -10,5 +10,6 @@ public enum SoundType {
 	HURT,
 	ENEMY_HURT,
 	COLLECT_COIN,
-	COLLECT_GEM
+	COLLECT_GEM,
+	SWORD
 }
