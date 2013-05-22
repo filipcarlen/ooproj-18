@@ -56,7 +56,8 @@ public class OptionsState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		//IMAGES
+		
+		//IMAGES _______________________________________________
 		//Initiate all images.
 		this.background = new Image("res/Background.png");
 		this.options = new Image(PATH + "options.png");
@@ -85,11 +86,14 @@ public class OptionsState extends BasicGameState {
 		
 		this.ok = new Image(PATH + "ok.png");
 		this.okH = new Image(PATH + "okH.png");
+		//IMAGES END ___________________________________________
 		
+		//POSITIONS _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+		//Calculating all positions
 		this.optionsPos = new Vec2(gc.getWidth()/2 - this.options.getWidth()/2, this.spacing);
 		this.okPos = new Vec2(gc.getWidth() - this.spacing*2 - this.ok.getWidth(), gc.getHeight()-this.ok.getHeight()-this.spacing*2);
 		
-		//MUSIC
+		//MUSIC __________________________________________________________MUSIC_________________________________________________________________MUSIC
 		//Calculates all positions to do with the music options so that they are evenly spaced and centered.
 		this.musicPos = new Vec2((gc.getWidth() - this.musicOn.getWidth() - this.volume.getWidth() - this.slider.getWidth() - this.spacing*3)/2, this.optionsPos.y + this.options.getHeight() + this.spacing);
 		this.musicVolumePos = new Vec2(this.musicPos.x + this.musicOn.getWidth() + this.spacing*2, this.musicPos.y);
@@ -97,22 +101,27 @@ public class OptionsState extends BasicGameState {
 		this.musicSliderPos = new Vec2(this.musicControlsPos.x + this.arrowSpace, this.musicControlsPos.y + this.slider.getHeight()/2 - this.sliderHeight/2);
 		this.musicArrowLeftPos = new Vec2(this.musicControlsPos.x, this.musicControlsPos.y + this.slider.getHeight()/2 - this.arrowRadius);
 		this.musicArrowRightPos = new Vec2(this.musicControlsPos.x + this.slider.getWidth() - this.arrowRadius*2,this.musicArrowLeftPos.y);
+		//MUSIC END _________________________________________________________________________________________________________________________________
 		
-		//UNIVERSAL
+		//UNIVERSAL _________________________________________________________________________________________________________________________________
 		//Calculate actual start point, end point of the handle and length of the slider, also calculates the length that represents the max volume.
 		this.handleEndPoint = this.musicControlsPos.x + this.slider.getWidth() - this.arrowSpace - this.handle.getWidth();
 		this.sliderLength = this.handleEndPoint + this.handle.getWidth() - this.musicSliderPos.x;
 		this.maxVolume = this.handleEndPoint - this.musicSliderPos.x;
+		//UNIVERSAL END _____________________________________________________________________________________________________________________________
 		
-		//MUSIC
+		//MUSIC _____________________________________________________________________________________________________________________________________
+		//Placing the handle on the volume control.
 		float musicVolume = Sounds.getInstance().getMusicVolume();
 		this.musicHandlePos = new Vec2(this.musicSliderPos.x + musicVolume*this.maxVolume, this.musicControlsPos.y + this.slider.getHeight()/2 - this.handle.getHeight()/2);
+		//MUSIC END _________________________________________________________________________________________________________________________________
 		
-		//UNIVERSAL
+		//SPACE _____________________________________________________________________________________________________________________________________
 		//Calculate a number so that all options are evenly spaced.
 		float spaceY = (this.okPos.y - this.musicPos.y - this.musicOn.getHeight() - this.soundOn.getHeight() - this.fullscreenOn.getHeight() - this.walkRight.getHeight()*2)/6;
+		//SPACE END _________________________________________________________________________________________________________________________________
 		
-		//SOUND
+		//SOUND _____________________________________________________________________________________________________________________________________
 		//Calculates all positions to do with the sound options so that they are evenly spaced and centered.
 		this.soundPos = new Vec2(this.musicPos.x, this.musicPos.y + this.musicOn.getHeight() + spaceY);
 		this.soundVolumePos = new Vec2(this.musicPos.x + this.musicOn.getWidth() + this.spacing*2, this.soundPos.y);
@@ -121,14 +130,17 @@ public class OptionsState extends BasicGameState {
 		this.soundArrowLeftPos = new Vec2(this.soundControlsPos.x, this.soundControlsPos.y + this.slider.getHeight()/2 - this.arrowRadius);
 		this.soundArrowRightPos = new Vec2(this.soundControlsPos.x + this.slider.getWidth() - this.arrowRadius*2,this.soundArrowLeftPos.y);
 		
+		//Placing the handle on the volume control.
 		float soundVolume = Sounds.getInstance().getSoundVolume();
 		this.soundHandlePos = new Vec2(this.soundSliderPos.x + soundVolume*this.maxVolume, this.soundControlsPos.y + this.slider.getHeight()/2 - this.handle.getHeight()/2);
+		//SOUND END _________________________________________________________________________________________________________________________________
 		
-		//FULLSCREEN
+		//FULLSCREEN ________________________________________________________________________________________________________________________________
 		//Calculates the position of the full screen option so that it is centered and evenly spaced from the other options.
 		this.fullscreenPos = new Vec2(gc.getWidth()/2 - this.fullscreenOn.getWidth()/2, this.soundPos.y + this.soundOn.getHeight() + spaceY*2);
+		//FULLSCREEN END ____________________________________________________________________________________________________________________________
 		
-		//KEYBINDINGS
+		//KEYBINDINGS _______________________________________________________________________________________________________________________________
 		//Calculates all positions to do with changing the key bindings.
 		this.walkRightPos = new Vec2((gc.getWidth() - this.walkRight.getWidth() - this.key.getWidth()*2 - this.jump.getWidth() - this.spacing*4)/2, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
 		this.keyPos[0] = new Vec2(this.walkRightPos.x + this.walkRight.getWidth() + this.spacing, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
@@ -138,6 +150,9 @@ public class OptionsState extends BasicGameState {
 		this.keyPos[2] = new Vec2(this.walkLeftPos.x + this.walkLeft.getWidth() + this.spacing, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
 		this.fightPos = new Vec2(this.keyPos[2].x + this.key.getWidth() + this.spacing*2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
 		this.keyPos[3] = new Vec2(this.fightPos.x + this.fight.getWidth() + this.spacing, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
+		//KEYBINDINGS END ___________________________________________________________________________________________________________________________
+		
+		//POSITIONS END _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 	}
 
 	@Override
@@ -147,7 +162,7 @@ public class OptionsState extends BasicGameState {
 		this.background.draw(0,0);
 		this.options.draw(this.optionsPos.x, this.optionsPos.y);
 		
-		//MUSIC
+		//MUSIC _______________________________________________________________
 		//Draw everything to do with the music option.
 		if(Sounds.getInstance().isMusicOn()) {
 			if(this.insideMusicOn) {
@@ -174,8 +189,9 @@ public class OptionsState extends BasicGameState {
 		this.volume.draw(this.musicVolumePos.x, this.musicVolumePos.y);
 		this.slider.draw(this.musicControlsPos.x, this.musicControlsPos.y);
 		this.handle.draw(this.musicHandlePos.x, this.musicHandlePos.y);
+		//MUSIC END ___________________________________________________________
 		
-		//SOUND
+		//SOUND _______________________________________________________________
 		//Draw everything to do with the sound option.
 		if(Sounds.getInstance().isSoundOn()) {
 			if(this.insideSoundOn) {
@@ -202,8 +218,9 @@ public class OptionsState extends BasicGameState {
 		this.volume.draw(this.soundVolumePos.x, this.soundVolumePos.y);
 		this.slider.draw(this.soundControlsPos.x, this.soundControlsPos.y);
 		this.handle.draw(this.soundHandlePos.x, this.soundHandlePos.y);
+		//SOUND END ___________________________________________________________
 		
-		//FULLSCREEN
+		//FULLSCREEN __________________________________________________________
 		//Draw everything to do with the full screen option.
 		if(gc.isFullscreen()) {
 			if(this.insideFullscreenOn) {
@@ -225,9 +242,9 @@ public class OptionsState extends BasicGameState {
 			} else {
 				this.fullscreenOff.draw(this.fullscreenPos.x, this.fullscreenPos.y);
 			}
-		}
+		} //FULLSCREEN END ____________________________________________________
 		
-		//KEYBINDINGS
+		//KEYBINDINGS _________________________________________________________
 		//Draw everything to do with the key bindings options.
 		this.walkRight.draw(this.walkRightPos.x, this.walkRightPos.y);
 		this.walkLeft.draw(this.walkLeftPos.x, this.walkLeftPos.y);
@@ -248,24 +265,26 @@ public class OptionsState extends BasicGameState {
 					this.keyH.draw(this.keyPos[i].x, this.keyPos[i].y);
 				}
 			}
-		}
+		} //KEYBINDINGS END ___________________________________________________
 		
-		//OK
+		//OK __________________________________________________________________
 		if(this.insideOk) {
 			this.okH.draw(this.okPos.x, this.okPos.y);
 		} else {
 			this.ok.draw(this.okPos.x, this.okPos.y);
-		}
+		} //OK END ____________________________________________________________
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
+		
 		//Temporarily store the input and the mouse coordinates.
 		Input input = gc.getInput();
 		float mouseX = input.getMouseX();
 		float mouseY = input.getMouseY();
 		
+		//INSIDE BOOLEANS ______________________________________________________________________________
 		this.insideMusicOn = this.mouseInsideImage(mouseX, mouseY, this.musicPos, this.musicOn);
 		boolean insideMusicHandle = this.mouseInsideImage(mouseX, mouseY, this.musicHandlePos, this.handle);
 		
@@ -279,7 +298,9 @@ public class OptionsState extends BasicGameState {
 		}
 		
 		this.insideOk = this.mouseInsideImage(mouseX, mouseY, this.okPos, this.ok);
+		//INSIDE BOOLEANS END __________________________________________________________________________
 		
+		//CHECKBOX CLICKED _____________________________________________________________________________
 		//If the mouse is no longer inside a check box option that was recently clicked, set clicked = false;
 		if(!this.insideMusicOn && this.clickedMusicOn) {
 			this.clickedMusicOn = false;
@@ -287,8 +308,9 @@ public class OptionsState extends BasicGameState {
 			this.clickedSoundOn = false;
 		} else if(!this.insideFullscreenOn && this.clickedFullscreenOn) {
 			this.clickedFullscreenOn = false;
-		}
+		} //CHECKBOX CLICKED END _______________________________________________________________________
 		
+		//MUSIC ________________________________________________________________________________________
 		//The music on option is clicked.
 		if(this.insideMusicOn && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			Sounds.getInstance().setMusicOn(!Sounds.getInstance().isMusicOn());
@@ -299,24 +321,7 @@ public class OptionsState extends BasicGameState {
 				Sounds.getInstance().stopMusic();
 			}
 			this.clickedMusicOn = true;
-		} //The sound on option is clicked.
-		else if(this.insideSoundOn && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-			Sounds.getInstance().setSoundOn(!Sounds.getInstance().isSoundOn());
-			this.clickedSoundOn = true;
-		} //The full screen option is clicked.
-		else if(this.insideFullscreenOn && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-			this.clickedFullscreenOn = true;
-		} //The OK button is clicked.
-		else if(this.insideOk && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-			sbg.enterState(GameApp.MAINMENUSTATE);
-		}
-		
-		for(int i = 0; i < this.insideKeys.length; i++){
-			if(this.insideKeys[i] && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				this.clickedKeys[i] = true;
-			}
-		}
-		
+		} //-----------------------------------------------
 		//Calculates the new position for the handle on the music volume slider according to user input and adjusts the music volume accordingly.
 		if(insideMusicHandle && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			this.clickedMusicHandle = true;
@@ -332,7 +337,7 @@ public class OptionsState extends BasicGameState {
 		} else if(this.clickedMusicHandle) {
 			this.clickedMusicHandle = false;
 			Sounds.getInstance().setVolumeMusic((this.musicHandlePos.x - this.musicSliderPos.x)/this.maxVolume);
-		} 
+		} //-----------------------------------------------
 		//If the user clicks the slider the handle will move there.
 		if(this.mouseInsideArea(mouseX, mouseY, this.musicSliderPos, this.sliderLength, this.sliderHeight) && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if(mouseX - this.handle.getWidth()/2 <= this.musicSliderPos.x) {
@@ -343,7 +348,7 @@ public class OptionsState extends BasicGameState {
 				this.musicHandlePos.x = mouseX - this.handle.getWidth()/2;
 			}
 			Sounds.getInstance().setVolumeMusic((this.musicHandlePos.x - this.musicSliderPos.x)/this.maxVolume);
-		}
+		} //-----------------------------------------------
 		//Calculates the new position of the handle if the left arrow is clicked by the user.
 		if(this.mouseInsideArea(mouseX, mouseY, this.musicArrowLeftPos, this.arrowRadius*2, this.arrowRadius*2) && input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
 			this.clickedMusicArrowLeft = true;
@@ -355,7 +360,7 @@ public class OptionsState extends BasicGameState {
 		} else if(this.clickedMusicArrowLeft) {
 			this.clickedMusicArrowLeft = false;
 			Sounds.getInstance().setVolumeMusic((this.musicHandlePos.x - this.musicSliderPos.x)/this.maxVolume);
-		}
+		} //-----------------------------------------------
 		//Calculates the new position of the handle if the left arrow is clicked by the user.
 		if(this.mouseInsideArea(mouseX, mouseY, this.musicArrowRightPos, this.arrowRadius*2, this.arrowRadius*2) && input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
 			this.clickedMusicArrowRight = true;
@@ -367,8 +372,14 @@ public class OptionsState extends BasicGameState {
 		} else if(this.clickedMusicArrowRight) {
 			this.clickedMusicArrowRight = false;
 			Sounds.getInstance().setVolumeMusic((this.musicHandlePos.x - this.musicSliderPos.x)/this.maxVolume);
-		}
-	
+		} //MUSIC END __________________________________________________________________________________
+		
+		//SOUND ________________________________________________________________________________________
+		//The sound on option is clicked.
+		else if(this.insideSoundOn && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			Sounds.getInstance().setSoundOn(!Sounds.getInstance().isSoundOn());
+			this.clickedSoundOn = true;
+		} //-----------------------------------------------
 		//Calculates the new position for the handle on the sound volume slider according to user input and adjusts the sound volume accordingly.
 		if(insideSoundHandle && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			this.clickedSoundHandle = true;
@@ -384,7 +395,7 @@ public class OptionsState extends BasicGameState {
 		} else if(this.clickedSoundHandle) {
 			this.clickedSoundHandle = false;
 			Sounds.getInstance().setVolumeSound((this.soundHandlePos.x - this.soundSliderPos.x)/this.maxVolume);
-		} 
+		} //-----------------------------------------------
 		//If the user clicks the slider the handle will move there.
 		if(this.mouseInsideArea(mouseX, mouseY, this.soundSliderPos, this.sliderLength, this.sliderHeight) && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if(mouseX - this.handle.getWidth()/2 <= this.soundSliderPos.x) {
@@ -395,7 +406,7 @@ public class OptionsState extends BasicGameState {
 				this.soundHandlePos.x = mouseX - this.handle.getWidth()/2;
 			}
 			Sounds.getInstance().setVolumeSound((this.soundHandlePos.x - this.soundSliderPos.x)/this.maxVolume);
-		}
+		} //-----------------------------------------------
 		//Calculates the new position of the handle if the left arrow is clicked by the user.
 		if(this.mouseInsideArea(mouseX, mouseY, this.soundArrowLeftPos, this.arrowRadius*2, this.arrowRadius*2) && input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
 			this.clickedSoundArrowLeft = true;
@@ -407,7 +418,7 @@ public class OptionsState extends BasicGameState {
 		} else if(this.clickedSoundArrowLeft) {
 			this.clickedSoundArrowLeft = false;
 			Sounds.getInstance().setVolumeSound((this.soundHandlePos.x - this.soundSliderPos.x)/this.maxVolume);
-		}
+		} //-----------------------------------------------
 		//Calculates the new position of the handle if the left arrow is clicked by the user.
 		if(this.mouseInsideArea(mouseX, mouseY, this.soundArrowRightPos, this.arrowRadius*2, this.arrowRadius*2) && input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
 			this.clickedSoundArrowRight = true;
@@ -419,7 +430,26 @@ public class OptionsState extends BasicGameState {
 		} else if(this.clickedSoundArrowRight) {
 			this.clickedSoundArrowRight = false;
 			Sounds.getInstance().setVolumeSound((this.soundHandlePos.x - this.soundSliderPos.x)/this.maxVolume);
-		}
+		} //SOUND END __________________________________________________________________________________
+		
+		//FULLSCREEN ___________________________________________________________________________________
+		//The full screen option is clicked.
+		if(this.insideFullscreenOn && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			this.clickedFullscreenOn = true;
+		} //FULLSCREEN END _____________________________________________________________________________
+		
+		//OK ___________________________________________________________________________________________
+		//The OK button is clicked.
+		if(this.insideOk && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			sbg.enterState(GameApp.MAINMENUSTATE);
+		} //OK END _____________________________________________________________________________________
+		
+		//KEYBINDINGS __________________________________________________________________________________
+		for(int i = 0; i < this.insideKeys.length; i++){
+			if(this.insideKeys[i] && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+				this.clickedKeys[i] = true;
+			}
+		} //KEYBINDINGS END ____________________________________________________________________________
 	}
 
 	@Override
