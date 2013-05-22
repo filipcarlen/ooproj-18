@@ -12,6 +12,7 @@ import model.AbstractCollectibleModel;
 import model.AbstractWeaponModel;
 import model.GunModel;
 import model.HeroModel;
+import model.ICollectibleModel;
 import model.IEntityModel;
 import model.MovingFoeModel;
 import model.StaticFoeModel;
@@ -54,12 +55,12 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	private static PlayState instance;
 	
 	/* This list contains all the bodies in the world*/
-	ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
+	private ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
 	/* This list contains all the controllers for the bodies in the list above*/
-	ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
+	private ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
 	/* This list contains all the guns without any Entity
 	 * (the entity has died before the bullet has transport the distance)*/
-	ArrayList<GunModel> gunThatsActive= new ArrayList<GunModel>();
+	private ArrayList<GunModel> gunThatsActive= new ArrayList<GunModel>();
 	
 	private PlayState(int id){
 		stateID = id;
@@ -103,8 +104,8 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 				controllers.add(new MovingFoeController((MovingFoeModel)b, this));
 			}else if(b instanceof StaticFoeModel){
 				controllers.add(new StaticFoeController((StaticFoeModel)b));
-			}else if(b instanceof AbstractCollectibleModel){
-				controllers.add(new CollectibleController((AbstractCollectibleModel)b, this));
+			}else if(b instanceof ICollectibleModel){
+				controllers.add(new CollectibleController((ICollectibleModel) b, this));
 			}else{
 				throw new SlickException("Couldn't load the entity " + b);
 			}

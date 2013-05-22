@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import model.ChocolateBarModel;
 import model.CoinModel;
+import model.EnergyDrinkModel;
 import model.GemModel;
 import model.GunModel;
 import model.IEntityModel;
@@ -30,22 +32,22 @@ import org.newdawn.slick.tiled.TiledMap;
  */
 public class WorldMap{
 	
-	World w;
-	TiledMap tm;
+	private World w;
+	private TiledMap tm;
 	//Contains all the shaps that is used for collisions and so on.....
-	List<WorldShapeModel> wsm = new ArrayList<WorldShapeModel>();
+	private List<WorldShapeModel> wsm = new ArrayList<WorldShapeModel>();
 	//HashMap that contains the path and id to pictures 
-	HashMap<Integer, Image> pictureName = new HashMap<Integer, Image>();
+	private HashMap<Integer, Image> pictureName = new HashMap<Integer, Image>();
 	//List Containing all images that is needed to load the Map
-	List<Image> mapImage = new ArrayList<Image>();
+	private List<Image> mapImage = new ArrayList<Image>();
 	//Background
-	int [][] background;
+	private int [][] background;
 	
-	String levelName;
+	private String levelName;
 	
-	Vec2 positionHero;
+	private Vec2 positionHero;
 	
-	ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
+	private ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
 
 	
 	public WorldMap(World world){
@@ -103,9 +105,9 @@ public class WorldMap{
 					}else if(idtile == 94){
 						bodies.add(new StaticFoeModel(w, pos, 15, StaticFoeModel.StaticFoeType.FIRE, id));
 					}else if(idtile == 95){
-
+						bodies.add(new ChocolateBarModel(w, pos, id));
 					}else if(idtile == 96){
-						
+						bodies.add(new EnergyDrinkModel(w, pos, id));
 					}else if(idtile == 97){
 						bodies.add(new StaticFoeModel(w, pos, 20, StaticFoeModel.StaticFoeType.PLANT, id));
 					}else if(idtile == 99){
@@ -144,7 +146,7 @@ public class WorldMap{
 	 */
 	public boolean isWorldTile(int id){
 		if(id > 0){
-			if(id < 16){
+			if(id < 21){
 				return true;
 			}else if(id < 51){
 				if(((double)(id-1)/5 % 2 < 1)){
