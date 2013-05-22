@@ -11,10 +11,9 @@ import utils.Utils;
  * @author filipcarlen
  *
  */
-public class CoinModel extends AbstractCollectibleModel {
+public class CoinModel extends AbstractPointsModel {
 	
 	/** What value a collectible item holds (which points you get) */
-	private int value = 1;
 	
 	/** The collectible items Radius in meters */
 	public final float RADIUS = .5f;
@@ -27,6 +26,7 @@ public class CoinModel extends AbstractCollectibleModel {
 	 */
 	public CoinModel(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id);
+		super.setValue(1);
 		
 		 //Circle shapes are perfect for collectible objects
 	   	 CircleShape circleshape = new CircleShape();
@@ -34,17 +34,6 @@ public class CoinModel extends AbstractCollectibleModel {
 	   	
 	   	 this.getFixtureDef().shape = circleshape;
 		 this.getBody().createFixture(this.getFixtureDef());	
-	}
-
-	@Override
-	public int getValue() {
-		return value;
-	}
-
-	@Override
-	public void setValue(int value) {
-		this.value = value;
-		
 	}
 	
 	/**
@@ -62,13 +51,11 @@ public class CoinModel extends AbstractCollectibleModel {
 
 	@Override
 	public float getHeight() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public float getWidth() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 }

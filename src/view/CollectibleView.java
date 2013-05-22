@@ -1,6 +1,8 @@
 package view;
 import model.CoinModel;
+import model.EnergyDrinkModel;
 import model.GemModel;
+import model.ChocolateBarModel;
 import model.ICollectibleModel;
 
 import org.jbox2d.common.Vec2;
@@ -52,6 +54,13 @@ public class CollectibleView {
 			initGem();
 			
 		}
+		else if(this.model instanceof ChocolateBarModel){
+			initChocolateBar();
+		}
+		
+		else if(this.model instanceof EnergyDrinkModel){
+			initEnergyDrink();
+		}
 	}
 	
 	/**
@@ -69,6 +78,14 @@ public class CollectibleView {
 		
 		else if(this.model instanceof GemModel){
 			g.drawAnimation(gemAnimation, tmp.x, tmp.y);
+		}
+		
+		else if(this.model instanceof ChocolateBarModel){
+			
+		}
+		
+		else if(this.model instanceof EnergyDrinkModel){
+			
 		}
 	}
 	
@@ -106,5 +123,13 @@ public class CollectibleView {
 		gemImages[6] = new Image(PATH + "/Gem/gem_6.png");
 		gemImages[7] = new Image(PATH + "/Gem/gem_7.png");
 		gemAnimation = new Animation(gemImages, gemDuaration);
+	}
+	
+	public void initChocolateBar(){
+		
+	}
+	
+	public void initEnergyDrink(){
+		
 	}
 }

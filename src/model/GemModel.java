@@ -12,10 +12,8 @@ import utils.Utils;
  *
  */
 
-public class GemModel extends AbstractCollectibleModel {
+public class GemModel extends AbstractPointsModel {
 	
-	/** What value a collectible item holds (which points you get) */
-	private int value = 5;
 	
 	/**  A array cointaining vertices for a gem */
 	Vec2[] vertices = {new Vec2(0.0f,0.25f), new Vec2(0.25f,0.0f),
@@ -30,22 +28,12 @@ public class GemModel extends AbstractCollectibleModel {
 	 */
 	public GemModel(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id);
+		super.setValue(5);
 		
 		PolygonShape polygon = new PolygonShape();
 		polygon.set(vertices, 4);
 		getFixtureDef().shape = polygon;
 		this.getBody().createFixture(this.getFixtureDef());
-		
-	}
-
-	@Override
-	public int getValue() {
-		return this.value;
-	}
-
-	@Override
-	public void setValue(int value) {
-		this.value = value;
 		
 	}
 

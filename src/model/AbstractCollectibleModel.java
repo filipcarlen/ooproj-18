@@ -1,8 +1,8 @@
 package model;
 
-import java.util.ArrayList;
 
-import org.jbox2d.collision.shapes.CircleShape;
+
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -18,7 +18,7 @@ import utils.Utils;
  * @version 1.0 
  */
 
-public abstract class AbstractCollectibleModel implements IEntityModel, ICollectibleModel {
+public abstract class AbstractCollectibleModel implements ICollectibleModel {
 	
 	/** The body for a collectible item */
 	private Body body;
@@ -110,5 +110,4 @@ public abstract class AbstractCollectibleModel implements IEntityModel, ICollect
 	public FixtureDef getFixtureDef(){
 		return this.fixturedef;
 	}
-	
 }

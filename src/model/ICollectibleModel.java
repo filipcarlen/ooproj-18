@@ -10,13 +10,13 @@ public interface ICollectibleModel extends IEntityModel {
 	/** Returns value of a collectible object
 	 * @return value
 	 */
-	public int getValue();
+	//public int getValue();
 	
 	/** Sets a value to a collectible object
 	 * 
 	 * @param int value
 	 */
-	public void setValue(int value);
+	//public void setValue(int value);
 	
 	/** Checks weather a collectible object is still alive
 	 * 

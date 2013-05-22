@@ -34,14 +34,24 @@ public class CollisionDetection  implements ContactListener{
 			}else if(objectB instanceof MovingFoeModel){// This if Statement will call setGroundcontact when you jump on a enemies head
 				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectB).getPosMeters().y)
 					heroModel.setGroundContact();
-			}else if(objectB instanceof ICollectibleModel){
-				((AbstractCollectibleModel)objectB).killBody();
-				heroModel.incrementScore(((AbstractCollectibleModel)objectB).getValue());
+			}else if(objectB instanceof ICollectibleModel && objectB instanceof AbstractPointsModel){
+				((AbstractPointsModel)objectB).killBody();
+				heroModel.incrementScore(((AbstractPointsModel)objectB).getValue());
 				if(objectB instanceof GemModel){
 					heroModel.incrementGem();
 				}else{
 					heroModel.incrementCoin();
 				}
+				
+			}else if(objectB instanceof ICollectibleModel && objectB instanceof AbstractPowerUpModel){
+				((AbstractPowerUpModel)objectB).killBody();
+				heroModel.setHp((int)((AbstractPowerUpModel)objectB).gethpBoost()*heroModel.getMaxHp());
+				if(objectB instanceof ChocolateBarModel){
+					heroModel.incrementGem();
+				}else{
+					heroModel.incrementCoin();
+				}
+				
 			}else if(objectB instanceof StaticFoeModel) {
 				heroModel.setHurted(null,((StaticFoeModel)objectB).getDamage());
 			}else if(objectB instanceof BulletModel) {
@@ -65,10 +75,19 @@ public class CollisionDetection  implements ContactListener{
 				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectA).getPosMeters().y){
 					heroModel.setGroundContact();
 				}
-			}else if(objectA instanceof ICollectibleModel){
-				((AbstractCollectibleModel)objectA).killBody();
-				heroModel.incrementScore(((AbstractCollectibleModel)objectA).getValue());
+			}else if(objectA instanceof ICollectibleModel && objectA instanceof AbstractPointsModel){
+				((AbstractPointsModel)objectA).killBody();
+				heroModel.incrementScore(((AbstractPointsModel)objectA).getValue());
 				if(objectA instanceof GemModel){
+					heroModel.incrementGem();
+				}else{
+					heroModel.incrementCoin();
+				}
+				
+			}else if(objectA instanceof ICollectibleModel && objectA instanceof AbstractPowerUpModel){
+				((AbstractPowerUpModel)objectA).killBody();
+				heroModel.setHp((int)((AbstractPowerUpModel)objectA).gethpBoost()*heroModel.getMaxHp());
+				if(objectB instanceof ChocolateBarModel){
 					heroModel.incrementGem();
 				}else{
 					heroModel.incrementCoin();
