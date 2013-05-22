@@ -45,11 +45,10 @@ public class CollisionDetection  implements ContactListener{
 				
 			}else if(objectB instanceof ICollectibleModel && objectB instanceof AbstractPowerUpModel){
 				((AbstractPowerUpModel)objectB).killBody();
-				heroModel.setHp((int)((AbstractPowerUpModel)objectB).gethpBoost()*heroModel.getMaxHp());
 				if(objectB instanceof ChocolateBarModel){
-					heroModel.incrementGem();
+					heroModel.heal(20);
 				}else{
-					heroModel.incrementCoin();
+					heroModel.heal(50);
 				}
 				
 			}else if(objectB instanceof StaticFoeModel) {
@@ -86,11 +85,10 @@ public class CollisionDetection  implements ContactListener{
 				
 			}else if(objectA instanceof ICollectibleModel && objectA instanceof AbstractPowerUpModel){
 				((AbstractPowerUpModel)objectA).killBody();
-				heroModel.setHp((int)((AbstractPowerUpModel)objectA).gethpBoost()*heroModel.getMaxHp());
 				if(objectB instanceof ChocolateBarModel){
-					heroModel.incrementGem();
+					heroModel.heal(20);
 				}else{
-					heroModel.incrementCoin();
+					heroModel.heal(50);
 				}
 			}else if(objectA instanceof StaticFoeModel) {
 				heroModel.setHurted(null,((StaticFoeModel)objectA).getDamage());

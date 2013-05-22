@@ -31,6 +31,8 @@ public class CollectibleView {
 	/** Arrays for coinImages and gemImages. Contains Images */
 	private Image[] coinImages, gemImages;
 	
+	private Image chocolate, energy;
+	
 	/** Animation for coins and gems */
 	private Animation coinAnimation, gemAnimation;
 	
@@ -81,11 +83,11 @@ public class CollectibleView {
 		}
 		
 		else if(this.model instanceof ChocolateBarModel){
-			
+			g.drawImage(chocolate, tmp.x, tmp.y);
 		}
 		
 		else if(this.model instanceof EnergyDrinkModel){
-			
+			g.drawImage(energy, tmp.x, tmp.y);
 		}
 	}
 	
@@ -125,11 +127,11 @@ public class CollectibleView {
 		gemAnimation = new Animation(gemImages, gemDuaration);
 	}
 	
-	public void initChocolateBar(){
-		
+	public void initChocolateBar() throws SlickException{
+		chocolate = new Image(PATH+"/Chocolatebar/chocolate.png");
 	}
 	
-	public void initEnergyDrink(){
-		
+	public void initEnergyDrink() throws SlickException{
+		energy = new Image(PATH+"/Energydrink/energydrink.png");
 	}
 }
