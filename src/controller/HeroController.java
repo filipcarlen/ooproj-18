@@ -37,7 +37,7 @@ public class HeroController implements IEntityController, ActionListener {
 	 * This is a count how many times i will apply force in the y axis, this is
 	 * use to simulate a real jump
 	 */
-	private int jumpCount = 23;
+	private int jumpCount = 18;
 
 	/*
 	 * This is a integer that will be set if somebody calls fight, and will
@@ -162,12 +162,12 @@ public class HeroController implements IEntityController, ActionListener {
 		 */
 		if (jump) {
 			model.getBody().applyForce(
-					model.getBody().getWorldVector(new Vec2(.0f, 10.0f)),
+					model.getBody().getLocalVector(new Vec2(.0f, 10.0f)),
 					model.getBody().getPosition());
 			jumpCount -= 1;
 			if (jumpCount <= 0) {
 				jump = false;
-				jumpCount = 23;
+				jumpCount = 18;
 			}
 		}
 		if(model.getBody().m_linearVelocity.y > 0.1f ){
