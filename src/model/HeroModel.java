@@ -243,6 +243,10 @@ public class HeroModel implements IAliveModel{
 		return width*2;
 	}
 	
+	public void heal(int hpIncrement){
+		setHp(getHp()+ hpIncrement);
+	}
+	
 	@Override
 	public void hurt(int hpDecrement){
 		setHp(getHp()-hpDecrement);
@@ -393,7 +397,8 @@ public class HeroModel implements IAliveModel{
 		}else if(hp >getMaxHp()){
 			this.hp = getMaxHp();
 		}else{
-			Sounds.getInstance().playSound(SoundType.HURT);
+			if(this.hp > hp)
+				Sounds.getInstance().playSound(SoundType.HURT);
 			this.hp = hp;
 		}
 	}
