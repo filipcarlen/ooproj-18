@@ -170,7 +170,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.drawImage(new Image("res/Map/Background-game.png"), 0, 0);
+		g.drawImage(new Image("res/map/background-game.png"), 0, 0);
 		worldMap.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 
 		try{
