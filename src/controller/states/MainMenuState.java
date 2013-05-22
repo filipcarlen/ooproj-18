@@ -20,29 +20,10 @@ public class MainMenuState extends BasicGameState {
 	private int stateID = -1;
 	private final String PATH = "res/MainMenu/";
 	
-	private Image title = null;
-	private Image background = null;
-	private Image startGame = null;
-	private Image startGameHighlighted = null;
-	private Image quit = null;
-	private Image quitHighlighted = null;
-	private Image highscore = null;
-	private Image highscoreHighlighted = null;
-	private Image options = null;
-	private Image optionsHighlighted = null;
+	private Image title, background, startGame, startGameHighlighted, quit, quitHighlighted, highscore,
+						highscoreHighlighted, options, optionsHighlighted;
 	private Image[] leafs;
-	
 	private Animation leafAnimation;
-	
-	
-	//private static int startMenuX = 330;
-	//private static int startMenuY = 170;
-	//private static int optionsMenuX = 330;
-	//private static int optionsMenuY = 370;
-	//private static int loadGameMenuX = 330;
-	//private static int loadGameMenuY = 270;
-	//private static int endGameX = 330;
-	//private static int endGameY = 470;
 	
 	private Vec2 startGamePos;
 	private Vec2 optionsPos;
@@ -77,6 +58,7 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
+		initLeafs();
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		title = new Image("res/title.png");
 		background = new Image("res/Background.png");
@@ -94,7 +76,6 @@ public class MainMenuState extends BasicGameState {
 		highscorePos = new Vec2(background.getWidth()/2-highscore.getWidth()/2, 270);
 		quitGamePos = new Vec2(background.getWidth()/2-quit.getWidth()/2,470);
 		
-		initLeafs();
 		
 		
 	}
@@ -105,6 +86,7 @@ public class MainMenuState extends BasicGameState {
 		
 		changeLeafPosition();
 		background.draw(0,0);
+		g.drawAnimation(leafAnimation, leafPositionX, leafPositionY);
 		title.draw(0,0);
 		
 		if(insideStartGame){
@@ -135,7 +117,6 @@ public class MainMenuState extends BasicGameState {
 			options.draw(optionsPos.x,optionsPos.y);
 		}
 		
-		g.drawAnimation(leafAnimation, leafPositionX, leafPositionY);
 		
 		
 	}
