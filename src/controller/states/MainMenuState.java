@@ -34,7 +34,7 @@ public class MainMenuState extends BasicGameState {
 	private float leafPositionX = 0;
 	private float leafPositionY = 0;
 	private float leafStartPositionX = 0;
-	private float[] leafStartPositionY;
+	private float[] leafStartPositionY = {-500,-400,-300,-200,-100,0,100,200,300,400,500,600};
 	
 	private boolean insideStartGame = false;
 	private boolean insideOptionsMenu = false;
