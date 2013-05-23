@@ -9,8 +9,8 @@ import utils.Utils;
 public abstract class AbstractPowerUpModel extends AbstractCollectibleModel {
 
 	private double hpBoost;
-	private float width = 1.0f;
-	private float height = 1.0f;
+	private float width = .5f;
+	private float height = .5f;
 	
 	public AbstractPowerUpModel(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id);

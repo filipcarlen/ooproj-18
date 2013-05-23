@@ -29,18 +29,20 @@ public class CollectibleView {
 	private final String PATH = "res/Collectibles";
 	
 	/** Arrays for coinImages and gemImages. Contains Images */
-	private Image[] coinImages, gemImages;
-	
-	private Image chocolate, energy;
+	private Image[] coinImages, gemImages, energyDrinkImages, chocolateImages;
 	
 	/** Animation for coins and gems */
-	private Animation coinAnimation, gemAnimation;
+	private Animation coinAnimation, gemAnimation, energyDrinkAnimation, chocolateAnimation;
 	
 	/** Duration in milliseconds for a coinAnimation */
 	private int coinDuration = 100;
 	
 	/** Duration in milliseconds for a gemAnimation */
 	private int gemDuaration = 150;
+	
+	private int energyDrinkDuration = 150;
+	
+	private int chocolateDuration = 200;
 	
 	/**
 	 * Constructor for a Collectible View 
@@ -83,11 +85,11 @@ public class CollectibleView {
 		}
 		
 		else if(this.model instanceof ChocolateBarModel){
-			g.drawImage(chocolate, tmp.x, tmp.y);
+			g.drawAnimation(chocolateAnimation, tmp.x, tmp.y);
 		}
 		
 		else if(this.model instanceof EnergyDrinkModel){
-			g.drawImage(energy, tmp.x, tmp.y);
+			g.drawAnimation(energyDrinkAnimation, tmp.x, tmp.y);
 		}
 	}
 	
@@ -128,10 +130,18 @@ public class CollectibleView {
 	}
 	
 	public void initChocolateBar() throws SlickException{
-		chocolate = new Image(PATH+"/Chocolatebar/chocolate.png");
+		chocolateImages = new Image[5];
+		for(int i = 0; i<chocolateImages.length; i++){
+			chocolateImages[i] = new Image(PATH+"/ChocolateBar/chocolate_"+(i+1)+".png");
+		}
+		chocolateAnimation = new Animation(chocolateImages,chocolateDuration);
 	}
 	
 	public void initEnergyDrink() throws SlickException{
-		energy = new Image(PATH+"/Energydrink/energydrink.png");
+		energyDrinkImages = new Image[4];
+		for(int i = 0; i<energyDrinkImages.length; i++){
+			energyDrinkImages[i] = new Image(PATH+"/Energydrink/energydrink_"+(i+1)+".png");
+		}
+		energyDrinkAnimation = new Animation(energyDrinkImages, energyDrinkDuration);
 	}
 }
