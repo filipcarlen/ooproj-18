@@ -30,8 +30,22 @@ public class GunController implements IEntityController{
 	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
-		for(int i = 0; i < this.controllers.size(); i++){
-			this.controllers.get(i).update(gc, sbg, delta);
+		ArrayList<BulletModel> bullets = this.model.getBulletModels();
+		for(int i = 0; i < bullets.size(); i++){
+			try{
+				BulletController controller = getBulletController(bullets.get(i).getID());
+				
+				if(!bullets.get(i).isAlive()){
+					this.controllers.remove(controller);
+					this.model.removeBullet(i);
+				
+				} else{
+					getBulletController(bullets.get(i).getID()).update(gc, sbg, delta);
+				
+				}
+			} catch(NullPointerException e){
+				this.controllers.add(new BulletController(bullets.get(i)));
+			}
 		}	
 	}
 	
@@ -42,6 +56,15 @@ public class GunController implements IEntityController{
 		}
 	}
 
+	public BulletController getBulletController(int ID){
+		for(int i = 0; i < this.controllers.size(); i++){
+			if(this.controllers.get(i).getID() == ID){
+				return this.controllers.get(i);
+			}
+		}
+		return null;
+
+	}
 	@Override
 	public int getID() {
 		return this.model.getID();

@@ -1,5 +1,10 @@
 package model;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -18,8 +23,9 @@ import utils.WeaponType;
  * @version 1.0 
  */
 
-public class SwordModel extends AbstractWeaponModel implements IEntityModel{
+public class SwordModel extends AbstractWeaponModel implements IEntityModel, ActionListener{
 
+	private Timer timer;
 	private Body body;
 	private Vec2 firstPos;
 	private Navigation navigation;
@@ -31,9 +37,11 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	
 	public final float RADIUS = 0.15f;
 	
-	public SwordModel(World world, int damage, int ID){
+	public SwordModel(World world, int reloadTime, int damage, int ID){
 		super(world, damage, 1f, WeaponType.sword);
 		this.ID = ID;
+		this.timer = new Timer(reloadTime, this);
+
 	}
 	
 	public void init(Vec2 firstPos){
@@ -82,11 +90,14 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 			firstPos.x -= fighterModel.getWidth()/2;
 		}
 		
-		if(!isAlive){
-			this.isAlive = true;
-			this.navigation = navigation;
-			init(firstPos);	
-			return true;
+		if(!timer.isRunning()){
+			if(!isAlive){
+				this.isAlive = true;
+				this.navigation = navigation;
+				init(firstPos);	
+				timer.start();
+				return true;
+			}
 		}
 		return false;
 	}
@@ -152,6 +163,11 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel{
 	@Override
 	public float getWidth() {
 		return this.RADIUS*2;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		this.timer.stop();		
 	}
 
 }

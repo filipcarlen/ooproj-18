@@ -28,14 +28,17 @@ public class BulletModel implements IEntityModel{
  	private boolean isMoving = false;
  	private boolean isAlive = false;
  	
- 	private int id;
+ 	private int ID;
 
 	/** The radius of the circle shaped body in meters */
 	public final float RADIUS = 0.15f;
 
-	public BulletModel(GunModel gunModel, int id){
-		this.id = id;
+	public BulletModel(GunModel gunModel, Vec2 firstPos, Navigation navigation, int ID){
+		this.ID = ID;
 		this.gunModel = gunModel;
+		this.isAlive = true;
+		this.navigation = navigation;
+		init(firstPos);
 	}
 	
 	/**
@@ -68,6 +71,7 @@ public class BulletModel implements IEntityModel{
 		fd.restitution = 0.5f;
 		fd.filter.maskBits = 555;
 		fd.filter.categoryBits = 4;
+		
 		if(gunModel.getFighterModel() instanceof HeroModel){
 			fd.filter.maskBits = 555;
 			fd.filter.categoryBits = 4;
@@ -80,12 +84,6 @@ public class BulletModel implements IEntityModel{
 		this.bulletBody.setUserData(this);		
 	}
 	
-	public void fight(Vec2 firstPos, Navigation navigation){
-		this.isAlive = true;
-		this.navigation = navigation;
-		init(firstPos);
-	}
-
 	public void destroyEntity(){
 		this.isMoving = false;
 		this.isAlive = false;
@@ -147,13 +145,9 @@ public class BulletModel implements IEntityModel{
 		return this.bulletBody;
 	}
 	
-	public void setBody(Body body){
-		this.bulletBody = body;
-	}
-	
 	@Override
 	public int getID() {
-		return this.id;
+		return this.ID;
 	}
 	@Override
 	public float getHeight() {

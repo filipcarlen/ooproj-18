@@ -22,13 +22,15 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 	
 	private Timer timer;
 	private int ID;
+	private int IDCount;
 	private ArrayList<BulletModel> bulletModels = new ArrayList<BulletModel>();
 
 	public GunModel(World world, int reloadTime, int damage, float range, int ID){
 		super(world, damage, range, WeaponType.gun);
-		for(int i = 1; i <= 10; i++){
-			bulletModels.add(new BulletModel(this, i));
-		}
+		this.IDCount = 1;
+		//for(int i = 1; i <= 10; i++){
+			//bulletModels.add(new BulletModel(this, i));
+		//}
 		this.ID = ID;
 		this.timer = new Timer(reloadTime, this);
 	}
@@ -47,14 +49,20 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 		
 		if(!timer.isRunning()){
 			
-			for(int i = 0; i < bulletModels.size(); i++){
+			//for(int i = 0; i < bulletModels.size(); i++){
 				
-				if(!bulletModels.get(i).isAlive()){
-					bulletModels.get(i).fight(firstPos, navigation);
+				//if(!bulletModels.get(i).isAlive()){
+					bulletModels.add(new BulletModel(this, firstPos, navigation, this.IDCount));
+					if(IDCount > 50){
+						this.IDCount = 1;
+					} else{
+						this.IDCount++;
+					}
+					//bulletModels.get(i).fight(firstPos, navigation);
 					timer.start();
 					return true;
-				}
-			}
+				//}
+			//}
 		}
 		return false;
 	}
@@ -75,6 +83,10 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 			}
 		}
 		return true;
+	}
+	
+	public void removeBullet(int index){
+		this.bulletModels.remove(index);
 	}
 	
 	public ArrayList<BulletModel> getBulletModels(){
