@@ -36,6 +36,7 @@ public class GunController implements IEntityController{
 				BulletController controller = getBulletController(bullets.get(i).getID());
 				
 				if(!bullets.get(i).isAlive()){
+					bullets.get(i).getBody().getWorld().destroyBody(bullets.get(i).getBody());
 					this.controllers.remove(controller);
 					this.model.removeBullet(i);
 				

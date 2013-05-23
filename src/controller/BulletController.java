@@ -38,7 +38,6 @@ public class BulletController implements IEntityController{
 			}
 
 		} else if(this.model.getRange() < distance){
-			body.getWorld().destroyBody(body);
 			this.model.destroyEntity();
 		}
 	}
