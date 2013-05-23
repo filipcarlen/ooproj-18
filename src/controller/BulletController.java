@@ -24,10 +24,7 @@ public class BulletController implements IEntityController{
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta){
 		Body body = this.model.getBody();
-		float distance;
-
-		// To get the distance we take the position from where the bullet was fired minus the current position
-		distance = Math.abs(this.model.getPosMeters().x - this.model.getFirstPos().x);
+		float distance = Math.abs(this.model.getPosMeters().x - this.model.getFirstPos().x);
 
 		if(!this.model.isMoving()){
 			
