@@ -99,16 +99,16 @@ public class HeroView {
 		/* Draws the animation */
 		g.drawAnimation(currentAnimation, tmp.x, tmp.y);
 		/* Draws the health bar above the hero */
-		g.setColor(Color.white);
+		/*g.setColor(Color.white);
 		g.drawRect(tmp.x, tmp.y - 15, 101, 11);
 		g.setColor(Color.red);
 		g.fillRect(tmp.x + 1, tmp.y - 14, heroModel.getHp(), 10);
 		g.setColor(Color.white);
 		/* Draws the name of the hero above the character and health bar */
-		g.setColor(Color.white);
+		/*g.setColor(Color.white);
 		g.drawString(heroModel.getName(), tmp.x, tmp.y - 40);
 		/* Draws your scores*/
-		g.setColor(Color.white);
+		//g.setColor(Color.white);
 	}
 	
 	/**
@@ -172,5 +172,9 @@ public class HeroView {
 
 	public Dimension getDimension() {
 		return new Dimension(getWidth(), getHeight());
+	}
+
+	public Animation getAttackAnimation() {
+		return animations.get(14);
 	}
 }
