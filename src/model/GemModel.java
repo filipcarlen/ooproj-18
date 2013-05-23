@@ -16,8 +16,11 @@ public class GemModel extends AbstractPointsModel {
 	
 	
 	/**  A array cointaining vertices for a gem */
-	Vec2[] vertices = {new Vec2(0.0f,0.25f), new Vec2(0.25f,0.0f),
-			new Vec2(0.5f,0.25f), new Vec2(0.25f,0.5f)};
+	Vec2[] vertices = {new Vec2(0.0f,0.5f), new Vec2(0.5f,0.0f),
+			new Vec2(0.5f,0.5f), new Vec2(0.5f,0.5f)};
+	
+	private static final float WIDTH = 1f;
+	private static final float HEIGHT = 1f;
 
 	/**
 	 * Constructor for a gem.
@@ -27,7 +30,7 @@ public class GemModel extends AbstractPointsModel {
 	 * @param int id
 	 */
 	public GemModel(World w, Vec2 pixelPos, int id) {
-		super(w, pixelPos, id);
+		super(w, pixelPos, id, WIDTH, HEIGHT);
 		super.setValue(5);
 		
 		PolygonShape polygon = new PolygonShape();
@@ -39,7 +42,7 @@ public class GemModel extends AbstractPointsModel {
 
 	@Override
 	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.getBody().getPosition().add(new Vec2(-0.25f,-0.025f)));
+		return Utils.metersToPixels(this.getBody().getPosition().sub(new Vec2(WIDTH, HEIGHT)));
 	}
 	
 	/** 
@@ -52,17 +55,5 @@ public class GemModel extends AbstractPointsModel {
 			tmp[i] = new Vec2(vertices[i].x*Utils.METER_IN_PIXELS, vertices[i].y*Utils.METER_IN_PIXELS);
 		}
 		return tmp;
-	}
-
-	@Override
-	public float getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public float getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

@@ -32,6 +32,10 @@ public abstract class AbstractCollectibleModel implements ICollectibleModel {
 	/** The fixture of a body */
 	private FixtureDef fixturedef;
 	
+	private float width;
+	
+	private float height;
+	
 	
 	/**
 	 * Constructor for creating a Collectible item 
@@ -39,8 +43,10 @@ public abstract class AbstractCollectibleModel implements ICollectibleModel {
 	 * @param Vec2 pixelPos(position)
 	 */
 	 
-	public AbstractCollectibleModel(World w, Vec2 pixelPos, int id){
-		createCollectible(Utils.pixelsToMeters(pixelPos), w);
+	public AbstractCollectibleModel(World w, Vec2 pixelPos, int id, float width, float height){
+		this.width = width;
+		this.height = height;
+		createCollectible(Utils.pixelsToMeters(new Vec2(pixelPos.x+this.width/2,pixelPos.y+this.height/2)), w);
 		this.id = id;
 	}
 	
@@ -109,5 +115,23 @@ public abstract class AbstractCollectibleModel implements ICollectibleModel {
 	 */
 	public FixtureDef getFixtureDef(){
 		return this.fixturedef;
+	}
+	
+	@Override
+	public float getHeight() {
+		return this.width;
+	}
+
+	@Override
+	public float getWidth() {
+		return this.height;
+	}
+	
+	public void setWidth(float width){
+		this.width = width;
+	}
+	
+	public void setHeight(float height){
+		this.height = height;
 	}
 }

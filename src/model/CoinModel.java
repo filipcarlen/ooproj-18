@@ -16,7 +16,10 @@ public class CoinModel extends AbstractPointsModel {
 	/** What value a collectible item holds (which points you get) */
 	
 	/** The collectible items Radius in meters */
-	public final float RADIUS = .5f;
+	public static final float RADIUS = .5f;
+	
+	private static final float WIDTH = 1f;
+	private static final float HEIGHT = 1f;
 
 	/**
 	 * Constructor
@@ -25,10 +28,11 @@ public class CoinModel extends AbstractPointsModel {
 	 * @param int id
 	 */
 	public CoinModel(World w, Vec2 pixelPos, int id) {
-		super(w, pixelPos, id);
+		super(w, pixelPos, id, WIDTH, HEIGHT);
 		super.setValue(1);
+		super.setWidth(WIDTH);
+		super.setHeight(HEIGHT);
 		
-		 //Circle shapes are perfect for collectible objects
 	   	 CircleShape circleshape = new CircleShape();
 	   	 circleshape.m_radius = RADIUS;
 	   	
@@ -41,21 +45,11 @@ public class CoinModel extends AbstractPointsModel {
 	 * @return radius in pixels
 	 */
 	public float getRadius(){
-		return this.RADIUS * Utils.METER_IN_PIXELS;
+		return RADIUS * Utils.METER_IN_PIXELS;
 	}
 	
 	@Override
 	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.getBody().getPosition().add(new Vec2(-RADIUS,-RADIUS)));
-	}
-
-	@Override
-	public float getHeight() {
-		return 0;
-	}
-
-	@Override
-	public float getWidth() {
-		return 0;
+		return Utils.metersToPixels(this.getBody().getPosition().sub(new Vec2(RADIUS,RADIUS)));
 	}
 }
