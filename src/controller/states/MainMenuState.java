@@ -34,7 +34,7 @@ public class MainMenuState extends BasicGameState {
 	private float leafPositionX = 0;
 	private float leafPositionY = 0;
 	private float leafStartPositionX = 0;
-	private float[] leafStartPositionY = {-500,-400,-300,-200,-100,0,100,200,300,400,500,600};
+	private float[] leafStartPositionY;
 	
 	private boolean insideStartGame = false;
 	private boolean insideOptionsMenu = false;
@@ -58,6 +58,7 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
+		float screenHeight = gc.getScreenHeight();
 		initLeafs();
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		title = new Image("res/title.png");
@@ -71,10 +72,13 @@ public class MainMenuState extends BasicGameState {
 		options = new Image(PATH+"options.png");
 		optionsHighlighted = new Image(PATH+"optionshighlighted.png");
 		
-		startGamePos = new Vec2(background.getWidth()/2-startGame.getWidth()/2,170);
-		optionsPos = new Vec2(background.getWidth()/2-options.getWidth()/2, 380);
-		highscorePos = new Vec2(background.getWidth()/2-highscore.getWidth()/2, 270);
-		quitGamePos = new Vec2(background.getWidth()/2-quit.getWidth()/2,470);
+		float spacing = (screenHeight - title.getHeight() -
+				3*startGame.getHeight() - options.getHeight())/4;
+		
+		startGamePos = new Vec2(gc.getWidth()/2-startGame.getWidth()/2,title.getHeight());
+		highscorePos = new Vec2(gc.getWidth()/2-highscore.getWidth()/2, startGamePos.y+spacing);
+		optionsPos = new Vec2(gc.getWidth()/2-options.getWidth()/2,highscorePos.y+spacing);
+		quitGamePos = new Vec2(gc.getWidth()/2-quit.getWidth()/2,optionsPos.y+spacing);
 		
 		
 		
@@ -169,21 +173,9 @@ public class MainMenuState extends BasicGameState {
 	
 	public void initLeafs() throws SlickException{
 		leafs = new Image[14];
-		leafs[0] =  new Image(PATH + "/Leafanimation/1.png");
-		leafs[1] =  new Image(PATH + "/Leafanimation/2.png");
-		leafs[2] =  new Image(PATH + "/Leafanimation/3.png");
-		leafs[3] =  new Image(PATH + "/Leafanimation/4.png");
-		leafs[4] =  new Image(PATH + "/Leafanimation/5.png");
-		leafs[5] =  new Image(PATH + "/Leafanimation/6.png");
-		leafs[6] =  new Image(PATH + "/Leafanimation/7.png");
-		leafs[7] =  new Image(PATH + "/Leafanimation/8.png");
-		leafs[8] =  new Image(PATH + "/Leafanimation/9.png");
-		leafs[9] =  new Image(PATH + "/Leafanimation/10.png");
-		leafs[10] =  new Image(PATH + "/Leafanimation/11.png");
-		leafs[11] =  new Image(PATH + "/Leafanimation/12.png");
-		leafs[12] =  new Image(PATH + "/Leafanimation/13.png");
-		leafs[13] =  new Image(PATH + "/Leafanimation/14.png");
-		
+		for(int i = 0; i<leafs.length;i++){
+			leafs[i] = new Image(PATH + "/Leafanimation/"+(i+1)+".png");
+		}
 		leafAnimation = new Animation(leafs, 100);
 	}
 	
