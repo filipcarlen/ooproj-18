@@ -88,71 +88,7 @@ public class OptionsState extends BasicGameState {
 		this.okH = new Image(PATH + "okH.png");
 		//IMAGES END ___________________________________________
 		
-		//POSITIONS _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-		//Calculating all positions
-		this.optionsPos = new Vec2(gc.getWidth()/2 - this.options.getWidth()/2, this.spacing);
-		this.okPos = new Vec2(gc.getWidth() - this.spacing*2 - this.ok.getWidth(), gc.getHeight()-this.ok.getHeight()-this.spacing*2);
-		
-		//MUSIC __________________________________________________________MUSIC_________________________________________________________________MUSIC
-		//Calculates all positions to do with the music options so that they are evenly spaced and centered.
-		this.musicPos = new Vec2((gc.getWidth() - this.musicOn.getWidth() - this.volume.getWidth() - this.slider.getWidth() - this.spacing*3)/2, this.optionsPos.y + this.options.getHeight() + this.spacing);
-		this.musicVolumePos = new Vec2(this.musicPos.x + this.musicOn.getWidth() + this.spacing*2, this.musicPos.y);
-		this.musicControlsPos = new Vec2(this.musicVolumePos.x + this.volume.getWidth() + this.spacing, this.musicPos.y);
-		this.musicSliderPos = new Vec2(this.musicControlsPos.x + this.arrowSpace, this.musicControlsPos.y + this.slider.getHeight()/2 - this.sliderHeight/2);
-		this.musicArrowLeftPos = new Vec2(this.musicControlsPos.x, this.musicControlsPos.y + this.slider.getHeight()/2 - this.arrowRadius);
-		this.musicArrowRightPos = new Vec2(this.musicControlsPos.x + this.slider.getWidth() - this.arrowRadius*2,this.musicArrowLeftPos.y);
-		//MUSIC END _________________________________________________________________________________________________________________________________
-		
-		//UNIVERSAL _________________________________________________________________________________________________________________________________
-		//Calculate actual start point, end point of the handle and length of the slider, also calculates the length that represents the max volume.
-		this.handleEndPoint = this.musicControlsPos.x + this.slider.getWidth() - this.arrowSpace - this.handle.getWidth();
-		this.sliderLength = this.handleEndPoint + this.handle.getWidth() - this.musicSliderPos.x;
-		this.maxVolume = this.handleEndPoint - this.musicSliderPos.x;
-		//UNIVERSAL END _____________________________________________________________________________________________________________________________
-		
-		//MUSIC _____________________________________________________________________________________________________________________________________
-		//Placing the handle on the volume control.
-		float musicVolume = Sounds.getInstance().getMusicVolume();
-		this.musicHandlePos = new Vec2(this.musicSliderPos.x + musicVolume*this.maxVolume, this.musicControlsPos.y + this.slider.getHeight()/2 - this.handle.getHeight()/2);
-		//MUSIC END _________________________________________________________________________________________________________________________________
-		
-		//SPACE _____________________________________________________________________________________________________________________________________
-		//Calculate a number so that all options are evenly spaced.
-		float spaceY = (this.okPos.y - this.musicPos.y - this.musicOn.getHeight() - this.soundOn.getHeight() - this.fullscreenOn.getHeight() - this.walkRight.getHeight()*2)/6;
-		//SPACE END _________________________________________________________________________________________________________________________________
-		
-		//SOUND _____________________________________________________________________________________________________________________________________
-		//Calculates all positions to do with the sound options so that they are evenly spaced and centered.
-		this.soundPos = new Vec2(this.musicPos.x, this.musicPos.y + this.musicOn.getHeight() + spaceY);
-		this.soundVolumePos = new Vec2(this.musicPos.x + this.musicOn.getWidth() + this.spacing*2, this.soundPos.y);
-		this.soundControlsPos = new Vec2(this.musicVolumePos.x + this.volume.getWidth() + this.spacing, this.soundPos.y);
-		this.soundSliderPos = new Vec2(this.musicSliderPos.x, this.soundControlsPos.y + this.slider.getHeight()/2 - this.sliderHeight/2);
-		this.soundArrowLeftPos = new Vec2(this.soundControlsPos.x, this.soundControlsPos.y + this.slider.getHeight()/2 - this.arrowRadius);
-		this.soundArrowRightPos = new Vec2(this.soundControlsPos.x + this.slider.getWidth() - this.arrowRadius*2,this.soundArrowLeftPos.y);
-		
-		//Placing the handle on the volume control.
-		float soundVolume = Sounds.getInstance().getSoundVolume();
-		this.soundHandlePos = new Vec2(this.soundSliderPos.x + soundVolume*this.maxVolume, this.soundControlsPos.y + this.slider.getHeight()/2 - this.handle.getHeight()/2);
-		//SOUND END _________________________________________________________________________________________________________________________________
-		
-		//FULLSCREEN ________________________________________________________________________________________________________________________________
-		//Calculates the position of the full screen option so that it is centered and evenly spaced from the other options.
-		this.fullscreenPos = new Vec2(gc.getWidth()/2 - this.fullscreenOn.getWidth()/2, this.soundPos.y + this.soundOn.getHeight() + spaceY*2);
-		//FULLSCREEN END ____________________________________________________________________________________________________________________________
-		
-		//KEYBINDINGS _______________________________________________________________________________________________________________________________
-		//Calculates all positions to do with changing the key bindings.
-		this.walkRightPos = new Vec2((gc.getWidth() - this.walkRight.getWidth() - this.key.getWidth()*2 - this.jump.getWidth() - this.spacing*4)/2, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
-		this.keyPos[0] = new Vec2(this.walkRightPos.x + this.walkRight.getWidth() + this.spacing, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
-		this.jumpPos = new Vec2(this.keyPos[0].x + this.key.getWidth() + this.spacing*2, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
-		this.keyPos[1] = new Vec2(this.jumpPos.x + this.jump.getWidth() + this.spacing, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
-		this.walkLeftPos = new Vec2((gc.getWidth() - this.walkLeft.getWidth() - this.key.getWidth()*2 - this.fight.getWidth() - this.spacing*4)/2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
-		this.keyPos[2] = new Vec2(this.walkLeftPos.x + this.walkLeft.getWidth() + this.spacing, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
-		this.fightPos = new Vec2(this.keyPos[2].x + this.key.getWidth() + this.spacing*2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
-		this.keyPos[3] = new Vec2(this.fightPos.x + this.fight.getWidth() + this.spacing, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
-		//KEYBINDINGS END ___________________________________________________________________________________________________________________________
-		
-		//POSITIONS END _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+		this.initPositions();
 	}
 
 	@Override
@@ -436,6 +372,13 @@ public class OptionsState extends BasicGameState {
 		//The full screen option is clicked.
 		if(this.insideFullscreenOn && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			this.clickedFullscreenOn = true;
+			if(gc.isFullscreen()) {
+				GameApp.appgc.setDisplayMode((int)GameApp.WIDTH, (int)GameApp.HEIGHT, false);
+			} else {
+				GameApp.appgc.setDisplayMode(gc.getScreenWidth(), gc.getScreenHeight(), true);
+			}
+			
+			this.initPositions();
 		} //FULLSCREEN END _____________________________________________________________________________
 		
 		//OK ___________________________________________________________________________________________
@@ -450,6 +393,74 @@ public class OptionsState extends BasicGameState {
 				this.clickedKeys[i] = true;
 			}
 		} //KEYBINDINGS END ____________________________________________________________________________
+	}
+	
+	public void initPositions() {
+		//POSITIONS _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+		//Calculating all positions
+		this.optionsPos = new Vec2(GameApp.appgc.getWidth()/2 - this.options.getWidth()/2, this.spacing);
+		this.okPos = new Vec2(GameApp.appgc.getWidth() - this.spacing*2 - this.ok.getWidth(), GameApp.appgc.getHeight()-this.ok.getHeight()-this.spacing*2);
+		
+		//MUSIC __________________________________________________________MUSIC_________________________________________________________________MUSIC
+		//Calculates all positions to do with the music options so that they are evenly spaced and centered.
+		this.musicPos = new Vec2((GameApp.appgc.getWidth() - this.musicOn.getWidth() - this.volume.getWidth() - this.slider.getWidth() - this.spacing*3)/2, this.optionsPos.y + this.options.getHeight() + this.spacing);
+		this.musicVolumePos = new Vec2(this.musicPos.x + this.musicOn.getWidth() + this.spacing*2, this.musicPos.y);
+		this.musicControlsPos = new Vec2(this.musicVolumePos.x + this.volume.getWidth() + this.spacing, this.musicPos.y);
+		this.musicSliderPos = new Vec2(this.musicControlsPos.x + this.arrowSpace, this.musicControlsPos.y + this.slider.getHeight()/2 - this.sliderHeight/2);
+		this.musicArrowLeftPos = new Vec2(this.musicControlsPos.x, this.musicControlsPos.y + this.slider.getHeight()/2 - this.arrowRadius);
+		this.musicArrowRightPos = new Vec2(this.musicControlsPos.x + this.slider.getWidth() - this.arrowRadius*2,this.musicArrowLeftPos.y);
+		//MUSIC END _________________________________________________________________________________________________________________________________
+		
+		//UNIVERSAL _________________________________________________________________________________________________________________________________
+		//Calculate actual start point, end point of the handle and length of the slider, also calculates the length that represents the max volume.
+		this.handleEndPoint = this.musicControlsPos.x + this.slider.getWidth() - this.arrowSpace - this.handle.getWidth();
+		this.sliderLength = this.handleEndPoint + this.handle.getWidth() - this.musicSliderPos.x;
+		this.maxVolume = this.handleEndPoint - this.musicSliderPos.x;
+		//UNIVERSAL END _____________________________________________________________________________________________________________________________
+		
+		//MUSIC _____________________________________________________________________________________________________________________________________
+		//Placing the handle on the volume control.
+		float musicVolume = Sounds.getInstance().getMusicVolume();
+		this.musicHandlePos = new Vec2(this.musicSliderPos.x + musicVolume*this.maxVolume, this.musicControlsPos.y + this.slider.getHeight()/2 - this.handle.getHeight()/2);
+		//MUSIC END _________________________________________________________________________________________________________________________________
+		
+		//SPACE _____________________________________________________________________________________________________________________________________
+		//Calculate a number so that all options are evenly spaced.
+		float spaceY = (this.okPos.y - this.musicPos.y - this.musicOn.getHeight() - this.soundOn.getHeight() - this.fullscreenOn.getHeight() - this.walkRight.getHeight()*2)/6;
+		//SPACE END _________________________________________________________________________________________________________________________________
+		
+		//SOUND _____________________________________________________________________________________________________________________________________
+		//Calculates all positions to do with the sound options so that they are evenly spaced and centered.
+		this.soundPos = new Vec2(this.musicPos.x, this.musicPos.y + this.musicOn.getHeight() + spaceY);
+		this.soundVolumePos = new Vec2(this.musicPos.x + this.musicOn.getWidth() + this.spacing*2, this.soundPos.y);
+		this.soundControlsPos = new Vec2(this.musicVolumePos.x + this.volume.getWidth() + this.spacing, this.soundPos.y);
+		this.soundSliderPos = new Vec2(this.musicSliderPos.x, this.soundControlsPos.y + this.slider.getHeight()/2 - this.sliderHeight/2);
+		this.soundArrowLeftPos = new Vec2(this.soundControlsPos.x, this.soundControlsPos.y + this.slider.getHeight()/2 - this.arrowRadius);
+		this.soundArrowRightPos = new Vec2(this.soundControlsPos.x + this.slider.getWidth() - this.arrowRadius*2,this.soundArrowLeftPos.y);
+		
+		//Placing the handle on the volume control.
+		float soundVolume = Sounds.getInstance().getSoundVolume();
+		this.soundHandlePos = new Vec2(this.soundSliderPos.x + soundVolume*this.maxVolume, this.soundControlsPos.y + this.slider.getHeight()/2 - this.handle.getHeight()/2);
+		//SOUND END _________________________________________________________________________________________________________________________________
+		
+		//FULLSCREEN ________________________________________________________________________________________________________________________________
+		//Calculates the position of the full screen option so that it is centered and evenly spaced from the other options.
+		this.fullscreenPos = new Vec2(GameApp.appgc.getWidth()/2 - this.fullscreenOn.getWidth()/2, this.soundPos.y + this.soundOn.getHeight() + spaceY*2);
+		//FULLSCREEN END ____________________________________________________________________________________________________________________________
+		
+		//KEYBINDINGS _______________________________________________________________________________________________________________________________
+		//Calculates all positions to do with changing the key bindings.
+		this.walkRightPos = new Vec2((GameApp.appgc.getWidth() - this.walkRight.getWidth() - this.key.getWidth()*2 - this.jump.getWidth() - this.spacing*4)/2, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
+		this.keyPos[0] = new Vec2(this.walkRightPos.x + this.walkRight.getWidth() + this.spacing, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
+		this.jumpPos = new Vec2(this.keyPos[0].x + this.key.getWidth() + this.spacing*2, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
+		this.keyPos[1] = new Vec2(this.jumpPos.x + this.jump.getWidth() + this.spacing, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
+		this.walkLeftPos = new Vec2((GameApp.appgc.getWidth() - this.walkLeft.getWidth() - this.key.getWidth()*2 - this.fight.getWidth() - this.spacing*4)/2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
+		this.keyPos[2] = new Vec2(this.walkLeftPos.x + this.walkLeft.getWidth() + this.spacing, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
+		this.fightPos = new Vec2(this.keyPos[2].x + this.key.getWidth() + this.spacing*2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
+		this.keyPos[3] = new Vec2(this.fightPos.x + this.fight.getWidth() + this.spacing, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
+		//KEYBINDINGS END ___________________________________________________________________________________________________________________________
+		
+		//POSITIONS END _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 	}
 
 	@Override

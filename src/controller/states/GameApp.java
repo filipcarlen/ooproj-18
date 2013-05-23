@@ -16,6 +16,9 @@ public class GameApp extends StateBasedGame{
 	public static final int HIGHSCORESTATE = 4;
 	public static final int PREGAMESTATE = 5;
 
+	public static AppGameContainer appgc;
+	public static final float DEFAULT_WIDTH = 900f;
+	public static final float DEFAULT_HEIGHT = 600f;
 	
 	public GameApp(String gamename) {
 		super(gamename);
@@ -51,11 +54,12 @@ public class GameApp extends StateBasedGame{
 	
 	public static void main(String []args){
 		try{
-			AppGameContainer appgc = new AppGameContainer(new GameApp(gamename));
+			appgc = new AppGameContainer(new GameApp(gamename));
 			appgc.setDisplayMode(900, 600, false);
 			appgc.setTargetFrameRate(200);
 			appgc.start();
 		}catch(SlickException e){
 			e.printStackTrace();
 		}
-	} }
+	} 
+}
