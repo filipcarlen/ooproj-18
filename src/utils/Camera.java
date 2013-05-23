@@ -28,11 +28,6 @@ public class Camera {
 		resetCamera();
 	}
 	
-	
-	public Camera(int displaywidth, int displayheight, int worldwidth, int worldheight, int distanceToWall, Vec2 posFocusPixel){
-		this(displaywidth, displayheight, worldwidth, worldheight,posFocusPixel);
-	}
-	
 	public Camera(int displaywidth, int displayheight, int worldwidth, int worldheight, Rectangle moveableArea, Vec2 posFocusPixel){
 		this(displaywidth, displayheight, worldwidth, worldheight, posFocusPixel);
 		distFromWall = (int) (displaywidth-moveableArea.getWidth())/2;
@@ -49,7 +44,7 @@ public class Camera {
 		return new Vec2(v.x -positionCamera.getX(), v.y - positionCamera.getY());
 	}
 	
-	public void updateCamera(Vec2 posFocusPixel){
+	public void updateCamera(Vec2 posFocusPixel, int displaywidth, int displayheight){
 		posOfHero = posFocusPixel;
 		if(posOfHero.x > positionCamera.x+displaywidth-distFromWall && distFromWall < (worldwidth-posOfHero.x)){
 			x = positionCamera.x +(posOfHero.x-(positionCamera.x+displaywidth-distFromWall));
