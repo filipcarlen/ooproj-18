@@ -5,7 +5,7 @@ import org.jbox2d.dynamics.World;
 
 public class ChocolateBarModel extends AbstractPowerUpModel {
 
-	private final float HP_BOOST = 0.2f;
+	private final double HP_BOOST = 0.2;
 
 	public ChocolateBarModel(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id);

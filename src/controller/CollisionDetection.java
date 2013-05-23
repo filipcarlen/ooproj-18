@@ -8,6 +8,8 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import utils.EntityType;
+import utils.SoundType;
+import utils.Sounds;
 
 public class CollisionDetection  implements ContactListener{
 
@@ -46,9 +48,11 @@ public class CollisionDetection  implements ContactListener{
 			}else if(objectB instanceof ICollectibleModel && objectB instanceof AbstractPowerUpModel){
 				((AbstractPowerUpModel)objectB).killBody();
 				if(objectB instanceof ChocolateBarModel){
-					heroModel.heal(20);
+					heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectB).gethpBoost() * heroModel.getMaxHp())));
+					Sounds.getInstance().playSound(SoundType.CHOCOLATE_BAR);
 				}else{
-					heroModel.heal(50);
+					heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectB).gethpBoost() * heroModel.getMaxHp())));
+					Sounds.getInstance().playSound(SoundType.ENERGY_DRINK);
 				}
 				
 			}else if(objectB instanceof StaticFoeModel) {
@@ -85,10 +89,12 @@ public class CollisionDetection  implements ContactListener{
 				
 			}else if(objectA instanceof ICollectibleModel && objectA instanceof AbstractPowerUpModel){
 				((AbstractPowerUpModel)objectA).killBody();
-				if(objectB instanceof ChocolateBarModel){
-					heroModel.heal(20);
+				if(objectA instanceof ChocolateBarModel){
+					heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectA).gethpBoost() * heroModel.getMaxHp())));
+					Sounds.getInstance().playSound(SoundType.CHOCOLATE_BAR);
 				}else{
-					heroModel.heal(50);
+					heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectA).gethpBoost() * heroModel.getMaxHp())));
+					Sounds.getInstance().playSound(SoundType.ENERGY_DRINK);
 				}
 			}else if(objectA instanceof StaticFoeModel) {
 				heroModel.setHurted(null,((StaticFoeModel)objectA).getDamage());

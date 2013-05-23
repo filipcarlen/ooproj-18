@@ -8,7 +8,7 @@ import utils.Utils;
 
 public abstract class AbstractPowerUpModel extends AbstractCollectibleModel {
 
-	private float hpBoost;
+	private double hpBoost;
 	private float width = 1.0f;
 	private float height = 1.0f;
 	
@@ -22,11 +22,11 @@ public abstract class AbstractPowerUpModel extends AbstractCollectibleModel {
 		this.getBody().createFixture(this.getFixtureDef());
 	}
 	
-	public float gethpBoost() {
+	public double gethpBoost() {
 		return this.hpBoost;
 	}
 
-	public void setHpBoost(float hpBoost) {
+	public void setHpBoost(double hpBoost) {
 		this.hpBoost = hpBoost;
 		
 	}
