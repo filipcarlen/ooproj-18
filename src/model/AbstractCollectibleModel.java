@@ -57,7 +57,7 @@ public abstract class AbstractCollectibleModel implements ICollectibleModel {
 		 body = world.createBody(bodydef);
 		 
 	   	 fixturedef = new FixtureDef();
-	   	 fixturedef.density = 0.1f;
+	   	 fixturedef.density = 0.0001f;
 	   	 fixturedef.friction = 0.0f;
 	   	 fixturedef.restitution = 0.0f;
 	   	 
