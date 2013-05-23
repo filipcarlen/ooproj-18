@@ -373,7 +373,7 @@ public class OptionsState extends BasicGameState {
 		if(this.insideFullscreenOn && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			this.clickedFullscreenOn = true;
 			if(gc.isFullscreen()) {
-				GameApp.appgc.setDisplayMode((int)GameApp.WIDTH, (int)GameApp.HEIGHT, false);
+				GameApp.appgc.setDisplayMode((int)GameApp.DEFAULT_WIDTH, (int)GameApp.DEFAULT_HEIGHT, false);
 			} else {
 				GameApp.appgc.setDisplayMode(gc.getScreenWidth(), gc.getScreenHeight(), true);
 			}
