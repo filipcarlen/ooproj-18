@@ -31,6 +31,7 @@ import utils.Controls;
 import utils.SoundType;
 import utils.Sounds;
 import utils.WeaponType;
+import view.PlayStateView;
 import controller.CollectibleController;
 import controller.CollisionDetection;
 import controller.GunController;
@@ -44,15 +45,16 @@ import controller.SwordController;
 public class PlayState extends BasicGameState implements IPlayStateController, ActionListener{
 	
 	private World world;
-	private HeroModel heroModel;
+	private HeroModel hero;
 	private HeroController heroController;
 	private WorldMap worldMap;
-	private CollisionDetection collisionDetection;
+	private PlayStateView playstateview;
 	private int stateID;
 	private Camera camera;
 	private Timer endGameDelay = new Timer(2000, this);
 	private boolean endGame = false;
 	private static PlayState instance;
+	private Image background;
 	
 	/* This list contains all the bodies in the world*/
 	private ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
@@ -72,6 +74,75 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		return instance;
 	}
 	
+	@Override
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
+		Sounds.getInstance().playSound(SoundType.GAME_MUSIC);
+		if(endGame){
+			reTry();
+		}
+	}
+
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		
+		// Creating the world
+		Vec2 gravity = new Vec2(0.0f, 9.8f);
+		world = new World(gravity);
+		world.setAllowSleep(true);
+		world.setContinuousPhysics(true);
+		CollisionDetection collisionDetection = new CollisionDetection();
+		world.setContactListener(collisionDetection);
+		try {
+			background = new Image("res/map/background-game.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		
+		GunModel gm = new GunModel(world, 500, 10, 10, 56);
+	
+		SwordModel sm = new SwordModel(world, 300, 40, 1337);
+		
+		
+		newGame("level1", "BluePants", gm);
+		// Camera
+		camera = new Camera(gc.getWidth(), gc.getHeight(), 
+				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
+				new Rectangle(300,200), hero.getPosPixels());
+		playstateview = new PlayStateView(hero);
+	}
+
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		g.drawImage(background, 0, 0);
+		worldMap.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
+		playstateview.render(gc, sbg, g);
+		try{
+			for(int i = 0; i < controllers.size(); i++){
+				controllers.get(i).render(gc, sbg, g);
+			}
+			heroController.render(gc, sbg, g);
+		}catch(NullPointerException e){}
+	}
+
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		world.step(1f/60f, 8, 3);
+		if(hero.isDead() && !endGame){
+			this.pauseUpdate();
+			endGameDelay.start();
+		}
+		if(endGame){
+			sbg.enterState(GameApp.GAMEOVERSTATE);
+		}
+		try{
+			camera.updateCamera(hero.getFrontPosPixels(), gc.getWidth(), gc.getHeight());
+			for(int i = 0; i < controllers.size(); i++){
+				controllers.get(i).update(gc, sbg, delta);
+			}
+			heroController.update(gc, sbg, delta);
+		}catch(NullPointerException e){}
+		if(Controls.getInstance().check("pause")){
+			this.pauseUpdate();
+		}
+	}
+
 	/**
 	 * This method load everything in world.
 	 * @param level
@@ -88,6 +159,24 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		}
 	}
 	
+	/**
+	 * You should call this method when you want to restart a Level 
+	 */
+	public void reTry(){
+		endGame = false;
+		removeAllEntities();
+		worldMap.destroyWorld();
+		worldMap.loadMapFromTMX(worldMap.getMapName());
+		worldMap.setBounds();
+		hero.resurrection(worldMap.getHeroPosition());
+		try {
+			this.loadEntity(worldMap.getListOfBodies());
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		camera.resetCamera();
+	}
+
 	public void loadWorld(String levelName){
 		worldMap = new WorldMap(world, true, levelName);
 		worldMap.setBounds();
@@ -113,105 +202,23 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 	
 	public void loadHero(String heroName, Vec2 pos, AbstractWeaponModel awm) throws SlickException{
-		heroModel = new HeroModel(world ,heroName, pos, awm);
-		heroController = new HeroController(heroModel);
-		if(heroModel.canLoadBody())
-			heroModel.createNewHero(worldMap.getHeroPosition(), awm);
+		hero = new HeroModel(world ,heroName, pos, awm);
+		heroController = new HeroController(hero);
+		if(hero.canLoadBody())
+			hero.createNewHero(worldMap.getHeroPosition(), awm);
 		else
 			throw new SlickException("Unable to load Hero");
 	}
 	
-	/**
-	 * You should call this method when you want to restart a Level 
-	 */
-	public void reTry(){
-		endGame = false;
-		removeAllEntities();
-		worldMap.destroyWorld();
-		worldMap.loadMapFromTMX(worldMap.getMapName());
-		worldMap.setBounds();
-		heroModel.resurrection(worldMap.getHeroPosition());
-		try {
-			this.loadEntity(worldMap.getListOfBodies());
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		camera.resetCamera();
-		camera.updateCamera(heroModel.getFrontPosPixels());
-	}
-	
-	@Override
-	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
-		Sounds.getInstance().playSound(SoundType.GAME_MUSIC);
-		if(endGame){
-			reTry();
-		}
-	}
-
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		
-		// Creating the world
-		Vec2 gravity = new Vec2(0.0f, 9.8f);
-		world = new World(gravity);
-		world.setAllowSleep(true);
-		world.setContinuousPhysics(true);
-		collisionDetection = new CollisionDetection();
-		world.setContactListener(collisionDetection);
-		
-		GunModel gm = new GunModel(world, 500, 10, 10, 56);
-
-		SwordModel sm = new SwordModel(world, 20, 1337);
-		
-		
-		newGame("level1", "BluePants", sm);
-		// Camera
-		camera = new Camera(gc.getWidth(), gc.getHeight(), 
-				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
-				new Rectangle(300,200), heroModel.getPosPixels());
-	}
-
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.drawImage(new Image("res/map/background-game.png"), 0, 0);
-		worldMap.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
-
-		try{
-			for(int i = 0; i < controllers.size(); i++){
-				controllers.get(i).render(gc, sbg, g);
-			}
-			heroController.render(gc, sbg, g);
-		}catch(NullPointerException e){}
-	}
-
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		world.step(1f/60f, 8, 3);
-		if(heroModel.isDead() && !endGame){
-			this.pauseUpdate();
-			endGameDelay.start();
-		}
-		if(endGame){
-			sbg.enterState(GameApp.GAMEOVERSTATE);
-		}
-		try{
-			camera.updateCamera(heroModel.getFrontPosPixels());
-			for(int i = 0; i < controllers.size(); i++){
-				controllers.get(i).update(gc, sbg, delta);
-			}
-			heroController.update(gc, sbg, delta);
-		}catch(NullPointerException e){}
-		if(Controls.getInstance().check("pause")){
-			this.pauseUpdate();
-		}
-	}
-
 	public int getID() {
 		return stateID;
 	}
 	
 	public HeroModel getHeroModel(){
-		return heroModel;
+		return hero;
 	}
 	
-	public void removeBullet(){
+	public void removeGun(){
 		for(GunModel gm: gunThatsActive){
 			if(gm.isDone()){
 				removeEntity(gm.getID());
