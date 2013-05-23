@@ -15,6 +15,7 @@ private static Sounds instance = null;
 	private boolean volumeSoundOn = true;
 	
 	private float mute = 0.0f;
+	private float pitch = 1f;
 		
 	private Sound soundtrack;
 	private Sound gunfire;
@@ -26,6 +27,8 @@ private static Sounds instance = null;
 	private Sound collectGem;
 	private Sound die;
 	private Sound sword;
+	private Sound chocolateBar;
+	private Sound energyDrink;
 		
 	private Sounds() {
 		try{
@@ -39,6 +42,8 @@ private static Sounds instance = null;
 			die = new Sound(PATH+"die.wav");
 			enemyHurt = new Sound(PATH+"enemyhurt.wav");
 			sword = new Sound(PATH+"sword.wav");
+			chocolateBar = new Sound(PATH+"chocolate.wav");
+			energyDrink = new Sound(PATH+"energydrink.wav");
 		
 		} catch(SlickException e){
 			System.out.println("Can't load sound file in Sounds class");
@@ -63,11 +68,11 @@ private static Sounds instance = null;
 		switch(music){
 		
 		case MENU_MUSIC:
-			soundtrack.loop(1, volumeMusic);
+			soundtrack.loop(pitch, volumeMusic);
 			break;
 			
 		case GAME_MUSIC:
-			musicInGame.loop(1, volumeMusic);
+			musicInGame.loop(pitch, volumeMusic);
 			break;
 			
 		default:
@@ -86,35 +91,44 @@ private static Sounds instance = null;
 		switch(sound){
 		
 		case GUN:
-			gunfire.play(1, volumeSound);
+			gunfire.play(pitch, volumeSound);
 			break;
 			
 		case DIE:
-			die.play(1,volumeSound);
+			die.play(pitch,volumeSound);
 			break;
 			
 		case HURT:
-			hurt.play(1, volumeSound);
+			hurt.play(pitch, volumeSound);
 			break;
 		
 		case ENEMY_DIE:
-			enemyDie.play(1, volumeSound);
+			enemyDie.play(pitch, volumeSound);
 			break;
 		
 		case ENEMY_HURT:
-			enemyHurt.play(1, volumeSound);
+			enemyHurt.play(pitch, volumeSound);
 			break;
 			
 		case COLLECT_COIN:
-			collectCoin.play(1,volumeSound);
+			collectCoin.play(pitch,volumeSound);
 			break;
 			
 		case COLLECT_GEM:
-			collectGem.play(1,volumeSound);
+			collectGem.play(pitch,volumeSound);
 			break;
 			
 		case SWORD:
-			sword.play(1,volumeSound);
+			sword.play(pitch,volumeSound);
+			break;
+			
+		case ENERGY_DRINK:
+			energyDrink.play(pitch,volumeSound);
+			break;
+			
+		case CHOCOLATE_BAR:
+			chocolateBar.play(pitch,volumeSound);
+			break;
 			
 		default:
 			break;
