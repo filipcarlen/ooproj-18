@@ -79,7 +79,7 @@ public class WorldMap{
 					pos = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
 					idtile = tm.getTileId(i, j, collision);
 					if(isWorldTile(idtile)){
-						while(isWorldTile(idtile)){
+						while(isWorldTile(idtile) && i < tm.getWidth()-1){
 							if(!pictureName.containsKey(tm.getTileId(i, j, collision)))
 								pictureName.put(background[i][j], tm.getTileImage(i, j, collision));
 							++numberOfTiles;
@@ -99,9 +99,9 @@ public class WorldMap{
 					}else if(idtile == 91){
 						positionHero = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
 					}else if(idtile == 92){
-						bodies.add(new MovingFoeModel(w, pos, 50, new SwordModel(w, 35, id), 5, id));
+						bodies.add(new MovingFoeModel(w, pos, 50, new SwordModel(w, 200 ,35, id), 5, id));
 					}else if(idtile == 93){
-						bodies.add(new MovingFoeModel(w, pos, 50, new GunModel(w, 1500, 10, 10, id), 5, id));
+						bodies.add(new MovingFoeModel(w, pos, 50, new GunModel(w, 1000, 5, 10, id), 5, id));
 					}else if(idtile == 94){
 						bodies.add(new StaticFoeModel(w, pos, 15, StaticFoeModel.StaticFoeType.FIRE, id));
 					}else if(idtile == 95){
