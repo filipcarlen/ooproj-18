@@ -340,6 +340,10 @@ public class HeroModel implements IAliveModel{
 		return hurtedFront;
 	}
 	
+	public boolean isInAir(){
+		return doubleJump>0 && !isFalling;
+	}
+	
 	public void resetHurted(){
 		hurtedFront = false;
 		hurted = false;
