@@ -1,8 +1,8 @@
-package model;
+package utils;
 
 import java.io.Serializable;
 
-public class HighscoreModel implements Serializable {
+public class Highscore implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int totalScore;
@@ -11,7 +11,7 @@ public class HighscoreModel implements Serializable {
 	private int mobs;
 	private String name;
 	
-	public HighscoreModel(String name, int totalScore, int coins, int gems, int mobs){
+	public Highscore(String name, int totalScore, int coins, int gems, int mobs){
 		this.name = name;
 		this.totalScore = totalScore;
 		this.coins = coins;

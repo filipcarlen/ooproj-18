@@ -1,10 +1,11 @@
-package controller;
+package model;
 import java.util.Comparator;
-import model.HighscoreModel;
 
-public class HighscoreComparator implements Comparator<HighscoreModel> {
+import utils.Highscore;
+
+public class HighscoreComparator implements Comparator<Highscore> {
 	
-	public int compare(HighscoreModel score1, HighscoreModel score2){
+	public int compare(Highscore score1, Highscore score2){
 		
 		int hs1 = score1.getTotalScore();
 		int hs2 = score2.getTotalScore();

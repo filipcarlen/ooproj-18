@@ -10,21 +10,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import model.HighscoreModel;
+import utils.Highscore;
+
+import model.HighscoreComparator;
 
 public class HighscoreManager {
 	
-	private List<HighscoreModel> highscores;
+	private List<Highscore> highscores;
 	private static final String HIGHSCORE_FILE = "highscores.dat";
 	
 	ObjectOutputStream outputStream = null;
 	ObjectInputStream inputStream = null;
 	
 	public HighscoreManager(){
-		highscores = new ArrayList<HighscoreModel>();
+		highscores = new ArrayList<Highscore>();
 	}
 	
-	public List<HighscoreModel> getScores(){
+	public List<Highscore> getScores(){
 		loadScoreFile();
 		sort();
 		return highscores;
@@ -37,7 +39,7 @@ public class HighscoreManager {
 	
 	public void addScore(String name, int totalScore, int coins, int gems, int mobs){
 		loadScoreFile();
-		highscores.add(new HighscoreModel(name,totalScore,coins,gems,mobs));
+		highscores.add(new Highscore(name,totalScore,coins,gems,mobs));
 		updateScoreFile();
 	}
 	
@@ -45,7 +47,7 @@ public class HighscoreManager {
 	public void loadScoreFile(){
 		try{
 			inputStream = new ObjectInputStream(new FileInputStream(HIGHSCORE_FILE));
-			highscores = (ArrayList<HighscoreModel>) inputStream.readObject();
+			highscores = (ArrayList<Highscore>) inputStream.readObject();
 			
 		} catch (FileNotFoundException e) {
             System.out.println("[Laad] FNF Error: " + e.getMessage());
@@ -89,7 +91,7 @@ public class HighscoreManager {
 		String highscoreString = "";
 		int max = 8;
 		
-		List<HighscoreModel> highscores;
+		List<Highscore> highscores;
 		highscores = getScores();
 		
 		int i = 0;
