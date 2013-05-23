@@ -90,7 +90,7 @@ public class WorldMap{
 						}
 						addWorldShape(i - numberOfTiles, j, tm.getTileWidth(), tm.getTileHeight(), numberOfTiles);
 						numberOfTiles = 0;
-					}else if(idtile < 61){
+					}if(idtile < 61 && !isWorldTile(idtile)){
 						if(!pictureName.containsKey(tm.getTileId(i, j, collision)))
 							pictureName.put(background[i][j], tm.getTileImage(i, j, collision));
 						
