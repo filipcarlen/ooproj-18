@@ -59,10 +59,10 @@ public class MainMenuState extends BasicGameState {
 	public void enter(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {		
 		titlePos = new Vec2(gc.getWidth()/2-title.getWidth()/2,0);
-		startGamePos = new Vec2(gc.getWidth()/2-startGame.getWidth()/2,gc.getHeight()*.27f);
-		highscorePos = new Vec2(gc.getWidth()/2-highscore.getWidth()/2, gc.getHeight()*.47f);
-		optionsPos = new Vec2(gc.getWidth()/2-options.getWidth()/2,gc.getHeight()*.68f);
-		quitGamePos = new Vec2(gc.getWidth()/2-quit.getWidth()/2,gc.getHeight()*.85f);
+		startGamePos = new Vec2(gc.getWidth()/2-startGame.getWidth()/2,gc.getHeight()*.28f);
+		highscorePos = new Vec2(gc.getWidth()/2-highscore.getWidth()/2, gc.getHeight()*.45f);
+		optionsPos = new Vec2(gc.getWidth()/2-options.getWidth()/2,gc.getHeight()*.65f);
+		quitGamePos = new Vec2(gc.getWidth()/2-quit.getWidth()/2,gc.getHeight()*.82f);
 	}
 
 	@Override
