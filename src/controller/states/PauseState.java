@@ -64,12 +64,7 @@ public class PauseState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		sbg.getState(GameApp.PLAYSTATE).render(gc, sbg, g);
-		if(gc.isFullscreen()){
-			this.background.draw(0, 0, 0.7f);
-		} else{
-			this.background.draw(0,0, 0.5f);
-
-		}
+		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		this.resume.draw(resumePos.x, resumePos.y);
 		
 		

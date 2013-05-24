@@ -246,13 +246,7 @@ public class GameOverState extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		if(gc.isFullscreen()){
-			this.background.draw(0, 0, 1.5f);
-
-		} else{
-			this.background.draw(0,0);
-
-		}
+		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		
 		if(!isWin){
 			this.youWin.draw(youWinPos.x, youWinPos.y);
