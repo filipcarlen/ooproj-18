@@ -3,10 +3,12 @@ package view;
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Camera;
-import utils.Utils;
+import utils.Navigation;
 
 import model.BulletModel;
 
@@ -14,16 +16,26 @@ public class BulletView {
 
 	private BulletModel model;
 	private int id;
+	private Image bulletR;
+	private Image bulletL;
 	
 	public BulletView(BulletModel model){
 		this.model = model;
 		this.id = model.getID();
+		try{
+			this.bulletR = new Image("res/bullet/bulletR.png");
+			this.bulletL = new Image("res/bullet/bulletL.png");
+		} catch(SlickException e){}
 	}
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		Vec2 temp = Camera.entityRender(model.getPosPixels());
-		g.drawOval(temp.x, temp.y, Utils.metersToPixels(model.RADIUS*2), Utils.metersToPixels(model.RADIUS*2));
+		if(model.getNavigation() == Navigation.EAST){
+			this.bulletR.draw(temp.x, temp.y);
+		} else{
+			this.bulletL.draw(temp.x, temp.y);
+		}
 	}
 	
 	public int getID(){

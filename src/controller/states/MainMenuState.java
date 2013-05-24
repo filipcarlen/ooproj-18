@@ -130,29 +130,30 @@ public class MainMenuState extends BasicGameState {
 		Input input = gc.getInput();
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
+		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		
 		insideStartGame = checkMouse(mouseX, mouseY, startGamePos, startGame);
 		insideQuitGame = checkMouse(mouseX, mouseY, quitGamePos, quit);
 		insideHighscore= checkMouse(mouseX, mouseY, highscorePos, highscore);
 		insideOptionsMenu = checkMouse(mouseX, mouseY, optionsPos, options);
 			
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideStartGame){	
+		if(mouseClicked && insideStartGame){	
 			Sounds.getInstance().stopMusic();
 			Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
 			sbg.enterState(GameApp.PREGAMESTATE);
 		}
 		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideOptionsMenu){
+		if(mouseClicked && insideOptionsMenu){
 			input.clearMousePressedRecord();
 			sbg.enterState(GameApp.OPTIONSSTATE);
 		}
 		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideHighscore){
+		if(mouseClicked && insideHighscore){
 			input.clearMousePressedRecord();
 			sbg.enterState(GameApp.HIGHSCORESTATE);
 		}
 		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideQuitGame){
+		if(mouseClicked && insideQuitGame){
 			gc.exit();
 		}
 	}

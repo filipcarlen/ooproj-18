@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.Controls;
 import utils.SoundType;
 import utils.Sounds;
 
@@ -124,7 +125,7 @@ public class PauseState extends BasicGameState {
 		insideMainMenu = checkMouse(mouseX, mouseY, mainMenuPos, mainMenu);
 		insideQuitGame = checkMouse(mouseX, mouseY, quitGamePos, quitGame);
 		
-		if(mouseClicked && insideResume){
+		if((mouseClicked && insideResume) || Controls.getInstance().check("pause")){
 			sbg.enterState(GameApp.PLAYSTATE);
 		}
 		if(mouseClicked && insideRestart){

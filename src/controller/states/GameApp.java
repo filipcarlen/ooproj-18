@@ -5,8 +5,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import utils.Controls;
-
 public class GameApp extends StateBasedGame{
 	public static final String gamename = "The Game";
 	public static final int MAINMENUSTATE = 0;
@@ -26,9 +24,7 @@ public class GameApp extends StateBasedGame{
 		this.addState(MainMenuState.getInstance());
 		this.addState(PlayState.getInstance());
 		this.addState(new OptionsState(OPTIONSSTATE));
-		GameOverState gameOverState = new GameOverState(GAMEOVERSTATE);
-		gameOverState.setPlayState(PlayState.getInstance());
-		this.addState(gameOverState);
+		this.addState(new GameOverState(GAMEOVERSTATE));
 		this.addState(HighscoreState.getInstance());
 		this.addState(PreGameState.getInstance());
 		this.addState(new PauseState(PAUSESTATE));
@@ -45,11 +41,6 @@ public class GameApp extends StateBasedGame{
 			super.update(gc, delta);
 		} catch (SlickException e) {
 			e.printStackTrace();
-		}
-		if(this.getCurrentStateID() == PAUSESTATE){
-			if(Controls.getInstance().check("pause")){
-				this.enterState(PLAYSTATE);
-			}
 		}
 	}
 	
