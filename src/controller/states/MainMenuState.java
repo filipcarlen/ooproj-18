@@ -29,6 +29,7 @@ public class MainMenuState extends BasicGameState {
 	private Vec2 optionsPos;
 	private Vec2 highscorePos;
 	private Vec2 quitGamePos;
+	private Vec2 titlePos;
 		
 	
 	private float leafPositionX = 0;
@@ -55,10 +56,18 @@ public class MainMenuState extends BasicGameState {
 		return instance;
 	}
 
+	public void enter(GameContainer gc, StateBasedGame sbg)
+			throws SlickException {		
+		titlePos = new Vec2(gc.getWidth()/2-title.getWidth()/2,0);
+		startGamePos = new Vec2(gc.getWidth()/2-startGame.getWidth()/2,gc.getHeight()*.27f);
+		highscorePos = new Vec2(gc.getWidth()/2-highscore.getWidth()/2, gc.getHeight()*.47f);
+		optionsPos = new Vec2(gc.getWidth()/2-options.getWidth()/2,gc.getHeight()*.68f);
+		quitGamePos = new Vec2(gc.getWidth()/2-quit.getWidth()/2,gc.getHeight()*.85f);
+	}
+
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		float screenHeight = gc.getScreenHeight();
 		initLeafs();
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		title = new Image("res/title.png");
@@ -70,28 +79,17 @@ public class MainMenuState extends BasicGameState {
 		highscore = new Image(PATH+"highscore.png");
 		highscoreHighlighted = new Image(PATH+"highscorehighlighted.png");
 		options = new Image(PATH+"options.png");
-		optionsHighlighted = new Image(PATH+"optionshighlighted.png");
-		
-		float spacing = (screenHeight - title.getHeight() -
-				3*startGame.getHeight() - options.getHeight())/4;
-		
-		startGamePos = new Vec2(gc.getWidth()/2-startGame.getWidth()/2,title.getHeight());
-		highscorePos = new Vec2(gc.getWidth()/2-highscore.getWidth()/2, startGamePos.y+spacing);
-		optionsPos = new Vec2(gc.getWidth()/2-options.getWidth()/2,highscorePos.y+spacing);
-		quitGamePos = new Vec2(gc.getWidth()/2-quit.getWidth()/2,optionsPos.y+spacing);
-		
-		
-		
+		optionsHighlighted = new Image(PATH+"optionshighlighted.png");	
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		
-		changeLeafPosition();
+		changeLeafPosition(gc);
 		background.draw(0,0);
 		g.drawAnimation(leafAnimation, leafPositionX, leafPositionY);
-		title.draw(0,0);
+		title.draw(titlePos.x,titlePos.y);
 		
 		if(insideStartGame){
 			startGameHighlighted.draw(startGamePos.x,startGamePos.y);
@@ -179,17 +177,17 @@ public class MainMenuState extends BasicGameState {
 		leafAnimation = new Animation(leafs, 100);
 	}
 	
-	public void changeLeafPosition(){
+	public void changeLeafPosition(GameContainer gc){
 		Random rand = new Random();
 		this.leafPositionX = this.leafPositionX + 1.5f;
 		this.leafPositionY = this.leafPositionY + 1f;
 		
-		if(this.leafPositionX >= 900){
+		if(this.leafPositionX >= gc.getWidth()){
 			this.leafPositionX = leafStartPositionX;
 			this.leafPositionY = leafStartPositionY[rand.nextInt(12)];
 		}
 		
-		if(this.leafPositionY >= 600){
+		if(this.leafPositionY >= gc.getHeight()){
 			this.leafPositionX = leafStartPositionX;
 			this.leafPositionY = leafStartPositionY[rand.nextInt(12)];
 		}
