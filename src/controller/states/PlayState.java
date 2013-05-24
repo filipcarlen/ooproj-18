@@ -111,7 +111,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.drawImage(background, 0, 0);
+		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		worldMap.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 		playstateview.render(gc, sbg, g);
 		try{
@@ -139,7 +139,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			heroController.update(gc, sbg, delta);
 		}catch(NullPointerException e){}
 		if(Controls.getInstance().check("pause")){
-			sbg.enterState(GameApp.PAUSESTATE);
+			//sbg.enterState(GameApp.PAUSESTATE);
 		}
 		
 		if(worldMap.isInGoalArea(hero.getPosMeters())){
