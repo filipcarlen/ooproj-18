@@ -1,7 +1,7 @@
 package utils;
 
 public enum WeaponType {
-	gun,
-	sword,
-	fist;
+	GUN,
+	SWORD,
+	FIST;
 }
