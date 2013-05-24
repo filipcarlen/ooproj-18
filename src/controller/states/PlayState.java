@@ -79,10 +79,11 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Sounds.getInstance().stopMusic();
 		Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
+		loadHero("bluepants", worldMap.getHeroPosition(), heroWeapon);
+		playstateview = new PlayStateView(hero);
 		if(endGame){
 			reTry();
-		}else
-			loadHero("bluepants", worldMap.getHeroPosition(), heroWeapon);
+		}
 		camera = new Camera(gc.getWidth(), gc.getHeight(), 
 				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
 				new Rectangle((int)((gc.getWidth()*0.3)/2), (int)((gc.getHeight()*0.3)/2)), hero.getPosPixels());
@@ -104,9 +105,6 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		}
 		
 		newGame("level1");
-
-		// Camera
-		playstateview = new PlayStateView(hero);
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -191,7 +189,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		this.bodies = bodies;
 		for(IEntityModel b: bodies){
 			if(b instanceof MovingFoeModel){
-				if(((MovingFoeModel)b).getWeapon().getWeaponType() == WeaponType.gun)
+				if(((MovingFoeModel)b).getWeapon().getWeaponType() == WeaponType.GUN)
 					controllers.add(new GunController((GunModel) ((MovingFoeModel)b).getWeapon()));
 				else
 					controllers.add(new SwordController((SwordModel) ((MovingFoeModel)b).getWeapon()));
@@ -262,7 +260,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		}
 		for(int i = 0; i < bodies.size(); i++){
 			if(((IEntityModel)bodies.get(i)).getID() == id){
-				if((bodies.get(i) instanceof MovingFoeModel) && ((MovingFoeModel)bodies.get(i)).getWeapon().getWeaponType() == WeaponType.gun){
+				if((bodies.get(i) instanceof MovingFoeModel) && ((MovingFoeModel)bodies.get(i)).getWeapon().getWeaponType() == WeaponType.GUN){
 					gunThatsActive.add((GunModel)((MovingFoeModel)bodies.get(i)).getWeapon());
 					break;
 				}else{
@@ -274,7 +272,11 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 	
 	public void setWeaponInUse(WeaponType wt){
-		
+		if(wt == WeaponType.GUN){
+			heroWeapon =new GunModel(world, 500, 20, 15, 1337);
+		}else if(wt ==WeaponType.SWORD){
+			heroWeapon = new SwordModel(world, 200, 40, 1337);
+		}
 	}
 
 	@Override

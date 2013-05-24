@@ -50,6 +50,8 @@ public class HeroModel implements IAliveModel{
 	
 	private boolean canLoadBody = false;
 	
+	public enum healthpoints{Full, Heal, Hurt};
+	
 	private Body body;
 	
 	private World world;

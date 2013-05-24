@@ -12,6 +12,7 @@ import model.SwordModel;
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Controls;
@@ -70,9 +71,9 @@ public class HeroController implements IEntityController, ActionListener {
 			/* Sets the dimension of the hero after the slimmest animation standing*/
 			model.setDimension(view.getWidth(), view.getHeight());
 		}
-		if(model.getWeaponType() == WeaponType.gun)
+		if(model.getWeaponType() == WeaponType.GUN)
 			controller = new GunController((GunModel) model.getWeapon());
-		else if(model.getWeaponType() == WeaponType.sword){
+		else if(model.getWeaponType() == WeaponType.SWORD){
 			controller = new SwordController((SwordModel) model.getWeapon());
 		}
 		if (!Controls.getInstance().isControlsSet())
@@ -98,7 +99,7 @@ public class HeroController implements IEntityController, ActionListener {
 		model.getBody().setLinearDamping(1.5f);
 	
 		if(model.isHurted() && !hurtTimer.isRunning()){
-			view.setAnimation(model.isHurtedFront()? HeroView.Movement.hurt: HeroView.Movement.hurtback, model.getDirection());
+			view.setAnimation(model.isHurtedFront()? HeroView.Movement.HURT: HeroView.Movement.HURTBACK, model.getDirection());
 			hurtTimer.start();
 		}
 		
@@ -114,7 +115,7 @@ public class HeroController implements IEntityController, ActionListener {
 			 * left animation
 			 */
 			if (!jump && !model.isFalling() && !model.isHurted()&& !fight)
-				view.setAnimation(HeroView.Movement.run, model.getDirection());
+				view.setAnimation(HeroView.Movement.RUN, model.getDirection());
 		}
 		if (Controls.getInstance().check("right") && !Controls.getInstance().check("left")) {
 			model.setDirection(Navigation.EAST);
@@ -125,12 +126,12 @@ public class HeroController implements IEntityController, ActionListener {
 			 * right animation
 			 */
 			if (!jump && !model.isFalling() && !model.isHurted()&& !fight)
-				view.setAnimation(HeroView.Movement.run, model.getDirection());
+				view.setAnimation(HeroView.Movement.RUN, model.getDirection());
 		}
 		if (Controls.getInstance().check("jump")) {
 			move = true;
 			/* This will start the jump animation */
-			view.setAnimation(HeroView.Movement.jump, model.getDirection());
+			view.setAnimation(HeroView.Movement.JUMP, model.getDirection());
 			/* This check that we haven't jumped two times */
 			if (model.getDoubleJump() < 2){
 				jump = true;
@@ -144,7 +145,7 @@ public class HeroController implements IEntityController, ActionListener {
 		 * isn't jumping or fighting
 		 */
 		if (!jump && !model.isFalling() && !model.isHurted()&& !fight && !move && !model.isInAir()){
-			view.setAnimation(HeroView.Movement.stand, model.getDirection());
+			view.setAnimation(HeroView.Movement.STAND, model.getDirection());
 			model.getBody().setLinearDamping(5f);
 		}
 		
@@ -154,9 +155,9 @@ public class HeroController implements IEntityController, ActionListener {
 			 * the attack method with it's weapon
 			 */
 			if(model.attack()){
-				if(model.getWeaponType() == WeaponType.gun)
+				if(model.getWeaponType() == WeaponType.GUN)
 					Sounds.getInstance().playSound(SoundType.GUN);
-				else if(model.getWeaponType() == WeaponType.sword)
+				else if(model.getWeaponType() == WeaponType.SWORD)
 					Sounds.getInstance().playSound(SoundType.SWORD);
 				fight = true;
 				fightTimer.start();
@@ -179,7 +180,7 @@ public class HeroController implements IEntityController, ActionListener {
 			}
 		}
 		if(model.getBody().m_linearVelocity.y > 0.001f ){
-			view.setAnimation(HeroView.Movement.fall, model.getDirection());
+			view.setAnimation(HeroView.Movement.FALL, model.getDirection());
 			model.falling();
 		}
 		controller.update(gc, sbg, delta);
@@ -198,6 +199,10 @@ public class HeroController implements IEntityController, ActionListener {
 	@Override
 	public int getID() {
 		return -1;
+	}
+	
+	public void updateWeaponAnimation(){
+		view.loadWeaponAnimation(model.getName(), model.getWeaponType());
 	}
 
 	@Override

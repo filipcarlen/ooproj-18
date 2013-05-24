@@ -25,9 +25,10 @@ public class HeroView {
 	private Animation currentAnimation = new Animation();
 	private List <Animation> animations = new ArrayList<Animation>();
 	private int [] duration = {200, 200};
-	public enum Movement{run, stand, jump, fall, hurt, hurtback, die};
+	public enum Movement{RUN, STAND, JUMP, FALL, HURT, HURTBACK, DIE};
 	private String[] nbrOfAnimations = {"1", "2", "3", "4", "5", "6", "7", "8"};
 	private String[] direction= {"right", "left"};
+	private boolean loadedweapon= false;
 	
 	public HeroView(HeroModel hm, WeaponType weaponType){
 		this.heroModel = hm;
@@ -50,7 +51,7 @@ public class HeroView {
 				ArrayList<Image> image = new ArrayList<Image>();
 				for(int k = 0; k < nbrOfAnimations.length; k++){
 					try{
-						image.add(new Image("res/Characters/"+ s + "/"+ Movement.values()[j] + "_" + direction[i] + "_" + nbrOfAnimations[k] + ".png"));
+						image.add(new Image("res/Characters/"+ s + "/"+ Movement.values()[j].toString().toLowerCase() + "_" + direction[i] + "_" + nbrOfAnimations[k] + ".png"));
 					}catch(RuntimeException e){
 						break;
 					}
@@ -64,14 +65,23 @@ public class HeroView {
 				animations.add(new Animation(toArray(image) , duration, true));
 			}
 		}
+		loadWeaponAnimation(s, weapontype);
+		currentAnimation = animations.get(1);
+	}
+	
+	public void loadWeaponAnimation(String s, WeaponType weapontype){
+		if(loadedweapon){
+			animations.remove(animations.size()-1);
+			animations.remove(animations.size()-1);
+		}
 		for(int i = 0; i < direction.length; i++){
 			ArrayList<Image> image = new ArrayList<Image>();
 			for(int j = 0; j < nbrOfAnimations.length; j ++){
 				try{
-					image.add(new Image("res/Characters/"+ s + "/"+ weapontype + "_" + direction[i] + "_" + nbrOfAnimations[j] + ".png"));
+					image.add(new Image("res/Characters/"+ s + "/"+ weapontype.toString().toLowerCase() + "_" + direction[i] + "_" + nbrOfAnimations[j] + ".png"));
 				}catch(RuntimeException e){
 					break;
-				}
+				}catch(SlickException e){}
 			}
 			if(image.size() != duration.length){
 				duration = new int[image.size()];
@@ -81,7 +91,7 @@ public class HeroView {
 			}
 			animations.add(new Animation(toArray(image), duration, true));
 		}
-		currentAnimation = animations.get(1);
+		loadedweapon = true;
 	}
 	
 	public Image[] toArray(ArrayList<Image> imageList){
@@ -94,21 +104,10 @@ public class HeroView {
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		if(heroModel.isDead())
-			setAnimation(Movement.die, heroModel.getDirection());
+			setAnimation(Movement.DIE, heroModel.getDirection());
 		Vec2 tmp = Camera.entityRender(heroModel.getPosPixels());
 		/* Draws the animation */
 		g.drawAnimation(currentAnimation, tmp.x, tmp.y);
-		/* Draws the health bar above the hero */
-		/*g.setColor(Color.white);
-		g.drawRect(tmp.x, tmp.y - 15, 101, 11);
-		g.setColor(Color.red);
-		g.fillRect(tmp.x + 1, tmp.y - 14, heroModel.getHp(), 10);
-		g.setColor(Color.white);
-		/* Draws the name of the hero above the character and health bar */
-		/*g.setColor(Color.white);
-		g.drawString(heroModel.getName(), tmp.x, tmp.y - 40);
-		/* Draws your scores*/
-		//g.setColor(Color.white);
 	}
 	
 	/**
@@ -127,25 +126,25 @@ public class HeroView {
 			i = 0;
 		}
 		switch(m){
-		case run:
+		case RUN:
 			currentAnimation = animations.get(0 + i);
 			break;
-		case stand:
+		case STAND:
 			currentAnimation = animations.get(1 + i);
 			break;
-		case jump:
+		case JUMP:
 			currentAnimation = animations.get(2 + i);
 			break;
-		case fall:
+		case FALL:
 			currentAnimation = animations.get(3 + i);
 			break;
-		case hurt:
+		case HURT:
 			currentAnimation = animations.get(4 + i);
 			break;
-		case hurtback:
+		case HURTBACK:
 			currentAnimation = animations.get(5 + i);
 			break;
-		case die:
+		case DIE:
 			if(currentAnimation != animations.get(13 - i)){
 				currentAnimation = animations.get(13 - i);
 				currentAnimation.setLooping(false);

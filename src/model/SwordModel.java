@@ -38,7 +38,7 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel, Act
 	public final float RADIUS = 0.15f;
 	
 	public SwordModel(World world, int reloadTime, int damage, int ID){
-		super(world, damage, 1f, WeaponType.sword);
+		super(world, damage, 1f, WeaponType.SWORD);
 		this.ID = ID;
 		this.timer = new Timer(reloadTime, this);
 

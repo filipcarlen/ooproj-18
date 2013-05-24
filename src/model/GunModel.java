@@ -26,7 +26,7 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 	private ArrayList<BulletModel> bulletModels = new ArrayList<BulletModel>();
 
 	public GunModel(World world, int reloadTime, int damage, float range, int ID){
-		super(world, damage, range, WeaponType.gun);
+		super(world, damage, range, WeaponType.GUN);
 		this.IDCount = 1;
 		this.ID = ID;
 		this.timer = new Timer(reloadTime, this);
