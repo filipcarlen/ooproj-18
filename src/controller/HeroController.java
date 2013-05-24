@@ -193,11 +193,6 @@ public class HeroController implements IEntityController, ActionListener {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		view.render(gc, sbg, g);
 		controller.render(gc, sbg, g);
-		g.drawString("\nCoins;" + model.getCoinAmount() +
-				"\nGems:" + model.getGemAmount() +
-				"\nScore:" + model.getScore() +
-				"\nKills:" + model.getKills() + 
-				"\nVector: " + model.getBody().getLinearDamping(), gc.getWidth() -400, 2);
 	}
 
 	@Override
