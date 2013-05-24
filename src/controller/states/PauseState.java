@@ -1,7 +1,5 @@
 package controller.states;
 
-import model.HeroModel;
-
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -13,8 +11,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import utils.SoundType;
 import utils.Sounds;
-import controller.HighscoreManager;
-import controller.IPlayStateController;
 
 public class PauseState extends BasicGameState {
 
@@ -38,18 +34,32 @@ public class PauseState extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		this.background = new Image("res/PauseMenu/bakgrund.png");
-		this.resume = new Image("res/GameOver/PlayAgain.png");
-		this.resumeH = new Image("res/GameOver/PlayAgainH.png");
 		
-
+		this.background = new Image("res/PauseMenu/background.png");
 		
+		this.resume = new Image("res/PauseMenu/resume.png");
+		this.resumeH = new Image("res/PauseMenu/resumeH.png");
+		this.restart = new Image("res/PauseMenu/restart.png");
+		this.restartH = new Image("res/PauseMenu/restartH.png");
+		this.options = new Image("res/PauseMenu/options.png");
+		this.optionsH = new Image("res/PauseMenu/optionsH.png");
+		this.mainMenu = new Image("res/PauseMenu/mainMenu.png");
+		this.mainMenuH = new Image("res/PauseMenu/mainMenuH.png");
+		this.quitGame = new Image("res/PauseMenu/quitGame.png");
+		this.quitGameH = new Image("res/PauseMenu/quitGameH.png");
 	}
 	
-	public void initPositions(GameContainer container, StateBasedGame sbg){
+	public void initPositions(GameContainer gc, StateBasedGame sbg){
 		
+		float screenWidth = gc.getWidth();
+		float screenHeight = gc.getHeight();
 		
-		this.resumePos = new Vec2(400, 200);
+		this.resumePos = new Vec2(screenWidth/2 - resume.getWidth()/2, screenHeight*0.42f);
+		this.restartPos = new Vec2(resumePos.x, screenHeight*0.52f);
+		this.optionsPos = new Vec2(resumePos.x, screenHeight*0.62f);
+		this.mainMenuPos = new Vec2(resumePos.x, screenHeight*0.72f);
+		this.quitGamePos = new Vec2(resumePos.x, screenHeight*0.82f);
+
 
 	}
 	
@@ -65,7 +75,37 @@ public class PauseState extends BasicGameState {
 			throws SlickException {
 		sbg.getState(GameApp.PLAYSTATE).render(gc, sbg, g);
 		background.draw(0, 0, gc.getWidth(), gc.getHeight());
-		this.resume.draw(resumePos.x, resumePos.y);
+		
+		if(insideResume){
+			this.resumeH.draw(resumePos.x, resumePos.y);
+		} else{
+			this.resume.draw(resumePos.x, resumePos.y);
+		}
+		
+		if(insideRestart){
+			this.restartH.draw(restartPos.x, restartPos.y);
+		} else{
+			this.restart.draw(restartPos.x, restartPos.y);
+		}
+		
+		if(insideOptions){
+			this.optionsH.draw(optionsPos.x, optionsPos.y);
+		} else{
+			this.options.draw(optionsPos.x, optionsPos.y);
+		}
+		
+		if(insideMainMenu){
+			this.mainMenuH.draw(mainMenuPos.x, mainMenuPos.y);
+		} else{
+			this.mainMenu.draw(mainMenuPos.x, mainMenuPos.y);
+		}
+		
+		if(insideQuitGame){
+			this.quitGameH.draw(quitGamePos.x, quitGamePos.y);
+		} else{
+			this.quitGame.draw(quitGamePos.x, quitGamePos.y);
+		}
+		
 		
 		
 	}
@@ -76,22 +116,28 @@ public class PauseState extends BasicGameState {
 		Input input = gc.getInput();
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
+		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		
 		insideResume = checkMouse(mouseX, mouseY, resumePos, resume);
+		insideRestart = checkMouse(mouseX, mouseY, restartPos, restart);
+		insideOptions = checkMouse(mouseX, mouseY, optionsPos, options);
+		insideMainMenu = checkMouse(mouseX, mouseY, mainMenuPos, mainMenu);
+		insideQuitGame = checkMouse(mouseX, mouseY, quitGamePos, quitGame);
 		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideResume){
+		if(mouseClicked && insideResume){
 			sbg.enterState(GameApp.PLAYSTATE);
 		}
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideRestart){
+		if(mouseClicked && insideRestart){
+			((PlayState)sbg.getState(GameApp.PLAYSTATE)).reTry();
 			sbg.enterState(GameApp.PLAYSTATE);
 		}
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideOptions){
+		if(mouseClicked && insideOptions){
 			sbg.enterState(GameApp.OPTIONSSTATE);
 		}
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideMainMenu){
+		if(mouseClicked && insideMainMenu){
 			sbg.enterState(GameApp.MAINMENUSTATE);
 		}
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideQuitGame){
+		if(mouseClicked && insideQuitGame){
 			gc.exit();
 		}
 	}

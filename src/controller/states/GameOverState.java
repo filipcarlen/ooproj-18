@@ -19,13 +19,11 @@ import utils.SoundType;
 import utils.Sounds;
 
 import controller.HighscoreManager;
-import controller.IPlayStateController;
 
 public class GameOverState extends BasicGameState{
 
 	private HighscoreManager highscoreManager;
 	private int stateID;
-	private IPlayStateController playState;
 	private float spacing;
 	private float crossScaling = 0.8f;
 	
@@ -40,19 +38,20 @@ public class GameOverState extends BasicGameState{
 	
 	private final String IMAGE_PATH = "res/GameOver/";
 	private final String DISCO_BALL_PATH = "res/GameOver/disco_ball/";
+	private final String DANCING_HERO_PATH = "res/Characters/BluePants/";
 	private final String COIN_PATH = "res/Collectibles/Coin/";
 	private final String FOE_PATH = "res/foe/moving_foe/foe_right/";
 	private final String GEM_PATH = "res/Collectibles/Gem/";
 	
 	private Animation coin, foe, gem;
-	private Animation dancingHero, sadHero, discoBall;
+	private Animation dancingHero, discoBall;
 	
 	private Vec2 coinPos, foePos, gemPos; 
-	private Vec2 dancingHeroPos, sadHeroPos, discoBallPos;
+	private Vec2 dancingHeroPos, discoBallPos;
 	
-	private Image failSign;
+	private Image grave;
 	private Image danceFloor;
-	private Vec2 failSignPos, danceFloorPos;
+	private Vec2 gravePos, danceFloorPos;
 	
 	private Image zero, one, two, three, four, five, six, seven, eight, nine, cross;
 	private Image total, points;
@@ -90,6 +89,7 @@ public class GameOverState extends BasicGameState{
 		this.spacing = 20;
 		
 		initDiscoBall();
+		initDancingHero();
 		initCoin();
 		initFoe();
 		initGem();
@@ -97,6 +97,7 @@ public class GameOverState extends BasicGameState{
 		this.background = new Image("res/background.png");
 		
 		this.danceFloor = new Image(IMAGE_PATH + "danceFloor.png");
+		this.grave = new Image(IMAGE_PATH + "grave.png");
 		
 		this.zero = new Image(IMAGE_PATH + "zero.png");
 		this.one = new Image(IMAGE_PATH + "one.png");
@@ -135,37 +136,43 @@ public class GameOverState extends BasicGameState{
 		float screenWidth = gc.getWidth();
 		float screenHeight = gc.getHeight();
 		
-		this.youWinPos = new Vec2(screenWidth/2 - youWin.getWidth()/2, this.spacing);
-		this.youLosePos = new Vec2(screenWidth/2 - youLose.getWidth()/2, this.spacing);
+		this.youWinPos = new Vec2(screenWidth/2 - this.youWin.getWidth()/2, this.spacing);
+		this.youLosePos = new Vec2(screenWidth/2 - this.youLose.getWidth()/2, this.spacing);
 		
-		float tmpSpacing = (float)(screenWidth - quitGame.getWidth()*3)/4f;
-		this.quitGamePos = new Vec2(tmpSpacing, screenHeight - quitGame.getHeight() - this.spacing);
-		this.mainMenuPos = new Vec2(tmpSpacing*2 + quitGame.getWidth(), screenHeight - quitGame.getHeight() - this.spacing);
-		this.playAgainPos = new Vec2(tmpSpacing*3 + quitGame.getWidth()*2, screenHeight - quitGame.getHeight() - this.spacing);
+		float tmpSpacing = (float)(screenWidth - this.quitGame.getWidth()*3)/4f;
+		this.quitGamePos = new Vec2(tmpSpacing, screenHeight - this.quitGame.getHeight() - this.spacing);
+		this.mainMenuPos = new Vec2(tmpSpacing*2 + this.quitGame.getWidth(), screenHeight - this.quitGame.getHeight() - this.spacing);
+		this.playAgainPos = new Vec2(tmpSpacing*3 + this.quitGame.getWidth()*2, screenHeight - this.quitGame.getHeight() - this.spacing);
 		
-		float spaceY = (screenHeight - youWinPos.y - youWin.getHeight() - (screenHeight - this.mainMenuPos.y) 
+		float spaceY = (screenHeight - this.youWinPos.y - this.youWin.getHeight() - (screenHeight - this.mainMenuPos.y) 
 				- (this.zero.getHeight()*4 + this.spacing*4))/2;
 
-		this.coinAmountPos = new Vec2(this.youLosePos.x, this.youLosePos.y + youLose.getHeight() + spaceY);
-		this.foeAmountPos = new Vec2(this.youLosePos.x, coinAmountPos.y + this.zero.getHeight() + this.spacing);
-		this.gemAmountPos = new Vec2(this.youLosePos.x, foeAmountPos.y + this.zero.getHeight() + this.spacing);
+		this.coinAmountPos = new Vec2(this.youLosePos.x, this.youLosePos.y + this.youLose.getHeight() + spaceY);
+		this.foeAmountPos = new Vec2(this.youLosePos.x, this.coinAmountPos.y + this.zero.getHeight() + this.spacing);
+		this.gemAmountPos = new Vec2(this.youLosePos.x, this.foeAmountPos.y + this.zero.getHeight() + this.spacing);
 
-		this.danceFloorPos = new Vec2(this.youLosePos.x + youLose.getWidth() - this.zero.getWidth()*3, screenHeight/2 - danceFloor.getHeight()/2 - this.spacing);
+		this.danceFloorPos = new Vec2(this.youLosePos.x + this.youLose.getWidth() - this.zero.getWidth()*3, screenHeight/2 - this.danceFloor.getHeight()/2 - this.spacing);
 		this.discoBallPos = new Vec2(this.danceFloorPos.x + this.danceFloor.getWidth()/2 - this.discoBall.getWidth()/2, this.danceFloorPos.y - this.spacing);
+		this.dancingHeroPos = new Vec2(this.discoBallPos.x + this.discoBall.getWidth()/2 - this.dancingHero.getWidth()/2, this.discoBallPos.y + this.discoBall.getHeight()*2);
+		
+		this.gravePos = new Vec2(screenWidth/2 + this.spacing, screenHeight/2 - this.spacing*3);
 		
 		this.crossPosses[0] = new Vec2(this.coinAmountPos.x - this.cross.getWidth()*this.crossScaling - this.spacing*2, this.coinAmountPos.y + this.zero.getHeight()/2 - this.cross.getHeight()*this.crossScaling/2);
 		this.crossPosses[1] = new Vec2(this.foeAmountPos.x - this.cross.getWidth()*this.crossScaling - this.spacing*2, this.foeAmountPos.y + this.zero.getHeight()/2 - this.cross.getHeight()*this.crossScaling/2);
 		this.crossPosses[2] = new Vec2(this.gemAmountPos.x - this.cross.getWidth()*this.crossScaling - this.spacing*2, this.gemAmountPos.y + this.zero.getHeight()/2 - this.cross.getHeight()*this.crossScaling/2);
 		
-		this.coinPos = new Vec2(crossPosses[0].x - coin.getWidth() - this.spacing*3, crossPosses[0].y + cross.getHeight()*this.crossScaling/2 - coin.getHeight()/2);
-		this.foePos = new Vec2(crossPosses[1].x - nine.getWidth() - this.spacing*3, crossPosses[1].y + cross.getHeight()*this.crossScaling/2 - nine.getHeight()/2);
-		this.gemPos = new Vec2(crossPosses[2].x - gem.getWidth() - this.spacing*3, crossPosses[2].y + cross.getHeight()*this.crossScaling/2 - gem.getHeight()/2);
+		this.coinPos = new Vec2(this.crossPosses[0].x - this.coin.getWidth() - this.spacing*3, this.crossPosses[0].y + this.cross.getHeight()*this.crossScaling/2 - this.coin.getHeight()/2);
+		this.foePos = new Vec2(this.crossPosses[1].x - this.nine.getWidth() - this.spacing*3, this.crossPosses[1].y + this.cross.getHeight()*this.crossScaling/2 - this.nine.getHeight()/2);
+		this.gemPos = new Vec2(this.crossPosses[2].x - this.gem.getWidth() - this.spacing*3, this.crossPosses[2].y + this.cross.getHeight()*this.crossScaling/2 - this.gem.getHeight()/2);
 		
 		this.totalScorePos = new Vec2(this.youLosePos.x, this.gemAmountPos.y + this.zero.getHeight() + this.spacing*2);
 		this.totalPos = new Vec2(this.totalScorePos.x - this.total.getWidth() - this.spacing, this.totalScorePos.y + this.zero.getHeight()/2 - this.total.getHeight()/2);
 		this.pointsPos = new Vec2(this.totalScorePos.x + this.zero.getWidth()*3 + this.spacing, this.totalPos.y + this.total.getHeight()/2 - this.points.getHeight()/2);
 	}
 	
+	/**
+	 * Initialize the animation of a coin
+	 */
 	public void initCoin(){
 		Image[] coinImages = new Image[8];
 		try{
@@ -173,12 +180,11 @@ public class GameOverState extends BasicGameState{
 				coinImages[i] = new Image(COIN_PATH + "coin_" + (i+1) + ".png");
 			}
 		} catch(SlickException e){}
-		coin = new Animation(coinImages, 100);
+		this.coin = new Animation(coinImages, 100);
 	}
 	
 	/**
 	 * Initialize the animation of a gem
-	 * @throws SlickException
 	 */
 	public void initGem(){
 		Image[] gemImages = new Image[8];
@@ -187,12 +193,11 @@ public class GameOverState extends BasicGameState{
 				gemImages[i] = new Image(GEM_PATH + "gem_" + i + ".png");
 			}
 		} catch(SlickException e){}
-		gem = new Animation(gemImages, 150);
+		this.gem = new Animation(gemImages, 150);
 	}
 	
 	/**
 	 * Initialize the animation of a gem
-	 * @throws SlickException
 	 */
 	public void initFoe(){
 		Image[] foeImages = new Image[12];
@@ -201,12 +206,11 @@ public class GameOverState extends BasicGameState{
 				foeImages[i] = new Image(FOE_PATH + "foe_right_" + (i+1) + ".png");
 			}
 		} catch(SlickException e){}
-		foe = new Animation(foeImages, 100);
+		this.foe = new Animation(foeImages, 100);
 	}
 	
 	/**
 	 * Initialize the animation of a disco ball
-	 * @throws SlickException
 	 */
 	public void initDiscoBall(){
 		Image[] discoBallImages = new Image[12];
@@ -216,7 +220,21 @@ public class GameOverState extends BasicGameState{
 			}
 		} catch(SlickException e){}
 		
-		discoBall = new Animation(discoBallImages, 150);
+		this.discoBall = new Animation(discoBallImages, 150);
+	}
+	
+	/**
+	 * Initialize the animation of a dancing hero
+	 */
+	public void initDancingHero(){
+		Image[] dancingHeroImages = new Image[6];
+		try{
+			for(int i = 0; i < dancingHeroImages.length; i++){
+				dancingHeroImages[i] = new Image(DANCING_HERO_PATH + "run_right_" + (i+1) + ".png");
+			}
+		} catch(SlickException e){}
+		
+		this.dancingHero = new Animation(dancingHeroImages, 300);
 	}
 	
 	@Override
@@ -225,7 +243,7 @@ public class GameOverState extends BasicGameState{
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		initPositions(gc, sbg);
 		
-		HeroModel model = this.playState.getHeroModel();
+		HeroModel model = ((PlayState)sbg.getState(GameApp.PLAYSTATE)).getHeroModel();
 		this.isWin = !model.isDead();
 
 		int coins = model.getCoinAmount();
@@ -235,7 +253,7 @@ public class GameOverState extends BasicGameState{
 		String playerName = "Player";
 		
 		this.highscoreManager = new HighscoreManager();
-		highscoreManager.addScore(playerName, score, coins, gems, foes);
+		this.highscoreManager.addScore(playerName, score, coins, gems, foes);
 		
 		this.coinAmount = numberToImages(coins);
 		this.foeAmount = numberToImages(foes);
@@ -248,59 +266,63 @@ public class GameOverState extends BasicGameState{
 			throws SlickException {
 		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		
-		if(!isWin){
-			this.youWin.draw(youWinPos.x, youWinPos.y);
-			this.danceFloor.draw(danceFloorPos.x, danceFloorPos.y);
-			this.discoBall.draw(discoBallPos.x, discoBallPos.y);
+		if(isWin){
+			this.youWin.draw(this.youWinPos.x, this.youWinPos.y);
+			this.danceFloor.draw(this.danceFloorPos.x, this.danceFloorPos.y);
+			this.discoBall.draw(this.discoBallPos.x, this.discoBallPos.y);
+			this.dancingHero.draw(this.dancingHeroPos.x, this.dancingHeroPos.y);
 		} else{
-			this.youLose.draw(youLosePos.x, youLosePos.y);
+			this.youLose.draw(this.youLosePos.x, this.youLosePos.y);
+			this.grave.draw(this.gravePos.x, this.gravePos.y);
 		}
 		
-		this.coin.draw(coinPos.x, coinPos.y);
-		this.foe.draw(foePos.x, foePos.y);
-		this.gem.draw(gemPos.x, gemPos.y);
+		this.coin.draw(this.coinPos.x, this.coinPos.y);
+		this.foe.draw(this.foePos.x, this.foePos.y);
+		this.gem.draw(this.gemPos.x, this.gemPos.y);
 		
-		for(int i = 0; i < crossPosses.length; i++){
-			this.cross.draw(crossPosses[i].x, crossPosses[i].y, crossScaling);
+		for(int i = 0; i < this.crossPosses.length; i++){
+			this.cross.draw(this.crossPosses[i].x, this.crossPosses[i].y, this.crossScaling);
 		}
 		
-		for(int i = 0; i < coinAmount.size(); i++){
-			this.coinAmount.get(i).draw(coinAmountPos.x + this.zero.getWidth()*i, coinAmountPos.y);
+		for(int i = 0; i < this.coinAmount.size(); i++){
+			this.coinAmount.get(i).draw(this.coinAmountPos.x + this.zero.getWidth()*i, this.coinAmountPos.y);
 		}
-		for(int i = 0; i < foeAmount.size(); i++){
-			this.foeAmount.get(i).draw(foeAmountPos.x + this.zero.getWidth()*i, foeAmountPos.y);
+		for(int i = 0; i < this.foeAmount.size(); i++){
+			this.foeAmount.get(i).draw(this.foeAmountPos.x + this.zero.getWidth()*i, this.foeAmountPos.y);
 		}
-		for(int i = 0; i < gemAmount.size(); i++){
-			this.gemAmount.get(i).draw(gemAmountPos.x + this.zero.getWidth()*i, gemAmountPos.y);
+		for(int i = 0; i < this.gemAmount.size(); i++){
+			this.gemAmount.get(i).draw(this.gemAmountPos.x + this.zero.getWidth()*i, this.gemAmountPos.y);
 		}
 
-		this.total.draw(totalPos.x, totalPos.y);
-		for(int i = 0; i < totalScore.size(); i++){
-			this.totalScore.get(i).draw(totalScorePos.x + this.zero.getWidth()*i, totalScorePos.y);
+		this.total.draw(this.totalPos.x, this.totalPos.y);
+		for(int i = 0; i < this.totalScore.size(); i++){
+			this.totalScore.get(i).draw(this.totalScorePos.x + this.zero.getWidth()*i, this.totalScorePos.y);
 		}
 		this.points.draw(this.pointsPos.x, this.pointsPos.y);
 		
-		if(insideQuitGame){
-			this.quitGameH.draw(quitGamePos.x, quitGamePos.y);
+		if(this.insideQuitGame){
+			this.quitGameH.draw(this.quitGamePos.x, this.quitGamePos.y);
 		} else{
-			this.quitGame.draw(quitGamePos.x, quitGamePos.y);
+			this.quitGame.draw(this.quitGamePos.x, this.quitGamePos.y);
 		}
-		if(insideMainMenu){
-			this.mainMenuH.draw(mainMenuPos.x, mainMenuPos.y);
+		
+		if(this.insideMainMenu){
+			this.mainMenuH.draw(this.mainMenuPos.x, this.mainMenuPos.y);
 		} else{
-			this.mainMenu.draw(mainMenuPos.x, mainMenuPos.y);
+			this.mainMenu.draw(this.mainMenuPos.x, this.mainMenuPos.y);
 		}
-		if(isWin){
-			if(insidePlayAgain){
-				this.playAgainH.draw(playAgainPos.x, playAgainPos.y);
+		
+		if(this.isWin){
+			if(this.insidePlayAgain){
+				this.playAgainH.draw(this.playAgainPos.x, this.playAgainPos.y);
 			} else{
-				this.playAgain.draw(playAgainPos.x, playAgainPos.y);
+				this.playAgain.draw(this.playAgainPos.x, this.playAgainPos.y);
 			}
 		} else{
-			if(insidePlayAgain){
-				this.tryAgainH.draw(playAgainPos.x, playAgainPos.y);
+			if(this.insidePlayAgain){
+				this.tryAgainH.draw(this.playAgainPos.x, this.playAgainPos.y);
 			} else{
-				this.tryAgain.draw(playAgainPos.x, playAgainPos.y);
+				this.tryAgain.draw(this.playAgainPos.x, this.playAgainPos.y);
 			}
 		}
 	}
@@ -312,23 +334,26 @@ public class GameOverState extends BasicGameState{
 		Input input = gc.getInput();
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
+		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		
-		insideQuitGame = checkMouse(mouseX, mouseY, quitGamePos, quitGame);
-		insideMainMenu = checkMouse(mouseX, mouseY, mainMenuPos, mainMenu);
-		insidePlayAgain = checkMouse(mouseX, mouseY, playAgainPos, playAgain);
+		this.insideQuitGame = checkMouse(mouseX, mouseY, this.quitGamePos, this.quitGame);
+		this.insideMainMenu = checkMouse(mouseX, mouseY, this.mainMenuPos, this.mainMenu);
+		this.insidePlayAgain = checkMouse(mouseX, mouseY, this.playAgainPos, this.playAgain);
 		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideQuitGame){
+		if(mouseClicked && this.insideQuitGame){
 			gc.exit();
 		}
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideMainMenu){
+		
+		if(mouseClicked && this.insideMainMenu){
+			System.out.println("mainmenu");
 			sbg.enterState(GameApp.MAINMENUSTATE);
 		}
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insidePlayAgain){
+		
+		if(mouseClicked && this.insidePlayAgain){
+			System.out.println("play again");
 			Sounds.getInstance().stopMusic();
 			sbg.enterState(GameApp.PLAYSTATE);
-	}
-		
-		
+		}	
 	}
 	
 	public ArrayList<Image> numberToImages(int number){
@@ -381,10 +406,4 @@ public class GameOverState extends BasicGameState{
 	public int getID() {
 		return this.stateID;
 	}
-	
-	public void setPlayState(IPlayStateController playState){
-		this.playState = playState;
-	}
-		
-
 }
