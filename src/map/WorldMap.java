@@ -20,7 +20,10 @@ import org.jbox2d.dynamics.World;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
+
+import utils.Utils;
 
 /**
  * A cLass to read a Map from a tmx file
@@ -40,11 +43,12 @@ public class WorldMap{
 	private HashMap<Integer, Image> pictureName = new HashMap<Integer, Image>();
 	//List Containing all images that is needed to load the Map
 	private List<Image> mapImage = new ArrayList<Image>();
-	//Background
-	private int [][] background;
-	
 	private String levelName;
 	
+	private Rectangle goallocationrect;
+	
+	//Background
+	private int [][] background;
 	private Vec2 positionHero;
 	
 	private ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
@@ -71,6 +75,7 @@ public class WorldMap{
 			int numberOfTiles = 0;
 			int idtile;
 			int id = 1;
+			List<Vec2> goallocation = new ArrayList<Vec2>();
 			Vec2 pos;
 			//Adds all tiles to the list represented by a world shape
 			for(int j = 0; j < tm.getHeight(); j++){
@@ -81,7 +86,7 @@ public class WorldMap{
 					if(isWorldTile(idtile)){
 						while(isWorldTile(idtile) && i < tm.getWidth()-1){
 							if(!pictureName.containsKey(tm.getTileId(i, j, collision)))
-								pictureName.put(background[i][j], tm.getTileImage(i, j, collision));
+								pictureName.put(idtile, tm.getTileImage(i, j, collision));
 							++numberOfTiles;
 							++i;
 							idtile = tm.getTileId(i, j, collision);
@@ -90,12 +95,16 @@ public class WorldMap{
 						}
 						addWorldShape(i - numberOfTiles, j, tm.getTileWidth(), tm.getTileHeight(), numberOfTiles);
 						numberOfTiles = 0;
-					}if(idtile < 61 && !isWorldTile(idtile)){
+					}
+					if(idtile < 61 && !isWorldTile(idtile)){
 						if(!pictureName.containsKey(tm.getTileId(i, j, collision)))
-							pictureName.put(background[i][j], tm.getTileImage(i, j, collision));
+							pictureName.put(idtile, tm.getTileImage(i, j, collision));
 						
 					}else if(idtile <91 && idtile > 80){
-						
+						if(!pictureName.containsKey(tm.getTileId(i, j, collision))){
+							pictureName.put(idtile, tm.getTileImage(i, j, collision));
+						}
+						goallocation.add(new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight()));
 					}else if(idtile == 91){
 						positionHero = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
 					}else if(idtile == 92){
@@ -118,6 +127,10 @@ public class WorldMap{
 					++id;
 				}
 			}
+			goallocationrect = new Rectangle(goallocation.get(0).x, 
+					goallocation.get(0).y,
+					goallocation.get(1).x-goallocation.get(0).x+tm.getTileWidth(), 
+					goallocation.get(goallocation.size()-2).y- goallocation.get(0).y+tm.getTileHeight());
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -177,7 +190,7 @@ public class WorldMap{
 		int sy = (int)y/tm.getTileHeight();
 		for(int i = sx; i < (sx+width); i ++){
 			for(int j = sy; j < (sy+height); j++){
-				if(background[i][j] < 81 && background[i][j] > 0)
+				if(background[i][j] < 91 && background[i][j] > 0)
 					g.drawImage(pictureName.get(background[i][j]), 
 							((i-sx)*tm.getTileWidth())-((x)%tm.getTileWidth()), 
 							(j-sy)* tm.getTileHeight()-((y)%tm.getTileHeight()));
@@ -215,6 +228,11 @@ public class WorldMap{
 	
 	public String getMapName(){
 		return levelName;
+	}
+	
+	public boolean isInGoalArea(Vec2 posInMeter){
+		Vec2 tmp = posInMeter.mul(Utils.METER_IN_PIXELS);
+		return goallocationrect.contains(tmp.x, tmp.y);
 	}
 
 	public void destroyWorld() {
