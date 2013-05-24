@@ -84,11 +84,9 @@ public class GameOverState extends BasicGameState{
 	}
 	
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
+	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		
-		float screenWidth = arg1.getContainer().getWidth();
-		float screenHeight = arg1.getContainer().getHeight();
+
 		this.spacing = 20;
 		
 		initDiscoBall();
@@ -129,6 +127,14 @@ public class GameOverState extends BasicGameState{
 		this.youWin = new Image(IMAGE_PATH + "youWin.png");
 		this.youLose = new Image(IMAGE_PATH + "youLose.png");
 		
+		
+	}
+	
+	public void initPositions(GameContainer gc, StateBasedGame sbg){
+		
+		float screenWidth = sbg.getContainer().getWidth();
+		float screenHeight = sbg.getContainer().getHeight();
+		
 		this.youWinPos = new Vec2(screenWidth/2 - youWin.getWidth()/2, this.spacing);
 		this.youLosePos = new Vec2(screenWidth/2 - youLose.getWidth()/2, this.spacing);
 		
@@ -151,14 +157,13 @@ public class GameOverState extends BasicGameState{
 		this.crossPosses[1] = new Vec2(this.foeAmountPos.x - this.cross.getWidth()*this.crossScaling - this.spacing*2, this.foeAmountPos.y + this.zero.getHeight()/2 - this.cross.getHeight()*this.crossScaling/2);
 		this.crossPosses[2] = new Vec2(this.gemAmountPos.x - this.cross.getWidth()*this.crossScaling - this.spacing*2, this.gemAmountPos.y + this.zero.getHeight()/2 - this.cross.getHeight()*this.crossScaling/2);
 		
-		this.coinPos = new Vec2(crossPosses[0].x/2 - coin.getWidth()/2, crossPosses[0].y + cross.getHeight()*this.crossScaling/2 - coin.getHeight()/2);
-		this.foePos = new Vec2(crossPosses[1].x/2 - nine.getWidth()/2, crossPosses[1].y + cross.getHeight()*this.crossScaling/2 - nine.getHeight()/2);
-		this.gemPos = new Vec2(crossPosses[2].x/2 - gem.getWidth()/2, crossPosses[2].y + cross.getHeight()*this.crossScaling/2 - gem.getHeight()/2);
+		this.coinPos = new Vec2(crossPosses[0].x - coin.getWidth() - this.spacing*3, crossPosses[0].y + cross.getHeight()*this.crossScaling/2 - coin.getHeight()/2);
+		this.foePos = new Vec2(crossPosses[1].x - nine.getWidth() - this.spacing*3, crossPosses[1].y + cross.getHeight()*this.crossScaling/2 - nine.getHeight()/2);
+		this.gemPos = new Vec2(crossPosses[2].x - gem.getWidth() - this.spacing*3, crossPosses[2].y + cross.getHeight()*this.crossScaling/2 - gem.getHeight()/2);
 		
 		this.totalScorePos = new Vec2(this.youLosePos.x, this.gemAmountPos.y + this.zero.getHeight() + this.spacing*2);
 		this.totalPos = new Vec2(this.totalScorePos.x - this.total.getWidth() - this.spacing, this.totalScorePos.y + this.zero.getHeight()/2 - this.total.getHeight()/2);
 		this.pointsPos = new Vec2(this.totalScorePos.x + this.zero.getWidth()*3 + this.spacing, this.totalPos.y + this.total.getHeight()/2 - this.points.getHeight()/2);
-		
 	}
 	
 	public void initCoin(){
@@ -215,9 +220,11 @@ public class GameOverState extends BasicGameState{
 	}
 	
 	@Override
-	public void enter(GameContainer container, StateBasedGame sbg) throws SlickException{
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Sounds.getInstance().stopMusic();
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
+		initPositions(gc, sbg);
+		
 		HeroModel model = this.playState.getHeroModel();
 		this.isWin = !model.isDead();
 
@@ -237,11 +244,17 @@ public class GameOverState extends BasicGameState{
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		this.background.draw(0,0);
+		if(gc.isFullscreen()){
+			this.background.draw(0, 0, 1.5f);
+
+		} else{
+			this.background.draw(0,0);
+
+		}
 		
-		if(isWin){
+		if(!isWin){
 			this.youWin.draw(youWinPos.x, youWinPos.y);
 			this.danceFloor.draw(danceFloorPos.x, danceFloorPos.y);
 			this.discoBall.draw(discoBallPos.x, discoBallPos.y);
