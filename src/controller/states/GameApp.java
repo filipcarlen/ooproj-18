@@ -15,6 +15,7 @@ public class GameApp extends StateBasedGame{
 	public static final int GAMEOVERSTATE = 3;
 	public static final int HIGHSCORESTATE = 4;
 	public static final int PREGAMESTATE = 5;
+	public static final int PAUSESTATE = 6;
 
 	public static AppGameContainer appgc;
 	public static final float DEFAULT_WIDTH = 900f;
@@ -30,6 +31,7 @@ public class GameApp extends StateBasedGame{
 		this.addState(gameOverState);
 		this.addState(HighscoreState.getInstance());
 		this.addState(PreGameState.getInstance());
+		this.addState(new PauseState(PAUSESTATE));
 		this.enterState(MAINMENUSTATE);
 	}
 

@@ -132,8 +132,8 @@ public class GameOverState extends BasicGameState{
 	
 	public void initPositions(GameContainer gc, StateBasedGame sbg){
 		
-		float screenWidth = sbg.getContainer().getWidth();
-		float screenHeight = sbg.getContainer().getHeight();
+		float screenWidth = gc.getWidth();
+		float screenHeight = gc.getHeight();
 		
 		this.youWinPos = new Vec2(screenWidth/2 - youWin.getWidth()/2, this.spacing);
 		this.youLosePos = new Vec2(screenWidth/2 - youLose.getWidth()/2, this.spacing);

@@ -19,7 +19,6 @@ import controller.IPlayStateController;
 public class PauseState extends BasicGameState {
 
 	private int stateID;
-	private IPlayStateController playState;
 	
 	private Image background;
 	
@@ -43,21 +42,28 @@ public class PauseState extends BasicGameState {
 		this.resume = new Image("res/GameOver/PlayAgain.png");
 		this.resumeH = new Image("res/GameOver/PlayAgainH.png");
 		
-		this.resumePos = new Vec2(400, 200);
 
 		
 	}
 	
+	public void initPositions(GameContainer container, StateBasedGame sbg){
+		
+		
+		this.resumePos = new Vec2(400, 200);
+
+	}
+	
 	@Override
-	public void enter(GameContainer container, StateBasedGame sbg) throws SlickException{
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Sounds.getInstance().stopMusic();
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
+		initPositions(gc, sbg);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		this.playState.render(gc, sbg, g);
+		sbg.getState(GameApp.PLAYSTATE).render(gc, sbg, g);
 		if(gc.isFullscreen()){
 			this.background.draw(0, 0, 0.7f);
 		} else{
@@ -79,6 +85,18 @@ public class PauseState extends BasicGameState {
 		insideResume = checkMouse(mouseX, mouseY, resumePos, resume);
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideResume){
+			sbg.enterState(GameApp.PLAYSTATE);
+		}
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideRestart){
+			sbg.enterState(GameApp.PLAYSTATE);
+		}
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideOptions){
+			sbg.enterState(GameApp.OPTIONSSTATE);
+		}
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideMainMenu){
+			sbg.enterState(GameApp.MAINMENUSTATE);
+		}
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideQuitGame){
 			gc.exit();
 		}
 	}
@@ -96,9 +114,5 @@ public class PauseState extends BasicGameState {
 	@Override
 	public int getID() {
 		return this.stateID;
-	}
-	
-	public void setPlayState(IPlayStateController playState){
-		this.playState = playState;
 	}
 }
