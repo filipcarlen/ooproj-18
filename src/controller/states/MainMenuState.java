@@ -143,10 +143,12 @@ public class MainMenuState extends BasicGameState {
 		}
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideOptionsMenu){
+			input.clearMousePressedRecord();
 			sbg.enterState(GameApp.OPTIONSSTATE);
 		}
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideHighscore){
+			input.clearMousePressedRecord();
 			sbg.enterState(GameApp.HIGHSCORESTATE);
 		}
 		

@@ -9,14 +9,18 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.WeaponType;
+
 public class PreGameState extends BasicGameState {
 	
 	private int stateID = -1;
 	private static final String PATH = "res/Pregame/";
-	private Image background, sword, gun, title, play, playH, gunH, swordH;
-	private Vec2 backgroundPos, swordPos, gunPos, titlePos, playPos;
-	private boolean insidePlay, insideSword, insideGun;
+	private Image background, sword, gun, title, play, playH, gunH, swordH, gunC, swordC;
+	private Vec2 swordPos, gunPos, titlePos, playPos;
+	private boolean insidePlay, insideSword, insideGun, swordClicked, gunClicked;
 	private static PreGameState instance = null;
+	private WeaponType weapon = WeaponType.fist;
+	
 	
 	private PreGameState(int stateID){
 		this.stateID = stateID;
@@ -48,6 +52,8 @@ public class PreGameState extends BasicGameState {
 		title = new Image(PATH+"choose_weapon.png");
 		play = new Image(PATH+"play.png");
 		playH = new Image(PATH+"playH.png");
+		swordC = new Image(PATH+"swordClicked.png");
+		gunC = new Image(PATH+"gunClicked.png");
 		
 	}
 
@@ -75,8 +81,12 @@ public class PreGameState extends BasicGameState {
 		else{
 			sword.draw(swordPos.x, swordPos.y);
 		}
-		
-		
+		if(swordClicked){
+			swordC.draw(swordPos.x, swordPos.y);
+		}
+		if(gunClicked){
+			gunC.draw(gunPos.x, swordPos.y);
+		}	
 	}
 
 	@Override
@@ -91,17 +101,24 @@ public class PreGameState extends BasicGameState {
 		insideSword = checkMouse(mouseX, mouseY, swordPos, sword);
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideGun){
-			
+			weapon = WeaponType.gun;
+			if(swordClicked){
+				swordClicked = false;
+			}
+			gunClicked = true;
 		}
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insidePlay){
+			PlayState.getInstance().setWeaponInUse(weapon);
 			sbg.enterState(GameApp.PLAYSTATE);
 		}
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideSword){
-			
+			weapon = WeaponType.sword;
+			if(gunClicked){
+				gunClicked = false;
+			}
+			swordClicked = true;
 		}
-		
-		
 	}
 
 	@Override
@@ -118,7 +135,4 @@ public class PreGameState extends BasicGameState {
 			return false;
 		}
 	}
-	
-	
-
 }
