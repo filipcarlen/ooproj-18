@@ -47,6 +47,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	private World world;
 	private HeroModel hero;
 	private HeroController heroController;
+	private AbstractWeaponModel heroWeapon;
 	private WorldMap worldMap;
 	private PlayStateView playstateview;
 	private int stateID;
@@ -78,12 +79,13 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Sounds.getInstance().stopMusic();
 		Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
+		if(endGame){
+			reTry();
+		}else
+			loadHero("bluepants", worldMap.getHeroPosition(), heroWeapon);
 		camera = new Camera(gc.getWidth(), gc.getHeight(), 
 				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
 				new Rectangle((int)((gc.getWidth()*0.3)/2), (int)((gc.getHeight()*0.3)/2)), hero.getPosPixels());
-		if(endGame){
-			reTry();
-		}
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -101,12 +103,8 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			e.printStackTrace();
 		}
 		
-		GunModel gm = new GunModel(world, 500, 10, 10, 56);
-	
-		SwordModel sm = new SwordModel(world, 300, 40, 1337);
-		
-		
-		newGame("level1", "BluePants", gm);
+		newGame("level1");
+
 		// Camera
 		playstateview = new PlayStateView(hero);
 	}
@@ -114,13 +112,13 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		worldMap.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
-		playstateview.render(gc, sbg, g);
 		try{
 			for(int i = 0; i < controllers.size(); i++){
 				controllers.get(i).render(gc, sbg, g);
 			}
 			heroController.render(gc, sbg, g);
 		}catch(NullPointerException e){}
+		playstateview.render(gc, sbg, g);
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
@@ -157,11 +155,10 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	 * @param name
 	 * @param herosWeapon
 	 */
-	public void newGame(String level, String name, AbstractWeaponModel herosWeapon){
+	public void newGame(String level){
 		try {
 			loadWorld(level);
 			loadEntity(worldMap.getListOfBodies());
-			loadHero(name, worldMap.getHeroPosition(), herosWeapon);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -274,6 +271,10 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 				}
 			}
 		}
+	}
+	
+	public void setWeaponInUse(AbstractWeaponModel awm){
+		this.heroWeapon = awm;
 	}
 
 	@Override
