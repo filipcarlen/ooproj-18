@@ -3,12 +3,11 @@ package utils;
 import java.awt.Rectangle;
 
 import org.jbox2d.common.Vec2;
-import org.newdawn.slick.geom.Vector2f;
 
 public class Camera {
 	int displaywidth,displayheight,worldwidth,worldheight;
 	float x, y;
-	static Vector2f positionCamera;
+	static Vec2 positionCamera;
 	int distFromWall = 60;
 	int distFromGToF = 60;
 	Vec2 posOfHero;
@@ -24,7 +23,7 @@ public class Camera {
 		this.worldwidth = worldwidth;
 		this.worldheight = worldheight;
 		this.posOfHero = posFocusPixel;
-		positionCamera = new Vector2f(0,0);
+		positionCamera = new Vec2(0,0);
 		resetCamera();
 	}
 	
@@ -41,21 +40,33 @@ public class Camera {
 	 * @return - the coordinate in the world
 	 */
 	public static Vec2 entityRender(Vec2 v){
-		return new Vec2(v.x -positionCamera.getX(), v.y - positionCamera.getY());
+		return new Vec2(v.x -positionCamera.x, v.y - positionCamera.y);
 	}
 	
-	public void updateCamera(Vec2 posFocusPixel, int displaywidth, int displayheight){
+	public void updateCamera(Vec2 posFocusPixel){
 		posOfHero = posFocusPixel;
-		if(posOfHero.x > positionCamera.x+displaywidth-distFromWall && distFromWall < (worldwidth-posOfHero.x)){
-			x = positionCamera.x +(posOfHero.x-(positionCamera.x+displaywidth-distFromWall));
+		if(posOfHero.x > positionCamera.x+displaywidth-distFromWall){
+			if(distFromWall < (worldwidth-posOfHero.x))
+				x = positionCamera.x +(posOfHero.x-(positionCamera.x+displaywidth-distFromWall));
+			else
+				x = worldwidth-1 -displaywidth;
 		}
-		else if(posOfHero.x < positionCamera.x+distFromWall && posOfHero.x > distFromWall){
-			x = positionCamera.x -(positionCamera.x +distFromWall - posOfHero.x);
+		else if(posOfHero.x < positionCamera.x+distFromWall){
+			if( posOfHero.x > distFromWall)
+				x = positionCamera.x -(positionCamera.x +distFromWall - posOfHero.x);
+			else
+				x = 0;
 		}
-		if(posOfHero.y > positionCamera.y+displayheight-distFromGToF && distFromGToF <(worldheight- posOfHero.y)){
-			y = positionCamera.y +(posOfHero.y-(positionCamera.y+displayheight-distFromGToF));
-		}else if(posOfHero.y < positionCamera.y+distFromGToF && posOfHero.y > distFromGToF){
-			y = positionCamera.y -(positionCamera.y +distFromGToF - posOfHero.y);
+		if(posOfHero.y > positionCamera.y+displayheight-distFromGToF){
+			if(distFromGToF <(worldheight- posOfHero.y))
+				y = positionCamera.y +(posOfHero.y-(positionCamera.y+displayheight-distFromGToF));
+			else
+				y = worldheight-1-displayheight;
+		}else if(posOfHero.y < positionCamera.y+distFromGToF){
+			if(posOfHero.y > distFromGToF)
+				y = positionCamera.y -(positionCamera.y +distFromGToF - posOfHero.y);
+			else
+				y = 0;
 		}
 		positionCamera.set(x, y);
 	}
@@ -65,7 +76,7 @@ public class Camera {
 		y = 0;
 	}
 	
-	public Vector2f getCameraPosition(){
+	public Vec2 getCameraPosition(){
 		return positionCamera;
 	}
 
