@@ -76,7 +76,8 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
-		Sounds.getInstance().playSound(SoundType.GAME_MUSIC);
+		Sounds.getInstance().stopMusic();
+		Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
 		camera = new Camera(gc.getWidth(), gc.getHeight(), 
 				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
 				new Rectangle((int)((gc.getWidth()*0.3)/2), (int)((gc.getHeight()*0.3)/2)), hero.getPosPixels());
