@@ -19,7 +19,7 @@ public class PreGameState extends BasicGameState {
 	private Vec2 swordPos, gunPos, titlePos, playPos;
 	private boolean insidePlay, insideSword, insideGun, swordClicked, gunClicked;
 	private static PreGameState instance = null;
-	private WeaponType weapon = WeaponType.fist;
+	private WeaponType weapon = WeaponType.FIST;
 	
 	
 	private PreGameState(int stateID){
@@ -101,7 +101,7 @@ public class PreGameState extends BasicGameState {
 		insideSword = checkMouse(mouseX, mouseY, swordPos, sword);
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideGun){
-			weapon = WeaponType.gun;
+			weapon = WeaponType.GUN;
 			if(swordClicked){
 				swordClicked = false;
 			}
@@ -113,7 +113,7 @@ public class PreGameState extends BasicGameState {
 		}
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideSword){
-			weapon = WeaponType.sword;
+			weapon = WeaponType.SWORD;
 			if(gunClicked){
 				gunClicked = false;
 			}
