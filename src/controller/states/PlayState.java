@@ -273,8 +273,8 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		}
 	}
 	
-	public void setWeaponInUse(AbstractWeaponModel awm){
-		this.heroWeapon = awm;
+	public void setWeaponInUse(WeaponType wt){
+		
 	}
 
 	@Override
