@@ -88,7 +88,7 @@ public class OptionsState extends BasicGameState {
 		this.okH = new Image(PATH + "okH.png");
 		//IMAGES END ___________________________________________
 		
-		this.initPositions();
+		this.initPositions(gc);
 	}
 
 	@Override
@@ -378,7 +378,7 @@ public class OptionsState extends BasicGameState {
 				GameApp.appgc.setDisplayMode(gc.getScreenWidth(), gc.getScreenHeight(), true);
 			}
 			
-			this.initPositions();
+			this.initPositions(gc);
 		} //FULLSCREEN END _____________________________________________________________________________
 		
 		//OK ___________________________________________________________________________________________
@@ -395,15 +395,17 @@ public class OptionsState extends BasicGameState {
 		} //KEYBINDINGS END ____________________________________________________________________________
 	}
 	
-	public void initPositions() {
-		//POSITIONS _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+	public void initPositions(GameContainer gc) {
+		float screenWidth = gc.getWidth();
+		float screenHeight = gc.getHeight();
+		
 		//Calculating all positions
-		this.optionsPos = new Vec2(GameApp.appgc.getWidth()/2 - this.options.getWidth()/2, this.spacing);
-		this.okPos = new Vec2(GameApp.appgc.getWidth() - this.spacing*2 - this.ok.getWidth(), GameApp.appgc.getHeight()-this.ok.getHeight()-this.spacing*2);
+		this.optionsPos = new Vec2(screenWidth/2 - this.options.getWidth()/2, this.spacing);
+		this.okPos = new Vec2(screenWidth - this.spacing*2 - this.ok.getWidth(), screenHeight-this.ok.getHeight()-this.spacing*2);
 		
 		//MUSIC __________________________________________________________MUSIC_________________________________________________________________MUSIC
 		//Calculates all positions to do with the music options so that they are evenly spaced and centered.
-		this.musicPos = new Vec2((GameApp.appgc.getWidth() - this.musicOn.getWidth() - this.volume.getWidth() - this.slider.getWidth() - this.spacing*3)/2, this.optionsPos.y + this.options.getHeight() + this.spacing);
+		this.musicPos = new Vec2((screenWidth - this.musicOn.getWidth() - this.volume.getWidth() - this.slider.getWidth() - this.spacing*3)/2, this.optionsPos.y + this.options.getHeight() + this.spacing);
 		this.musicVolumePos = new Vec2(this.musicPos.x + this.musicOn.getWidth() + this.spacing*2, this.musicPos.y);
 		this.musicControlsPos = new Vec2(this.musicVolumePos.x + this.volume.getWidth() + this.spacing, this.musicPos.y);
 		this.musicSliderPos = new Vec2(this.musicControlsPos.x + this.arrowSpace, this.musicControlsPos.y + this.slider.getHeight()/2 - this.sliderHeight/2);
@@ -445,22 +447,20 @@ public class OptionsState extends BasicGameState {
 		
 		//FULLSCREEN ________________________________________________________________________________________________________________________________
 		//Calculates the position of the full screen option so that it is centered and evenly spaced from the other options.
-		this.fullscreenPos = new Vec2(GameApp.appgc.getWidth()/2 - this.fullscreenOn.getWidth()/2, this.soundPos.y + this.soundOn.getHeight() + spaceY*2);
+		this.fullscreenPos = new Vec2(screenWidth/2 - this.fullscreenOn.getWidth()/2, this.soundPos.y + this.soundOn.getHeight() + spaceY*2);
 		//FULLSCREEN END ____________________________________________________________________________________________________________________________
 		
 		//KEYBINDINGS _______________________________________________________________________________________________________________________________
 		//Calculates all positions to do with changing the key bindings.
-		this.walkRightPos = new Vec2((GameApp.appgc.getWidth() - this.walkRight.getWidth() - this.key.getWidth()*2 - this.jump.getWidth() - this.spacing*4)/2, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
+		this.walkRightPos = new Vec2((screenWidth - this.walkRight.getWidth() - this.key.getWidth()*2 - this.jump.getWidth() - this.spacing*4)/2, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
 		this.keyPos[0] = new Vec2(this.walkRightPos.x + this.walkRight.getWidth() + this.spacing, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
 		this.jumpPos = new Vec2(this.keyPos[0].x + this.key.getWidth() + this.spacing*2, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
 		this.keyPos[1] = new Vec2(this.jumpPos.x + this.jump.getWidth() + this.spacing, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
-		this.walkLeftPos = new Vec2((GameApp.appgc.getWidth() - this.walkLeft.getWidth() - this.key.getWidth()*2 - this.fight.getWidth() - this.spacing*4)/2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
+		this.walkLeftPos = new Vec2((screenWidth - this.walkLeft.getWidth() - this.key.getWidth()*2 - this.fight.getWidth() - this.spacing*4)/2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
 		this.keyPos[2] = new Vec2(this.walkLeftPos.x + this.walkLeft.getWidth() + this.spacing, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
 		this.fightPos = new Vec2(this.keyPos[2].x + this.key.getWidth() + this.spacing*2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
 		this.keyPos[3] = new Vec2(this.fightPos.x + this.fight.getWidth() + this.spacing, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
 		//KEYBINDINGS END ___________________________________________________________________________________________________________________________
-		
-		//POSITIONS END _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 	}
 
 	@Override
