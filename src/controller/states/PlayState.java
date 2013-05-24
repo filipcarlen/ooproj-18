@@ -77,6 +77,9 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Sounds.getInstance().playSound(SoundType.GAME_MUSIC);
+		camera = new Camera(gc.getWidth(), gc.getHeight(), 
+				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
+				new Rectangle((int)((gc.getWidth()*0.3)/2), (int)((gc.getHeight()*0.3)/2)), hero.getPosPixels());
 		if(endGame){
 			reTry();
 		}
@@ -104,9 +107,6 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		
 		newGame("level1", "BluePants", gm);
 		// Camera
-		camera = new Camera(gc.getWidth(), gc.getHeight(), 
-				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
-				new Rectangle(300,200), hero.getPosPixels());
 		playstateview = new PlayStateView(hero);
 	}
 
@@ -132,14 +132,21 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			sbg.enterState(GameApp.GAMEOVERSTATE);
 		}
 		try{
-			camera.updateCamera(hero.getFrontPosPixels(), gc.getWidth(), gc.getHeight());
+			camera.updateCamera(hero.getFrontPosPixels());
 			for(int i = 0; i < controllers.size(); i++){
 				controllers.get(i).update(gc, sbg, delta);
 			}
 			heroController.update(gc, sbg, delta);
 		}catch(NullPointerException e){}
 		if(Controls.getInstance().check("pause")){
-			this.pauseUpdate();
+			sbg.enterState(GameApp.PAUSESTATE);
+		}
+		
+		if(worldMap.isInGoalArea(hero.getPosMeters())){
+			if(hero.getScore() > 180)
+				sbg.enterState(GameApp.GAMEOVERSTATE);
+			else
+				playstateview.hasReachedEnd();
 		}
 	}
 
