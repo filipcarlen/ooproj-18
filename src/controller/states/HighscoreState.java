@@ -26,13 +26,13 @@ public class HighscoreState extends BasicGameState {
 	
 	private Image background, title, mainmenu, mainmenuH, clear, clearH, total;
 	private Animation gem, coin, foe;
-	private Vec2 titlePos, clearPos,mainMenuPos, coinPos, gemPos, foePos, totalPos;
+	private Vec2 titlePos, clearPos,mainMenuPos, coinPos, gemPos, foePos, totalPos, stringPos;
 	
 	private boolean insideMainMenu = false;
 	private boolean insideClear = false;
 	
 	private HighscoreManager highscoremanager;
-	private AngelCodeFont acf;
+	private AngelCodeFont font;
 	
 	private HighscoreState(int id){
 		this.stateID = id;
@@ -45,11 +45,23 @@ public class HighscoreState extends BasicGameState {
 			return instance;
 	}
 	
+	public void enter(GameContainer gc, StateBasedGame sbg)
+			throws SlickException {	
+		titlePos = new Vec2(gc.getWidth()/2 - title.getWidth()/2, 10);
+		clearPos = new Vec2(gc.getWidth()*.05f,gc.getHeight()*.85f);
+		mainMenuPos = new Vec2(gc.getWidth()*.68f,gc.getHeight()*.85f);
+		stringPos = new Vec2(gc.getWidth()/2-750/2,gc.getHeight()/2-250/2);
+		coinPos = new Vec2(gc.getWidth()/2-150/2,gc.getHeight()/2-320/2);
+		gemPos = new Vec2(coinPos.x+115,gc.getHeight()/2-320/2);
+		foePos = new Vec2(gemPos.x+120,gc.getHeight()/2-320/2);
+		totalPos = new Vec2(foePos.x+100,gc.getHeight()/2-310/2);
+	}
+	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		highscoremanager = new HighscoreManager();
-		acf = new AngelCodeFont("res/Font/font.fnt", "res/Font/font_0.png");
+		font = new AngelCodeFont("res/Font/font.fnt", "res/Font/font_0.png");
 		
 		initCoin();
 		initGem();
@@ -61,23 +73,14 @@ public class HighscoreState extends BasicGameState {
 		title = new Image(PATH+"highscore_title.png");
 		mainmenu = new Image("res/GameOver/MainMenu.png");
 		mainmenuH = new Image("res/GameOver/MainMenuH.png");
-		
-		titlePos = new Vec2(background.getWidth()/2 - title.getWidth()/2, 10);
-		clearPos = new Vec2(500,500);
-		mainMenuPos = new Vec2(650,500);
-		coinPos = new Vec2(368,135);
-		gemPos = new Vec2(485,135);
-		foePos = new Vec2(610,135);
-		totalPos = new Vec2(720,140);
-		
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		background.draw(0, 0);
+		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		title.draw(titlePos.x,titlePos.y);	
-		acf.drawString(70, 170, highscoremanager.getHighscoreString());
+		font.drawString(stringPos.x, stringPos.y, highscoremanager.getHighscoreString());
 		coin.draw(coinPos.x, coinPos.y);
 		gem.draw(gemPos.x, gemPos.y);
 		foe.draw(foePos.x, foePos.y);

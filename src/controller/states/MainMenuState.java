@@ -87,7 +87,8 @@ public class MainMenuState extends BasicGameState {
 			throws SlickException {
 		
 		changeLeafPosition(gc);
-		background.draw(0,0);
+		background.draw(0,0,gc.getWidth(),gc.getHeight());
+		
 		g.drawAnimation(leafAnimation, leafPositionX, leafPositionY);
 		title.draw(titlePos.x,titlePos.y);
 		
@@ -138,7 +139,7 @@ public class MainMenuState extends BasicGameState {
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideStartGame){	
 			Sounds.getInstance().stopMusic();
 			Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
-			sbg.enterState(GameApp.PLAYSTATE);
+			sbg.enterState(GameApp.PREGAMESTATE);
 		}
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideOptionsMenu){
