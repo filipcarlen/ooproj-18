@@ -1,5 +1,10 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,11 +14,13 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import model.HeroModel;
 
-public class PlayStateView {
+public class PlayStateView implements ActionListener {
 
 	private Image healthbar, statusbar;
 	private HeroModel hero;
-	private AngelCodeFont acf;
+	private AngelCodeFont acfw,acfb;
+	private Timer timer = new Timer (1500, this);
+	private final String not_in_goal = "You need 180 score to finish this Level. \nYou got ";
 	
 	public PlayStateView(HeroModel hero){
 		this.hero = hero;
@@ -24,7 +31,8 @@ public class PlayStateView {
 			e.printStackTrace();
 		}
 		try {
-			acf = new AngelCodeFont("res/font/fontwhite.fnt", "res/font/fontwhite_0.png");
+			acfw = new AngelCodeFont("res/font/fontwhite.fnt", "res/font/fontwhite_0.png");
+			acfb = new AngelCodeFont("res/font/font.fnt", "res/font/font_0.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -35,10 +43,22 @@ public class PlayStateView {
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)throws SlickException {
-		float statusy = gc.getHeight()-statusbar.getHeight();
-		statusbar.draw(0, statusy);
-		healthbar.draw(3, statusy+103, hero.getHp()/(float)hero.getMaxHp()*healthbar.getWidth(), healthbar.getHeight());
-		acf.drawString(10, statusy+50, hero.getName());
-		acf.drawString(300, statusy+115, "Score: " + hero.getScore());
+		statusbar.draw(0, 0);
+		healthbar.draw(3, 70, hero.getHp()/(float)hero.getMaxHp()*healthbar.getWidth(), healthbar.getHeight());
+		acfw.drawString(10, 16, hero.getName());
+		acfw.drawString(300, 10, "Score: " + hero.getScore());
+		if(timer.isRunning()){
+			acfb.drawString((gc.getWidth()/2)-(acfb.getWidth(not_in_goal)/2), gc.getHeight()/2 -100, not_in_goal + hero.getScore());
+		}
 	}
+	
+	public void hasReachedEnd(){
+		timer.start();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		timer.stop();
+	}
+		
 }
