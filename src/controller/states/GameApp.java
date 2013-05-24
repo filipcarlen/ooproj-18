@@ -46,10 +46,9 @@ public class GameApp extends StateBasedGame{
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		if(this.getCurrentStateID() == PLAYSTATE){
-			if(Controls.getInstance().check("pause") && this.getState(PLAYSTATE).isUpdatePaused()){
-				this.getState(PLAYSTATE).unpauseRender();
-				this.getState(PLAYSTATE).unpauseUpdate();
+		if(this.getCurrentStateID() == PAUSESTATE){
+			if(Controls.getInstance().check("pause")){
+				this.enterState(PLAYSTATE);
 			}
 		}
 	}
