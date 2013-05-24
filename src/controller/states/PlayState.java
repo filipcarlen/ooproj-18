@@ -139,7 +139,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			heroController.update(gc, sbg, delta);
 		}catch(NullPointerException e){}
 		if(Controls.getInstance().check("pause")){
-			//sbg.enterState(GameApp.PAUSESTATE);
+			sbg.enterState(GameApp.PAUSESTATE);
 		}
 		
 		if(worldMap.isInGoalArea(hero.getPosMeters())){
