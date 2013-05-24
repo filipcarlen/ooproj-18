@@ -15,7 +15,7 @@ public class PreGameState extends BasicGameState {
 	
 	private int stateID = -1;
 	private static final String PATH = "res/Pregame/";
-	private Image background, sword, gun, title, play, playH, gunH, swordH, gunC, swordC;
+	private Image background, sword, gun, title, play, playH, gunH, swordH, gunC, swordC, mainMenu, mainMenuH;
 	private Vec2 swordPos, gunPos, titlePos, playPos;
 	private boolean insidePlay, insideSword, insideGun, swordClicked, gunClicked;
 	private static PreGameState instance = null;
