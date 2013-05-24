@@ -158,4 +158,18 @@ public class Controls {
 	public boolean isControlsSet(){
 		return isControlsSet;
 	}
+	
+	public int getCommand(String s){
+		if(s.toLowerCase().equals(CMD_LEFT)){
+			return keys.get(CMD_LEFT).get(0);
+		}else if(s.toLowerCase().equals(CMD_RIGHT)){
+			return keys.get(CMD_RIGHT).get(0);
+		}else if(s.toLowerCase().equals(CMD_JUMP)){
+			return keys.get(CMD_JUMP).get(0);
+		}else if(s.toLowerCase().equals(CMD_FIGHT)){
+			return keys.get(CMD_FIGHT).get(0);
+		}else{
+			return (Integer) null;
+		}
+	}
 }
