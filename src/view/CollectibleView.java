@@ -100,15 +100,9 @@ public class CollectibleView {
 	 */
 	public void initCoin() throws SlickException{
 		coinImages = new Image[8];
-		coinImages[0] = new Image(PATH + "/Coin/coin_1.png");
-		coinImages[1] = new Image(PATH + "/Coin/coin_2.png");
-		coinImages[2] = new Image(PATH + "/Coin/coin_3.png");
-		coinImages[3] = new Image(PATH + "/Coin/coin_4.png");
-		coinImages[4] = new Image(PATH + "/Coin/coin_5.png");
-		coinImages[5] = new Image(PATH + "/Coin/coin_6.png");
-		coinImages[6] = new Image(PATH + "/Coin/coin_7.png");
-		coinImages[7] = new Image(PATH + "/Coin/coin_8.png");
-		
+		for(int i = 0; i<coinImages.length; i++){
+			coinImages[i] = new Image(PATH+"/Coin/coin_"+(i+1)+".png");
+		}		
 		coinAnimation = new Animation(coinImages, coinDuration);
 	}
 	
@@ -118,14 +112,9 @@ public class CollectibleView {
 	 */
 	public void initGem() throws SlickException{
 		gemImages = new Image[8];
-		gemImages[0] = new Image(PATH + "/Gem/gem_0.png");
-		gemImages[1] = new Image(PATH + "/Gem/gem_1.png");
-		gemImages[2] = new Image(PATH + "/Gem/gem_2.png");
-		gemImages[3] = new Image(PATH + "/Gem/gem_3.png");
-		gemImages[4] = new Image(PATH + "/Gem/gem_4.png");
-		gemImages[5] = new Image(PATH + "/Gem/gem_5.png");
-		gemImages[6] = new Image(PATH + "/Gem/gem_6.png");
-		gemImages[7] = new Image(PATH + "/Gem/gem_7.png");
+		for(int i = 0; i<gemImages.length; i++){
+			gemImages[i] = new Image(PATH+"/Gem/gem_"+i+".png");
+		}
 		gemAnimation = new Animation(gemImages, gemDuaration);
 	}
 	

@@ -42,7 +42,7 @@ public class GemModel extends AbstractPointsModel {
 
 	@Override
 	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.getBody().getPosition().sub(new Vec2(WIDTH, HEIGHT)));
+		return Utils.metersToPixels(this.getBody().getPosition().sub(new Vec2(WIDTH/2, HEIGHT/2)));
 	}
 	
 	/** 
