@@ -43,8 +43,6 @@ public class Hero implements IAliveEntity{
 	/* This is added only because we want to now if the hurt gets hurt from the back or front*/
 	private boolean hurtedFront = false;
 	
-	private boolean isBodyCreated = false;
-	
 	private boolean hasLoadedDimension = false;
 	
 	public enum HealthAction{HURT, DEAD, NONE};
@@ -322,17 +320,12 @@ public class Hero implements IAliveEntity{
 			fd.shape = pg;
 			/* Creating an body in the world and applying a Fixture to the body*/
 			body.createFixture(fd);
-			isBodyCreated = true;
 		}
 		body.setUserData(this);
 		body.setFixedRotation(true);
 
 	}
 	
-	public boolean isBodyCreated(){
-		return isBodyCreated;
-	}
-
 	/**
 	 * Method to se if you are dead or not
 	 * @return - true if your dead
