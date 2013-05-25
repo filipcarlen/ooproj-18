@@ -28,7 +28,6 @@ public class BulletView {
 		} catch(SlickException e){}
 	}
 	
-	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		Vec2 temp = Camera.entityRender(model.getPosPixels());
 		if(model.getNavigation() == Navigation.EAST){

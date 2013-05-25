@@ -264,7 +264,6 @@ public class OptionsState extends BasicGameState {
 		if(this.insideMusicOn && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			Sounds.getInstance().setMusicOn(!Sounds.getInstance().isMusicOn());
 			if(Sounds.getInstance().isMusicOn()){
-				Sounds.getInstance().stopMusic();
 				Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 			} else {
 				Sounds.getInstance().stopMusic();

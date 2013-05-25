@@ -73,19 +73,32 @@ private static Sounds instance = null;
 		switch(music){
 		
 		case MENU_MUSIC:
-			musicInMenus.loop(pitch, volumeMusic);
+			if(!musicInMenus.playing()){
+				stopMusic();
+				musicInMenus.loop(pitch, volumeMusic);
+			}
 			break;
 			
 		case GAME_MUSIC:
-			musicInGame.loop(pitch, volumeMusic);
+			if(!musicInGame.playing()){
+				stopMusic();
+				musicInGame.loop(pitch, volumeMusic);
+			}
 			break;
 			
 		case YOU_WIN_MUSIC:
-			musicYouLose.loop(pitch, volumeMusic);
+			if(!musicYouWin.playing()){
+				stopMusic();
+				musicYouWin.loop(pitch, volumeMusic);
+			}
 			break;
 			
 		case YOU_LOSE_MUSIC:
-			musicYouWin.loop(pitch, volumeMusic);
+			if(!musicYouLose.playing()){
+				stopMusic();
+				musicYouLose.loop(pitch, volumeMusic);
+			}
+			break;
 			
 		default:
 			break;	
@@ -148,6 +161,13 @@ private static Sounds instance = null;
 		}	
 	}
 	
+	public void stopMusic(){
+		musicInMenus.stop();
+		musicInGame.stop();
+		musicYouLose.stop();
+		musicYouWin.stop();
+	}
+	
 	public void setVolumeMusic(float volumeMusic){
 		this.volumeMusic = volumeMusic;
 		updateMusic();
@@ -185,12 +205,17 @@ private static Sounds instance = null;
 			musicInGame.stop();
 			playMusic(SoundType.GAME_MUSIC);
 		}
+		if(musicYouWin.playing()){
+			musicYouWin.stop();
+			playMusic(SoundType.YOU_WIN_MUSIC);
+		}
+		if(musicYouLose.playing()){
+			musicYouLose.stop();
+			playMusic(SoundType.YOU_LOSE_MUSIC);
+		}
 	}
 	
-	public void stopMusic(){
-		musicInMenus.stop();
-		musicInGame.stop();
-	}
+	
 	
 	public float getSoundVolume(){
 		return this.volumeSound;

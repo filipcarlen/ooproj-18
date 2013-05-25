@@ -29,7 +29,10 @@ public class CollectibleView {
 	private final String PATH = "res/collectibles";
 	
 	/** Arrays for coinImages and gemImages. Contains Images */
-	private Image[] coinImages, gemImages, energyDrinkImages, chocolateImages;
+	private Image[] coinImages = new Image[8];
+	private Image[] gemImages = new Image[8];
+	private Image[] energyDrinkImages  = new Image[4];
+	private Image[] chocolateImages = new Image[5];
 	
 	/** Animation for coins and gems */
 	private Animation coinAnimation, gemAnimation, energyDrinkAnimation, chocolateAnimation;
@@ -52,18 +55,22 @@ public class CollectibleView {
 	public CollectibleView(ICollectible model) throws SlickException{
 		this.model = model;
 		if(this.model instanceof Coin){
-			initCoin();
+			coinAnimation = initCollectibleAnimation(coinImages, coinDuration, (PATH+"/coin/coin_"));
+			//initCoin();
 		}
 		else if(this.model instanceof Gem){
-			initGem();
+			gemAnimation = initCollectibleAnimation(gemImages, gemDuaration, (PATH+"/gem/gem_"));
+			//initGem();
 			
 		}
 		else if(this.model instanceof ChocolateBar){
-			initChocolateBar();
+			chocolateAnimation = initCollectibleAnimation(chocolateImages, chocolateDuration, (PATH+"/chocolate_bar/chocolate_"));
+			//initChocolateBar();
 		}
 		
 		else if(this.model instanceof EnergyDrink){
-			initEnergyDrink();
+			energyDrinkAnimation = initCollectibleAnimation(energyDrinkImages, energyDrinkDuration, (PATH+"/energy_drink/energydrink_"));
+			//initEnergyDrink();
 		}
 	}
 	
@@ -93,44 +100,11 @@ public class CollectibleView {
 		}
 	}
 	
-	
-	/**
-	 * Initialize the animation of a coin
-	 * @throws SlickException
-	 */
-	public void initCoin() throws SlickException{
-		coinImages = new Image[8];
-		for(int i = 0; i<coinImages.length; i++){
-			coinImages[i] = new Image(PATH+"/coin/coin_"+(i+1)+".png");
-		}		
-		coinAnimation = new Animation(coinImages, coinDuration);
-	}
-	
-	/**
-	 * Initialize the animation of a gem
-	 * @throws SlickException
-	 */
-	public void initGem() throws SlickException{
-		gemImages = new Image[8];
-		for(int i = 0; i<gemImages.length; i++){
-			gemImages[i] = new Image(PATH+"/gem/gem_"+i+".png");
+	public Animation initCollectibleAnimation(Image[] images, int duration, String path) 
+			throws SlickException{
+		for(int i = 0; i<images.length; i++){
+			images[i] = new Image(path+(i+1)+".png");
 		}
-		gemAnimation = new Animation(gemImages, gemDuaration);
-	}
-	
-	public void initChocolateBar() throws SlickException{
-		chocolateImages = new Image[5];
-		for(int i = 0; i<chocolateImages.length; i++){
-			chocolateImages[i] = new Image(PATH+"/chocolate_bar/chocolate_"+(i+1)+".png");
-		}
-		chocolateAnimation = new Animation(chocolateImages,chocolateDuration);
-	}
-	
-	public void initEnergyDrink() throws SlickException{
-		energyDrinkImages = new Image[4];
-		for(int i = 0; i<energyDrinkImages.length; i++){
-			energyDrinkImages[i] = new Image(PATH+"/energy_drink/energydrink_"+(i+1)+".png");
-		}
-		energyDrinkAnimation = new Animation(energyDrinkImages, energyDrinkDuration);
+		return new Animation(images, duration);
 	}
 }

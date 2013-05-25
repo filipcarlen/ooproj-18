@@ -1,6 +1,6 @@
 package model;
 
-import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -30,8 +30,10 @@ public class Bullet implements IEntity{
  	
  	private int ID;
 
-	/** The radius of the circle shaped body in meters */
-	public final float RADIUS = 0.15f;
+	/** The width of the body in pixels */
+	public final float WIDTH = 22f;
+	/** The height of the body in pixels */
+	public final float HEIGHT = 7f;
 
 	public Bullet(Gun gunModel, Vec2 firstPos, Navigation navigation, int ID){
 		this.ID = ID;
@@ -53,20 +55,20 @@ public class Bullet implements IEntity{
 		this.firstPos = firstPos;
 		
 		if(this.navigation == Navigation.EAST){
-			this.firstPos.x += this.RADIUS + 0.5f;
+			this.firstPos.x += Utils.pixelsToMeters(this.WIDTH) + 0.1f;
 			bd.position.set(firstPos.x, firstPos.y);
 			
 		} else if(this.navigation == Navigation.WEST){
-			this.firstPos.x -= (this.RADIUS + 0.5f);
+			this.firstPos.x -= Utils.pixelsToMeters(this.WIDTH) + 0.1f;
 			bd.position.set(firstPos.x, firstPos.y);
 		}
 		
-		CircleShape cs = new CircleShape();
-		cs.m_radius = RADIUS;
+		PolygonShape ps = new PolygonShape();
+		ps.setAsBox(Utils.pixelsToMeters(this.WIDTH)/2, Utils.pixelsToMeters(this.HEIGHT)/2);
 		
 		FixtureDef fd = new FixtureDef();
-		fd.shape = cs;
-		fd.density = 0.4f;
+		fd.shape = ps;
+		fd.density = 0.15f;
 		fd.friction = 0.0f;
 		fd.restitution = 0.5f;
 		fd.filter.maskBits = 555;
@@ -137,7 +139,7 @@ public class Bullet implements IEntity{
 	
 	@Override
 	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.bulletBody.getPosition().add(new Vec2(-RADIUS, -RADIUS)));
+		return Utils.metersToPixels(this.bulletBody.getPosition()).sub(new Vec2(this.WIDTH/2, this.HEIGHT/2));
 	}
 	
 	@Override
@@ -151,11 +153,11 @@ public class Bullet implements IEntity{
 	}
 	@Override
 	public float getHeight() {
-		return this.RADIUS*2;
+		return Utils.pixelsToMeters(this.HEIGHT);
 	}
 	@Override
 	public float getWidth() {
-		return this.RADIUS*2;
+		return Utils.pixelsToMeters(this.WIDTH);
 	}
 		
 }
