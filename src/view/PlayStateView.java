@@ -45,7 +45,7 @@ public class PlayStateView implements ActionListener {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)throws SlickException {
 		statusbar.draw(0, 0);
 		healthbar.draw(3, 70, hero.getHp()/(float)hero.getMaxHp()*healthbar.getWidth(), healthbar.getHeight());
-		acfw.drawString(10, 16, hero.getName());
+		acfw.drawString(10, 16, hero.getPlayerName());
 		acfw.drawString(300, 10, "Score: " + hero.getScore());
 		if(timer.isRunning()){
 			acfb.drawString((gc.getWidth()/2)-(acfb.getWidth(not_in_goal)/2), gc.getHeight()/2 -100, not_in_goal + hero.getScore());
