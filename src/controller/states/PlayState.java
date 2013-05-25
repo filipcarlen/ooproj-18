@@ -56,7 +56,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	
 	public static PlayState getInstance(){
 		if(instance == null)
-			instance = new PlayState(GameApp.PLAYSTATE);
+			instance = new PlayState(GameApp.PLAYS_STATE);
 		return instance;
 	}
 	
@@ -110,7 +110,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			endGameDelay.start();
 		}
 		if(endGame){
-			sbg.enterState(GameApp.GAMEOVERSTATE);
+			sbg.enterState(GameApp.GAME_OVER_STATE);
 		}
 		try{
 			camera.updateCamera(hero.getFrontPosPixels());
@@ -120,14 +120,14 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			heroController.update(gc, sbg, delta);
 		}catch(NullPointerException e){}
 		if(Controls.getInstance().check("pause")){
-			sbg.enterState(GameApp.PAUSESTATE);
+			sbg.enterState(GameApp.PAUSE_STATE);
 		}
 		
 		// this if-statement checks if the hero is inside the Goallocation,
 		// and if you got the right score to finish the game
 		if(worldMap.isInGoalArea(hero.getPosMeters())){
 			if(hero.getScore() > 180)
-				sbg.enterState(GameApp.GAMEOVERSTATE);			//Finish the game
+				sbg.enterState(GameApp.GAME_OVER_STATE);			//Finish the game
 			else
 				playstateview.hasReachedEnd();					// Calls the View to print that you doon't have enough score
 		}
