@@ -40,7 +40,7 @@ public class HighscoreState extends BasicGameState {
 	
 	public static HighscoreState getInstance(){
 		if(instance == null){
-			return new HighscoreState(GameApp.HIGHSCORE_STATE);
+			return new HighscoreState(GameApp.HIGH_SCORE_STATE);
 		}
 			return instance;
 	}

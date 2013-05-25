@@ -150,7 +150,7 @@ public class MainMenuState extends BasicGameState {
 		
 		if(mouseClicked && insideHighscore){
 			input.clearMousePressedRecord();
-			sbg.enterState(GameApp.HIGHSCORE_STATE);
+			sbg.enterState(GameApp.HIGH_SCORE_STATE);
 		}
 		
 		if(mouseClicked && insideQuitGame){
