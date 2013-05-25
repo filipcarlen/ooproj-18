@@ -97,7 +97,7 @@ public class WorldMap{
 						}
 						goallocation.add(new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight()));
 					}else if(idtile == 91){
-						positionHero = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
+						positionHero = new Vec2(i*tm.getTileWidth()+(tm.getTileWidth()/2), j*tm.getTileHeight()+ (tm.getTileHeight()/2));
 					}else if(idtile == 92){
 						bodies.add(new MovingFoe(w, pos, 50, new Sword(w, 200 ,35, id), 5, id));
 					}else if(idtile == 93){
