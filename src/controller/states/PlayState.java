@@ -80,7 +80,6 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
-		Sounds.getInstance().stopMusic();
 		Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
 		hero.continueUseHero(hero.getPosMeters());
 		if(endGame){
@@ -293,5 +292,9 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		endGame = true;
 		this.unpauseUpdate();
 		endGameDelay.stop();
+	}
+
+	public void setPlayerName(String playername) {
+		hero.setPlayerName(playername);		
 	}
 }
