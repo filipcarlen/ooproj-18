@@ -1,5 +1,8 @@
 package controller.states;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,12 +12,14 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.Controls;
 import utils.SoundType;
 import utils.Sounds;
 
 public class OptionsState extends BasicGameState {
 	
 	private int stateID;
+	private int previousStateID = -1;
 	private final String PATH = "res/options_menu/";
 	
 	private float arrowSpace = 32, spacing = 20, mouseHandleSpace;
@@ -43,7 +48,8 @@ public class OptionsState extends BasicGameState {
 	
 	private Image key, keyH, keyM;
 	private Vec2[] keyPos = new Vec2[4];
-	private boolean[] insideKeys = new boolean[4], clickedKeys = new boolean[4];
+	private List<Boolean> insideKeys = new ArrayList<Boolean>(4), clickedKeys = new ArrayList<Boolean>(4);
+	private List<Integer> chosenKeys = new ArrayList<Integer>(4);
 	
 	private Image ok, okH;
 	private Vec2 okPos;
@@ -88,6 +94,13 @@ public class OptionsState extends BasicGameState {
 		this.okH = new Image(PATH + "okH.png");
 		//IMAGES END ___________________________________________
 		
+		for(int i = 0; i < 4; i++) {
+			this.insideKeys.add(false);
+			this.clickedKeys.add(false);
+		}
+		
+		//this.chosenKeys.add(Controls.getInstance());
+		
 		this.initPositions(gc);
 	}
 
@@ -95,7 +108,7 @@ public class OptionsState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		
-		this.background.draw(0,0);
+		this.background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		this.options.draw(this.optionsPos.x, this.optionsPos.y);
 		
 		//MUSIC _______________________________________________________________
@@ -187,18 +200,18 @@ public class OptionsState extends BasicGameState {
 		this.jump.draw(this.jumpPos.x, this.jumpPos.y);
 		this.fight.draw(this.fightPos.x, this.fightPos.y);
 		
-		for(int i = 0; i < this.insideKeys.length; i++){
-			if(this.insideKeys[i]) {
-				if(this.clickedKeys[i]) {
+		for(int i = 0; i < this.insideKeys.size(); i++){
+			if(this.insideKeys.get(i)) {
+				if(this.clickedKeys.get(i)) {
 					this.keyM.draw(this.keyPos[i].x, this.keyPos[i].y);
 				} else {
 					this.keyH.draw(this.keyPos[i].x, this.keyPos[i].y);
 				}
 			} else {
-				if(this.clickedKeys[i]) {
+				if(this.clickedKeys.get(i)) {
 					this.keyM.draw(this.keyPos[i].x, this.keyPos[i].y);
 				} else {
-					this.keyH.draw(this.keyPos[i].x, this.keyPos[i].y);
+					this.key.draw(this.keyPos[i].x, this.keyPos[i].y);
 				}
 			}
 		} //KEYBINDINGS END ___________________________________________________
@@ -229,8 +242,8 @@ public class OptionsState extends BasicGameState {
 		
 		this.insideFullscreenOn = this.mouseInsideImage(mouseX, mouseY, this.fullscreenPos, this.fullscreenOn);
 		
-		for(int i = 0; i < this.insideKeys.length; i++){
-			this.insideKeys[i] = this.mouseInsideImage(mouseX, mouseY, this.keyPos[i], this.key);
+		for(int i = 0; i < this.insideKeys.size(); i++){
+			this.insideKeys.set(i, this.mouseInsideImage(mouseX, mouseY, this.keyPos[i], this.key));
 		}
 		
 		this.insideOk = this.mouseInsideImage(mouseX, mouseY, this.okPos, this.ok);
@@ -388,11 +401,33 @@ public class OptionsState extends BasicGameState {
 		} //OK END _____________________________________________________________________________________
 		
 		//KEYBINDINGS __________________________________________________________________________________
-		for(int i = 0; i < this.insideKeys.length; i++){
-			if(this.insideKeys[i] && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				this.clickedKeys[i] = true;
+		//If any of the key bindings are clicked, mark them.
+		for(int i = 0; i < this.insideKeys.size(); i++){
+			if(this.insideKeys.get(i) && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+				for(int j = 0; j < this.clickedKeys.size(); j++) {
+					this.clickedKeys.set(j, false);
+				}
+				this.clickedKeys.set(i, true);
+				break;
+			} 
+			if(!this.insideKeys.contains(true) && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+				for(int j = 0; j < this.clickedKeys.size(); j++) {
+					this.clickedKeys.set(j, false);
+				}
 			}
-		} //KEYBINDINGS END ____________________________________________________________________________
+		}
+		//If any of the key bindings are marked, check what key is chosen for it.
+		if(this.clickedKeys.contains(true)) {
+			for(int i = 0; i < 90; i++) {
+				if(i != Input.KEY_ESCAPE && i != Input.KEY_P && input.isKeyPressed(i)){
+					
+				}
+			}
+		}
+		
+		
+		
+		//KEYBINDINGS END ____________________________________________________________________________
 	}
 	
 	public void initPositions(GameContainer gc) {
@@ -486,5 +521,9 @@ public class OptionsState extends BasicGameState {
 		else{
 			return false;
 		}
+	}
+	
+	public void setPreviousStateID(int previousStateID) {
+		this.previousStateID = previousStateID;
 	}
 }

@@ -1,26 +1,34 @@
 package controller;
 
-import model.StaticFoeModel;
+import model.AbstractStaticFoe;
+import model.StaticFoeFire;
+import model.StaticFoePlant;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import view.StaticFoeView;
+import view.StaticFoeFireView;
+import view.IStaticFoeView;
+import view.StaticFoePlantView;
 
 public class StaticFoeController implements IEntityController {
 	
-	private StaticFoeView view;
-	private StaticFoeModel model;
+	private IStaticFoeView view;
+	private AbstractStaticFoe model;
 	
-	public StaticFoeController(StaticFoeModel model){
-		this.view = new StaticFoeView(model);
+	public StaticFoeController(AbstractStaticFoe model){
 		this.model = model;
+		
+		if(this.model instanceof StaticFoeFire) {
+			this.view = new StaticFoeFireView((StaticFoeFire)this.model);
+		} else if(this.model instanceof StaticFoePlant) {
+			this.view = new StaticFoePlantView((StaticFoePlant)this.model);
+		}
 	}
 	
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta) {
-	}
+	public void update(GameContainer container, StateBasedGame game, int delta) {}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
@@ -31,5 +39,4 @@ public class StaticFoeController implements IEntityController {
 	public int getID() {
 		return this.model.getID();
 	}
-
 }
