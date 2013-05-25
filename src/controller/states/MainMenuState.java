@@ -18,7 +18,7 @@ import utils.Sounds;
 public class MainMenuState extends BasicGameState {
 	
 	private int stateID = -1;
-	private final String PATH = "res/MainMenu/";
+	private final String PATH = "res/main_menu/";
 	
 	private Image title, background, startGame, startGameHighlighted, quit, quitHighlighted, highscore,
 						highscoreHighlighted, options, optionsHighlighted;
@@ -70,7 +70,7 @@ public class MainMenuState extends BasicGameState {
 			throws SlickException {
 		initLeafs();
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
-		title = new Image("res/title.png");
+		title = new Image(PATH + "title.png");
 		background = new Image("res/Background.png");
 		startGame = new Image(PATH+"Startgame.png");
 		startGameHighlighted = new Image(PATH+"StartgameHighlighted.png");
@@ -176,7 +176,7 @@ public class MainMenuState extends BasicGameState {
 	public void initLeafs() throws SlickException{
 		leafs = new Image[14];
 		for(int i = 0; i<leafs.length;i++){
-			leafs[i] = new Image(PATH + "/Leafanimation/"+(i+1)+".png");
+			leafs[i] = new Image(PATH + "/leaf_animation/"+(i+1)+".png");
 		}
 		leafAnimation = new Animation(leafs, 100);
 	}
