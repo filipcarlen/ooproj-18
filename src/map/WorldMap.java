@@ -108,9 +108,9 @@ public class WorldMap{
 					}else if(idtile == 91){
 						positionHero = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
 					}else if(idtile == 92){
-						bodies.add(new MovingFoeModel(w, pos, 50, new SwordModel(w, 200 ,35, id), 5, id));
+						bodies.add(new MovingFoe(w, pos, 50, new SwordModel(w, 200 ,35, id), 5, id));
 					}else if(idtile == 93){
-						bodies.add(new MovingFoeModel(w, pos, 50, new GunModel(w, 1000, 5, 10, id), 5, id));
+						bodies.add(new MovingFoe(w, pos, 50, new GunModel(w, 1000, 5, 10, id), 5, id));
 					}else if(idtile == 94){
 						bodies.add(new StaticFoeFire(w, pos, 15, id));
 					}else if(idtile == 95){
