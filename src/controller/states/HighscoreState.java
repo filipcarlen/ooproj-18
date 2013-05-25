@@ -21,7 +21,7 @@ import controller.HighscoreManager;
 public class HighscoreState extends BasicGameState {
 	
 	private int stateID = -1;
-	private final String PATH = "res/HighscoreMenu/";
+	private final String PATH = "res/highscore_menu/";
 	private static HighscoreState instance = null;
 	
 	private Image background, title, mainmenu, mainmenuH, clear, clearH, total;
@@ -61,7 +61,7 @@ public class HighscoreState extends BasicGameState {
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		highscoremanager = new HighscoreManager();
-		font = new AngelCodeFont("res/Font/font.fnt", "res/Font/font_0.png");
+		font = new AngelCodeFont("res/font/font.fnt", "res/font/font_0.png");
 		
 		initCoin();
 		initGem();
@@ -71,8 +71,8 @@ public class HighscoreState extends BasicGameState {
 		clearH = new Image(PATH+"clearhighlighted.png");
 		background = new Image("res/background.png");
 		title = new Image(PATH+"highscore_title.png");
-		mainmenu = new Image("res/GameOver/MainMenu.png");
-		mainmenuH = new Image("res/GameOver/MainMenuH.png");
+		mainmenu = new Image("res/game_over_menu/MainMenu.png");
+		mainmenuH = new Image("res/Game_over_menu/MainMenuH.png");
 	}
 
 	@Override
@@ -109,15 +109,16 @@ public class HighscoreState extends BasicGameState {
 		Input input = arg0.getInput();
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
+		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		
 		insideMainMenu = checkMouse(mouseX,mouseY,mainMenuPos,mainmenu);
 		insideClear = checkMouse(mouseX, mouseY, clearPos, clear);
 		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideMainMenu){
+		if(mouseClicked && insideMainMenu){
 			arg1.enterState(GameApp.MAINMENUSTATE);
 		}
 		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideClear){
+		if(mouseClicked && insideClear){
 			try {
 				clearHighscore();
 			} catch (IOException e) {

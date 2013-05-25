@@ -13,8 +13,6 @@ import utils.Sounds;
 
 public class CollisionDetection  implements ContactListener{
 
-	private MovingFoeModel foeModel;
-	private Hero heroModel;
 	private Sounds sound = Sounds.getInstance();
 	
 	public CollisionDetection(){
@@ -26,45 +24,48 @@ public class CollisionDetection  implements ContactListener{
 		Object objectA = contact.getFixtureA().getBody().getUserData();
 		Object objectB = contact.getFixtureB().getBody().getUserData();
 		
+		MovingFoe movingFoe;
+		Hero hero;
+		
 		// Check if objectA of the collision is the hero and check what objectB is too 
 		// make the right changes.
 		if(objectA instanceof Hero){
+			hero = (Hero)objectA;
 			
-			heroModel = (Hero)objectA;
 			//This if statements checks what you're colliding with
 			if(objectB ==  EntityType.GROUND){
-				heroModel.setGroundContact();
-			}else if(objectB instanceof MovingFoeModel){// This if Statement will call setGroundcontact when you jump on a enemies head
-				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectB).getPosMeters().y){
-					heroModel.setGroundContact();
+				hero.setGroundContact();
+			}else if(objectB instanceof MovingFoe){// This if Statement will call setGroundcontact when you jump on a enemies head
+				if(hero.getPosMeters().y < ((MovingFoe)objectB).getPosMeters().y){
+					hero.setGroundContact();
 				}
 			}else if(objectB instanceof ICollectible){
 				((AbstractCollectible)objectB).killBody();
 				if(objectB instanceof AbstractPoints){
-					heroModel.incrementScore(((AbstractPoints)objectB).getValue());
+					hero.incrementScore(((AbstractPoints)objectB).getValue());
 					if(objectB instanceof Gem){
-						heroModel.incrementGem();
+						hero.incrementGem();
 						sound.playSound(SoundType.COLLECT_GEM);
 					}else if(objectB instanceof Coin){
-						heroModel.incrementCoin();
+						hero.incrementCoin();
 						sound.playSound(SoundType.COLLECT_COIN);
 					}
 				}
 				if(objectB instanceof AbstractPowerUp)
 					if(objectB instanceof ChocolateBar){
-						heroModel.heal((int)(Math.round(((AbstractPowerUp)objectB).gethpBoost() * heroModel.getMaxHp())));
+						hero.heal((int)(Math.round(((AbstractPowerUp)objectB).gethpBoost() * hero.getMaxHp())));
 						sound.playSound(SoundType.CHOCOLATE_BAR);
 					}else if(objectB instanceof EnergyDrink){
-						heroModel.heal((int)(Math.round(((AbstractPowerUp)objectB).gethpBoost() * heroModel.getMaxHp())));
+						hero.heal((int)(Math.round(((AbstractPowerUp)objectB).gethpBoost() * hero.getMaxHp())));
 						sound.playSound(SoundType.ENERGY_DRINK);
 				}
-			}else if(objectB instanceof StaticFoeModel) {
-				heroModel.setHurted(null,((StaticFoeModel)objectB).getDamage());
+			}else if(objectB instanceof AbstractStaticFoe) {
+				hero.setHurted(null,((AbstractStaticFoe)objectB).getDamage());
 			}else if(objectB instanceof Bullet) {
-				heroModel.setHurted(((Bullet)objectB).getNavigation(),((Bullet)objectB).getDamage());
+				hero.setHurted(((Bullet)objectB).getNavigation(),((Bullet)objectB).getDamage());
 				((Bullet)objectB).destroyEntity();
 			}else if(objectB instanceof Sword) {
-				heroModel.setHurted(((Sword)objectB).getNavigation() ,((Sword)objectB).getDamage());
+				hero.setHurted(((Sword)objectB).getNavigation() ,((Sword)objectB).getDamage());
 				((Sword)objectB).destroyEntity();
 			}
 		}
@@ -73,75 +74,75 @@ public class CollisionDetection  implements ContactListener{
 		// make the right changes.
 		else if(objectB instanceof Hero){
 			
-			heroModel = (Hero)objectB;
+			hero = (Hero)objectB;
 			//This if statements checks what you're colliding with
 			if(objectA == EntityType.GROUND){
-				heroModel.setGroundContact();
-			}else if(objectA instanceof MovingFoeModel){// This if Statement will call setGroundcontact when you jump on a enemies head
-				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectA).getPosMeters().y){
-					heroModel.setGroundContact();
+				hero.setGroundContact();
+			}else if(objectA instanceof MovingFoe){// This if Statement will call setGroundcontact when you jump on a enemies head
+				if(hero.getPosMeters().y < ((MovingFoe)objectA).getPosMeters().y){
+					hero.setGroundContact();
 				}
 			}else if(objectA instanceof ICollectible){
 				((AbstractCollectible)objectA).killBody();
 				if(objectA instanceof AbstractPoints){
-					heroModel.incrementScore(((AbstractPoints)objectA).getValue());
+					hero.incrementScore(((AbstractPoints)objectA).getValue());
 					if(objectA instanceof Gem){
-						heroModel.incrementGem();
+						hero.incrementGem();
 						sound.playSound(SoundType.COLLECT_GEM);
 					}else if(objectA instanceof Coin){
-						heroModel.incrementCoin();
+						hero.incrementCoin();
 						sound.playSound(SoundType.COLLECT_COIN);
 					}
 				}
 				if(objectA instanceof AbstractPowerUp)
 					if(objectA instanceof ChocolateBar){
-						heroModel.heal((int)(Math.round(((AbstractPowerUp)objectA).gethpBoost() * heroModel.getMaxHp())));
+						hero.heal((int)(Math.round(((AbstractPowerUp)objectA).gethpBoost() * hero.getMaxHp())));
 						sound.playSound(SoundType.CHOCOLATE_BAR);
 					}else if(objectA instanceof EnergyDrink){
-						heroModel.heal((int)(Math.round(((AbstractPowerUp)objectA).gethpBoost() * heroModel.getMaxHp())));
+						hero.heal((int)(Math.round(((AbstractPowerUp)objectA).gethpBoost() * hero.getMaxHp())));
 						sound.playSound(SoundType.ENERGY_DRINK);
 				}
-			}else if(objectA instanceof StaticFoeModel) {
-				heroModel.setHurted(null,((StaticFoeModel)objectA).getDamage());
+			}else if(objectA instanceof AbstractStaticFoe) {
+				hero.setHurted(null,((AbstractStaticFoe)objectA).getDamage());
 			}else if(objectA instanceof Bullet) {
-				heroModel.setHurted( ((Bullet)objectA).getNavigation() ,((Bullet)objectA).getDamage());
+				hero.setHurted( ((Bullet)objectA).getNavigation() ,((Bullet)objectA).getDamage());
 				((Bullet)objectA).destroyEntity();
 			}else if(objectA instanceof Sword) {
-				heroModel.setHurted(((Sword)objectA).getNavigation(), ((Sword)objectA).getDamage());
+				hero.setHurted(((Sword)objectA).getNavigation(), ((Sword)objectA).getDamage());
 				((Sword)objectA).destroyEntity();
 			}
 		}
 		
 		// Check if objectA of the collision is a moving foe and check what objectB is too 
 		// make the right changes.
-		else if(objectA instanceof MovingFoeModel){
+		else if(objectA instanceof MovingFoe){
 	
-			foeModel = (MovingFoeModel)objectA;
+			movingFoe = (MovingFoe)objectA;
 			
 			if(objectB instanceof Bullet) {
-				foeModel.hurt(((Bullet)objectB).getDamage());
+				movingFoe.hurt(((Bullet)objectB).getDamage());
 				((Bullet)objectB).destroyEntity();
 			}
 			
 			else if(objectB instanceof Sword) {
-				foeModel.hurt(((Sword)objectB).getDamage());
+				movingFoe.hurt(((Sword)objectB).getDamage());
 				((Sword)objectB).destroyEntity();
 			}
 		}
 		
 		// Check if objectB of the collision is a moving foe and check what objectA is too 
 		// make the right changes.
-		else if(objectB instanceof MovingFoeModel){
+		else if(objectB instanceof MovingFoe){
 			
-			foeModel = (MovingFoeModel)objectB;
+			movingFoe = (MovingFoe)objectB;
 			
 			if(objectA instanceof Bullet) {
-				foeModel.hurt(((Bullet)objectA).getDamage());
+				movingFoe.hurt(((Bullet)objectA).getDamage());
 				((Bullet)objectA).destroyEntity();
 			}
 			
 			else if(objectA instanceof Sword) {
-				foeModel.hurt(((Sword)objectA).getDamage());
+				movingFoe.hurt(((Sword)objectA).getDamage());
 				((Sword)objectA).destroyEntity();
 			}
 		}

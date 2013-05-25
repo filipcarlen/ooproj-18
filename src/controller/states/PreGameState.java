@@ -14,7 +14,7 @@ import utils.WeaponType;
 public class PreGameState extends BasicGameState {
 	
 	private int stateID = -1;
-	private static final String PATH = "res/Pregame/";
+	private static final String PATH = "res/pre_game_menu/";
 	private Image background, sword, gun, title, play, playH, gunH, swordH, gunC, swordC, mainMenu, mainMenuH;
 	private Vec2 swordPos, gunPos, titlePos, playPos;
 	private boolean insidePlay, insideSword, insideGun, swordClicked, gunClicked;
@@ -95,24 +95,25 @@ public class PreGameState extends BasicGameState {
 		Input input = gc.getInput();
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
+		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		
 		insideGun = checkMouse(mouseX, mouseY, gunPos, gun);
 		insidePlay = checkMouse(mouseX, mouseY, playPos, play);
 		insideSword = checkMouse(mouseX, mouseY, swordPos, sword);
 		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideGun){
+		if(mouseClicked && insideGun){
 			weapon = WeaponType.GUN;
 			if(swordClicked){
 				swordClicked = false;
 			}
 			gunClicked = true;
 		}
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insidePlay){
+		if(mouseClicked && insidePlay){
 			PlayState.getInstance().setWeaponInUse(weapon);
 			sbg.enterState(GameApp.PLAYSTATE);
 		}
 		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && insideSword){
+		if(mouseClicked && insideSword){
 			weapon = WeaponType.SWORD;
 			if(gunClicked){
 				gunClicked = false;
