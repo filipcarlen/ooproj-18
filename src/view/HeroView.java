@@ -8,7 +8,6 @@ import model.Hero;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -47,6 +46,14 @@ public class HeroView {
 		}catch(SlickException e){
 			e.printStackTrace();
 		}
+	}
+
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		if(heroModel.isDead())
+			setAnimation(Movement.DIE, heroModel.getDirection());
+		Vec2 tmp = Camera.entityRender(heroModel.getPosPixels());
+		/* Draws the animation */
+		g.drawAnimation(currentAnimation, tmp.x, tmp.y);
 	}
 
 	/**
@@ -109,14 +116,6 @@ public class HeroView {
 			image[i] = imageList.get(i);
 		}
 		return image;
-	}
-	
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		if(heroModel.isDead())
-			setAnimation(Movement.DIE, heroModel.getDirection());
-		Vec2 tmp = Camera.entityRender(heroModel.getPosPixels());
-		/* Draws the animation */
-		g.drawAnimation(currentAnimation, tmp.x, tmp.y);
 	}
 	
 	/**
