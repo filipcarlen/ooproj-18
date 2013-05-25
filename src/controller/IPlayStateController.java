@@ -1,10 +1,10 @@
 package controller;
 
-import model.HeroModel;
+import model.Hero;
 
 public interface IPlayStateController {
 	
-	public HeroModel getHeroModel();
+	public Hero getHeroModel();
 		
 	public void removeEntity(int ID);
 	

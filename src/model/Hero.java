@@ -12,7 +12,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 
 
-public class HeroModel implements IAliveModel{
+public class Hero implements IAliveModel{
 	
 	/* Hero Weapon*/
 	private AbstractWeaponModel weapon;
@@ -61,14 +61,14 @@ public class HeroModel implements IAliveModel{
 	
 	private String playerName;
 	
-	public HeroModel(World w, String characterName, Vec2 pos){
+	public Hero(World w, String characterName, Vec2 pos){
 		this.world = w;
 		this.characterName = characterName;
 		this.playerName = "Player";						//Default name on the player is player
 		init(pos, true);
 	}
 
-	public HeroModel(World w, String characterName, Vec2 pos, int width, int height, AbstractWeaponModel weapon, boolean createHero){
+	public Hero(World w, String characterName, Vec2 pos, int width, int height, AbstractWeaponModel weapon, boolean createHero){
 		this.characterName = characterName;
 		this.world = w;
 		setDimension(new Dimension(width, height));

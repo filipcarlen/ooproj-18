@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import model.GunModel;
-import model.HeroModel;
+import model.Hero;
 import model.SwordModel;
 
 import org.jbox2d.common.Vec2;
@@ -48,7 +48,7 @@ public class HeroController implements IEntityController, ActionListener {
 	private boolean fight = false;
 
 	/* This is the Model */
-	private HeroModel model;
+	private Hero model;
 
 	/* This is the View */
 	private HeroView view;
@@ -59,10 +59,10 @@ public class HeroController implements IEntityController, ActionListener {
 	/* This timer controls how long time the hurt animations should continue*/
 	private Timer hurtTimer = new Timer(220, this);
 
-	public HeroController(HeroModel hm) {
+	public HeroController(Hero hm) {
 		model = hm;
 		view = new HeroView(hm);
-		if(!model.isBodyCreated()){
+		if(!model.hasLoadedDimension()){
 			/* Sets the dimension of the hero after the slimmest animation standing*/
 			model.setDimension(view.getWidth(), view.getHeight());
 		}

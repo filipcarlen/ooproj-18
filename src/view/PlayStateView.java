@@ -12,17 +12,17 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import model.HeroModel;
+import model.Hero;
 
 public class PlayStateView implements ActionListener {
 
 	private Image healthbar, statusbar;
-	private HeroModel hero;
+	private Hero hero;
 	private AngelCodeFont acfw,acfb;
 	private Timer timer = new Timer (1500, this);
 	private final String not_in_goal = "You need 180 score to finish this Level. \nYou got ";
 	
-	public PlayStateView(HeroModel hero){
+	public PlayStateView(Hero hero){
 		this.hero = hero;
 		try{
 			healthbar = new Image("res/map/healthbar.png");
@@ -38,7 +38,7 @@ public class PlayStateView implements ActionListener {
 		}
 	}
 
-	public void update(HeroModel hm, GameContainer gc) {
+	public void update(Hero hm, GameContainer gc) {
 
 	}
 

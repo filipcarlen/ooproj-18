@@ -8,14 +8,7 @@ import java.util.ArrayList;
 import javax.swing.Timer;
 
 import map.WorldMap;
-import model.AbstractWeaponModel;
-import model.GunModel;
-import model.HeroModel;
-import model.ICollectibleModel;
-import model.IEntityModel;
-import model.MovingFoeModel;
-import model.StaticFoeModel;
-import model.SwordModel;
+import model.*;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
@@ -25,21 +18,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import utils.Camera;
-import utils.Controls;
-import utils.SoundType;
-import utils.Sounds;
-import utils.WeaponType;
+import utils.*;
 import view.PlayStateView;
-import controller.CollectibleController;
-import controller.CollisionDetection;
-import controller.GunController;
-import controller.HeroController;
-import controller.IEntityController;
-import controller.IPlayStateController;
-import controller.MovingFoeController;
-import controller.StaticFoeController;
-import controller.SwordController;
+import controller.*;
 
 public class PlayState extends BasicGameState implements IPlayStateController, ActionListener{
 	
@@ -51,7 +32,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	private Camera camera;
 	private PlayStateView playstateview;
 	
-	private HeroModel hero;
+	private Hero hero;
 	private HeroController heroController;
 	
 	/* This two variables is use to end the game with a delay*/
@@ -203,13 +184,13 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	public void loadEntity(ArrayList<IEntityModel> bodies)throws SlickException{
 		this.bodies = bodies;
 		for(IEntityModel b: bodies){
-			if(b instanceof MovingFoeModel){
-				if(((MovingFoeModel)b).getWeapon().getWeaponType() == WeaponType.GUN)
-					controllers.add(new GunController((GunModel) ((MovingFoeModel)b).getWeapon()));
+			if(b instanceof MovingFoe){
+				if(((MovingFoe)b).getWeapon().getWeaponType() == WeaponType.GUN)
+					controllers.add(new GunController((GunModel) ((MovingFoe)b).getWeapon()));
 				else
-					controllers.add(new SwordController((SwordModel) ((MovingFoeModel)b).getWeapon()));
-				controllers.add(new MovingFoeController((MovingFoeModel)b, this));
-			}else if(b instanceof StaticFoeModel){
+					controllers.add(new SwordController((SwordModel) ((MovingFoe)b).getWeapon()));
+				controllers.add(new MovingFoeController((MovingFoe)b, this));
+			}else if(b instanceof AbstractStaticFoe){
 				controllers.add(new StaticFoeController((AbstractStaticFoe)b));
 			}else if(b instanceof ICollectibleModel){
 				controllers.add(new CollectibleController((ICollectibleModel) b, this));
@@ -220,11 +201,11 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 	
 	public void loadHero(String heroName, Vec2 pos) throws SlickException{
-		hero = new HeroModel(world ,heroName, pos);
+		hero = new Hero(world ,heroName, pos);
 		heroController = new HeroController(hero);
 	}
 	
-	public HeroModel getHeroModel(){
+	public Hero getHeroModel(){
 		return hero;
 	}
 	
@@ -292,8 +273,8 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		}
 		for(int i = 0; i < bodies.size(); i++){
 			if(((IEntityModel)bodies.get(i)).getID() == id){
-				if((bodies.get(i) instanceof MovingFoeModel) && ((MovingFoeModel)bodies.get(i)).getWeapon().getWeaponType() == WeaponType.GUN){
-					gunThatsActive.add((GunModel)((MovingFoeModel)bodies.get(i)).getWeapon());
+				if((bodies.get(i) instanceof MovingFoe) && ((MovingFoe)bodies.get(i)).getWeapon().getWeaponType() == WeaponType.GUN){
+					gunThatsActive.add((GunModel)((MovingFoe)bodies.get(i)).getWeapon());
 					break;
 				}else{
 					bodies.remove(i);

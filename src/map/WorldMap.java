@@ -4,16 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import model.ChocolateBarModel;
-import model.CoinModel;
-import model.EnergyDrinkModel;
-import model.GemModel;
-import model.GunModel;
-import model.IEntityModel;
-import model.MovingFoeModel;
-import model.StaticFoeModel;
-import model.SwordModel;
-import model.WorldShapeModel;
+import model.*;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;

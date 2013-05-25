@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.HeroModel;
+import model.Hero;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
@@ -21,7 +21,7 @@ import utils.WeaponType;
 
 public class HeroView {
 	
-	private HeroModel heroModel;
+	private Hero heroModel;
 	private Animation currentAnimation = new Animation();
 	private List <Animation> animations = new ArrayList<Animation>();
 	private int [] duration = {200, 200};
@@ -30,7 +30,7 @@ public class HeroView {
 	private String[] direction= {"right", "left"};
 	private boolean loadedweapon= false;
 	
-	public HeroView(HeroModel hm, WeaponType weaponType){
+	public HeroView(Hero hm, WeaponType weaponType){
 		this.heroModel = hm;
 		try{
 			loadMovementAnimation(hm.getName());
@@ -40,7 +40,7 @@ public class HeroView {
 		}
 	}
 
-	public HeroView(HeroModel hm) {
+	public HeroView(Hero hm) {
 		this.heroModel = hm;
 		try{
 			loadMovementAnimation(hm.getName());

@@ -3,7 +3,7 @@ package controller.states;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.HeroModel;
+import model.Hero;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
@@ -243,7 +243,7 @@ public class GameOverState extends BasicGameState{
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		initPositions(gc, sbg);
 		
-		HeroModel model = ((PlayState)sbg.getState(GameApp.PLAYSTATE)).getHeroModel();
+		Hero model = ((PlayState)sbg.getState(GameApp.PLAYSTATE)).getHeroModel();
 		this.isWin = !model.isDead();
 
 		int coins = model.getCoinAmount();

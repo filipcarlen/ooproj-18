@@ -72,7 +72,7 @@ public class BulletModel implements IEntityModel{
 		fd.filter.maskBits = 555;
 		fd.filter.categoryBits = 4;
 		
-		if(gunModel.getFighterModel() instanceof HeroModel){
+		if(gunModel.getFighterModel() instanceof Hero){
 			fd.filter.maskBits = 555;
 			fd.filter.categoryBits = 4;
 		} else{

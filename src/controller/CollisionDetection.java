@@ -14,7 +14,7 @@ import utils.Sounds;
 public class CollisionDetection  implements ContactListener{
 
 	private MovingFoeModel foeModel;
-	private HeroModel heroModel;
+	private Hero heroModel;
 	private Sounds sound = Sounds.getInstance();
 	
 	public CollisionDetection(){
@@ -28,9 +28,9 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectA of the collision is the hero and check what objectB is too 
 		// make the right changes.
-		if(objectA instanceof HeroModel){
+		if(objectA instanceof Hero){
 			
-			heroModel = (HeroModel)objectA;
+			heroModel = (Hero)objectA;
 			//This if statements checks what you're colliding with
 			if(objectB ==  EntityType.GROUND){
 				heroModel.setGroundContact();
@@ -71,9 +71,9 @@ public class CollisionDetection  implements ContactListener{
 		
 		// Check if objectB of the collision is the hero and check what objectA is too 
 		// make the right changes.
-		else if(objectB instanceof HeroModel){
+		else if(objectB instanceof Hero){
 			
-			heroModel = (HeroModel)objectB;
+			heroModel = (Hero)objectB;
 			//This if statements checks what you're colliding with
 			if(objectA == EntityType.GROUND){
 				heroModel.setGroundContact();
