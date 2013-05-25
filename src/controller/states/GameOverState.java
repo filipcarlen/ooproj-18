@@ -36,12 +36,12 @@ public class GameOverState extends BasicGameState{
 	
 	private Vec2 coinAmountPos, foeAmountPos, gemAmountPos, totalScorePos;
 	
-	private final String IMAGE_PATH = "res/GameOver/";
-	private final String DISCO_BALL_PATH = "res/GameOver/disco_ball/";
-	private final String DANCING_HERO_PATH = "res/Characters/BluePants/";
-	private final String COIN_PATH = "res/Collectibles/Coin/";
+	private final String IMAGE_PATH = "res/game_over/";
+	private final String DISCO_BALL_PATH = "res/game_over/disco_ball/";
+	private final String DANCING_HERO_PATH = "res/characters/bluepants/";
+	private final String COIN_PATH = "res/collectibles/coin/";
 	private final String FOE_PATH = "res/foe/moving_foe/foe_right/";
-	private final String GEM_PATH = "res/Collectibles/Gem/";
+	private final String GEM_PATH = "res/collectibles/gem/";
 	
 	private Animation coin, foe, gem;
 	private Animation dancingHero, discoBall;

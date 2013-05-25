@@ -34,7 +34,7 @@ public class StaticFoePlantView implements IStaticFoeView {
 		int duration = 100;
 		
 		for(int i = 0; i < images.length; i++) {
-			images[i] = new Image(this.PATH + "plant_" + (i+1) + ".png");
+			images[i] = new Image(this.PATH + "plant1_" + (i+1) + ".png");
 		}
 		this.plant = new Animation(images, duration);
 	}

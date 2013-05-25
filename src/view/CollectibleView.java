@@ -26,7 +26,7 @@ public class CollectibleView {
 	private ICollectible model;
 	
 	/** A String representing the path to the source folder */
-	private final String PATH = "res/Collectibles";
+	private final String PATH = "res/collectibles";
 	
 	/** Arrays for coinImages and gemImages. Contains Images */
 	private Image[] coinImages, gemImages, energyDrinkImages, chocolateImages;
@@ -101,7 +101,7 @@ public class CollectibleView {
 	public void initCoin() throws SlickException{
 		coinImages = new Image[8];
 		for(int i = 0; i<coinImages.length; i++){
-			coinImages[i] = new Image(PATH+"/Coin/coin_"+(i+1)+".png");
+			coinImages[i] = new Image(PATH+"/coin/coin_"+(i+1)+".png");
 		}		
 		coinAnimation = new Animation(coinImages, coinDuration);
 	}
@@ -113,7 +113,7 @@ public class CollectibleView {
 	public void initGem() throws SlickException{
 		gemImages = new Image[8];
 		for(int i = 0; i<gemImages.length; i++){
-			gemImages[i] = new Image(PATH+"/Gem/gem_"+i+".png");
+			gemImages[i] = new Image(PATH+"/gem/gem_"+i+".png");
 		}
 		gemAnimation = new Animation(gemImages, gemDuaration);
 	}
@@ -121,7 +121,7 @@ public class CollectibleView {
 	public void initChocolateBar() throws SlickException{
 		chocolateImages = new Image[5];
 		for(int i = 0; i<chocolateImages.length; i++){
-			chocolateImages[i] = new Image(PATH+"/ChocolateBar/chocolate_"+(i+1)+".png");
+			chocolateImages[i] = new Image(PATH+"/chocolate_bar/chocolate_"+(i+1)+".png");
 		}
 		chocolateAnimation = new Animation(chocolateImages,chocolateDuration);
 	}
@@ -129,7 +129,7 @@ public class CollectibleView {
 	public void initEnergyDrink() throws SlickException{
 		energyDrinkImages = new Image[4];
 		for(int i = 0; i<energyDrinkImages.length; i++){
-			energyDrinkImages[i] = new Image(PATH+"/Energydrink/energydrink_"+(i+1)+".png");
+			energyDrinkImages[i] = new Image(PATH+"/energy_drink/energydrink_"+(i+1)+".png");
 		}
 		energyDrinkAnimation = new Animation(energyDrinkImages, energyDrinkDuration);
 	}
