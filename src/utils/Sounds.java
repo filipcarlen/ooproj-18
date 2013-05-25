@@ -36,7 +36,7 @@ private static Sounds instance = null;
 		try{
 			musicInMenus = new Sound(PATH+"music_in_menus.wav");
 			musicInGame = new Sound(PATH+"music_in_game.wav");
-			musicYouLose = new Sound(PATH+"music_you_lose");
+			musicYouLose = new Sound(PATH+"music_you_lose.wav");
 			musicYouWin = new Sound(PATH+"music_you_win");
 			gunShot = new Sound(PATH+"gun_shot.wav");
 			foeDie = new Sound(PATH+"foe_die.wav");
