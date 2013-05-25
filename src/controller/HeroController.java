@@ -12,7 +12,6 @@ import model.SwordModel;
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Controls;
@@ -47,8 +46,6 @@ public class HeroController implements IEntityController, ActionListener {
 	private Timer fightTimer;
 	
 	private boolean fight = false;
-	
-	private boolean move = false;
 
 	/* This is the Model */
 	private HeroModel model;
@@ -64,17 +61,10 @@ public class HeroController implements IEntityController, ActionListener {
 
 	public HeroController(HeroModel hm) {
 		model = hm;
-		view = new HeroView(hm, model.getWeaponType());
-		fightTimer= new Timer(view.getAttackAnimation().getFrameCount()* 
-				view.getAttackAnimation().getDuration(0),this);
+		view = new HeroView(hm);
 		if(!model.isBodyCreated()){
 			/* Sets the dimension of the hero after the slimmest animation standing*/
 			model.setDimension(view.getWidth(), view.getHeight());
-		}
-		if(model.getWeaponType() == WeaponType.GUN)
-			controller = new GunController((GunModel) model.getWeapon());
-		else if(model.getWeaponType() == WeaponType.SWORD){
-			controller = new SwordController((SwordModel) model.getWeapon());
 		}
 		if (!Controls.getInstance().isControlsSet())
 			/* Sets the Controls to the default options */
@@ -86,10 +76,24 @@ public class HeroController implements IEntityController, ActionListener {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		/* Tells the Control which key i'm pressing */
 		Controls.getInstance().updateInput(gc.getInput());
+		/* Boolean to be able you check if the body is moving(only right and left)*/
+		boolean move = false;
 		
-		move = false;
+		/* Plays sound if the model has getting hurt or has died*/
+		Sounds sound = Sounds.getInstance();
+		switch(model.getCurrentHealthAction()){
+		case HURT:
+			sound.playSound(SoundType.HURT);
+			break;
+		case DEAD:
+			sound.playSound(SoundType.DIE);
+			break;
+		case NONE:
+			//Then the hero is as usual, got the same hp as before
+			break;
+		}
 		
-		/* Get the vector that is used to apply force to the character */
+		/* Get the vector that is used to apply force in the x axis to the character */
 		Vec2 heroVec = model.getBody().getWorldVector(new Vec2(-1.2f, 0.0f));
 		
 		/*
@@ -98,9 +102,10 @@ public class HeroController implements IEntityController, ActionListener {
 		 */
 		model.getBody().setLinearDamping(1.5f);
 	
+		/* Starts the hurt Animation*/
 		if(model.isHurted() && !hurtTimer.isRunning()){
 			view.setAnimation(model.isHurtedFront()? HeroView.Movement.HURT: HeroView.Movement.HURTBACK, model.getDirection());
-			hurtTimer.start();
+			hurtTimer.start();				// The timer is used to run the hurtAnimaion for a short period of time
 		}
 		
 
@@ -179,9 +184,8 @@ public class HeroController implements IEntityController, ActionListener {
 				jump = false;
 			}
 		}
-		if(model.getBody().m_linearVelocity.y > 0.001f ){
+		if(model.isFalling()){
 			view.setAnimation(HeroView.Movement.FALL, model.getDirection());
-			model.falling();
 		}
 		controller.update(gc, sbg, delta);
 		
@@ -203,6 +207,13 @@ public class HeroController implements IEntityController, ActionListener {
 	
 	public void updateWeaponAnimation(){
 		view.loadWeaponAnimation(model.getName(), model.getWeaponType());
+		fightTimer= new Timer(view.getAttackAnimation().getFrameCount()* 
+				view.getAttackAnimation().getDuration(0),this);
+		if(model.getWeaponType() == WeaponType.GUN)
+			controller = new GunController((GunModel) model.getWeapon());
+		else if(model.getWeaponType() == WeaponType.SWORD){
+			controller = new SwordController((SwordModel) model.getWeapon());
+		}
 	}
 
 	@Override
