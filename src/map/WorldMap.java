@@ -112,13 +112,13 @@ public class WorldMap{
 					}else if(idtile == 93){
 						bodies.add(new MovingFoeModel(w, pos, 50, new GunModel(w, 1000, 5, 10, id), 5, id));
 					}else if(idtile == 94){
-						bodies.add(new StaticFoeModel(w, pos, 15, StaticFoeModel.StaticFoeType.FIRE, id));
+						bodies.add(new StaticFoeFire(w, pos, 15, id));
 					}else if(idtile == 95){
 						bodies.add(new ChocolateBarModel(w, pos, id));
 					}else if(idtile == 96){
 						bodies.add(new EnergyDrinkModel(w, pos, id));
 					}else if(idtile == 97){
-						bodies.add(new StaticFoeModel(w, pos, 20, StaticFoeModel.StaticFoeType.PLANT, id));
+						bodies.add(new StaticFoePlant(w, pos, 20, id));
 					}else if(idtile == 99){
 						bodies.add(new CoinModel(w, pos, id));
 					}else if(idtile == 100){
@@ -130,7 +130,7 @@ public class WorldMap{
 			goallocationrect = new Rectangle(goallocation.get(0).x, 
 					goallocation.get(0).y,
 					goallocation.get(1).x-goallocation.get(0).x+tm.getTileWidth(), 
-					goallocation.get(goallocation.size()-2).y- goallocation.get(0).y+tm.getTileHeight());
+					goallocation.get(goallocation.size()-1).y- goallocation.get(0).y+tm.getTileHeight());
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
