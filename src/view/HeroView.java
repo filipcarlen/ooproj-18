@@ -33,9 +33,19 @@ public class HeroView {
 	public HeroView(HeroModel hm, WeaponType weaponType){
 		this.heroModel = hm;
 		try{
-			loadAnimation(hm.getName(), weaponType);
+			loadMovementAnimation(hm.getName());
+			loadWeaponAnimation(hm.getName(), weaponType);
 		}catch(SlickException e){
-			
+			e.printStackTrace();
+		}
+	}
+
+	public HeroView(HeroModel hm) {
+		this.heroModel = hm;
+		try{
+			loadMovementAnimation(hm.getName());
+		}catch(SlickException e){
+			e.printStackTrace();
 		}
 	}
 
@@ -45,7 +55,7 @@ public class HeroView {
 	 * @param s= character name.
 	 * @throws SlickException= throws if the file is not found.
 	 */
-	private void loadAnimation(String s, WeaponType weapontype) throws SlickException{
+	private void loadMovementAnimation(String s) throws SlickException{
 		for(int i = 0; i < direction.length; i++){
 			for(int j = 0; j < (Movement.values().length); j++){
 				ArrayList<Image> image = new ArrayList<Image>();
@@ -65,7 +75,6 @@ public class HeroView {
 				animations.add(new Animation(toArray(image) , duration, true));
 			}
 		}
-		loadWeaponAnimation(s, weapontype);
 		currentAnimation = animations.get(1);
 	}
 	
