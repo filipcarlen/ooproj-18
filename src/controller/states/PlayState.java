@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.swing.Timer;
 
 import map.WorldMap;
-import model.AbstractCollectibleModel;
 import model.AbstractWeaponModel;
 import model.GunModel;
 import model.HeroModel;
@@ -44,23 +43,28 @@ import controller.SwordController;
 
 public class PlayState extends BasicGameState implements IPlayStateController, ActionListener{
 	
+	private static PlayState instance;
+	private int stateID;
+	
 	private World world;
+	private WorldMap worldMap;
+	private Camera camera;
+	private PlayStateView playstateview;
+	
 	private HeroModel hero;
 	private HeroController heroController;
-	private AbstractWeaponModel heroWeapon;
-	private WorldMap worldMap;
-	private PlayStateView playstateview;
-	private int stateID;
-	private Camera camera;
+	
+	/* This two variables is use to end the game with a delay*/
 	private Timer endGameDelay = new Timer(2000, this);
 	private boolean endGame = false;
-	private static PlayState instance;
+	
 	private Image background;
 	
 	/* This list contains all the bodies in the world*/
 	private ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
 	/* This list contains all the controllers for the bodies in the list above*/
 	private ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
+	
 	/* This list contains all the guns without any Entity
 	 * (the entity has died before the bullet has transport the distance)*/
 	private ArrayList<GunModel> gunThatsActive= new ArrayList<GunModel>();
@@ -75,23 +79,8 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		return instance;
 	}
 	
-	@Override
-	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
-		Sounds.getInstance().stopMusic();
-		Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
-		loadHero("bluepants", worldMap.getHeroPosition(), heroWeapon);
-		playstateview = new PlayStateView(hero);
-		if(endGame){
-			reTry();
-		}
-		camera = new Camera(gc.getWidth(), gc.getHeight(), 
-				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
-				new Rectangle((int)((gc.getWidth()*0.3)/2), (int)((gc.getHeight()*0.3)/2)), hero.getPosPixels());
-	}
-
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		
-		// Creating the world
+		// Creating the world and the CollisionDetection
 		Vec2 gravity = new Vec2(0.0f, 9.8f);
 		world = new World(gravity);
 		world.setAllowSleep(true);
@@ -103,8 +92,22 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		
-		newGame("level1");
+		// Loading the world and creating the bodies, enemies and hero
+		newGame("level1", "bluepants");
+		playstateview = new PlayStateView(hero);
+	}
+	
+	@Override
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
+		Sounds.getInstance().stopMusic();
+		Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
+		hero.continueUseHero(hero.getPosMeters());
+		if(endGame){
+			reTry();
+		}
+		camera = new Camera(gc.getWidth(), gc.getHeight(), 
+				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
+				new Rectangle((int)((gc.getWidth()*0.3)/2), (int)((gc.getHeight()*0.3)/2)), hero.getPosPixels());
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -139,11 +142,13 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			sbg.enterState(GameApp.PAUSESTATE);
 		}
 		
+		// this if-statement checks if the hero is inside the Goallocation,
+		// and if you got the right score to finish the game
 		if(worldMap.isInGoalArea(hero.getPosMeters())){
 			if(hero.getScore() > 180)
-				sbg.enterState(GameApp.GAMEOVERSTATE);
+				sbg.enterState(GameApp.GAMEOVERSTATE);			//Finish the game
 			else
-				playstateview.hasReachedEnd();
+				playstateview.hasReachedEnd();					// Calls the View to print that you doon't have enough score
 		}
 	}
 
@@ -153,10 +158,11 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	 * @param name
 	 * @param herosWeapon
 	 */
-	public void newGame(String level){
+	public void newGame(String level, String heroName){
 		try {
 			loadWorld(level);
 			loadEntity(worldMap.getListOfBodies());
+			loadHero(heroName, worldMap.getHeroPosition());
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -180,11 +186,20 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		camera.resetCamera();
 	}
 
+	/**
+	 * Loads the map from a TiledMap and setBounds so you can't go outside the map
+	 * @param levelName
+	 */
 	public void loadWorld(String levelName){
 		worldMap = new WorldMap(world, true, levelName);
 		worldMap.setBounds();
 	}
 	
+	/**
+	 * This method gives every entity a Controller and loads the bodies
+	 * @param bodies
+	 * @throws SlickException
+	 */
 	public void loadEntity(ArrayList<IEntityModel> bodies)throws SlickException{
 		this.bodies = bodies;
 		for(IEntityModel b: bodies){
@@ -195,32 +210,46 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 					controllers.add(new SwordController((SwordModel) ((MovingFoeModel)b).getWeapon()));
 				controllers.add(new MovingFoeController((MovingFoeModel)b, this));
 			}else if(b instanceof StaticFoeModel){
-				controllers.add(new StaticFoeController((StaticFoeModel)b));
+				controllers.add(new StaticFoeController((AbstractStaticFoe)b));
 			}else if(b instanceof ICollectibleModel){
 				controllers.add(new CollectibleController((ICollectibleModel) b, this));
 			}else{
-				throw new SlickException("Couldn't load the entity " + b);
+				throw new SlickException("Couldn't load the entity " + b.toString());
 			}
 		}
 	}
 	
-	public void loadHero(String heroName, Vec2 pos, AbstractWeaponModel awm) throws SlickException{
-		hero = new HeroModel(world ,heroName, pos, awm);
+	public void loadHero(String heroName, Vec2 pos) throws SlickException{
+		hero = new HeroModel(world ,heroName, pos);
 		heroController = new HeroController(hero);
-		if(hero.canLoadBody())
-			hero.createNewHero(worldMap.getHeroPosition(), awm);
-		else
-			throw new SlickException("Unable to load Hero");
-	}
-	
-	public int getID() {
-		return stateID;
 	}
 	
 	public HeroModel getHeroModel(){
 		return hero;
 	}
 	
+	/**
+	 * This gives the Hero a Weapon and sets the Animation of the weapon
+	 * @param wt
+	 */
+	public void setWeaponInUse(WeaponType wt){
+		AbstractWeaponModel heroWeapon;
+		if(wt == WeaponType.GUN){
+			heroWeapon =new GunModel(world, 500, 20, 15, 1337);
+		}else if(wt ==WeaponType.SWORD){
+			heroWeapon = new SwordModel(world, 200, 40, 1337);
+		}else{
+			return;
+		}
+		hero.setWeapon(heroWeapon);
+		heroController.updateWeaponAnimation();
+	}
+
+	/**
+	 * This method is to Remove all the GunModels that has a owner that has died, 
+	 * but the bullet is still active. 
+	 * When the bullet has traveled the distance the gunmodel will be removed
+	 */
 	public void removeGun(){
 		for(GunModel gm: gunThatsActive){
 			if(gm.isDone()){
@@ -230,19 +259,22 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		}
 	}
 	
+	/**
+	 * This Method removes every enemy and gunsmodels that is active in the world.
+	 * this is used when you want to create a new track and new to remove the old map/ entities.
+	 */
 	public void removeAllEntities(){
-		for(int i = controllers.size()-1; i >= 0; i--){
-			controllers.remove(0);
-		}
+		controllers.clear();
+		gunThatsActive.clear();
 		for(int i = bodies.size()-1; i >= 0; i--){
 			world.destroyBody(bodies.get(i).getBody());
 			bodies.remove(i);
 		}
-		for(int i = gunThatsActive.size()-1; i >= 0; i--){
-			gunThatsActive.remove(i);
-		}
 	}
 	
+	/**
+	 * This Method removes a specified Entity and it's controller and the Weapon if it's not in use
+	 */
 	public void removeEntity(int id){
 		int j = 0;
 		for(int i = 0; i < controllers.size(); i++){
@@ -271,12 +303,8 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		}
 	}
 	
-	public void setWeaponInUse(WeaponType wt){
-		if(wt == WeaponType.GUN){
-			heroWeapon =new GunModel(world, 500, 20, 15, 1337);
-		}else if(wt ==WeaponType.SWORD){
-			heroWeapon = new SwordModel(world, 200, 40, 1337);
-		}
+	public int getID() {
+		return stateID;
 	}
 
 	@Override
