@@ -126,9 +126,7 @@ public class GameOverState extends BasicGameState{
 		this.quitGameH = new Image(IMAGE_PATH + "quitGameH.png");
 		
 		this.youWin = new Image(IMAGE_PATH + "youWin.png");
-		this.youLose = new Image(IMAGE_PATH + "youLose.png");
-		
-		
+		this.youLose = new Image(IMAGE_PATH + "youLose.png");		
 	}
 	
 	public void initPositions(GameContainer gc, StateBasedGame sbg){
@@ -239,18 +237,21 @@ public class GameOverState extends BasicGameState{
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
-		Sounds.getInstance().stopMusic();
-		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
-		initPositions(gc, sbg);
-		
 		Hero model = ((PlayState)sbg.getState(GameApp.PLAY_STATE)).getHeroModel();
 		this.isWin = !model.isDead();
-
+		
+		if(isWin){
+			Sounds.getInstance().playMusic(SoundType.YOU_WIN_MUSIC);
+		} else{
+			Sounds.getInstance().playMusic(SoundType.YOU_LOSE_MUSIC);
+		}
+		initPositions(gc, sbg);
+		
 		int coins = model.getCoinAmount();
 		int foes = model.getKills();
 		int gems = model.getGemAmount();
 		int score = model.getScore();
-		String playerName = "Player";
+		String playerName = model.getPlayerName();
 		
 		this.highscoreManager = new HighscoreManager();
 		this.highscoreManager.addScore(playerName, score, coins, gems, foes);
@@ -345,13 +346,10 @@ public class GameOverState extends BasicGameState{
 		}
 		
 		if(mouseClicked && this.insideMainMenu){
-			System.out.println("mainmenu");
 			sbg.enterState(GameApp.MAIN_MENU_STATE);
 		}
 		
 		if(mouseClicked && this.insidePlayAgain){
-			System.out.println("play again");
-			Sounds.getInstance().stopMusic();
 			sbg.enterState(GameApp.PLAY_STATE);
 		}	
 	}

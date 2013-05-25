@@ -57,7 +57,8 @@ public class MainMenuState extends BasicGameState {
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg)
-			throws SlickException {		
+			throws SlickException {	
+		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		titlePos = new Vec2(gc.getWidth()/2-title.getWidth()/2,0);
 		startGamePos = new Vec2(gc.getWidth()/2-startGame.getWidth()/2,gc.getHeight()*.28f);
 		highscorePos = new Vec2(gc.getWidth()/2-highscore.getWidth()/2, gc.getHeight()*.45f);
@@ -69,7 +70,6 @@ public class MainMenuState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 		initLeafs();
-		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		title = new Image(PATH + "title.png");
 		background = new Image("res/Background.png");
 		startGame = new Image(PATH+"Startgame.png");
@@ -138,18 +138,15 @@ public class MainMenuState extends BasicGameState {
 		insideOptionsMenu = checkMouse(mouseX, mouseY, optionsPos, options);
 			
 		if(mouseClicked && insideStartGame){	
-			Sounds.getInstance().stopMusic();
-			Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
 			sbg.enterState(GameApp.PRE_GAME_STATE);
 		}
 		
 		if(mouseClicked && insideOptionsMenu){
-			input.clearMousePressedRecord();
+			((OptionsState)sbg.getState(GameApp.OPTIONS_STATE)).setPreviousStateID(this.stateID);
 			sbg.enterState(GameApp.OPTIONS_STATE);
 		}
 		
 		if(mouseClicked && insideHighscore){
-			input.clearMousePressedRecord();
 			sbg.enterState(GameApp.HIGH_SCORE_STATE);
 		}
 		
