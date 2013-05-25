@@ -3,8 +3,6 @@ package model;
 import java.awt.Dimension;
 
 import utils.Navigation;
-import utils.SoundType;
-import utils.Sounds;
 import utils.Utils;
 import utils.WeaponType;
 
@@ -19,17 +17,17 @@ public class HeroModel implements IAliveModel{
 	/* Hero Weapon*/
 	private AbstractWeaponModel weapon;
 	
-	private int maxHp = 100;
+	private final int maxHp = 100;
 	private int hp;
 	
 	/* A Integer to count the number of jumps*/
 	private int doubleJump= 0;
 	
-	/* Integer to count kills and Coins*/
+	/* Integer to count kills and the scores*/
 	private int killCount = 0;
 	private int score = 0;
 	
-	/* Loads the amoun of coins and gems*/
+	/* Loads the amount of coins and gems*/
 	private int coinAmount= 0;
 	private int gemAmount = 0;
 	
@@ -42,30 +40,32 @@ public class HeroModel implements IAliveModel{
 	
 	private boolean hurted = false;
 	
+	/* This is added only because we want to now if the hurt gets hurt from the back or front*/
 	private boolean hurtedFront = false;
-	
-	private boolean isFalling = false;
 	
 	private boolean isBodyCreated = false;
 	
-	private boolean canLoadBody = false;
+	private boolean hasLoadedDimension = false;
 	
-	public enum healthpoints{Full, Heal, Hurt};
+	public enum HealthAction{HURT, DEAD, NONE};
+	
+	private HealthAction currentHealthAction = HealthAction.NONE;
 	
 	private Body body;
 	
 	private World world;
 	
-	private Navigation direction;
+	private Navigation direction = Navigation.WEST;
 	
 	private String characterName;
 	
-	public HeroModel(World w, String characterName){
-		this(w, characterName, new Vec2(0,0), 30, 30, null, false);
-	}
+	private String playerName;
 	
-	public HeroModel(World w, String characterName, Vec2 pos, AbstractWeaponModel awm){
-		this(w, characterName, pos, 30, 30, awm, false);
+	public HeroModel(World w, String characterName, Vec2 pos){
+		this.world = w;
+		this.characterName = characterName;
+		this.playerName = "Player";						//Default name on the player is player
+		init(pos, true);
 	}
 
 	public HeroModel(World w, String characterName, Vec2 pos, int width, int height, AbstractWeaponModel weapon, boolean createHero){
@@ -87,8 +87,8 @@ public class HeroModel implements IAliveModel{
 		return weapon.fight(this, direction);
 	}
 	
-	public boolean canLoadBody(){
-		return canLoadBody;
+	public boolean hasLoadedDimension(){
+		return hasLoadedDimension;
 	}
 
 	public void createNewHero(Vec2 pos, AbstractWeaponModel awm){
@@ -99,17 +99,22 @@ public class HeroModel implements IAliveModel{
 		resetHurted();
 		hp = maxHp;
 		dead = true;
-		init(pos);
+		init(pos, false);
 		dead = false;
 		setDirection(Navigation.EAST);
 	}
 	
+	/**
+	 * This method is used if you want to restart a new/old
+	 * track with the same score as you got when you finished the track
+	 * @param pos - pos in meters
+	 */
 	public void continueUseHero(Vec2 pos){
 		int gems = this.getGemAmount();
 		int coins = this.getCoinAmount();
 		int kills = this.getKills();
 		int score = this.getScore();
-		createNewHero(pos, weapon);
+		createNewHero(pos.mul(Utils.METER_IN_PIXELS), weapon);
 		this.gemAmount = gems;
 		this.coinAmount = coins;
 		this.killCount = kills;
@@ -121,11 +126,6 @@ public class HeroModel implements IAliveModel{
 		body.setActive(false);
 	}
 
-	
-	public void falling(){
-		this.isFalling = true;
-	}
-	
 	public Body getBody(){
 		return body;
 	}
@@ -136,6 +136,12 @@ public class HeroModel implements IAliveModel{
 	 */
 	public int getCoinAmount(){
 		return coinAmount;
+	}
+	
+	public HealthAction getCurrentHealthAction(){
+		HealthAction tmp = currentHealthAction;
+		currentHealthAction = HealthAction.NONE;
+		return tmp;
 	}
 	
 	/**
@@ -192,6 +198,10 @@ public class HeroModel implements IAliveModel{
 	 */
 	public String getName() {
 		return characterName;
+	}
+	
+	public String getPlayerName(){
+		return playerName;
 	}
 	
 	@Override
@@ -259,7 +269,6 @@ public class HeroModel implements IAliveModel{
 	 * Increments the amount of coins
 	 */
 	public void incrementCoin(){
-		Sounds.getInstance().playSound(SoundType.COLLECT_COIN);
 		coinAmount +=1;
 	}
 	
@@ -267,7 +276,6 @@ public class HeroModel implements IAliveModel{
 	 * Increments the amount of gems
 	 */
 	public void incrementGem(){
-		Sounds.getInstance().playSound(SoundType.COLLECT_GEM);
 		gemAmount +=1;
 	}
 	
@@ -293,29 +301,32 @@ public class HeroModel implements IAliveModel{
 		killCount += 1;
 	}
 	
-	public void init(Vec2 pos){
+	public void init(Vec2 pos, boolean onlyBodyDef){
 		/* Create the Body defination*/
 		BodyDef b = new BodyDef();
 		b.type = BodyType.DYNAMIC;
 		b.position.set(pos.x/Utils.METER_IN_PIXELS , pos.y/Utils.METER_IN_PIXELS );
 		b.angle = MathUtils.PI;
-		/* Creating the structure*/
-		PolygonShape pg = new PolygonShape();
-		pg.setAsBox(this.width, this.height);
-		/* The Fixture*/
-		FixtureDef fd = new FixtureDef();
-		fd.filter.categoryBits = 2;
-		fd.filter.maskBits = 333;
-		fd.density = 0.15f;
-		fd.friction = 0.0f;
-		fd.restitution = 0.0f;
-		fd.shape = pg;
-		/* Creating an body in the world and applying a Fixture to the body*/
 		body = world.createBody(b);
-		body.createFixture(fd);
+		if(!onlyBodyDef){
+			/* Creating the structure*/
+			PolygonShape pg = new PolygonShape();
+			pg.setAsBox(this.width, this.height);
+			/* The Fixture*/
+			FixtureDef fd = new FixtureDef();
+			fd.filter.categoryBits = 2;
+			fd.filter.maskBits = 333;
+			fd.density = 0.15f;
+			fd.friction = 0.0f;
+			fd.restitution = 0.0f;
+			fd.shape = pg;
+			/* Creating an body in the world and applying a Fixture to the body*/
+			body.createFixture(fd);
+			isBodyCreated = true;
+		}
 		body.setUserData(this);
 		body.setFixedRotation(true);
-		isBodyCreated = true;
+
 	}
 	
 	public boolean isBodyCreated(){
@@ -331,7 +342,7 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	public boolean isFalling(){
-		return isFalling;
+		return body.m_linearVelocity.y > 0.001;
 	}
 	
 	public boolean isHurted(){
@@ -343,7 +354,7 @@ public class HeroModel implements IAliveModel{
 	}
 	
 	public boolean isInAir(){
-		return doubleJump>0 && !isFalling;
+		return doubleJump>0 && !isFalling();
 	}
 	
 	public void resetHurted(){
@@ -370,7 +381,6 @@ public class HeroModel implements IAliveModel{
 	 */
 	public void setGroundContact(){
 		doubleJump= 0;
-		isFalling = false;
 	}
 	
 	/**
@@ -380,7 +390,7 @@ public class HeroModel implements IAliveModel{
 	public void setDimension(Dimension dimension){
 		this.width = (float) (dimension.getWidth()/2/Utils.METER_IN_PIXELS);
 		this.height = (float) (dimension.getHeight()/2/Utils.METER_IN_PIXELS);
-		canLoadBody = true;
+		hasLoadedDimension = true;
 	}
 	
 	public void setDimension(int width, int height) {
@@ -399,14 +409,18 @@ public class HeroModel implements IAliveModel{
 		if(hp <= 0){
 			this.hp = 0;
 			dead= true;
-			Sounds.getInstance().playSound(SoundType.DIE);
+			currentHealthAction = HealthAction.DEAD;
 		}else if(hp >getMaxHp()){
 			this.hp = getMaxHp();
 		}else{
 			if(this.hp > hp)
-				Sounds.getInstance().playSound(SoundType.HURT);
+				currentHealthAction = HealthAction.HURT;
 			this.hp = hp;
 		}
+	}
+	
+	public void setPlayerName(String playerName){
+		this.playerName = playerName;
 	}
 	
 	/**
