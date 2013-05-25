@@ -1,6 +1,6 @@
 package controller;
 
-import model.ICollectibleModel;
+import model.ICollectible;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,7 +16,7 @@ import view.CollectibleView;
 public class CollectibleController implements IEntityController {
 	
 	/** Reference to a CollectibleModel */
-	private ICollectibleModel model;
+	private ICollectible model;
 	
 	/** Reference to a CollectibleView */
 	private CollectibleView view;
@@ -31,7 +31,7 @@ public class CollectibleController implements IEntityController {
 	 * @param CollectibleModel model
 	 * @throws SlickException
 	 */
-	public CollectibleController(ICollectibleModel model, IPlayStateController controller) throws SlickException{	
+	public CollectibleController(ICollectible model, IPlayStateController controller) throws SlickException{	
 		this.model = model;
 		this.controller = controller;
 		this.id = this.model.getID();

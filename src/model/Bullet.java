@@ -16,9 +16,9 @@ import utils.Utils;
  * @version 1.0 
  */
 
-public class BulletModel implements IEntityModel{
+public class Bullet implements IEntity{
 
-	private GunModel gunModel;
+	private Gun gunModel;
 	private Body bulletBody;
 	
 	/** The first position of the Bullet in meters */
@@ -33,7 +33,7 @@ public class BulletModel implements IEntityModel{
 	/** The radius of the circle shaped body in meters */
 	public final float RADIUS = 0.15f;
 
-	public BulletModel(GunModel gunModel, Vec2 firstPos, Navigation navigation, int ID){
+	public Bullet(Gun gunModel, Vec2 firstPos, Navigation navigation, int ID){
 		this.ID = ID;
 		this.gunModel = gunModel;
 		this.isAlive = true;

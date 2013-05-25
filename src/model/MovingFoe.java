@@ -11,11 +11,11 @@ import org.jbox2d.dynamics.World;
 
 import utils.Utils;
 
-public class MovingFoe implements IAliveModel{
+public class MovingFoe implements IAliveEntity{
 	
 	private World world;
 	private int hp;
-	private AbstractWeaponModel weapon;
+	private AbstractWeapon weapon;
 	
 	private int ID;
 	
@@ -41,7 +41,7 @@ public class MovingFoe implements IAliveModel{
 	 * @param world The World this enemy will belong to.
 	 * @param pos The position of this enemy's top left corner, in pixels!
 	 */
-	public MovingFoe(World world, Vec2 pixelPos, int maxHP, AbstractWeaponModel weapon, int points, int ID) {
+	public MovingFoe(World world, Vec2 pixelPos, int maxHP, AbstractWeapon weapon, int points, int ID) {
 		this.world = world;
 		this.hp = maxHP;
 		this.weapon = weapon;
@@ -124,7 +124,7 @@ public class MovingFoe implements IAliveModel{
 		return this.MAX_HP;
 	}
 	
-	public AbstractWeaponModel getWeapon() {
+	public AbstractWeapon getWeapon() {
 		return this.weapon;
 	}
 	

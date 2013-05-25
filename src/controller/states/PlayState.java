@@ -42,13 +42,13 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	private Image background;
 	
 	/* This list contains all the bodies in the world*/
-	private ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
+	private ArrayList<IEntity> bodies = new ArrayList <IEntity>();
 	/* This list contains all the controllers for the bodies in the list above*/
 	private ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
 	
 	/* This list contains all the guns without any Entity
 	 * (the entity has died before the bullet has transport the distance)*/
-	private ArrayList<GunModel> gunThatsActive= new ArrayList<GunModel>();
+	private ArrayList<Gun> gunThatsActive= new ArrayList<Gun>();
 	
 	private PlayState(int id){
 		stateID = id;
@@ -181,19 +181,19 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	 * @param bodies
 	 * @throws SlickException
 	 */
-	public void loadEntity(ArrayList<IEntityModel> bodies)throws SlickException{
+	public void loadEntity(ArrayList<IEntity> bodies)throws SlickException{
 		this.bodies = bodies;
-		for(IEntityModel b: bodies){
+		for(IEntity b: bodies){
 			if(b instanceof MovingFoe){
 				if(((MovingFoe)b).getWeapon().getWeaponType() == WeaponType.GUN)
-					controllers.add(new GunController((GunModel) ((MovingFoe)b).getWeapon()));
+					controllers.add(new GunController((Gun) ((MovingFoe)b).getWeapon()));
 				else
-					controllers.add(new SwordController((SwordModel) ((MovingFoe)b).getWeapon()));
+					controllers.add(new SwordController((Sword) ((MovingFoe)b).getWeapon()));
 				controllers.add(new MovingFoeController((MovingFoe)b, this));
 			}else if(b instanceof AbstractStaticFoe){
 				controllers.add(new StaticFoeController((AbstractStaticFoe)b));
-			}else if(b instanceof ICollectibleModel){
-				controllers.add(new CollectibleController((ICollectibleModel) b, this));
+			}else if(b instanceof ICollectible){
+				controllers.add(new CollectibleController((ICollectible) b, this));
 			}else{
 				throw new SlickException("Couldn't load the entity " + b.toString());
 			}
@@ -214,11 +214,11 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	 * @param wt
 	 */
 	public void setWeaponInUse(WeaponType wt){
-		AbstractWeaponModel heroWeapon;
+		AbstractWeapon heroWeapon;
 		if(wt == WeaponType.GUN){
-			heroWeapon =new GunModel(world, 500, 20, 15, 1337);
+			heroWeapon =new Gun(world, 500, 20, 15, 1337);
 		}else if(wt ==WeaponType.SWORD){
-			heroWeapon = new SwordModel(world, 200, 40, 1337);
+			heroWeapon = new Sword(world, 200, 40, 1337);
 		}else{
 			return;
 		}
@@ -232,7 +232,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	 * When the bullet has traveled the distance the gunmodel will be removed
 	 */
 	public void removeGun(){
-		for(GunModel gm: gunThatsActive){
+		for(Gun gm: gunThatsActive){
 			if(gm.isDone()){
 				removeEntity(gm.getID());
 				gunThatsActive.remove(gm);
@@ -272,9 +272,9 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 			}
 		}
 		for(int i = 0; i < bodies.size(); i++){
-			if(((IEntityModel)bodies.get(i)).getID() == id){
+			if(((IEntity)bodies.get(i)).getID() == id){
 				if((bodies.get(i) instanceof MovingFoe) && ((MovingFoe)bodies.get(i)).getWeapon().getWeaponType() == WeaponType.GUN){
-					gunThatsActive.add((GunModel)((MovingFoe)bodies.get(i)).getWeapon());
+					gunThatsActive.add((Gun)((MovingFoe)bodies.get(i)).getWeapon());
 					break;
 				}else{
 					bodies.remove(i);

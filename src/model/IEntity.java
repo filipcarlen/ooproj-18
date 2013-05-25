@@ -3,7 +3,7 @@ package model;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
-public interface IEntityModel {
+public interface IEntity {
 	
 	/**
 	 * @return The body of this entity

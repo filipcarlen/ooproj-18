@@ -6,8 +6,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import model.BulletModel;
-import model.GunModel;
+import model.Bullet;
+import model.Gun;
 
 /** A controller class for a Bullet
  * 
@@ -17,11 +17,11 @@ import model.GunModel;
 
 public class GunController implements IEntityController{
 
-	private GunModel model;
+	private Gun model;
 	private ArrayList<BulletController> controllers = new ArrayList<BulletController>();
 	
-	public GunController(GunModel model){
-		ArrayList<BulletModel> bullets = model.getBulletModels();
+	public GunController(Gun model){
+		ArrayList<Bullet> bullets = model.getBulletModels();
 		for(int i = 0; i < bullets.size(); i++){
 			this.controllers.add(new BulletController(bullets.get(i)));
 		}
@@ -30,7 +30,7 @@ public class GunController implements IEntityController{
 	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
-		ArrayList<BulletModel> bullets = this.model.getBulletModels();
+		ArrayList<Bullet> bullets = this.model.getBulletModels();
 		for(int i = 0; i < bullets.size(); i++){
 			try{
 				BulletController controller = getBulletController(bullets.get(i).getID());

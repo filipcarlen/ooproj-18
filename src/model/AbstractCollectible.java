@@ -18,7 +18,7 @@ import utils.Utils;
  * @version 1.0 
  */
 
-public abstract class AbstractCollectibleModel implements ICollectibleModel {
+public abstract class AbstractCollectible implements ICollectible {
 	
 	/** The body for a collectible item */
 	private Body body;
@@ -43,7 +43,7 @@ public abstract class AbstractCollectibleModel implements ICollectibleModel {
 	 * @param Vec2 pixelPos(position)
 	 */
 	 
-	public AbstractCollectibleModel(World w, Vec2 pixelPos, int id, float width, float height){
+	public AbstractCollectible(World w, Vec2 pixelPos, int id, float width, float height){
 		this.width = width;
 		this.height = height;
 		createCollectible(Utils.pixelsToMeters(new Vec2(pixelPos.x+this.width/2,pixelPos.y+this.height/2)), w);

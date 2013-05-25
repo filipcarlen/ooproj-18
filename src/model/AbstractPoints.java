@@ -3,11 +3,11 @@ package model;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
-public abstract class AbstractPointsModel extends AbstractCollectibleModel {
+public abstract class AbstractPoints extends AbstractCollectible {
 	
 	private int value;
 	
-	public AbstractPointsModel(World w, Vec2 pixelPos, int id, float width, float height) {
+	public AbstractPoints(World w, Vec2 pixelPos, int id, float width, float height) {
 		super(w, pixelPos, id, width, height);
 	}
 	

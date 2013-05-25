@@ -1,9 +1,9 @@
 package view;
-import model.CoinModel;
-import model.EnergyDrinkModel;
-import model.GemModel;
-import model.ChocolateBarModel;
-import model.ICollectibleModel;
+import model.Coin;
+import model.EnergyDrink;
+import model.Gem;
+import model.ChocolateBar;
+import model.ICollectible;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
@@ -23,7 +23,7 @@ import utils.Camera;
 public class CollectibleView {
 	
 	/** Reference to a ICollectibleModel */
-	private ICollectibleModel model;
+	private ICollectible model;
 	
 	/** A String representing the path to the source folder */
 	private final String PATH = "res/Collectibles";
@@ -46,23 +46,23 @@ public class CollectibleView {
 	
 	/**
 	 * Constructor for a Collectible View 
-	 * @param ICollectibleModel model
+	 * @param ICollectible model
 	 * @throws SlickException 
 	 */
-	public CollectibleView(ICollectibleModel model) throws SlickException{
+	public CollectibleView(ICollectible model) throws SlickException{
 		this.model = model;
-		if(this.model instanceof CoinModel){
+		if(this.model instanceof Coin){
 			initCoin();
 		}
-		else if(this.model instanceof GemModel){
+		else if(this.model instanceof Gem){
 			initGem();
 			
 		}
-		else if(this.model instanceof ChocolateBarModel){
+		else if(this.model instanceof ChocolateBar){
 			initChocolateBar();
 		}
 		
-		else if(this.model instanceof EnergyDrinkModel){
+		else if(this.model instanceof EnergyDrink){
 			initEnergyDrink();
 		}
 	}
@@ -76,19 +76,19 @@ public class CollectibleView {
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		Vec2 tmp = Camera.entityRender(model.getPosPixels());
 		
-		if(this.model instanceof CoinModel){
+		if(this.model instanceof Coin){
 			g.drawAnimation(coinAnimation, tmp.x, tmp.y);
 		}
 		
-		else if(this.model instanceof GemModel){
+		else if(this.model instanceof Gem){
 			g.drawAnimation(gemAnimation, tmp.x, tmp.y);
 		}
 		
-		else if(this.model instanceof ChocolateBarModel){
+		else if(this.model instanceof ChocolateBar){
 			g.drawAnimation(chocolateAnimation, tmp.x, tmp.y);
 		}
 		
-		else if(this.model instanceof EnergyDrinkModel){
+		else if(this.model instanceof EnergyDrink){
 			g.drawAnimation(energyDrinkAnimation, tmp.x, tmp.y);
 		}
 	}

@@ -1,6 +1,6 @@
 package model;
 
-public interface IAliveModel extends IEntityModel{
+public interface IAliveEntity extends IEntity{
 
 	/**
 	 * 

@@ -11,7 +11,7 @@ import utils.Utils;
  * @author filipcarlen
  *
  */
-public class CoinModel extends AbstractPointsModel {
+public class Coin extends AbstractPoints {
 	
 	/** What value a collectible item holds (which points you get) */
 	
@@ -27,7 +27,7 @@ public class CoinModel extends AbstractPointsModel {
 	 * @param Vec2 pixelPos (Position)
 	 * @param int id
 	 */
-	public CoinModel(World w, Vec2 pixelPos, int id) {
+	public Coin(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id, WIDTH, HEIGHT);
 		super.setValue(1);
 		super.setWidth(WIDTH);

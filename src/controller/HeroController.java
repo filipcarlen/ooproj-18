@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import model.GunModel;
+import model.Gun;
 import model.Hero;
-import model.SwordModel;
+import model.Sword;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
@@ -210,9 +210,9 @@ public class HeroController implements IEntityController, ActionListener {
 		fightTimer= new Timer(view.getAttackAnimation().getFrameCount()* 
 				view.getAttackAnimation().getDuration(0),this);
 		if(model.getWeaponType() == WeaponType.GUN)
-			controller = new GunController((GunModel) model.getWeapon());
+			controller = new GunController((Gun) model.getWeapon());
 		else if(model.getWeaponType() == WeaponType.SWORD){
-			controller = new SwordController((SwordModel) model.getWeapon());
+			controller = new SwordController((Sword) model.getWeapon());
 		}
 	}
 

@@ -6,13 +6,13 @@ import org.jbox2d.dynamics.World;
 
 import utils.Utils;
 
-public abstract class AbstractPowerUpModel extends AbstractCollectibleModel {
+public abstract class AbstractPowerUp extends AbstractCollectible {
 
 	private double hpBoost;
 	private static final float WIDTH = 1.0f;
 	private static final float HEIGHT = 1.0f;
 	
-	public AbstractPowerUpModel(World w, Vec2 pixelPos, int id) {
+	public AbstractPowerUp(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id, WIDTH, HEIGHT);
 		
 		PolygonShape polygon = new PolygonShape();

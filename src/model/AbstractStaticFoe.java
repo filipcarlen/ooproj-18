@@ -9,7 +9,7 @@ import org.jbox2d.dynamics.World;
 
 import utils.Utils;
 
-public abstract class AbstractStaticFoe implements IEntityModel {
+public abstract class AbstractStaticFoe implements IEntity {
 	
 	private int damage;
 	

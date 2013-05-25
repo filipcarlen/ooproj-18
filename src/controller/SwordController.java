@@ -1,6 +1,6 @@
 package controller;
 
-import model.SwordModel;
+import model.Sword;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -12,9 +12,9 @@ import utils.Navigation;
 
 public class SwordController implements IEntityController{
 
-	private SwordModel model;	
+	private Sword model;	
 	
-	public SwordController(SwordModel model){
+	public SwordController(Sword model){
 		this.model = model;
 	}
 	

@@ -12,7 +12,7 @@ import utils.Utils;
  *
  */
 
-public class GemModel extends AbstractPointsModel {
+public class Gem extends AbstractPoints {
 	
 	
 	/**  A array cointaining vertices for a gem */
@@ -29,7 +29,7 @@ public class GemModel extends AbstractPointsModel {
 	 * @param Vec2 pixelPos (position)
 	 * @param int id
 	 */
-	public GemModel(World w, Vec2 pixelPos, int id) {
+	public Gem(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id, WIDTH, HEIGHT);
 		super.setValue(5);
 		

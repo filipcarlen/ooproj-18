@@ -1,6 +1,6 @@
 package controller;
 
-import model.BulletModel;
+import model.Bullet;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -13,10 +13,10 @@ import view.BulletView;
 
 public class BulletController implements IEntityController{
 
-	private BulletModel model;
+	private Bullet model;
 	private BulletView view;
 	
-	public BulletController(BulletModel model){
+	public BulletController(Bullet model){
 		this.model = model;
 		this.view = new BulletView(model);
 	}

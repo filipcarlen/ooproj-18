@@ -38,34 +38,34 @@ public class CollisionDetection  implements ContactListener{
 				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectB).getPosMeters().y){
 					heroModel.setGroundContact();
 				}
-			}else if(objectB instanceof ICollectibleModel){
-				((AbstractCollectibleModel)objectB).killBody();
-				if(objectB instanceof AbstractPointsModel){
-					heroModel.incrementScore(((AbstractPointsModel)objectB).getValue());
-					if(objectB instanceof GemModel){
+			}else if(objectB instanceof ICollectible){
+				((AbstractCollectible)objectB).killBody();
+				if(objectB instanceof AbstractPoints){
+					heroModel.incrementScore(((AbstractPoints)objectB).getValue());
+					if(objectB instanceof Gem){
 						heroModel.incrementGem();
 						sound.playSound(SoundType.COLLECT_GEM);
-					}else if(objectB instanceof CoinModel){
+					}else if(objectB instanceof Coin){
 						heroModel.incrementCoin();
 						sound.playSound(SoundType.COLLECT_COIN);
 					}
 				}
-				if(objectB instanceof AbstractPowerUpModel)
-					if(objectB instanceof ChocolateBarModel){
-						heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectB).gethpBoost() * heroModel.getMaxHp())));
+				if(objectB instanceof AbstractPowerUp)
+					if(objectB instanceof ChocolateBar){
+						heroModel.heal((int)(Math.round(((AbstractPowerUp)objectB).gethpBoost() * heroModel.getMaxHp())));
 						sound.playSound(SoundType.CHOCOLATE_BAR);
-					}else if(objectB instanceof EnergyDrinkModel){
-						heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectB).gethpBoost() * heroModel.getMaxHp())));
+					}else if(objectB instanceof EnergyDrink){
+						heroModel.heal((int)(Math.round(((AbstractPowerUp)objectB).gethpBoost() * heroModel.getMaxHp())));
 						sound.playSound(SoundType.ENERGY_DRINK);
 				}
 			}else if(objectB instanceof StaticFoeModel) {
 				heroModel.setHurted(null,((StaticFoeModel)objectB).getDamage());
-			}else if(objectB instanceof BulletModel) {
-				heroModel.setHurted(((BulletModel)objectB).getNavigation(),((BulletModel)objectB).getDamage());
-				((BulletModel)objectB).destroyEntity();
-			}else if(objectB instanceof SwordModel) {
-				heroModel.setHurted(((SwordModel)objectB).getNavigation() ,((SwordModel)objectB).getDamage());
-				((SwordModel)objectB).destroyEntity();
+			}else if(objectB instanceof Bullet) {
+				heroModel.setHurted(((Bullet)objectB).getNavigation(),((Bullet)objectB).getDamage());
+				((Bullet)objectB).destroyEntity();
+			}else if(objectB instanceof Sword) {
+				heroModel.setHurted(((Sword)objectB).getNavigation() ,((Sword)objectB).getDamage());
+				((Sword)objectB).destroyEntity();
 			}
 		}
 		
@@ -81,34 +81,34 @@ public class CollisionDetection  implements ContactListener{
 				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectA).getPosMeters().y){
 					heroModel.setGroundContact();
 				}
-			}else if(objectA instanceof ICollectibleModel){
-				((AbstractCollectibleModel)objectA).killBody();
-				if(objectA instanceof AbstractPointsModel){
-					heroModel.incrementScore(((AbstractPointsModel)objectA).getValue());
-					if(objectA instanceof GemModel){
+			}else if(objectA instanceof ICollectible){
+				((AbstractCollectible)objectA).killBody();
+				if(objectA instanceof AbstractPoints){
+					heroModel.incrementScore(((AbstractPoints)objectA).getValue());
+					if(objectA instanceof Gem){
 						heroModel.incrementGem();
 						sound.playSound(SoundType.COLLECT_GEM);
-					}else if(objectA instanceof CoinModel){
+					}else if(objectA instanceof Coin){
 						heroModel.incrementCoin();
 						sound.playSound(SoundType.COLLECT_COIN);
 					}
 				}
-				if(objectA instanceof AbstractPowerUpModel)
-					if(objectA instanceof ChocolateBarModel){
-						heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectA).gethpBoost() * heroModel.getMaxHp())));
+				if(objectA instanceof AbstractPowerUp)
+					if(objectA instanceof ChocolateBar){
+						heroModel.heal((int)(Math.round(((AbstractPowerUp)objectA).gethpBoost() * heroModel.getMaxHp())));
 						sound.playSound(SoundType.CHOCOLATE_BAR);
-					}else if(objectA instanceof EnergyDrinkModel){
-						heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectA).gethpBoost() * heroModel.getMaxHp())));
+					}else if(objectA instanceof EnergyDrink){
+						heroModel.heal((int)(Math.round(((AbstractPowerUp)objectA).gethpBoost() * heroModel.getMaxHp())));
 						sound.playSound(SoundType.ENERGY_DRINK);
 				}
 			}else if(objectA instanceof StaticFoeModel) {
 				heroModel.setHurted(null,((StaticFoeModel)objectA).getDamage());
-			}else if(objectA instanceof BulletModel) {
-				heroModel.setHurted( ((BulletModel)objectA).getNavigation() ,((BulletModel)objectA).getDamage());
-				((BulletModel)objectA).destroyEntity();
-			}else if(objectA instanceof SwordModel) {
-				heroModel.setHurted(((SwordModel)objectA).getNavigation(), ((SwordModel)objectA).getDamage());
-				((SwordModel)objectA).destroyEntity();
+			}else if(objectA instanceof Bullet) {
+				heroModel.setHurted( ((Bullet)objectA).getNavigation() ,((Bullet)objectA).getDamage());
+				((Bullet)objectA).destroyEntity();
+			}else if(objectA instanceof Sword) {
+				heroModel.setHurted(((Sword)objectA).getNavigation(), ((Sword)objectA).getDamage());
+				((Sword)objectA).destroyEntity();
 			}
 		}
 		
@@ -118,14 +118,14 @@ public class CollisionDetection  implements ContactListener{
 	
 			foeModel = (MovingFoeModel)objectA;
 			
-			if(objectB instanceof BulletModel) {
-				foeModel.hurt(((BulletModel)objectB).getDamage());
-				((BulletModel)objectB).destroyEntity();
+			if(objectB instanceof Bullet) {
+				foeModel.hurt(((Bullet)objectB).getDamage());
+				((Bullet)objectB).destroyEntity();
 			}
 			
-			else if(objectB instanceof SwordModel) {
-				foeModel.hurt(((SwordModel)objectB).getDamage());
-				((SwordModel)objectB).destroyEntity();
+			else if(objectB instanceof Sword) {
+				foeModel.hurt(((Sword)objectB).getDamage());
+				((Sword)objectB).destroyEntity();
 			}
 		}
 		
@@ -135,42 +135,42 @@ public class CollisionDetection  implements ContactListener{
 			
 			foeModel = (MovingFoeModel)objectB;
 			
-			if(objectA instanceof BulletModel) {
-				foeModel.hurt(((BulletModel)objectA).getDamage());
-				((BulletModel)objectA).destroyEntity();
+			if(objectA instanceof Bullet) {
+				foeModel.hurt(((Bullet)objectA).getDamage());
+				((Bullet)objectA).destroyEntity();
 			}
 			
-			else if(objectA instanceof SwordModel) {
-				foeModel.hurt(((SwordModel)objectA).getDamage());
-				((SwordModel)objectA).destroyEntity();
+			else if(objectA instanceof Sword) {
+				foeModel.hurt(((Sword)objectA).getDamage());
+				((Sword)objectA).destroyEntity();
 			}
 		}
 		
 		// Check if objectA of the collision is a sword and remove it if it hits anything
-		else if(objectA instanceof BulletModel){
+		else if(objectA instanceof Bullet){
 			
-			((BulletModel)objectA).destroyEntity();
+			((Bullet)objectA).destroyEntity();
 
 		}
 				
 		// Check if objectB of the collision is a bullet and remove it if it hits anything
-		else if(objectB instanceof BulletModel){
+		else if(objectB instanceof Bullet){
 					
-			((BulletModel)objectB).destroyEntity();
+			((Bullet)objectB).destroyEntity();
 
 		}
 		
 		// Check if objectA of the collision is a sword and remove it if it hits anything
-		else if(objectA instanceof SwordModel){
+		else if(objectA instanceof Sword){
 			
-			((SwordModel)objectA).destroyEntity();
+			((Sword)objectA).destroyEntity();
 
 		}
 				
 		// Check if objectB of the collision is a sword and remove it if it hits anything
-		else if(objectB instanceof SwordModel){
+		else if(objectB instanceof Sword){
 					
-			((SwordModel)objectB).destroyEntity();
+			((Sword)objectB).destroyEntity();
 
 		}
 	}

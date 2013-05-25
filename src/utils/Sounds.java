@@ -7,7 +7,7 @@ public class Sounds{
 	
 private static Sounds instance = null;
 	
-	private static final String PATH = "res/Sounds/";
+	private static final String PATH = "res/sounds/";
 		
 	private float volumeMusic = 1.0f;
 	private boolean volumeMusicOn = true;
@@ -17,36 +17,40 @@ private static Sounds instance = null;
 	private float mute = 0.0f;
 	private float pitch = 1f;
 		
-	private Sound soundtrack;
-	private Sound gunfire;
-	private Sound enemyHurt;
-	private Sound enemyDie;
+	private Sound musicInMenus;
 	private Sound musicInGame;
-	private Sound hurt;
+	private Sound musicYouLose;
+	private Sound musicYouWin;
+	private Sound gunShot;
+	private Sound foeHurt;
+	private Sound foeDie;
+	private Sound heroHurt;
 	private Sound collectCoin;
 	private Sound collectGem;
-	private Sound die;
-	private Sound sword;
+	private Sound heroDie;
+	private Sound swordSwing;
 	private Sound chocolateBar;
 	private Sound energyDrink;
 		
 	private Sounds() {
 		try{
-			soundtrack = new Sound(PATH+"soundtrack.wav");
-			gunfire = new Sound(PATH+"GE_KF7_Soviet.wav");
-			enemyDie = new Sound(PATH+"enemyDie.wav");
-			musicInGame = new Sound(PATH+"Musicingame.wav");
-			hurt = new Sound(PATH+"hurt.wav");
+			musicInMenus = new Sound(PATH+"music_in_menus.wav");
+			musicInGame = new Sound(PATH+"music_in_game.wav");
+			musicYouLose = new Sound(PATH+"music_you_lose");
+			musicYouWin = new Sound(PATH+"music_you_win");
+			gunShot = new Sound(PATH+"gun_shot.wav");
+			foeDie = new Sound(PATH+"foe_die.wav");
+			heroHurt = new Sound(PATH+"hero_hurt.wav");
 			collectCoin = new Sound(PATH+"collect_coin.wav");
 			collectGem = new Sound(PATH+"collect_gem.wav");
-			die = new Sound(PATH+"die.wav");
-			enemyHurt = new Sound(PATH+"enemyhurt.wav");
-			sword = new Sound(PATH+"sword.wav");
-			chocolateBar = new Sound(PATH+"chocolate.wav");
-			energyDrink = new Sound(PATH+"energydrink.wav");
+			heroDie = new Sound(PATH+"hero_die.wav");
+			foeHurt = new Sound(PATH+"foe_hurt.wav");
+			swordSwing = new Sound(PATH+"sword_swing.wav");
+			chocolateBar = new Sound(PATH+"chocolate_bar.wav");
+			energyDrink = new Sound(PATH+"energy_drink.wav");
 		
 		} catch(SlickException e){
-			System.out.println("Can't load sound file in Sounds class");
+			System.out.println("Couldn't load sound files in Sounds class.");
 		}
 		
 	}
@@ -65,15 +69,23 @@ private static Sounds instance = null;
 			volumeMusic = this.volumeMusic;
 		else
 			volumeMusic = this.mute;
+		
 		switch(music){
 		
 		case MENU_MUSIC:
-			soundtrack.loop(pitch, volumeMusic);
+			musicInMenus.loop(pitch, volumeMusic);
 			break;
 			
 		case GAME_MUSIC:
 			musicInGame.loop(pitch, volumeMusic);
 			break;
+			
+		case YOU_WIN_MUSIC:
+			musicYouLose.loop(pitch, volumeMusic);
+			break;
+			
+		case YOU_LOSE_MUSIC:
+			musicYouWin.loop(pitch, volumeMusic);
 			
 		default:
 			break;	
@@ -90,24 +102,24 @@ private static Sounds instance = null;
 		
 		switch(sound){
 		
-		case GUN:
-			gunfire.play(pitch, volumeSound);
+		case GUN_SHOT:
+			gunShot.play(pitch, volumeSound);
 			break;
 			
-		case DIE:
-			die.play(pitch,volumeSound);
+		case HERO_DIE:
+			heroDie.play(pitch,volumeSound);
 			break;
 			
-		case HURT:
-			hurt.play(pitch, volumeSound);
+		case HERO_HURT:
+			heroHurt.play(pitch, volumeSound);
 			break;
 		
-		case ENEMY_DIE:
-			enemyDie.play(pitch, volumeSound);
+		case FOE_DIE:
+			foeDie.play(pitch, volumeSound);
 			break;
 		
-		case ENEMY_HURT:
-			enemyHurt.play(pitch, volumeSound);
+		case FOE_HURT:
+			foeHurt.play(pitch, volumeSound);
 			break;
 			
 		case COLLECT_COIN:
@@ -118,8 +130,8 @@ private static Sounds instance = null;
 			collectGem.play(pitch,volumeSound);
 			break;
 			
-		case SWORD:
-			sword.play(pitch,volumeSound);
+		case SWORD_SWING:
+			swordSwing.play(pitch,volumeSound);
 			break;
 			
 		case ENERGY_DRINK:
@@ -165,8 +177,8 @@ private static Sounds instance = null;
 	}
 	
 	public void updateMusic(){
-		if(soundtrack.playing()){
-			soundtrack.stop();
+		if(musicInMenus.playing()){
+			musicInMenus.stop();
 			playMusic(SoundType.MENU_MUSIC);
 		}
 		if(musicInGame.playing()){
@@ -176,7 +188,7 @@ private static Sounds instance = null;
 	}
 	
 	public void stopMusic(){
-		soundtrack.stop();
+		musicInMenus.stop();
 		musicInGame.stop();
 	}
 	

@@ -12,10 +12,10 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 
 
-public class Hero implements IAliveModel{
+public class Hero implements IAliveEntity{
 	
 	/* Hero Weapon*/
-	private AbstractWeaponModel weapon;
+	private AbstractWeapon weapon;
 	
 	private final int maxHp = 100;
 	private int hp;
@@ -68,7 +68,7 @@ public class Hero implements IAliveModel{
 		init(pos, true);
 	}
 
-	public Hero(World w, String characterName, Vec2 pos, int width, int height, AbstractWeaponModel weapon, boolean createHero){
+	public Hero(World w, String characterName, Vec2 pos, int width, int height, AbstractWeapon weapon, boolean createHero){
 		this.characterName = characterName;
 		this.world = w;
 		setDimension(new Dimension(width, height));
@@ -91,7 +91,7 @@ public class Hero implements IAliveModel{
 		return hasLoadedDimension;
 	}
 
-	public void createNewHero(Vec2 pos, AbstractWeaponModel awm){
+	public void createNewHero(Vec2 pos, AbstractWeapon awm){
 		score = 0;
 		coinAmount = 0;
 		gemAmount = 0;
@@ -238,7 +238,7 @@ public class Hero implements IAliveModel{
 	 * Method to get the weapon
 	 * @return - weapon
 	 */
-	public AbstractWeaponModel getWeapon(){
+	public AbstractWeapon getWeapon(){
 		return weapon;
 	}
 	
@@ -428,7 +428,7 @@ public class Hero implements IAliveModel{
 	 * @param w - The Weapon
 	 * @param wt - Which type your weapon is
 	 */
-	public void setWeapon(AbstractWeaponModel w){
+	public void setWeapon(AbstractWeapon w){
 		this.weapon = w;
 	}
 	

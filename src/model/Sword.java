@@ -23,7 +23,7 @@ import utils.WeaponType;
  * @version 1.0 
  */
 
-public class SwordModel extends AbstractWeaponModel implements IEntityModel, ActionListener{
+public class Sword extends AbstractWeapon implements IEntity, ActionListener{
 
 	private Timer timer;
 	private Body body;
@@ -37,7 +37,7 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel, Act
 	
 	public final float RADIUS = 0.15f;
 	
-	public SwordModel(World world, int reloadTime, int damage, int ID){
+	public Sword(World world, int reloadTime, int damage, int ID){
 		super(world, damage, 1f, WeaponType.SWORD);
 		this.ID = ID;
 		this.timer = new Timer(reloadTime, this);
@@ -78,7 +78,7 @@ public class SwordModel extends AbstractWeaponModel implements IEntityModel, Act
 	}
 	
 	@Override
-	public boolean fight(IAliveModel fighterModel, Navigation navigation) {
+	public boolean fight(IAliveEntity fighterModel, Navigation navigation) {
 		super.setFighterModel(fighterModel);
 		Vec2 firstPos = fighterModel.getPosMeters().clone();
 		

@@ -12,7 +12,7 @@ import org.jbox2d.dynamics.World;
 import utils.EntityType;
 import utils.Utils;
 
-public class WorldShapeModel implements IEntityModel {
+public class WorldShape implements IEntity {
 
 	Body body, bodyGround, bodyRoof, bodyWallLeft, bodyWallRight;
 	int id;
@@ -21,7 +21,7 @@ public class WorldShapeModel implements IEntityModel {
 	float diff = -.02f;
 	World world;
 
-	public WorldShapeModel(World world, float xCoordinate, float yCoordinate,
+	public WorldShape(World world, float xCoordinate, float yCoordinate,
 			int width, int height, int numberOfTiles) {
 		BodyDef b = new BodyDef();
 		b.position = new Vec2(xCoordinate, yCoordinate);

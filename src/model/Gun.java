@@ -18,21 +18,21 @@ import utils.WeaponType;
  * @version 1.0 
  */
 
-public class GunModel extends AbstractWeaponModel implements ActionListener{
+public class Gun extends AbstractWeapon implements ActionListener{
 	
 	private Timer timer;
 	private int ID;
 	private int IDCount;
-	private ArrayList<BulletModel> bulletModels = new ArrayList<BulletModel>();
+	private ArrayList<Bullet> bulletModels = new ArrayList<Bullet>();
 
-	public GunModel(World world, int reloadTime, int damage, float range, int ID){
+	public Gun(World world, int reloadTime, int damage, float range, int ID){
 		super(world, damage, range, WeaponType.GUN);
 		this.IDCount = 1;
 		this.ID = ID;
 		this.timer = new Timer(reloadTime, this);
 	}
 
-	public boolean fight(IAliveModel fighterModel, Navigation navigation){
+	public boolean fight(IAliveEntity fighterModel, Navigation navigation){
 		super.setFighterModel(fighterModel);
 		Vec2 firstPos = fighterModel.getPosMeters().clone();
 		
@@ -46,7 +46,7 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 		
 		if(!timer.isRunning()){
 			
-			bulletModels.add(new BulletModel(this, firstPos, navigation, this.IDCount));
+			bulletModels.add(new Bullet(this, firstPos, navigation, this.IDCount));
 			
 			if(IDCount >= 50){
 				this.IDCount = 1;
@@ -82,11 +82,11 @@ public class GunModel extends AbstractWeaponModel implements ActionListener{
 		this.bulletModels.remove(index);
 	}
 	
-	public ArrayList<BulletModel> getBulletModels(){
+	public ArrayList<Bullet> getBulletModels(){
 		return this.bulletModels;
 	}
 	
-	public IAliveModel getFighterModel(){
+	public IAliveEntity getFighterModel(){
 		return super.getFighterModel();
 	}
 	

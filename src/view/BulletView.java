@@ -10,16 +10,16 @@ import org.newdawn.slick.state.StateBasedGame;
 import utils.Camera;
 import utils.Navigation;
 
-import model.BulletModel;
+import model.Bullet;
 
 public class BulletView {
 
-	private BulletModel model;
+	private Bullet model;
 	private int id;
 	private Image bulletR;
 	private Image bulletL;
 	
-	public BulletView(BulletModel model){
+	public BulletView(Bullet model){
 		this.model = model;
 		this.id = model.getID();
 		try{

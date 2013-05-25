@@ -5,7 +5,7 @@ package model;
  * @author filipcarlen
  *
  */
-public interface ICollectibleModel extends IEntityModel {
+public interface ICollectible extends IEntity {
 	
 	/** Returns value of a collectible object
 	 * @return value

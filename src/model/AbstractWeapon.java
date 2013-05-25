@@ -12,16 +12,16 @@ import utils.WeaponType;
  * @version 1.0 
  */
 
-public abstract class AbstractWeaponModel {
+public abstract class AbstractWeapon {
 	
 	private int damage;
 	/* The range in meters */
 	private float range;
 	private World world;
 	private WeaponType weaponType;
-	private IAliveModel fighterModel;
+	private IAliveEntity fighterModel;
 	
-	public AbstractWeaponModel(World world, int damage, float range, WeaponType weaponType){
+	public AbstractWeapon(World world, int damage, float range, WeaponType weaponType){
 		this.world = world;
 		this.damage = damage;
 		this.range = range;
@@ -49,11 +49,11 @@ public abstract class AbstractWeaponModel {
 	}
 	
 	
-	public IAliveModel getFighterModel(){
+	public IAliveEntity getFighterModel(){
 		return this.fighterModel;
 	}
 	
-	public void setFighterModel(IAliveModel fighterModel){
+	public void setFighterModel(IAliveEntity fighterModel){
 		this.fighterModel = fighterModel;
 	}
 	
@@ -78,5 +78,5 @@ public abstract class AbstractWeaponModel {
 		}
 	}
 	
-	public abstract boolean fight(IAliveModel fighterModel,  Navigation navigation);
+	public abstract boolean fight(IAliveEntity fighterModel,  Navigation navigation);
 }

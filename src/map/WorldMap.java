@@ -29,7 +29,7 @@ public class WorldMap{
 	private World w;
 	private TiledMap tm;
 	//Contains all the shaps that is used for collisions and so on.....
-	private List<WorldShapeModel> wsm = new ArrayList<WorldShapeModel>();
+	private List<WorldShape> wsm = new ArrayList<WorldShape>();
 	//HashMap that contains the path and id to pictures 
 	private HashMap<Integer, Image> pictureName = new HashMap<Integer, Image>();
 	//List Containing all images that is needed to load the Map
@@ -42,7 +42,7 @@ public class WorldMap{
 	private int [][] background;
 	private Vec2 positionHero;
 	
-	private ArrayList<IEntityModel> bodies = new ArrayList <IEntityModel>();
+	private ArrayList<IEntity> bodies = new ArrayList <IEntity>();
 
 	
 	public WorldMap(World world){
@@ -99,21 +99,21 @@ public class WorldMap{
 					}else if(idtile == 91){
 						positionHero = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
 					}else if(idtile == 92){
-						bodies.add(new MovingFoe(w, pos, 50, new SwordModel(w, 200 ,35, id), 5, id));
+						bodies.add(new MovingFoe(w, pos, 50, new Sword(w, 200 ,35, id), 5, id));
 					}else if(idtile == 93){
-						bodies.add(new MovingFoe(w, pos, 50, new GunModel(w, 1000, 5, 10, id), 5, id));
+						bodies.add(new MovingFoe(w, pos, 50, new Gun(w, 1000, 5, 10, id), 5, id));
 					}else if(idtile == 94){
 						bodies.add(new StaticFoeFire(w, pos, 15, id));
 					}else if(idtile == 95){
-						bodies.add(new ChocolateBarModel(w, pos, id));
+						bodies.add(new ChocolateBar(w, pos, id));
 					}else if(idtile == 96){
-						bodies.add(new EnergyDrinkModel(w, pos, id));
+						bodies.add(new EnergyDrink(w, pos, id));
 					}else if(idtile == 97){
 						bodies.add(new StaticFoePlant(w, pos, 20, id));
 					}else if(idtile == 99){
-						bodies.add(new CoinModel(w, pos, id));
+						bodies.add(new Coin(w, pos, id));
 					}else if(idtile == 100){
-						bodies.add(new GemModel(w, pos, id));
+						bodies.add(new Gem(w, pos, id));
 					}
 					++id;
 				}
@@ -128,7 +128,7 @@ public class WorldMap{
 	}
 	
 	public void addWorldShape(float xCoordinate, float yCoordinate, int width, int height, int numberOfTiles){
-		wsm.add(new WorldShapeModel(w, xCoordinate, yCoordinate, width, height, numberOfTiles));
+		wsm.add(new WorldShape(w, xCoordinate, yCoordinate, width, height, numberOfTiles));
 		
 	}
 	
@@ -190,10 +190,10 @@ public class WorldMap{
 	}
 	
 	public void setBounds(){
-		wsm.add(new WorldShapeModel(w, 0, 0, tm.getWidth()*tm.getTileWidth(), tm.getHeight()*tm.getTileHeight(), 1));
+		wsm.add(new WorldShape(w, 0, 0, tm.getWidth()*tm.getTileWidth(), tm.getHeight()*tm.getTileHeight(), 1));
 	}
 	
-	public ArrayList<IEntityModel> getListOfBodies(){
+	public ArrayList<IEntity> getListOfBodies(){
 		return bodies;
 	}
 	
@@ -209,7 +209,7 @@ public class WorldMap{
 		return tm.getHeight()*tm.getTileHeight();
 	}
 	
-	public List<WorldShapeModel> getListOfShapes(){
+	public List<WorldShape> getListOfShapes(){
 		return wsm;
 	}
 	
