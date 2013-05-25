@@ -15,6 +15,7 @@ public class CollisionDetection  implements ContactListener{
 
 	private MovingFoeModel foeModel;
 	private HeroModel heroModel;
+	private Sounds sound = Sounds.getInstance();
 	
 	public CollisionDetection(){
 		
@@ -34,27 +35,29 @@ public class CollisionDetection  implements ContactListener{
 			if(objectB ==  EntityType.GROUND){
 				heroModel.setGroundContact();
 			}else if(objectB instanceof MovingFoeModel){// This if Statement will call setGroundcontact when you jump on a enemies head
-				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectB).getPosMeters().y)
+				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectB).getPosMeters().y){
 					heroModel.setGroundContact();
-			}else if(objectB instanceof ICollectibleModel && objectB instanceof AbstractPointsModel){
-				((AbstractPointsModel)objectB).killBody();
-				heroModel.incrementScore(((AbstractPointsModel)objectB).getValue());
-				if(objectB instanceof GemModel){
-					heroModel.incrementGem();
-				}else{
-					heroModel.incrementCoin();
 				}
-				
-			}else if(objectB instanceof ICollectibleModel && objectB instanceof AbstractPowerUpModel){
-				((AbstractPowerUpModel)objectB).killBody();
-				if(objectB instanceof ChocolateBarModel){
-					heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectB).gethpBoost() * heroModel.getMaxHp())));
-					Sounds.getInstance().playSound(SoundType.CHOCOLATE_BAR);
-				}else{
-					heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectB).gethpBoost() * heroModel.getMaxHp())));
-					Sounds.getInstance().playSound(SoundType.ENERGY_DRINK);
+			}else if(objectB instanceof ICollectibleModel){
+				((AbstractCollectibleModel)objectB).killBody();
+				if(objectB instanceof AbstractPointsModel){
+					heroModel.incrementScore(((AbstractPointsModel)objectB).getValue());
+					if(objectB instanceof GemModel){
+						heroModel.incrementGem();
+						sound.playSound(SoundType.COLLECT_GEM);
+					}else if(objectB instanceof CoinModel){
+						heroModel.incrementCoin();
+						sound.playSound(SoundType.COLLECT_COIN);
+					}
 				}
-				
+				if(objectB instanceof AbstractPowerUpModel)
+					if(objectB instanceof ChocolateBarModel){
+						heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectB).gethpBoost() * heroModel.getMaxHp())));
+						sound.playSound(SoundType.CHOCOLATE_BAR);
+					}else if(objectB instanceof EnergyDrinkModel){
+						heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectB).gethpBoost() * heroModel.getMaxHp())));
+						sound.playSound(SoundType.ENERGY_DRINK);
+				}
 			}else if(objectB instanceof StaticFoeModel) {
 				heroModel.setHurted(null,((StaticFoeModel)objectB).getDamage());
 			}else if(objectB instanceof BulletModel) {
@@ -78,23 +81,25 @@ public class CollisionDetection  implements ContactListener{
 				if(heroModel.getPosMeters().y < ((MovingFoeModel)objectA).getPosMeters().y){
 					heroModel.setGroundContact();
 				}
-			}else if(objectA instanceof ICollectibleModel && objectA instanceof AbstractPointsModel){
-				((AbstractPointsModel)objectA).killBody();
-				heroModel.incrementScore(((AbstractPointsModel)objectA).getValue());
-				if(objectA instanceof GemModel){
-					heroModel.incrementGem();
-				}else{
-					heroModel.incrementCoin();
+			}else if(objectA instanceof ICollectibleModel){
+				((AbstractCollectibleModel)objectA).killBody();
+				if(objectA instanceof AbstractPointsModel){
+					heroModel.incrementScore(((AbstractPointsModel)objectA).getValue());
+					if(objectA instanceof GemModel){
+						heroModel.incrementGem();
+						sound.playSound(SoundType.COLLECT_GEM);
+					}else if(objectA instanceof CoinModel){
+						heroModel.incrementCoin();
+						sound.playSound(SoundType.COLLECT_COIN);
+					}
 				}
-				
-			}else if(objectA instanceof ICollectibleModel && objectA instanceof AbstractPowerUpModel){
-				((AbstractPowerUpModel)objectA).killBody();
-				if(objectA instanceof ChocolateBarModel){
-					heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectA).gethpBoost() * heroModel.getMaxHp())));
-					Sounds.getInstance().playSound(SoundType.CHOCOLATE_BAR);
-				}else{
-					heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectA).gethpBoost() * heroModel.getMaxHp())));
-					Sounds.getInstance().playSound(SoundType.ENERGY_DRINK);
+				if(objectA instanceof AbstractPowerUpModel)
+					if(objectA instanceof ChocolateBarModel){
+						heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectA).gethpBoost() * heroModel.getMaxHp())));
+						sound.playSound(SoundType.CHOCOLATE_BAR);
+					}else if(objectA instanceof EnergyDrinkModel){
+						heroModel.heal((int)(Math.round(((AbstractPowerUpModel)objectA).gethpBoost() * heroModel.getMaxHp())));
+						sound.playSound(SoundType.ENERGY_DRINK);
 				}
 			}else if(objectA instanceof StaticFoeModel) {
 				heroModel.setHurted(null,((StaticFoeModel)objectA).getDamage());
