@@ -1,6 +1,6 @@
 package model;
 
-import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
 import utils.Navigation;
@@ -69,9 +69,10 @@ public abstract class AbstractWeapon {
 		this.world = world;
 	}
 	
-	public boolean isWithinRange(Vec2 myPos, Vec2 targetPos){
-		
-		if((myPos.sub(targetPos)).length() < this.range){
+	public boolean isWithinRange(Body myBody, Body targetBody){
+		float tempRange = this.range + myBody.getFixtureList().getShape().getRadius() + targetBody.getFixtureList().getShape().getRadius();
+		float distance = Math.abs((myBody.getPosition().sub(targetBody.getPosition())).length());
+		if(distance < tempRange){
 			return true;
 		} else{
 			return false;
