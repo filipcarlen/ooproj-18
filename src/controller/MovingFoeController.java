@@ -1,6 +1,6 @@
 package controller;
 
-import model.MovingFoeModel;
+import model.MovingFoe;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
@@ -13,12 +13,12 @@ import view.MovingFoeView;
 
 public class MovingFoeController implements IEntityController {
 	
-	private MovingFoeModel model;
+	private MovingFoe model;
 	private MovingFoeView view;
 	
 	private IPlayStateController playState;
 	
-	public MovingFoeController(MovingFoeModel model, IPlayStateController playState){
+	public MovingFoeController(MovingFoe model, IPlayStateController playState){
 		this.model = model;
 		this.view = new MovingFoeView(model);
 		

@@ -1,6 +1,6 @@
 package view;
 
-import model.MovingFoeModel;
+import model.MovingFoe;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
@@ -24,11 +24,11 @@ public class MovingFoeView {
 	private final String PATH_RIGHT = "res/foe/moving_foe/foe_right/";
 	private final String PATH_STAND = "res/foe/moving_foe/foe_standing/";
 	
-	private MovingFoeModel model;
+	private MovingFoe model;
 	
 	private Animation currentAnimation;
 	
-	public MovingFoeView(MovingFoeModel model) {
+	public MovingFoeView(MovingFoe model) {
 		this.model = model;
 		try {
 			initAnimations();
