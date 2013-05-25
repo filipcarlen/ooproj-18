@@ -397,7 +397,7 @@ public class OptionsState extends BasicGameState {
 		//OK ___________________________________________________________________________________________
 		//The OK button is clicked.
 		if(this.insideOk && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-			sbg.enterState(GameApp.MAINMENUSTATE);
+			sbg.enterState(GameApp.MAIN_MENU_STATE);
 		} //OK END _____________________________________________________________________________________
 		
 		//KEYBINDINGS __________________________________________________________________________________
