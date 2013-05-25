@@ -243,7 +243,7 @@ public class GameOverState extends BasicGameState{
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		initPositions(gc, sbg);
 		
-		Hero model = ((PlayState)sbg.getState(GameApp.PLAYSTATE)).getHeroModel();
+		Hero model = ((PlayState)sbg.getState(GameApp.PLAY_STATE)).getHeroModel();
 		this.isWin = !model.isDead();
 
 		int coins = model.getCoinAmount();
@@ -346,13 +346,13 @@ public class GameOverState extends BasicGameState{
 		
 		if(mouseClicked && this.insideMainMenu){
 			System.out.println("mainmenu");
-			sbg.enterState(GameApp.MAINMENUSTATE);
+			sbg.enterState(GameApp.MAIN_MENU_STATE);
 		}
 		
 		if(mouseClicked && this.insidePlayAgain){
 			System.out.println("play again");
 			Sounds.getInstance().stopMusic();
-			sbg.enterState(GameApp.PLAYSTATE);
+			sbg.enterState(GameApp.PLAY_STATE);
 		}	
 	}
 	

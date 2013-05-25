@@ -40,7 +40,7 @@ public class HighscoreState extends BasicGameState {
 	
 	public static HighscoreState getInstance(){
 		if(instance == null){
-			return new HighscoreState(GameApp.HIGHSCORESTATE);
+			return new HighscoreState(GameApp.HIGHSCORE_STATE);
 		}
 			return instance;
 	}
@@ -115,7 +115,7 @@ public class HighscoreState extends BasicGameState {
 		insideClear = checkMouse(mouseX, mouseY, clearPos, clear);
 		
 		if(mouseClicked && insideMainMenu){
-			arg1.enterState(GameApp.MAINMENUSTATE);
+			arg1.enterState(GameApp.MAIN_MENU_STATE);
 		}
 		
 		if(mouseClicked && insideClear){

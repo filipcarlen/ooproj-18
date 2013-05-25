@@ -51,7 +51,7 @@ public class MainMenuState extends BasicGameState {
 	
 	public static MainMenuState getInstance(){
 		if(instance == null){
-			instance = new MainMenuState(GameApp.MAINMENUSTATE);
+			instance = new MainMenuState(GameApp.MAIN_MENU_STATE);
 		}
 		return instance;
 	}
@@ -140,17 +140,17 @@ public class MainMenuState extends BasicGameState {
 		if(mouseClicked && insideStartGame){	
 			Sounds.getInstance().stopMusic();
 			Sounds.getInstance().playMusic(SoundType.GAME_MUSIC);
-			sbg.enterState(GameApp.PREGAMESTATE);
+			sbg.enterState(GameApp.PRE_GAME_STATE);
 		}
 		
 		if(mouseClicked && insideOptionsMenu){
 			input.clearMousePressedRecord();
-			sbg.enterState(GameApp.OPTIONSSTATE);
+			sbg.enterState(GameApp.OPTIONS_STATE);
 		}
 		
 		if(mouseClicked && insideHighscore){
 			input.clearMousePressedRecord();
-			sbg.enterState(GameApp.HIGHSCORESTATE);
+			sbg.enterState(GameApp.HIGHSCORE_STATE);
 		}
 		
 		if(mouseClicked && insideQuitGame){

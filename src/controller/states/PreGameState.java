@@ -36,7 +36,7 @@ public class PreGameState extends BasicGameState {
 	
 	public static PreGameState getInstance(){
 		if(instance == null){
-			instance = new PreGameState(GameApp.PREGAMESTATE);
+			instance = new PreGameState(GameApp.PRE_GAME_STATE);
 		}
 		return instance;
 	}
@@ -110,7 +110,7 @@ public class PreGameState extends BasicGameState {
 		}
 		if(mouseClicked && insidePlay){
 			PlayState.getInstance().setWeaponInUse(weapon);
-			sbg.enterState(GameApp.PLAYSTATE);
+			sbg.enterState(GameApp.PLAY_STATE);
 		}
 		
 		if(mouseClicked && insideSword){

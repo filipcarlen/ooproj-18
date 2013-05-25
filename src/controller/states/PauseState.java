@@ -76,7 +76,7 @@ public class PauseState extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		sbg.getState(GameApp.PLAYSTATE).render(gc, sbg, g);
+		sbg.getState(GameApp.PLAY_STATE).render(gc, sbg, g);
 		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		
 		if(insideResume){
@@ -128,17 +128,17 @@ public class PauseState extends BasicGameState {
 		insideQuitGame = checkMouse(mouseX, mouseY, quitGamePos, quitGame);
 		
 		if((mouseClicked && insideResume) || Controls.getInstance().check("pause")){
-			sbg.enterState(GameApp.PLAYSTATE);
+			sbg.enterState(GameApp.PLAY_STATE);
 		}
 		if(mouseClicked && insideRestart){
-			((PlayState)sbg.getState(GameApp.PLAYSTATE)).reTry();
-			sbg.enterState(GameApp.PLAYSTATE);
+			((PlayState)sbg.getState(GameApp.PLAY_STATE)).reTry();
+			sbg.enterState(GameApp.PLAY_STATE);
 		}
 		if(mouseClicked && insideOptions){
-			sbg.enterState(GameApp.OPTIONSSTATE);
+			sbg.enterState(GameApp.OPTIONS_STATE);
 		}
 		if(mouseClicked && insideMainMenu){
-			sbg.enterState(GameApp.MAINMENUSTATE);
+			sbg.enterState(GameApp.MAIN_MENU_STATE);
 		}
 		if(mouseClicked && insideQuitGame){
 			gc.exit();
