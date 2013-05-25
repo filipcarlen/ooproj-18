@@ -17,6 +17,8 @@ public class PauseState extends BasicGameState {
 
 	private int stateID;
 	
+	private final String PATH = "res/pause_menu/";
+	
 	private Image background;
 	
 	private Image resume, resumeH, restart, restartH, options, optionsH, mainMenu, mainMenuH, quitGame, quitGameH;
@@ -38,16 +40,16 @@ public class PauseState extends BasicGameState {
 		
 		this.background = new Image("res/PauseMenu/background.png");
 		
-		this.resume = new Image("res/PauseMenu/resume.png");
-		this.resumeH = new Image("res/PauseMenu/resumeH.png");
-		this.restart = new Image("res/PauseMenu/restart.png");
-		this.restartH = new Image("res/PauseMenu/restartH.png");
-		this.options = new Image("res/PauseMenu/options.png");
-		this.optionsH = new Image("res/PauseMenu/optionsH.png");
-		this.mainMenu = new Image("res/PauseMenu/mainMenu.png");
-		this.mainMenuH = new Image("res/PauseMenu/mainMenuH.png");
-		this.quitGame = new Image("res/PauseMenu/quitGame.png");
-		this.quitGameH = new Image("res/PauseMenu/quitGameH.png");
+		this.resume = new Image(this.PATH + "resume.png");
+		this.resumeH = new Image(this.PATH + "resumeH.png");
+		this.restart = new Image(this.PATH + "restart.png");
+		this.restartH = new Image(this.PATH + "restartH.png");
+		this.options = new Image(this.PATH + "options.png");
+		this.optionsH = new Image(this.PATH + "optionsH.png");
+		this.mainMenu = new Image(this.PATH + "mainMenu.png");
+		this.mainMenuH = new Image(this.PATH + "mainMenuH.png");
+		this.quitGame = new Image(this.PATH + "quitGame.png");
+		this.quitGameH = new Image(this.PATH + "quitGameH.png");
 	}
 	
 	public void initPositions(GameContainer gc, StateBasedGame sbg){
