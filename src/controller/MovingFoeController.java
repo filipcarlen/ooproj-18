@@ -28,8 +28,8 @@ public class MovingFoeController implements IEntityController {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		
-		Vec2 right = this.model.getBody().getWorldVector(new Vec2(-0.05f, 0.0f));
-		Vec2 left = this.model.getBody().getWorldVector(new Vec2(0.05f, 0.0f));
+		Vec2 right = this.model.getBody().getWorldVector(new Vec2(-0.008f, 0.0f));
+		Vec2 left = this.model.getBody().getWorldVector(new Vec2(0.008f, 0.0f));
 		
 		Vec2 heroPos = Utils.metersToPixels(this.playState.getHeroModel().getPosMeters());
 		Vec2 foePos = Utils.metersToPixels(this.model.getPosMeters());
@@ -42,39 +42,25 @@ public class MovingFoeController implements IEntityController {
 		if(diffX < this.model.SIGHT_RANGE_X && diffY < this.model.SIGHT_RANGE_Y){
 				
 			//Make this foe walk towards the hero and set the correct animation. 
-			if((heroPos.x < foePos.x) && 
-					!(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), playState.getHeroModel().getPosMeters()))){
+			if(((heroPos.x < foePos.x) && !(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), playState.getHeroModel().getPosMeters()))) || 
+					((heroPos.x < foePos.x - Utils.METER_IN_PIXELS) && (Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS)))){
 				
-				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
-				this.model.getBody().applyLinearImpulse(left, this.model.getPosMeters());
+				this.moveFoe(left, MovingFoeView.AnimationType.WALK_LEFT);
 				
-			} else if((foePos.x < heroPos.x) && 
-					!(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), playState.getHeroModel().getPosMeters()))){
+			} else if(((foePos.x < heroPos.x) && !(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), playState.getHeroModel().getPosMeters()))) ||
+					((heroPos.x > foePos.x + Utils.METER_IN_PIXELS) && (Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS)))){
 				
-				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
-				this.model.getBody().applyLinearImpulse(right, this.model.getPosMeters());
-				
-			} else if((heroPos.x < foePos.x - Utils.METER_IN_PIXELS) && (Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS))) {
-				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
-				this.model.getBody().applyLinearImpulse(left, this.model.getPosMeters());
-				
-			} else if((heroPos.x > foePos.x + Utils.METER_IN_PIXELS) && (Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS))) {
-				this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
-				this.model.getBody().applyLinearImpulse(right, this.model.getPosMeters());
+				this.moveFoe(right, MovingFoeView.AnimationType.WALK_RIGHT);
 			}
 			
-			//Attack the hero if he/she is within the range of this foe's weapon and if this foe is not to high above or too low below the hero.
+			//Attack the hero if it's within the range of this foe's weapon and if this foe is not too high above or too low below the hero.
 			else if((this.model.getWeapon().isWithinRange(this.model.getPosMeters(), this.playState.getHeroModel().getPosMeters())) && 
 					(Math.abs(foePos.y-heroPos.y) < (Utils.METER_IN_PIXELS))){
 					
 				if(heroPos.x < this.model.getPosPixels().x) {
-					if(this.model.getWeapon().fight(this.model,Navigation.WEST)){
-						this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_LEFT);
-					}
+					this.makeFoeFight(Navigation.WEST, MovingFoeView.AnimationType.WALK_LEFT);
 				} else if(heroPos.x > this.model.getPosPixels().x) {
-					if(this.model.getWeapon().fight(this.model,Navigation.EAST)){
-						this.view.setCurrentAnim(MovingFoeView.AnimationType.WALK_RIGHT);
-					}
+					this.makeFoeFight(Navigation.EAST, MovingFoeView.AnimationType.WALK_RIGHT);
 				}
 			} else {
 				this.view.setCurrentAnim(MovingFoeView.AnimationType.STAND);
@@ -93,6 +79,17 @@ public class MovingFoeController implements IEntityController {
 			this.playState.getHeroModel().incrementKillCount();
 			this.playState.getHeroModel().incrementScore(this.model.getValue());
 			this.playState.removeEntity(this.model.getID());
+		}
+	}
+	
+	public void moveFoe(Vec2 impulse, MovingFoeView.AnimationType animation) {
+		this.view.setCurrentAnim(animation);
+		this.model.getBody().applyLinearImpulse(impulse, this.model.getPosMeters());
+	}
+	
+	public void makeFoeFight(Navigation navigation, MovingFoeView.AnimationType animation) {
+		if(this.model.getWeapon().fight(this.model, navigation)){
+			this.view.setCurrentAnim(animation);
 		}
 	}
 

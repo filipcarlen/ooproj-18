@@ -1,6 +1,6 @@
 package model;
 
-import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.MathUtils;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -62,12 +62,12 @@ public class MovingFoe implements IAliveEntity{
 		bodyDef.type = BodyType.DYNAMIC;
 		bodyDef.angle = MathUtils.PI;
 		
-		PolygonShape polyShape = new PolygonShape();
-		polyShape.setAsBox(Utils.pixelsToMeters(this.WIDTH)/2, Utils.pixelsToMeters(this.HEIGHT)/2);
+		CircleShape circleShape = new CircleShape();
+		circleShape.m_radius = Utils.pixelsToMeters(this.WIDTH)/2;
 		
 		FixtureDef fixDef = new FixtureDef();
-		fixDef.shape = polyShape;
-		fixDef.density = 0f;
+		fixDef.shape = circleShape;
+		fixDef.density = 0.15f;
 		fixDef.friction = 0f;
 		fixDef.filter.groupIndex = -1;
 		
