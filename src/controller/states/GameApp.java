@@ -6,14 +6,14 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class GameApp extends StateBasedGame{
-	public static final String gamename = "The Game";
-	public static final int MAINMENUSTATE = 0;
-	public static final int PLAYSTATE = 1;
-	public static final int OPTIONSSTATE = 2;
-	public static final int GAMEOVERSTATE = 3;
-	public static final int HIGHSCORESTATE = 4;
-	public static final int PREGAMESTATE = 5;
-	public static final int PAUSESTATE = 6;
+	public static final String gamename = "Forest Frenzy";
+	public static final int MAIN_MENU_STATE = 0;
+	public static final int PLAY_STATE = 1;
+	public static final int OPTIONS_STATE = 2;
+	public static final int GAME_OVER_STATE = 3;
+	public static final int HIGH_SCORE_STATE = 4;
+	public static final int PRE_GAME_STATE = 5;
+	public static final int PAUSE_STATE = 6;
 
 	public static AppGameContainer appgc;
 	public static final float DEFAULT_WIDTH = 900f;
@@ -23,25 +23,16 @@ public class GameApp extends StateBasedGame{
 		super(gamename);
 		this.addState(MainMenuState.getInstance());
 		this.addState(PlayState.getInstance());
-		this.addState(new OptionsState(OPTIONSSTATE));
-		this.addState(new GameOverState(GAMEOVERSTATE));
+		this.addState(new OptionsState(OPTIONS_STATE));
+		this.addState(new GameOverState(GAME_OVER_STATE));
 		this.addState(HighscoreState.getInstance());
 		this.addState(PreGameState.getInstance());
-		this.addState(new PauseState(PAUSESTATE));
-		this.enterState(MAINMENUSTATE);
+		this.addState(new PauseState(PAUSE_STATE));
+		this.enterState(MAIN_MENU_STATE);
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException {
 
-	}
-	
-	@Override
-	public void update(GameContainer gc, int delta){
-		try {
-			super.update(gc, delta);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public static void main(String []args){
