@@ -38,7 +38,7 @@ public class PauseState extends BasicGameState {
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		
-		this.background = new Image("res/PauseMenu/background.png");
+		this.background = new Image(PATH + "background.png");
 		
 		this.resume = new Image(this.PATH + "resume.png");
 		this.resumeH = new Image(this.PATH + "resumeH.png");
