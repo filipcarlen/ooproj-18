@@ -83,10 +83,10 @@ public class HeroController implements IEntityController, ActionListener {
 		Sounds sound = Sounds.getInstance();
 		switch(model.getCurrentHealthAction()){
 		case HURT:
-			sound.playSound(SoundType.HURT);
+			sound.playSound(SoundType.HERO_HURT);
 			break;
 		case DEAD:
-			sound.playSound(SoundType.DIE);
+			sound.playSound(SoundType.HERO_DIE);
 			break;
 		case NONE:
 			//Then the hero is as usual, got the same hp as before
@@ -161,9 +161,9 @@ public class HeroController implements IEntityController, ActionListener {
 			 */
 			if(model.attack()){
 				if(model.getWeaponType() == WeaponType.GUN)
-					Sounds.getInstance().playSound(SoundType.GUN);
+					Sounds.getInstance().playSound(SoundType.GUN_SHOT);
 				else if(model.getWeaponType() == WeaponType.SWORD)
-					Sounds.getInstance().playSound(SoundType.SWORD);
+					Sounds.getInstance().playSound(SoundType.SWORD_SWING);
 				fight = true;
 				fightTimer.start();
 				view.setAttackAnimation(model.getDirection());
