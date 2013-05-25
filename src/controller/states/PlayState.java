@@ -56,7 +56,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	
 	public static PlayState getInstance(){
 		if(instance == null)
-			instance = new PlayState(GameApp.PLAYS_STATE);
+			instance = new PlayState(GameApp.PLAY_STATE);
 		return instance;
 	}
 	
