@@ -6,7 +6,7 @@ import org.jbox2d.common.Vec2;
 
 public class Camera {
 	private int displaywidth,displayheight,worldwidth,worldheight;
-	private Vec2 positionCamera;
+	private static Vec2 positionCamera = new Vec2(0,0);
 	private int distFromWall = 60;
 	private int distFromGToF = 60;
 	private Vec2 posOfHero;
@@ -22,7 +22,6 @@ public class Camera {
 		this.worldwidth = worldwidth;
 		this.worldheight = worldheight;
 		this.posOfHero = posFocusPixel;
-		positionCamera = new Vec2(0,0);
 	}
 	
 	public Camera(int displaywidth, int displayheight, int worldwidth, int worldheight, Rectangle moveableArea, Vec2 posFocusPixel){
