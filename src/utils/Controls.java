@@ -37,15 +37,10 @@ public class Controls {
 	private static Controls instanceOfControls = null;
 	
 	/**
-	 * By default this Constructor will add the command Pause
+	 * By default this Constructor will load the command in hashmap(but they will not be bind to any key except Pause)
 	 */
 	private Controls(){
 		loadCommands();
-		try {
-			bindToKey(CMD_PAUSE, Input.KEY_ESCAPE, Input.KEY_P);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
 		isControlsSet = false;
 	}
 	
@@ -61,6 +56,7 @@ public class Controls {
 	
 	/**
 	 * Loads all the Commands that is declared.
+	 * By default this will also bind the pause button
 	 */
 	private void loadCommands(){
 		keys.put(CMD_LEFT, new ArrayList<Integer>());
@@ -68,6 +64,11 @@ public class Controls {
 		keys.put(CMD_JUMP, new ArrayList<Integer>());
 		keys.put(CMD_FIGHT, new ArrayList<Integer>());
 		keys.put(CMD_PAUSE, new ArrayList<Integer>());
+		try {
+			bindToKey(CMD_PAUSE, Input.KEY_ESCAPE, Input.KEY_P);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
