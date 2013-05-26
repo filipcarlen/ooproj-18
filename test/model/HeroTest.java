@@ -14,7 +14,11 @@ import org.newdawn.slick.geom.Vector2f;
 
 import utils.Navigation;
 import utils.Utils;
-
+/**
+ * 
+ * @author filipcarlen
+ *
+ */
 public class HeroModelTest {
 
 	/**@Test
@@ -27,11 +31,6 @@ public class HeroModelTest {
 		HeroModel hero = new HeroModel(new World(new Vec2(0.0f, 9.8f)),"Character");
 		hero.collectCoin(1);
 		assertTrue(hero.collectedItem == 1);
-	}
-
-	@Test
-	public void testGetBody() {
-		fail("dunno how to fiiiiix");
 	}
 
 	@Test
