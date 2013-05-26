@@ -10,6 +10,12 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Navigation;
 
+/** 
+ * A controller class for a Sword
+ * 
+ * @author Project Group 18 (Chalmers, 2013)
+ */
+
 public class SwordController implements IEntityController{
 
 	private Sword model;	
@@ -22,12 +28,16 @@ public class SwordController implements IEntityController{
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 
 		Body body = this.model.getBody();
-		/* The distance the sword has moved this swing */
+		/* The distance the sword has moved this time */
 		float distance;
+		
+		/* If the sword is alive and not moving, we apply force in the right direction and tell the model it is now moving.
+		 * If the sword is alive and moving, we check if it has traveled as far as it can and
+		 * in that case remove it.
+		 * If the body exists but isn't alive we remove it. */
 		if(body != null){
 			if(this.model.isAlive()){
 
-				// To get the distance we take the current position minus the position from where the bullet was fired
 				distance = Math.abs(this.model.getPosMeters().x - this.model.getFirstPos().x);
 	
 				if(!this.model.isMoving()){

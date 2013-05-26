@@ -29,6 +29,9 @@ public abstract class AbstractWeapon {
 		this.weaponType = weaponType;
 	}
 	
+	/**
+	 * @return damage done by this weapon
+	 */
 	public int getDamage(){
 		return this.damage;
 	}
@@ -38,6 +41,9 @@ public abstract class AbstractWeapon {
 		this.damage = damage;
 	}
 	
+	/**
+	 * @return range of this weapon
+	 */
 	public float getRange(){
 		return this.range;
 	}
@@ -47,18 +53,30 @@ public abstract class AbstractWeapon {
 		this.range = range;
 	}
 	
+	/**
+	 * @return world this weapon exists in
+	 */
 	public World getWorld() {
 		return world;
 	}
 
+	/**
+	 * @return the fighter using this weapon
+	 */
 	public IAliveEntity getFighterModel(){
 		return this.fighterModel;
 	}
 	
+	/**
+	 * @param fighterModel is the character using this weapon
+	 */
 	public void setFighterModel(IAliveEntity fighterModel){
 		this.fighterModel = fighterModel;
 	}
 	
+	/**
+	 * @return the type of weapon this weapon is
+	 */
 	public WeaponType getWeaponType(){
 		return this.weaponType;
 	}

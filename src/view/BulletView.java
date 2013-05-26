@@ -46,7 +46,9 @@ public class BulletView {
 			this.bulletL.draw(temp.x, temp.y);
 		}
 	}
-	
+	/**
+	 * @return ID of this view
+	 */
 	public int getID(){
 		return this.id;
 	}

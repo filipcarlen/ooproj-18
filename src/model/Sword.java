@@ -55,6 +55,7 @@ public class Sword extends AbstractWeapon implements IEntity, ActionListener{
 
 		this.firstPos = firstPos;
 		
+		/* Sets the first position of the bullet depending on the direction of the fighter */
 		if(this.navigation == Navigation.EAST){
 			this.firstPos.x += this.RADIUS + 0.2f;
 			bd.position.set(firstPos.x, firstPos.y);
@@ -120,18 +121,30 @@ public class Sword extends AbstractWeapon implements IEntity, ActionListener{
 		this.isMoving = false;
 	}
 
+	/**
+	 * @return true if the body of the bullet is alive
+	 */
 	public boolean isAlive(){
 		return isAlive;
 	}
 	
+	/**
+	 * @param isAlive sets true if the body of the bullet is alive
+	 */
 	public void setAlive(boolean isAlive){
 		this.isAlive = isAlive;
 	}
 	
+	/**
+	 * @return true if the body of the sword is in motion
+	 */
 	public boolean isMoving(){
 		return isMoving;
 	}
 	
+	/**
+	 * @param moving sets true if the body of the sword is moving
+	 */
 	public void setMoving(boolean moving){
 		this.isMoving = moving;
 	}

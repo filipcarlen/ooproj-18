@@ -91,6 +91,9 @@ public class GameOverState extends BasicGameState{
 		this.stateID = stateID;
 	}
 	
+	/**
+	 * @return an instance of this class
+	 */
 	public static GameOverState getInstance(){
 		if(instance == null){
 			instance = new GameOverState(GameApp.GAME_OVER_STATE);
@@ -147,9 +150,11 @@ public class GameOverState extends BasicGameState{
 	}
 	
 	/**
-	 * In this method all the positions of the images and animations are initialized 
+	 * In this method all the positions of the images and animations are initialized. 
+	 * All the positions are based on each other to change accordingly when the window dimensions are changed.
+	 * @param gc the game container
 	 */
-	public void initPositions(GameContainer gc, StateBasedGame sbg){
+	public void initPositions(GameContainer gc){
 		
 		float screenWidth = gc.getWidth();
 		float screenHeight = gc.getHeight();
@@ -255,9 +260,6 @@ public class GameOverState extends BasicGameState{
 		this.dancingHero = new Animation(dancingHeroImages, 300);
 	}
 	
-	/**
-	 * This method is called every time this state is entered. 
-	 */
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Hero model = ((PlayState)sbg.getState(GameApp.PLAY_STATE)).getHeroModel();
@@ -268,7 +270,7 @@ public class GameOverState extends BasicGameState{
 		} else{
 			Sounds.getInstance().playMusic(SoundType.YOU_LOSE_MUSIC);
 		}
-		initPositions(gc, sbg);
+		initPositions(gc);
 		
 		int coins = model.getCoinAmount();
 		int foes = model.getKills();

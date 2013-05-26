@@ -12,24 +12,24 @@ import org.jbox2d.dynamics.World;
 import utils.Navigation;
 import utils.WeaponType;
 
-/** A class representing a Gun
+/** 
+ * A class representing a Gun
  * 
- * @author elinljunggren
- * @version 1.0 
+ * @author Project Group 18 (Chalmers, 2013)
  */
 
 public class Gun extends AbstractWeapon implements ActionListener{
 	
-	private Timer timer;
 	private int ID;
 	private int IDCount;
+	private Timer reloadTimer;
 	private ArrayList<Bullet> bulletModels = new ArrayList<Bullet>();
 
 	public Gun(World world, int reloadTime, int damage, float range, int ID){
 		super(world, damage, range, WeaponType.GUN);
-		this.IDCount = 1;
 		this.ID = ID;
-		this.timer = new Timer(reloadTime, this);
+		this.IDCount = 1;
+		this.reloadTimer = new Timer(reloadTime, this);
 	}
 
 	@Override
@@ -37,6 +37,7 @@ public class Gun extends AbstractWeapon implements ActionListener{
 		super.setFighterModel(fighterModel);
 		Vec2 firstPos = fighterModel.getPosMeters().clone();
 		
+		/* Sets the first position of the bullet depending on the direction of the fighter */
 		if(navigation == Navigation.EAST){
 			firstPos.x += fighterModel.getWidth()/2;
 		}
@@ -45,7 +46,8 @@ public class Gun extends AbstractWeapon implements ActionListener{
 			firstPos.x -= fighterModel.getWidth()/2;
 		}
 		
-		if(!timer.isRunning()){
+		/* Shoots a new bullet if the reloadTimer isn't on */
+		if(!reloadTimer.isRunning()){
 			
 			bulletModels.add(new Bullet(this, firstPos, navigation, this.IDCount));
 			
@@ -55,7 +57,7 @@ public class Gun extends AbstractWeapon implements ActionListener{
 				this.IDCount++;
 			}
 			
-			timer.start();
+			reloadTimer.start();
 			return true;
 		}
 		return false;
@@ -63,7 +65,7 @@ public class Gun extends AbstractWeapon implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		timer.stop();
+		reloadTimer.stop();
 	}
 	
 	/**
@@ -91,10 +93,9 @@ public class Gun extends AbstractWeapon implements ActionListener{
 		return this.bulletModels;
 	}
 	
-	public IAliveEntity getFighterModel(){
-		return super.getFighterModel();
-	}
-	
+	/**
+	 * @return ID of this Gun
+	 */
 	public int getID(){
 		return this.ID;
 	}

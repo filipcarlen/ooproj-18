@@ -44,6 +44,9 @@ public class PauseState extends BasicGameState {
 		this.stateID = stateID;
 	}
 
+	/**
+	 * @return an instance of this class
+	 */
 	public static PauseState getInstance(){
 		if(instance == null){
 			instance = new PauseState(GameApp.PAUSE_STATE);
@@ -73,9 +76,11 @@ public class PauseState extends BasicGameState {
 	}
 	
 	/**
-	 * In this method all the positions of the images and animations are initialized 
+	 * In this method all the positions of the images and animations are initialized. 
+	 * All the positions are based on each other to change accordingly when the window dimensions are changed.
+	 * @param gc the game container
 	 */
-	public void initPositions(GameContainer gc, StateBasedGame sbg){
+	public void initPositions(GameContainer gc){
 		
 		float screenWidth = gc.getWidth();
 		float screenHeight = gc.getHeight();
@@ -86,14 +91,11 @@ public class PauseState extends BasicGameState {
 		this.mainMenuPos = new Vec2(resumePos.x, screenHeight*0.72f);
 		this.quitGamePos = new Vec2(resumePos.x, screenHeight*0.82f);
 	}
-	
-	/**
-	 * This method is called every time this state is entered. 
-	 */
+
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
-		initPositions(gc, sbg);
+		initPositions(gc);
 	}
 
 	@Override

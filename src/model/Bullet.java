@@ -92,22 +92,37 @@ public class Bullet implements IEntity{
 		this.isAlive = false;
 	}
 	
+	/**
+	 * @param b sets true if the bullet is moving
+	 */
 	public void setMoving(boolean b){
 		this.isMoving = b;
 	}
 	
+	/**
+	 * @return true if the bullet is moving
+	 */
 	public boolean isMoving(){
 		return this.isMoving;
 	}
 	
+	/**
+	 * @return true if the bullet is alive
+	 */
 	public boolean isAlive(){
 		return this.isAlive;
 	}
 	
+	/**
+	 * @return the range of this bullet
+	 */
 	public float getRange(){
 		return this.gunModel.getRange();
 	}
 
+	/**
+	 * @return the damage done by this bullet
+	 */
 	public int getDamage(){
 		return this.gunModel.getDamage();
 	}
