@@ -29,7 +29,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 	private Vec2 swordPos, gunPos, titlePos, playPos, mainMenuPos;
 	private boolean insidePlay, insideSword, insideGun, swordClicked, gunClicked, insideMainMenu;
 	private static PreGameState instance = null;
-	private WeaponType weapon = WeaponType.FIST;
+	private WeaponType weapon;
 	private TextField playerNameInput;
 	private AngelCodeFont acf;
 	private float resize;
@@ -50,6 +50,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 		mainMenuPos = new Vec2(gc.getWidth()-playPos.x-play.getWidth(), gc.getHeight()*.85f);
 		swordClicked= false;
 		gunClicked = false;
+		weapon = WeaponType.FIST;
 	}
 	
 	public static PreGameState getInstance(){
