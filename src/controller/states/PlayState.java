@@ -132,10 +132,12 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		// this if-statement checks if the hero is inside the Goallocation,
 		// and if you got the right score to finish the game
 		if(worldMap.isInGoalArea(hero.getPosMeters())){
-			if(hero.getScore() > 180)
+			if(hero.getScore() > 180){
+				endGame = true;
 				sbg.enterState(GameApp.GAME_OVER_STATE);			//Finish the game
-			else
+			}else{
 				playstateview.hasReachedEnd();					// Calls the View to print that you doon't have enough score
+			}		
 		}
 	}
 
