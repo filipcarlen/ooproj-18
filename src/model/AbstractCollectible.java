@@ -1,8 +1,5 @@
 package model;
 
-
-
-
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -14,8 +11,7 @@ import utils.Utils;
 
 /** An abstract class representing a collectible object
  * 
- * @author filipcarlen
- * @version 1.0 
+ * @author group 18
  */
 
 public abstract class AbstractCollectible implements ICollectible {
@@ -133,5 +129,10 @@ public abstract class AbstractCollectible implements ICollectible {
 	
 	public void setHeight(float height){
 		this.height = height;
+	}
+	
+	@Override
+	public Vec2 getPosPixels() {
+		return Utils.metersToPixels(this.getBody().getPosition().sub(new Vec2(width/2, height/2)));
 	}
 }

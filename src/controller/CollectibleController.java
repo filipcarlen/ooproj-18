@@ -10,7 +10,7 @@ import view.CollectibleView;
 
 /**
  * A controller class for a Collectible Object
- * @author filipcarlen
+ * @author group 18
  *
  */
 public class CollectibleController implements IEntityController {
@@ -24,6 +24,7 @@ public class CollectibleController implements IEntityController {
 	/** ID of this CollectibleController */
 	private int id;
 	
+	/** Reference to a PlayStateController */
 	private IPlayStateController controller;
 	
 	/**
@@ -58,5 +59,4 @@ public class CollectibleController implements IEntityController {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 	}	
-	
 }

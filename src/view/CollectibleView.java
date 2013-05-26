@@ -17,7 +17,7 @@ import utils.Camera;
 
 /**
  * A class that draws a collectible object
- * @author filipcarlen
+ * @author group 18
  *
  */
 public class CollectibleView {
@@ -28,23 +28,13 @@ public class CollectibleView {
 	/** A String representing the path to the source folder */
 	private final String PATH = "res/collectibles";
 	
-	/** Arrays for coinImages and gemImages. Contains Images */
-	private Image[] coinImages = new Image[8];
-	private Image[] gemImages = new Image[8];
-	private Image[] energyDrinkImages  = new Image[4];
-	private Image[] chocolateImages = new Image[5];
-	
 	/** Animation for coins and gems */
-	private Animation coinAnimation, gemAnimation, energyDrinkAnimation, chocolateAnimation;
+	private Animation currentAnimation;
 	
-	/** Duration in milliseconds for a coinAnimation */
+	/** Duration in milliseconds for a different animations */
 	private int coinDuration = 100;
-	
-	/** Duration in milliseconds for a gemAnimation */
 	private int gemDuaration = 150;
-	
 	private int energyDrinkDuration = 150;
-	
 	private int chocolateDuration = 200;
 	
 	/**
@@ -55,22 +45,17 @@ public class CollectibleView {
 	public CollectibleView(ICollectible model) throws SlickException{
 		this.model = model;
 		if(this.model instanceof Coin){
-			coinAnimation = initCollectibleAnimation(coinImages, coinDuration, (PATH+"/coin/coin_"));
-			//initCoin();
+			currentAnimation = initCollectibleAnimation(new Image[8], coinDuration, (PATH+"/coin/coin_"));
 		}
 		else if(this.model instanceof Gem){
-			gemAnimation = initCollectibleAnimation(gemImages, gemDuaration, (PATH+"/gem/gem_"));
-			//initGem();
-			
+			currentAnimation = initCollectibleAnimation(new Image[8], gemDuaration, (PATH+"/gem/gem_"));
 		}
 		else if(this.model instanceof ChocolateBar){
-			chocolateAnimation = initCollectibleAnimation(chocolateImages, chocolateDuration, (PATH+"/chocolate_bar/chocolate_"));
-			//initChocolateBar();
+			currentAnimation = initCollectibleAnimation(new Image[5], chocolateDuration, (PATH+"/chocolate_bar/chocolate_"));
 		}
 		
 		else if(this.model instanceof EnergyDrink){
-			energyDrinkAnimation = initCollectibleAnimation(energyDrinkImages, energyDrinkDuration, (PATH+"/energy_drink/energydrink_"));
-			//initEnergyDrink();
+			currentAnimation = initCollectibleAnimation(new Image[4], energyDrinkDuration, (PATH+"/energy_drink/energydrink_"));
 		}
 	}
 	
@@ -83,22 +68,16 @@ public class CollectibleView {
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		Vec2 tmp = Camera.entityRender(model.getPosPixels());
 		
-		if(this.model instanceof Coin){
-			g.drawAnimation(coinAnimation, tmp.x, tmp.y);
-		}
-		
-		else if(this.model instanceof Gem){
-			g.drawAnimation(gemAnimation, tmp.x, tmp.y);
-		}
-		
-		else if(this.model instanceof ChocolateBar){
-			g.drawAnimation(chocolateAnimation, tmp.x, tmp.y);
-		}
-		
-		else if(this.model instanceof EnergyDrink){
-			g.drawAnimation(energyDrinkAnimation, tmp.x, tmp.y);
-		}
+		g.drawAnimation(currentAnimation, tmp.x, tmp.y);
 	}
+	/**
+	 * Initialize a animation of a Collectible Object
+	 * @param Images images
+	 * @param int duration
+	 * @param String path to directory
+	 * @return Animation currentAnimation
+	 * @throws SlickException
+	 */
 	
 	public Animation initCollectibleAnimation(Image[] images, int duration, String path) 
 			throws SlickException{

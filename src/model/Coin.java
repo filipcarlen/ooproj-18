@@ -4,22 +4,18 @@ import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
-import utils.Utils;
-
 /**
- * Class representing a collectible coin
- * @author filipcarlen
+ * Class representing a collectible coin which gives character 1 point
+ * @author group 18
  *
  */
-public class Coin extends AbstractPoints {
+public class Coin extends AbstractValuable {
 	
 	/** What value a collectible item holds (which points you get) */
+	private static final int VALUE = 1;
 	
 	/** The collectible items Radius in meters */
 	public static final float RADIUS = .5f;
-	
-	private static final float WIDTH = 1f;
-	private static final float HEIGHT = 1f;
 
 	/**
 	 * Constructor
@@ -28,28 +24,15 @@ public class Coin extends AbstractPoints {
 	 * @param int id
 	 */
 	public Coin(World w, Vec2 pixelPos, int id) {
-		super(w, pixelPos, id, WIDTH, HEIGHT);
-		super.setValue(1);
-		super.setWidth(WIDTH);
-		super.setHeight(HEIGHT);
+		super(w, pixelPos, id, RADIUS*2, RADIUS*2);
+		super.setValue(VALUE);
 		
 	   	 CircleShape circleshape = new CircleShape();
-	   	 circleshape.m_radius = RADIUS;
+	   	 circleshape.m_radius = super.getWidth();
 	   	
 	   	 this.getFixtureDef().shape = circleshape;
 		 this.getBody().createFixture(this.getFixtureDef());	
 	}
 	
-	/**
-	 * Get method for the radius of a coin
-	 * @return radius in pixels
-	 */
-	public float getRadius(){
-		return RADIUS * Utils.METER_IN_PIXELS;
-	}
-	
-	@Override
-	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.getBody().getPosition().sub(new Vec2(RADIUS,RADIUS)));
-	}
+
 }

@@ -11,6 +11,7 @@ import org.jbox2d.dynamics.contacts.Contact;
 import utils.EntityType;
 import utils.SoundType;
 import utils.Sounds;
+import utils.Utils;
 
 public class CollisionDetection implements ContactListener{
 
@@ -60,15 +61,18 @@ public class CollisionDetection implements ContactListener{
 		} else if(other instanceof MovingFoe) {
 			//If the hero jumps on top of the foe, the foe loses life and the hero is reflected.
 			MovingFoe foe = ((MovingFoe)other);
-			if(hero.getPosMeters().y + hero.getHeight()/2 - 0.025f < foe.getPosMeters().y - foe.getHeight()/2 + 0.025f) {
+			if(hero.getPosPixels().y + Utils.metersToPixels(hero.getHeight()) - 5f < foe.getPosPixels().y) {
 				foe.hurt(new Integer(20));
+				for(int i = 2; i > hero.getDoubleJump(); i--) {
+					hero.incrementJumps();
+				}
 				this.playFoeSound(foe);
-				hero.getBody().applyLinearImpulse(new Vec2(0, -4), hero.getBody().getPosition());
+				hero.getBody().applyLinearImpulse(new Vec2(0, -3.5f), hero.getBody().getPosition());
 			}
 		} else if(other instanceof ICollectible) {
 			((AbstractCollectible)other).killBody();
-			if(other instanceof AbstractPoints) {
-				hero.incrementScore(((AbstractPoints)other).getValue());
+			if(other instanceof AbstractValuable) {
+				hero.incrementScore(((AbstractValuable)other).getValue());
 				if(other instanceof Gem) {
 					hero.incrementGem();
 					this.sound.playSound(SoundType.COLLECT_GEM);
@@ -86,6 +90,12 @@ public class CollisionDetection implements ContactListener{
 				}
 			}
 		} else if(other instanceof AbstractStaticFoe) {
+			IEntity foe = (IEntity)other;
+			if(hero.getPosPixels().y + Utils.metersToPixels(hero.getHeight()) - 5f < Utils.metersToPixels(foe.getPosMeters().y)) {
+				for(int i = 2; i > hero.getDoubleJump(); i--) {
+					hero.incrementJumps();
+				}
+			}
 			hero.setHurted(null,((AbstractStaticFoe)other).getDamage());
 		} else if(other instanceof Bullet) {
 			Bullet bullet = (Bullet)other;

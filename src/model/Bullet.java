@@ -74,10 +74,7 @@ public class Bullet implements IEntity{
 		fd.filter.maskBits = 555;
 		fd.filter.categoryBits = 4;
 		
-		if(gunModel.getFighterModel() instanceof Hero){
-			fd.filter.maskBits = 555;
-			fd.filter.categoryBits = 4;
-		} else{
+		if(gunModel.getFighterModel() instanceof MovingFoe){
 			fd.filter.groupIndex = gunModel.getFighterModel().getBody().getFixtureList().getFilterData().groupIndex;
 		}
 		
