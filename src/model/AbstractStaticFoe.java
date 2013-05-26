@@ -81,8 +81,4 @@ public abstract class AbstractStaticFoe implements IEntity {
 	public int getDamage() {
 		return this.damage;
 	}
-	
-	public void setDamage(int damage) {
-		this.damage = damage;
-	}
 }

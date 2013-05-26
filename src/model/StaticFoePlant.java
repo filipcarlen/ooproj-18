@@ -1,7 +1,7 @@
 package model;
 
 
-import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 
@@ -15,10 +15,9 @@ public class StaticFoePlant extends AbstractStaticFoe{
 	}
 	
 	public void init() {
-		PolygonShape polyShape = new PolygonShape();
-		polyShape.setAsBox(Utils.pixelsToMeters(super.WIDTH)/2, Utils.pixelsToMeters(super.HEIGHT)/2);
-		super.fixDef.shape = polyShape;
-		
+		CircleShape circleShape = new CircleShape();
+		circleShape.m_radius = Utils.pixelsToMeters(super.WIDTH)/2;
+		super.fixDef.shape = circleShape;
 		super.body.createFixture(super.fixDef);
 	}
 }

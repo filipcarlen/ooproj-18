@@ -23,8 +23,8 @@ public class MovingFoe implements IAliveEntity{
 	
 	private Body body;
 	
-	private final float WIDTH = 40f; 
-	private final float HEIGHT = 40f;
+	private final float WIDTH = 30f; 
+	private final float HEIGHT = 30f;
 	
 	private boolean isAlive;
 	
@@ -124,18 +124,6 @@ public class MovingFoe implements IAliveEntity{
 		return this.MAX_HP;
 	}
 	
-	public AbstractWeapon getWeapon() {
-		return this.weapon;
-	}
-	
-	public void destroyEntity(){
-		this.body.getWorld().destroyBody(this.body);
-	}
-	
-	public boolean isAlive() {
-		return this.isAlive;
-	}
-
 	@Override
 	public int getID() {
 		return this.ID;
@@ -149,6 +137,18 @@ public class MovingFoe implements IAliveEntity{
 	@Override
 	public float getHeight() {
 		return Utils.pixelsToMeters(this.HEIGHT);
+	}
+	
+	public AbstractWeapon getWeapon() {
+		return this.weapon;
+	}
+	
+	public void destroyEntity(){
+		this.body.getWorld().destroyBody(this.body);
+	}
+	
+	public boolean isAlive() {
+		return this.isAlive;
 	}
 	
 	public int getValue() {

@@ -18,7 +18,6 @@ public class StaticFoeFire extends AbstractStaticFoe {
 		PolygonShape polyShape = new PolygonShape();
 		polyShape.setAsBox(Utils.pixelsToMeters(super.WIDTH)/2, Utils.pixelsToMeters(super.HEIGHT)/2);
 		super.fixDef.shape = polyShape;
-		
 		super.body.createFixture(super.fixDef);
 	}
 }
