@@ -78,11 +78,20 @@ public class MovingFoeView {
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		Vec2 tmpPos = this.model.getPosMeters().sub(new Vec2(this.model.getWidth()/2, this.model.getWidth()/2));
-		Vec2 worldPos = Camera.entityRender(Utils.metersToPixels(tmpPos)).sub(new Vec2(5,9));
-		g.drawAnimation(this.currentAnimation, worldPos.x, worldPos.y);
+		Vec2 cameraBodyPos = Camera.entityRender(this.model.getPosPixels());
+		Vec2 cameraAnimPos = new Vec2(0,0);
+		if(this.currentAnimation.equals(this.animations[0])) {
+			cameraAnimPos = cameraBodyPos.sub(new Vec2(10, 6));
+		} else if(this.currentAnimation.equals(this.animations[1])) {
+			cameraAnimPos = cameraBodyPos.sub(new Vec2(10, 10));
+		} else {
+			cameraAnimPos = cameraBodyPos.sub(new Vec2(7, 10));
+		}
 		
-		Vec2 lifePos = worldPos.sub(new Vec2(-5,8));
+		
+		g.drawAnimation(this.currentAnimation, cameraAnimPos.x, cameraAnimPos.y);
+		
+		Vec2 lifePos = cameraBodyPos.sub(new Vec2(0,8));
 		g.setColor(Color.red);
 		float life = ((float)(this.model.getHp())/(float)(this.model.getMaxHp()))*Utils.metersToPixels(this.model.getWidth());
 		g.fillRect(lifePos.x, lifePos.y, life, 5);

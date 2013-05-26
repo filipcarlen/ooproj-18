@@ -23,8 +23,8 @@ public class MovingFoe implements IAliveEntity{
 	
 	private Body body;
 	
-	private final float WIDTH = 30f; 
-	private final float HEIGHT = 30f;
+	private final float WIDTH = 23f; 
+	private final float HEIGHT = 28f;
 	
 	private boolean isAlive;
 	

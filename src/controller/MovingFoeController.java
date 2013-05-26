@@ -28,8 +28,8 @@ public class MovingFoeController implements IEntityController {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		
-		Vec2 right = this.model.getBody().getWorldVector(new Vec2(-0.008f, 0.0f));
-		Vec2 left = this.model.getBody().getWorldVector(new Vec2(0.008f, 0.0f));
+		Vec2 right = this.model.getBody().getWorldVector(new Vec2(-0.004f, 0.0f));
+		Vec2 left = this.model.getBody().getWorldVector(new Vec2(0.004f, 0.0f));
 		
 		Vec2 heroPos = Utils.metersToPixels(this.playState.getHeroModel().getPosMeters());
 		Vec2 foePos = Utils.metersToPixels(this.model.getPosMeters());
