@@ -45,7 +45,7 @@ public class WorldMap{
 	private int [][] background;
 	private Vec2 positionHero;
 	
-	private ArrayList<IEntity> bodies = new ArrayList <IEntity>();
+	private List<IEntity> bodies = new ArrayList <IEntity>();
 
 	
 	public WorldMap(World world){
@@ -209,7 +209,7 @@ public class WorldMap{
 		listOfWorldShapes.add(new WorldShape(w, 0, 0, tiledmap.getWidth()*tiledmap.getTileWidth(), tiledmap.getHeight()*tiledmap.getTileHeight(), 1));
 	}
 	
-	public ArrayList<IEntity> getListOfBodies(){
+	public List<IEntity> getListOfBodies(){
 		return bodies;
 	}
 	
@@ -239,7 +239,7 @@ public class WorldMap{
 	}
 
 	public void destroyWorld() {
-		for(int i=0 ; i < listOfWorldShapes.size(); i++){
+		for(int i=listOfWorldShapes.size()-1 ; i >= 0; i--){
 			listOfWorldShapes.get(i).destroyBody();
 			listOfWorldShapes.remove(i);
 		}

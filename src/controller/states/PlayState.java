@@ -4,11 +4,13 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Timer;
 
 import map.WorldMap;
 import model.*;
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
@@ -21,7 +23,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import utils.*;
 import view.PlayStateView;
 import controller.*;
-
+/**
+ * The State that handles the game play
+ * 
+ * @author Project Group 18 (Chalmers, 2013)
+ *
+ */
 public class PlayState extends BasicGameState implements IPlayStateController, ActionListener{
 	
 	private static PlayState instance;
@@ -42,13 +49,13 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	private Image background;
 	
 	/* This list contains all the bodies in the world*/
-	private ArrayList<IEntity> bodies = new ArrayList <IEntity>();
+	private List<IEntity> bodies = new ArrayList <IEntity>();
 	/* This list contains all the controllers for the bodies in the list above*/
-	private ArrayList<IEntityController> controllers = new ArrayList<IEntityController>();
+	private List<IEntityController> controllers = new ArrayList<IEntityController>();
 	
 	/* This list contains all the guns without any Entity
 	 * (the entity has died before the bullet has transport the distance)*/
-	private ArrayList<Gun> gunThatsActive= new ArrayList<Gun>();
+	private List<Gun> gunThatsActive= new ArrayList<Gun>();
 	
 	private PlayState(int id){
 		stateID = id;
@@ -180,8 +187,8 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	 * @param bodies
 	 * @throws SlickException
 	 */
-	public void loadEntity(ArrayList<IEntity> bodies)throws SlickException{
-		this.bodies = bodies;
+	public void loadEntity(List<IEntity> bodies)throws SlickException{
+		this.bodies = (ArrayList<IEntity>) bodies;
 		for(IEntity b: bodies){
 			if(b instanceof MovingFoe){
 				if(((MovingFoe)b).getWeapon().getWeaponType() == WeaponType.GUN)
