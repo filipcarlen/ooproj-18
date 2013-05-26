@@ -13,9 +13,13 @@ import utils.Utils;
 
 public class Gem extends AbstractValuable {
 	
+	
+	private final static float WIDTH = 1f;
+	private final static float HEIGHT = 1f;
+	
 	/**  A array cointaining vertices for a gem */
-	Vec2[] vertices = {new Vec2(0.0f,0.5f), new Vec2(0.5f,0.0f),
-			new Vec2(0.5f,0.5f), new Vec2(0.5f,0.5f)};
+	Vec2[] vertices = {new Vec2(0.0f,HEIGHT/2), new Vec2(WIDTH/2,0.0f),
+			new Vec2(WIDTH/2,HEIGHT/2), new Vec2(WIDTH/2,HEIGHT/2)};
 	
 
 	/**
@@ -26,7 +30,7 @@ public class Gem extends AbstractValuable {
 	 * @param int id
 	 */
 	public Gem(World w, Vec2 pixelPos, int id) {
-		super(w, pixelPos, id, 1, 1);
+		super(w, pixelPos, id, WIDTH, HEIGHT);
 		super.setValue(5);
 		
 		PolygonShape polygon = new PolygonShape();
