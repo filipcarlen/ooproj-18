@@ -1,6 +1,7 @@
 package controller.states;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.AngelCodeFont;
@@ -52,7 +53,7 @@ public class HighscoreState extends BasicGameState {
 			throws SlickException {	
 		titlePos = new Vec2(gc.getWidth()/2 - title.getWidth()/2, 10);
 		clearPos = new Vec2(gc.getWidth()*.05f,gc.getHeight()*.85f);
-		mainMenuPos = new Vec2(gc.getWidth()*.68f,gc.getHeight()*.85f);
+		mainMenuPos = new Vec2(gc.getWidth()*0.95f - this.mainmenu.getWidth(),gc.getHeight()*.85f);
 		stringPos = new Vec2(gc.getWidth()/2-750/2,gc.getHeight()/2-250/2);
 		coinPos = new Vec2(gc.getWidth()/2-150/2,gc.getHeight()/2-320/2);
 		gemPos = new Vec2(coinPos.x+115,gc.getHeight()/2-320/2);
@@ -82,8 +83,23 @@ public class HighscoreState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		background.draw(0, 0, gc.getWidth(), gc.getHeight());
-		title.draw(titlePos.x,titlePos.y);	
-		font.drawString(stringPos.x, stringPos.y, highscoremanager.getHighscoreString());
+		title.draw(titlePos.x,titlePos.y);
+		List<String[]> highScores = highscoremanager.getHighScores();
+		
+		float y = this.coinPos.y + this.coin.getHeight() + 15;
+		
+		font.drawString(stringPos.x + 70, this.coinPos.y, "Player name");
+		
+		for(int i = 0; i < highScores.size(); i++) {
+			font.drawString(stringPos.x, y, ""+(i+1));
+			font.drawString(stringPos.x + 70, y, highScores.get(i)[0]);
+			font.drawString(coinPos.x + 4, y, highScores.get(i)[1]);
+			font.drawString(gemPos.x + 12, y, highScores.get(i)[2]);
+			font.drawString(foePos.x + 12, y, highScores.get(i)[3]);
+			font.drawString(totalPos.x + 25, y, highScores.get(i)[4]);
+			y += 40;
+		}
+		
 		coin.draw(coinPos.x, coinPos.y);
 		gem.draw(gemPos.x, gemPos.y);
 		foe.draw(foePos.x, foePos.y);

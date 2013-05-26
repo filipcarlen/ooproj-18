@@ -63,8 +63,17 @@ public class OptionsState extends BasicGameState {
 	private Vec2 okPos;
 	private boolean insideOk;
 	
-	public OptionsState(int stateID){
+	private static OptionsState instance = null;
+	
+	private OptionsState(int stateID){
 		this.stateID = stateID;
+	}
+	
+	public static OptionsState getInstance() {
+		if(instance == null){
+			instance = new OptionsState(GameApp.OPTIONS_STATE);
+		}
+		return instance;
 	}
 	
 	@Override
@@ -290,18 +299,20 @@ public class OptionsState extends BasicGameState {
 				this.clickedKeys.set(i, true);
 				break;
 			} 
-			if(!this.insideKeys.contains(true) && mousePressed) {
-				for(int j = 0; j < this.clickedKeys.size(); j++) {
-					this.clickedKeys.set(j, false);
-				}
+		}
+		if(!this.insideKeys.contains(true) && mousePressed) {
+			for(int j = 0; j < this.clickedKeys.size(); j++) {
+				this.clickedKeys.set(j, false);
 			}
 		}
 		//If any of the key bindings are marked, check what key is chosen for it.
 		int index = this.clickedKeys.indexOf(true);
 		if(index != -1) {
-			for(int i = 0; i < 90; i++) {
+			for(int i = 0; i < 220; i++) {
 				if(i != Input.KEY_ESCAPE && i != Input.KEY_P && input.isKeyPressed(i)){
-					this.chosenKeys.set(index, i);
+					if(!this.chosenKeys.contains(i)) {
+						this.chosenKeys.set(index, i);
+					}
 					this.clickedKeys.set(index, false);
 				}
 			}
@@ -319,6 +330,8 @@ public class OptionsState extends BasicGameState {
 			sbg.enterState(this.previousStateID);
 		} 
 		/* OK END _______________________________________________________________________________________ */
+		
+		input.clearKeyPressedRecord();
 	}
 	
 	@Override
@@ -342,9 +355,19 @@ public class OptionsState extends BasicGameState {
 		this.optionsPos = new Vec2(screenWidth/2 - this.options.getWidth()/2, this.spacing);
 		this.okPos = new Vec2(screenWidth - this.spacing*2 - this.ok.getWidth(), screenHeight-this.ok.getHeight()-this.spacing*2);
 		
+		/* SPACE _____________________________________________________________________________________________________________________________________ */
+		//Calculate a number so that all options are evenly spaced.
+		float spaceY = 0;
+		if(gc.isFullscreen()) {
+			spaceY = (screenHeight - (this.optionsPos.y + this.options.getHeight()) - this.musicOn.getHeight() - this.soundOn.getHeight() - this.fullscreenOn.getHeight() - this.walkRight.getHeight()*2)/10;
+		} else {
+			spaceY = ((this.okPos.y + this.ok.getHeight()) - (this.optionsPos.y + this.options.getHeight()) - this.musicOn.getHeight() - this.soundOn.getHeight() - this.fullscreenOn.getHeight() - this.walkRight.getHeight()*2)/10;
+		}
+		/* SPACE END _________________________________________________________________________________________________________________________________ */
+		
 		/* MUSIC _____________________________________________________________________________________________________________________________________ */
 		//Calculates all positions to do with the music options so that they are evenly spaced and centered.
-		this.musicPos = new Vec2((screenWidth - this.musicOn.getWidth() - this.volume.getWidth() - this.controls.getWidth() - this.spacing*3)/2, this.optionsPos.y + this.options.getHeight() + this.spacing);
+		this.musicPos = new Vec2((screenWidth - this.musicOn.getWidth() - this.volume.getWidth() - this.controls.getWidth() - this.spacing*3)/2, this.optionsPos.y + this.options.getHeight() + spaceY*2);
 		this.musicVolumePos = new Vec2(this.musicPos.x + this.musicOn.getWidth() + this.spacing*2, this.musicPos.y);
 		this.musicControlsPos = new Vec2(this.musicVolumePos.x + this.volume.getWidth() + this.spacing, this.musicPos.y);
 		this.musicSliderPos = new Vec2(this.musicControlsPos.x + this.arrowSpace, this.musicControlsPos.y + this.controls.getHeight()/2 - this.sliderHeight/2);
@@ -364,11 +387,6 @@ public class OptionsState extends BasicGameState {
 		float musicVolume = Sounds.getInstance().getMusicVolume();
 		this.musicHandlePos = new Vec2(this.musicSliderPos.x + musicVolume*this.maxVolume, this.musicControlsPos.y + this.controls.getHeight()/2 - this.handle.getHeight()/2);
 		/* MUSIC END _________________________________________________________________________________________________________________________________ */
-		
-		/* SPACE _____________________________________________________________________________________________________________________________________ */
-		//Calculate a number so that all options are evenly spaced.
-		float spaceY = (this.okPos.y - this.musicPos.y - this.musicOn.getHeight() - this.soundOn.getHeight() - this.fullscreenOn.getHeight() - this.walkRight.getHeight()*2)/6;
-		/* SPACE END _________________________________________________________________________________________________________________________________ */
 		
 		/* SOUND _____________________________________________________________________________________________________________________________________ */
 		//Calculates all positions to do with the sound options so that they are evenly spaced and centered.
@@ -392,19 +410,19 @@ public class OptionsState extends BasicGameState {
 		/* KEYBINDINGS _______________________________________________________________________________________________________________________________ */
 		//Calculates all positions to do with changing the key bindings.
 		this.walkRightPos = new Vec2((screenWidth - this.walkRight.getWidth() - this.key.getWidth()*2 - this.jump.getWidth() - this.spacing*4)/2, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
-		this.keyPos.set(0, new Vec2(this.walkRightPos.x + this.walkRight.getWidth() + this.spacing, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2));
+		this.keyPos.set(0, new Vec2(this.walkRightPos.x + this.walkRight.getWidth() + this.spacing, this.walkRightPos.y));
 		this.chosenKeyPos.set(0, new Vec2(this.keyPos.get(0).x + this.spacing, this.keyPos.get(0).y + this.spacing/2 + 5));
 		
-		this.jumpPos = new Vec2(this.keyPos.get(0).x + this.key.getWidth() + this.spacing*2, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2);
-		this.keyPos.set(1, new Vec2(this.jumpPos.x + this.jump.getWidth() + this.spacing, this.fullscreenPos.y + this.fullscreenOn.getHeight() + spaceY*2));
+		this.walkLeftPos = new Vec2((screenWidth - this.walkLeft.getWidth() - this.key.getWidth()*2 - this.fight.getWidth() - this.spacing*4)/2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
+		this.keyPos.set(1, new Vec2(this.walkLeftPos.x + this.walkLeft.getWidth() + this.spacing, this.walkLeftPos.y));
 		this.chosenKeyPos.set(1, new Vec2(this.keyPos.get(1).x + this.spacing, this.keyPos.get(1).y + this.spacing/2 + 5));
 		
-		this.walkLeftPos = new Vec2((screenWidth - this.walkLeft.getWidth() - this.key.getWidth()*2 - this.fight.getWidth() - this.spacing*4)/2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
-		this.keyPos.set(2, new Vec2(this.walkLeftPos.x + this.walkLeft.getWidth() + this.spacing, this.walkRightPos.y + this.walkRight.getHeight() + spaceY));
+		this.jumpPos = new Vec2(this.keyPos.get(0).x + this.key.getWidth() + this.spacing*2, this.walkRightPos.y);
+		this.keyPos.set(2, new Vec2(this.jumpPos.x + this.jump.getWidth() + this.spacing, this.walkRightPos.y));
 		this.chosenKeyPos.set(2, new Vec2(this.keyPos.get(2).x + this.spacing, this.keyPos.get(2).y + this.spacing/2 + 5));
 		
-		this.fightPos = new Vec2(this.keyPos.get(2).x + this.key.getWidth() + this.spacing*2, this.walkRightPos.y + this.walkRight.getHeight() + spaceY);
-		this.keyPos.set(3, new Vec2(this.fightPos.x + this.fight.getWidth() + this.spacing, this.walkRightPos.y + this.walkRight.getHeight() + spaceY));
+		this.fightPos = new Vec2(this.keyPos.get(1).x + this.key.getWidth() + this.spacing*2, this.walkLeftPos.y);
+		this.keyPos.set(3, new Vec2(this.fightPos.x + this.fight.getWidth() + this.spacing, this.walkLeftPos.y));
 		this.chosenKeyPos.set(3, new Vec2(this.keyPos.get(3).x + this.spacing, this.keyPos.get(3).y + this.spacing/2 + 5));
 		/* KEYBINDINGS END ___________________________________________________________________________________________________________________________ */
 	}
