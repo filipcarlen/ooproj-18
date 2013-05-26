@@ -71,6 +71,10 @@ public class Sword extends AbstractWeapon implements IEntity, ActionListener{
 		fd.filter.maskBits = 555;
 		fd.filter.categoryBits = 4;
 		
+		if(super.getFighterModel() instanceof MovingFoe){
+			fd.filter.groupIndex = super.getFighterModel().getBody().getFixtureList().getFilterData().groupIndex;
+		}
+		
 		this.body = getWorld().createBody(bd);
 		this.body.createFixture(fd);
 		this.body.setUserData(this);
