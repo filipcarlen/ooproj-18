@@ -29,6 +29,11 @@ public abstract class AbstractStaticFoe implements IEntity {
 		init(pixelPos, world);
 	}
 	
+	/**
+	 * Initiates the body of this static foe, does not define the shape of the foe.
+	 * @param pixelPos	the position in pixels of this foe
+	 * @param world		the world the body of this foe will belong to
+	 */
 	public void init(Vec2 pixelPos, World world) {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.STATIC;
@@ -45,6 +50,8 @@ public abstract class AbstractStaticFoe implements IEntity {
 		this.fixDef.filter.maskBits = 555;
 		
 		this.body = world.createBody(bodyDef);
+		
+		//this is for collision detection
 		this.body.setUserData(this);
 	}
 	
@@ -78,6 +85,9 @@ public abstract class AbstractStaticFoe implements IEntity {
 		return this.ID;
 	}
 	
+	/**
+	 * @return	the damage this foe does
+	 */
 	public int getDamage() {
 		return this.damage;
 	}

@@ -41,19 +41,20 @@ public class MovingFoeController implements IEntityController {
 		//Check if the hero is visible to this foe.
 		if(diffX < this.model.SIGHT_RANGE_X && diffY < this.model.SIGHT_RANGE_Y){
 				
-			//Make this foe walk towards the hero and set the correct animation. 
-			if(((heroPos.x < foePos.x) && !(this.model.getWeapon().isWithinRange(this.model.getBody(), playState.getHeroModel().getBody()))) || 
-					((heroPos.x < foePos.x - Utils.METER_IN_PIXELS) && (Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS)))){
+			//Make this foe walk towards the hero and sets the right animation if the hero is not within the range of the foe's weapon and if the
+			//the foe is not above or below the hero.
+			if((heroPos.x < foePos.x - Utils.METER_IN_PIXELS) && 
+					(!(this.model.getWeapon().isWithinRange(this.model.getBody(), playState.getHeroModel().getBody())) || Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS))){
 				
 				this.moveFoe(left, MovingFoeView.AnimationType.WALK_LEFT);
 				
-			} else if(((foePos.x < heroPos.x) && !(this.model.getWeapon().isWithinRange(this.model.getBody(), playState.getHeroModel().getBody()))) ||
-					((heroPos.x > foePos.x + Utils.METER_IN_PIXELS) && (Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS)))){
+			} else if((heroPos.x > foePos.x + Utils.METER_IN_PIXELS) && 
+					(!(this.model.getWeapon().isWithinRange(this.model.getBody(), playState.getHeroModel().getBody())) || Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS))){
 				
 				this.moveFoe(right, MovingFoeView.AnimationType.WALK_RIGHT);
 			}
 			
-			//Attack the hero if it's within the range of this foe's weapon and if this foe is not too high above or too low below the hero.
+			//Attack the hero if it's within the range of this foe's weapon and if this foe is not above or below the hero.
 			else if((this.model.getWeapon().isWithinRange(this.model.getBody(), this.playState.getHeroModel().getBody())) && 
 					(Math.abs(foePos.y-heroPos.y) < (Utils.METER_IN_PIXELS))){
 					
@@ -82,11 +83,21 @@ public class MovingFoeController implements IEntityController {
 		}
 	}
 	
+	/**
+	 * Move's the foe and uses the chosen animation.
+	 * @param impulse	the impulse the the foe will move with
+	 * @param animation	the animation to use while moving the foe
+	 */
 	public void moveFoe(Vec2 impulse, MovingFoeView.AnimationType animation) {
 		this.view.setCurrentAnim(animation);
 		this.model.getBody().applyLinearImpulse(impulse, this.model.getPosMeters());
 	}
 	
+	/**
+	 * Tries to make the foe fight and changes to the right animation if it succeeds.
+	 * @param navigation
+	 * @param animation
+	 */
 	public void makeFoeFight(Navigation navigation, MovingFoeView.AnimationType animation) {
 		if(this.model.getWeapon().fight(this.model, navigation)){
 			this.view.setCurrentAnim(animation);

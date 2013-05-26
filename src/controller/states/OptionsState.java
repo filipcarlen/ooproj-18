@@ -345,6 +345,7 @@ public class OptionsState extends BasicGameState {
 	
 	/**
 	 * A method that initiates the positions of all images (+ some more) based on what size the game containers window is.
+	 * All the positions are based on each other so that they will move accordingly when the window dimensions are changed.
 	 * @param gc	the game container
 	 */
 	private void initPositions(GameContainer gc) {
@@ -569,6 +570,10 @@ public class OptionsState extends BasicGameState {
 		return this.stateID;
 	}
 	
+	/**
+	 * This is so that this OptionsState will know what state to return to.
+	 * @param previousStateID
+	 */
 	public void setPreviousStateID(int previousStateID) {
 		this.previousStateID = previousStateID;
 	}

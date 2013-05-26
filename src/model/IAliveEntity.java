@@ -3,26 +3,23 @@ package model;
 public interface IAliveEntity extends IEntity{
 
 	/**
-	 * 
-	 * @return The Current health point of the Alive Entity
+	 * @return 	the current health value of this alive entity
 	 */
 	public int getHp();
 	
 	/**
-	 * sets the health points of an entity
-	 * @param hp 
+	 * @param hp 	the new health of this alive entity
 	 */
 	public void setHp(int hp);
 	
 	/**
-	 * Hurts the entity
-	 * @param hpDecrement
-	 */
-	public void hurt(int hpDecrement);
-	
-	/**
-	 * 
-	 * @return the maximal health point that the entity can have
+	 * @return 	the maximal health value that this alive entity can have
 	 */
 	public int getMaxHp();
+	
+	/**
+	 * Hurts this alive entity with the given value.
+	 * @param hpDecrement	the damage that will be done to this alive entity
+	 */
+	public void hurt(int hpDecrement);
 }

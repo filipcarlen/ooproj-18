@@ -6,34 +6,33 @@ import org.jbox2d.dynamics.Body;
 public interface IEntity {
 	
 	/**
-	 * @return The body of this entity
+	 * @return	the body of this entity
 	 */
 	public Body getBody();
 	
 	/**
-	 * @return - The height of the hero in Meters
+	 * @return	the height of this entity in meters
 	 */
 	public float getHeight();
-
-	/**
-	 * A method to easily connect the controller to model.
-	 * @return The ID of the entitymodel.
-	 */
-	public int getID();
 	
 	/**
-	 * @return - The width of the hero in Meter
+	 * @return	the width of this entity in meters
 	 */
 	public float getWidth();
 
 	/**
-	 * @return The position of the center of this entity in meters.
+	 * @return	the position of the center of this entity in meters
 	 */
 	public Vec2 getPosMeters();
 	
 	/**
-	 * @return The position of the top left corner of this entity in pixels.
+	 * @return 	the position of the top left corner of this entity in pixels
 	 */
 	public Vec2 getPosPixels();
-
+	
+	/**
+	 * A method to easily connect the controller to it's model.
+	 * @return 	the ID of this entity
+	 */
+	public int getID();
 }

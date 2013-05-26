@@ -1,13 +1,10 @@
 package utils;
 
 /**
- * Use this to set your body's UserData.
+ * Use this to set a body's user data if the body is either ground, wall or roof.
  */
 public enum EntityType {
-
-	COIN,
-	ENEMY,
-	HERO,
+	
 	GROUND,
 	WALL, 
 	ROOF

@@ -19,7 +19,7 @@ public class MovingFoe implements IAliveEntity{
 	
 	private int ID;
 	
-	private int points;
+	private int value;
 	
 	private Body body;
 	
@@ -29,8 +29,7 @@ public class MovingFoe implements IAliveEntity{
 	private boolean isAlive;
 	
 	/** 
-	 * When the hero is within the SIGHT_RANGE from this enemy, this enemy will move
-	 * towards to the hero. 
+	 * The hero is visible to this foe if the hero is within SIGHT_RANGE_X along the x-axis and SIGHT_RANGE_Y along the y-axis.
 	 */
 	public final int SIGHT_RANGE_X = 500;
 	public final int SIGHT_RANGE_Y = 200;
@@ -38,22 +37,23 @@ public class MovingFoe implements IAliveEntity{
 	private final int MAX_HP;
 	
 	/**
-	 * @param world The World this enemy will belong to.
-	 * @param pos The position of this enemy's top left corner, in pixels!
+	 * @param world the World this foe will belong to
+	 * @param pos 	the position of this foe's top left corner in pixels
 	 */
-	public MovingFoe(World world, Vec2 pixelPos, int maxHP, AbstractWeapon weapon, int points, int ID) {
+	public MovingFoe(World world, Vec2 pixelPos, int maxHP, AbstractWeapon weapon, int value, int ID) {
 		this.world = world;
 		this.hp = maxHP;
 		this.weapon = weapon;
 		this.isAlive = true;
 		this.MAX_HP = maxHP;
-		this.points = points;
+		this.value = value;
 		this.ID = ID;
 		init(pixelPos);
 	}
 	
 	/**
-	 * @param pos The position of this enemy's top left corner, in pixels!
+	 * Initiates the body of this moving foe.
+	 * @param pos	the position of this enemy's top left corner, in pixels!
 	 */
 	public void init(Vec2 pixelPos) {
 		
@@ -108,6 +108,11 @@ public class MovingFoe implements IAliveEntity{
 			this.hp = hp;
 		}
 	}
+	
+	@Override
+	public int getMaxHp() {
+		return this.MAX_HP;
+	}
 
 	@Override
 	public void hurt(int hpDecrement) {
@@ -119,11 +124,6 @@ public class MovingFoe implements IAliveEntity{
 		}
 	}
 
-	@Override
-	public int getMaxHp() {
-		return this.MAX_HP;
-	}
-	
 	@Override
 	public int getID() {
 		return this.ID;
@@ -139,19 +139,31 @@ public class MovingFoe implements IAliveEntity{
 		return Utils.pixelsToMeters(this.HEIGHT);
 	}
 	
+	/**
+	 * @return	the weapon of this foe
+	 */
 	public AbstractWeapon getWeapon() {
 		return this.weapon;
 	}
 	
+	/**
+	 * Destroys this entity.
+	 */
 	public void destroyEntity(){
 		this.body.getWorld().destroyBody(this.body);
 	}
 	
+	/**
+	 * @return	true if this foe is alive
+	 */
 	public boolean isAlive() {
 		return this.isAlive;
 	}
 	
+	/**
+	 * @return	the value of this foe
+	 */
 	public int getValue() {
-		return this.points;
+		return this.value;
 	}
 }

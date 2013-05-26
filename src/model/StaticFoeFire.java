@@ -14,6 +14,9 @@ public class StaticFoeFire extends AbstractStaticFoe {
 		this.init();
 	}
 	
+	/**
+	 * Initiates the shape of this static foe.
+	 */
 	public void init() {		
 		PolygonShape polyShape = new PolygonShape();
 		polyShape.setAsBox(Utils.pixelsToMeters(super.WIDTH)/2, Utils.pixelsToMeters(super.HEIGHT)/2);

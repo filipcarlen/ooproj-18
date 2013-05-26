@@ -87,6 +87,11 @@ public class HighscoreManager {
 		}
 	}
 	
+	/**
+	 * This method makes a list of arrays, an array contains a name, a number of coins, a number of foes killed, 
+	 * a number of gems and a total score and there's an array for every high score.
+	 * @return a list of arrays with strings
+	 */
 	public List<String[]> getHighScores() {
 		List<String[]> strings = new ArrayList<String[]>();
 		String[] highScore = new String[5];

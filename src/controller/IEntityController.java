@@ -8,23 +8,23 @@ public interface IEntityController {
 	
 	/**
 	 * A method to make sure the controller updates accordingly.
-	 * @param container
-	 * @param game
-	 * @param delta
+	 * @param gc	the game container
+	 * @param sbg	the state based game
+	 * @param delta	the time in between updates in milliseconds
 	 */
-	public void update(GameContainer container, StateBasedGame game, int delta);
+	public void update(GameContainer gc, StateBasedGame sbg, int delta);
 	
 	/**
 	 * A method to make sure the controller renders accordingly.
-	 * @param container
-	 * @param game
-	 * @param g
+	 * @param gc	the game container
+	 * @param sbg	the state based game
+	 * @param g		the graphics
 	 */
-	public void render(GameContainer container, StateBasedGame game, Graphics g);
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g);
 	
 	/**
-	 * A method to easily connect the controller to model.
-	 * @return The ID of the entitycontroller.
+	 * A method to easily connect the controller to it's model.
+	 * @return 	the ID of this entity controller
 	 */
 	public int getID();
 }

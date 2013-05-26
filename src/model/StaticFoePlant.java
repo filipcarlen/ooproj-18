@@ -14,6 +14,9 @@ public class StaticFoePlant extends AbstractStaticFoe{
 		init();
 	}
 	
+	/**
+	 * Initiates the shape of this static foe.
+	 */
 	public void init() {
 		CircleShape circleShape = new CircleShape();
 		circleShape.m_radius = Utils.pixelsToMeters(super.WIDTH)/2;
