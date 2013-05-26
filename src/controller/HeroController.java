@@ -25,7 +25,7 @@ import view.HeroView;
  * Version: 1.0 A controller for the Hero. This class will interact with the
  * View of the hero and the Model, to make the character move and fight.
  * 
- * @author Project Group 18 (Chalmers, 2213)
+ * @author Project Group 18 (Chalmers, 2013)
  * 
  */
 
@@ -206,7 +206,7 @@ public class HeroController implements IEntityController, ActionListener {
 	}
 	
 	public void updateWeaponAnimation(){
-		view.loadWeaponAnimation(model.getName(), model.getWeaponType());
+		view.loadWeaponAnimation(model.getHeroName(), model.getWeaponType());
 		fightTimer= new Timer(view.getAttackAnimation().getFrameCount()* 
 				view.getAttackAnimation().getDuration(0),this);
 		if(model.getWeaponType() == WeaponType.GUN)
