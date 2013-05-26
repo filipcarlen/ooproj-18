@@ -52,9 +52,9 @@ public class Utils {
 	 * @param image		the image
 	 * @return
 	 */
-	public static boolean isMouseInsideImage(float mouseX, float mouseY, Vec2 imagePos, Image image){
-		if((mouseX >= imagePos.x && mouseX <= imagePos.x + image.getWidth()) &&
-	            (mouseY >= imagePos.y && mouseY <= imagePos.y + image.getHeight())){
+	public static boolean isMouseInsideImage(float mouseX, float mouseY, Vec2 imagePos, Image image, float resizepic){
+		if((mouseX >= imagePos.x && mouseX <= imagePos.x + image.getWidth()*resizepic) &&
+	            (mouseY >= imagePos.y && mouseY <= imagePos.y + image.getHeight()*resizepic)){
 					return true;
 		}
 		else{
