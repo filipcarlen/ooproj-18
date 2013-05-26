@@ -1,7 +1,6 @@
 package test;
 
 import static org.junit.Assert.*;
-
 import model.Coin;
 
 import org.jbox2d.common.Vec2;
