@@ -32,6 +32,7 @@ public class Gun extends AbstractWeapon implements ActionListener{
 		this.timer = new Timer(reloadTime, this);
 	}
 
+	@Override
 	public boolean fight(IAliveEntity fighterModel, Navigation navigation){
 		super.setFighterModel(fighterModel);
 		Vec2 firstPos = fighterModel.getPosMeters().clone();
@@ -70,18 +71,22 @@ public class Gun extends AbstractWeapon implements ActionListener{
 	 * Returns true when no bullet is in action.
 	 */
 	public boolean isDone(){
-		for(int i = 0; i < bulletModels.size(); i++){
-			if(bulletModels.get(i).isAlive()){
-				return false;
-			}
+		if(bulletModels.size() > 0){
+			return false;
 		}
 		return true;
 	}
 	
+	/**
+	 * @param index of the bullet that should be removed
+	 */
 	public void removeBullet(int index){
 		this.bulletModels.remove(index);
 	}
 	
+	/**
+	 * @return list of all the bullets this gun has fired that still exists in the world
+	 */
 	public ArrayList<Bullet> getBulletModels(){
 		return this.bulletModels;
 	}

@@ -22,6 +22,7 @@ public class SwordController implements IEntityController{
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 
 		Body body = this.model.getBody();
+		/* The distance the sword has moved this swing */
 		float distance;
 		if(body != null){
 			if(this.model.isAlive()){
@@ -42,16 +43,14 @@ public class SwordController implements IEntityController{
 	
 				} else if(this.model.getRange() < distance){
 					body.getWorld().destroyBody(body);
-					this.model.setBody(null);
 					this.model.destroyEntity();
 				}
 				
 			} else{
 				body.getWorld().destroyBody(body);
-				this.model.setBody(null);
 				this.model.destroyEntity();
 			}
-		}		
+		}	
 	}
 
 	@Override

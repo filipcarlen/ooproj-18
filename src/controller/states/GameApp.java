@@ -24,10 +24,10 @@ public class GameApp extends StateBasedGame{
 		this.addState(MainMenuState.getInstance());
 		this.addState(PlayState.getInstance());
 		this.addState(new OptionsState(OPTIONS_STATE));
-		this.addState(new GameOverState(GAME_OVER_STATE));
+		this.addState(GameOverState.getInstance());
 		this.addState(HighscoreState.getInstance());
 		this.addState(PreGameState.getInstance());
-		this.addState(new PauseState(PAUSE_STATE));
+		this.addState(PauseState.getInstance());
 		this.enterState(MAIN_MENU_STATE);
 	}
 

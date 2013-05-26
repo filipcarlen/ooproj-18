@@ -10,10 +10,10 @@ import org.jbox2d.dynamics.FixtureDef;
 import utils.Navigation;
 import utils.Utils;
 
-/** A class representing a Bullet
+/** 
+ * A class representing a Bullet
  * 
- * @author elinljunggren
- * @version 1.0 
+ * @author Project Group 18 (Chalmers, 2013)
  */
 
 public class Bullet implements IEntity{
@@ -45,10 +45,9 @@ public class Bullet implements IEntity{
 	
 	/**
 	 * A method for initializing the body of this object
-	 * @param fighterPos the position of the character firing the gun
-	 * @throws NullPointerException when there is no body to find in the world on the given fighterPos
+	 * @param firstPos the position of the character firing the gun
 	 */
-	public void init(Vec2 firstPos) throws NullPointerException{
+	public void init(Vec2 firstPos){
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.DYNAMIC;
 		bd.gravityScale = 0;
@@ -74,6 +73,8 @@ public class Bullet implements IEntity{
 		fd.filter.maskBits = 555;
 		fd.filter.categoryBits = 4;
 		
+		/* If the character firing the gun is a moving foe the groupindex of the bullet is 
+		 * set to the same as the moving foe so that it wont hit any moving foe */
 		if(gunModel.getFighterModel() instanceof MovingFoe){
 			fd.filter.groupIndex = gunModel.getFighterModel().getBody().getFixtureList().getFilterData().groupIndex;
 		}
@@ -83,6 +84,9 @@ public class Bullet implements IEntity{
 		this.bulletBody.setUserData(this);		
 	}
 	
+	/**
+	 * This method is called when the bullet needs to be removed. The bullet is set to be "not moving" and "not alive".
+	 */
 	public void destroyEntity(){
 		this.isMoving = false;
 		this.isAlive = false;
@@ -100,30 +104,23 @@ public class Bullet implements IEntity{
 		return this.isAlive;
 	}
 	
-	/**
-	 * 
-	 * @return the range of this bullet
-	 */
 	public float getRange(){
 		return this.gunModel.getRange();
 	}
-	/**
-	 * 
-	 * @return the damage made by this bullet
-	 */
+
 	public int getDamage(){
 		return this.gunModel.getDamage();
 	}
-	/**
-	 * 
+	
+	/** 
 	 * @return the first position of the bullet
 	 */
 	public Vec2 getFirstPos(){
 		return this.firstPos;
 	}
+	
 	/**
-	 * 
-	 * @return the position given on the target
+	 * @return the direction the bullet is moving in
 	 */
 	public Navigation getNavigation(){
 		return this.navigation;
@@ -148,13 +145,14 @@ public class Bullet implements IEntity{
 	public int getID() {
 		return this.ID;
 	}
+	
 	@Override
 	public float getHeight() {
 		return Utils.pixelsToMeters(this.HEIGHT);
 	}
+	
 	@Override
 	public float getWidth() {
 		return Utils.pixelsToMeters(this.WIDTH);
-	}
-		
+	}	
 }

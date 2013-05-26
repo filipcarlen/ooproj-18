@@ -12,6 +12,12 @@ import utils.Navigation;
 
 import model.Bullet;
 
+/** 
+ * A view that draws a Bullet object
+ * 
+ * @author Project Group 18 (Chalmers, 2013)
+ */
+
 public class BulletView {
 
 	private Bullet model;
@@ -28,7 +34,11 @@ public class BulletView {
 		} catch(SlickException e){}
 	}
 	
-	public void render(GameContainer container, StateBasedGame game, Graphics g){
+	/**
+	 * The method for drawing
+	 * @param gc, sbg, g
+	 */
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g){
 		Vec2 temp = Camera.entityRender(model.getPosPixels());
 		if(model.getNavigation() == Navigation.EAST){
 			this.bulletR.draw(temp.x, temp.y);

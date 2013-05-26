@@ -13,9 +13,18 @@ import utils.Controls;
 import utils.SoundType;
 import utils.Sounds;
 
+/** 
+ * This state is entered when the game is paused. From here you are able to resume, 
+ * restart, change options, go to main menu or quit the game.
+ * 
+ * @author Project Group 18 (Chalmers, 2013)
+ */
+
 public class PauseState extends BasicGameState {
 
 	private int stateID;
+	private static PauseState instance = null;
+
 	
 	private final String PATH = "res/pause_menu/";
 	
@@ -30,10 +39,21 @@ public class PauseState extends BasicGameState {
 	private boolean insideMainMenu = false;
 	private boolean insideQuitGame = false;
 	
-	public PauseState(int stateID){
+	
+	private PauseState(int stateID){
 		this.stateID = stateID;
 	}
 
+	public static PauseState getInstance(){
+		if(instance == null){
+			instance = new PauseState(GameApp.PAUSE_STATE);
+		}
+		return instance;
+	}
+	
+	/**
+	 * In this method all the images and animations are initialized
+	 */
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
@@ -52,6 +72,9 @@ public class PauseState extends BasicGameState {
 		this.quitGameH = new Image(this.PATH + "quitGameH.png");
 	}
 	
+	/**
+	 * In this method all the positions of the images and animations are initialized 
+	 */
 	public void initPositions(GameContainer gc, StateBasedGame sbg){
 		
 		float screenWidth = gc.getWidth();
@@ -62,10 +85,11 @@ public class PauseState extends BasicGameState {
 		this.optionsPos = new Vec2(resumePos.x, screenHeight*0.62f);
 		this.mainMenuPos = new Vec2(resumePos.x, screenHeight*0.72f);
 		this.quitGamePos = new Vec2(resumePos.x, screenHeight*0.82f);
-
-
 	}
 	
+	/**
+	 * This method is called every time this state is entered. 
+	 */
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
@@ -107,9 +131,6 @@ public class PauseState extends BasicGameState {
 		} else{
 			this.quitGame.draw(quitGamePos.x, quitGamePos.y);
 		}
-		
-		
-		
 	}
 
 	@Override
@@ -145,6 +166,11 @@ public class PauseState extends BasicGameState {
 		}
 	}
 	
+	/**
+	 * This method is used to check if the mouse is inside the image field specified
+	 * @param mouseX, mouseY, imagePos, image
+	 * @return
+	 */
 	public boolean checkMouse(float mouseX, float mouseY, Vec2 imagePos, Image image){
 		if((mouseX >= imagePos.x && mouseX <= imagePos.x + image.getWidth()) &&
 	            (mouseY >= imagePos.y && mouseY <= imagePos.y + image.getHeight())){

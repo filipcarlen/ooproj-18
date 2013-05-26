@@ -17,10 +17,10 @@ import utils.Navigation;
 import utils.Utils;
 import utils.WeaponType;
 
-/** A class representing a Sword
+/**
+ *  A class representing a Sword
  * 
- * @author elinljunggren
- * @version 1.0 
+ * @author Project Group 18 (Chalmers, 2013)
  */
 
 public class Sword extends AbstractWeapon implements IEntity, ActionListener{
@@ -44,6 +44,10 @@ public class Sword extends AbstractWeapon implements IEntity, ActionListener{
 
 	}
 	
+	/**
+	 * A method for initializing the body of this object
+	 * @param firstPos the position of the character swinging the sword
+	 */
 	public void init(Vec2 firstPos){
 		BodyDef bd = new BodyDef();
 		bd.type = BodyType.DYNAMIC;
@@ -71,6 +75,8 @@ public class Sword extends AbstractWeapon implements IEntity, ActionListener{
 		fd.filter.maskBits = 555;
 		fd.filter.categoryBits = 4;
 		
+		/* If the character firing the gun is a moving foe the groupindex of the bullet is 
+		 * set to the same as the moving foe so that it wont hit any moving foe */
 		if(super.getFighterModel() instanceof MovingFoe){
 			fd.filter.groupIndex = super.getFighterModel().getBody().getFixtureList().getFilterData().groupIndex;
 		}
@@ -106,6 +112,9 @@ public class Sword extends AbstractWeapon implements IEntity, ActionListener{
 		return false;
 	}
 	
+	/**
+	 * This method is called when the swordbody needs to be removed. The sword is set to be "not moving" and "not alive".
+	 */
 	public void destroyEntity(){
 		this.isAlive = false;
 		this.isMoving = false;
@@ -127,8 +136,18 @@ public class Sword extends AbstractWeapon implements IEntity, ActionListener{
 		this.isMoving = moving;
 	}
 	
+	/**
+	 * @return the current bodys first position.
+	 */
 	public Vec2 getFirstPos(){
 		return this.firstPos;
+	}
+	
+	/**
+	 * @return the direction the bullet is moving in
+	 */
+	public Navigation getNavigation(){
+		return this.navigation;
 	}
 	
 	@Override
@@ -138,20 +157,12 @@ public class Sword extends AbstractWeapon implements IEntity, ActionListener{
 	
 	@Override
 	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.body.getPosition());
+		return Utils.metersToPixels(this.body.getPosition().sub(new Vec2(this.RADIUS, this.RADIUS)));
 	}
 	
 	@Override
 	public Body getBody() {
 		return body;
-	}
-	
-	public void setBody(Body body){
-		this.body = body;
-	}
-	
-	public Navigation getNavigation(){
-		return this.navigation;
 	}
 	
 	@Override

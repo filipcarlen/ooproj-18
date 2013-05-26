@@ -20,15 +20,29 @@ import utils.Sounds;
 
 import controller.HighscoreManager;
 
+/** 
+ * This state is entered when you win or lose the game. Here you are able to see the score,
+ * quit the game, play again and go to main menu.
+ * 
+ * @author Project Group 18 (Chalmers, 2013)
+ */
+
 public class GameOverState extends BasicGameState{
 
 	private HighscoreManager highscoreManager;
+	
 	private int stateID;
-	private float spacing;
+	private static GameOverState instance = null;
+	
+	/* This variable is used to make the spacing between images easy to set */
+	private float spacing = 20;
 	private float crossScaling = 0.8f;
 	
 	private boolean isWin;
 	
+	private Image background;	
+
+	/* These lists holds the images of the numbers that represent the different scores you got in the game */
 	private List<Image> coinAmount = new ArrayList<Image>(); 
 	private List<Image> foeAmount = new ArrayList<Image>(); 
 	private List<Image> gemAmount = new ArrayList<Image>(); 
@@ -49,24 +63,19 @@ public class GameOverState extends BasicGameState{
 	private Vec2 coinPos, foePos, gemPos; 
 	private Vec2 dancingHeroPos, discoBallPos;
 	
-	private Image grave;
-	private Image danceFloor;
+	private Image grave, danceFloor;
 	private Vec2 gravePos, danceFloorPos;
 	
 	private Image zero, one, two, three, four, five, six, seven, eight, nine, cross;
 	private Image total, points;
 
 	private Image playAgain, playAgainH;
-	private Image tryAgain, tryAgainH;
-	
+	private Image tryAgain, tryAgainH;	
 	private Image mainMenu, mainMenuH;
-	
 	private Image quitGame, quitGameH;
 	
 	private Image youWin, youLose;
-	
-	private Image background;	
-	
+
 	private Vec2 youWinPos, youLosePos;
 	
 	private Vec2[] crossPosses = new Vec2[3];
@@ -78,15 +87,23 @@ public class GameOverState extends BasicGameState{
 	private boolean insidePlayAgain = false;
 
 
-	public GameOverState(int stateID){
+	private GameOverState(int stateID){
 		this.stateID = stateID;
 	}
 	
+	public static GameOverState getInstance(){
+		if(instance == null){
+			instance = new GameOverState(GameApp.GAME_OVER_STATE);
+		}
+		return instance;
+	}
+	
+	/**
+	 * In this method all the images and animations are initialized
+	 */
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-
-		this.spacing = 20;
 		
 		initDiscoBall();
 		initDancingHero();
@@ -129,6 +146,9 @@ public class GameOverState extends BasicGameState{
 		this.youLose = new Image(IMAGE_PATH + "youLose.png");		
 	}
 	
+	/**
+	 * In this method all the positions of the images and animations are initialized 
+	 */
 	public void initPositions(GameContainer gc, StateBasedGame sbg){
 		
 		float screenWidth = gc.getWidth();
@@ -235,6 +255,9 @@ public class GameOverState extends BasicGameState{
 		this.dancingHero = new Animation(dancingHeroImages, 300);
 	}
 	
+	/**
+	 * This method is called every time this state is entered. 
+	 */
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Hero model = ((PlayState)sbg.getState(GameApp.PLAY_STATE)).getHeroModel();
@@ -354,6 +377,11 @@ public class GameOverState extends BasicGameState{
 		}	
 	}
 	
+	/**
+	 * A method for making images out of numbers. There is one image for each number (0-9).
+	 * @param number
+	 * @return images representing the number
+	 */
 	public ArrayList<Image> numberToImages(int number){
 		ArrayList<Image> images = new ArrayList<Image>();
 		if(number < 100){
@@ -390,6 +418,11 @@ public class GameOverState extends BasicGameState{
 		
 	}
 	
+	/**
+	 * This method is used to check if the mouse is inside the image field specified
+	 * @param mouseX, mouseY, imagePos, image
+	 * @return
+	 */
 	public boolean checkMouse(float mouseX, float mouseY, Vec2 imagePos, Image image){
 		if((mouseX >= imagePos.x && mouseX <= imagePos.x + image.getWidth()) &&
 	            (mouseY >= imagePos.y && mouseY <= imagePos.y + image.getHeight())){
