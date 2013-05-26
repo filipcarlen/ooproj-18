@@ -1,5 +1,8 @@
 package controller.states;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -36,6 +39,14 @@ public class GameApp extends StateBasedGame{
 	}
 	
 	public static void main(String []args){
+		String OS = System.getProperty("os.name").toLowerCase();
+			if(OS.indexOf("win") >= 0){
+				System.setProperty("org.lwjgl.librarypath", new File("lib/native/windows").getAbsolutePath());
+			}else if(OS.indexOf("mac") >=0){
+				System.setProperty("org.lwjgl.librarypath", new File("lib/native/macosx").getAbsolutePath());
+			}else if(OS.indexOf("nix") >=0 || OS.indexOf("nux") >=0|| OS.indexOf("aix") >=0){
+				System.setProperty("org.lwjgl.librarypath", new File("lib/native/linux").getAbsolutePath());
+			}
 		try{
 			appgc = new AppGameContainer(new GameApp(gamename));
 			appgc.setDisplayMode(900, 600, false);

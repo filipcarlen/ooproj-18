@@ -71,7 +71,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 			throws SlickException {
 		playerNameInput =  new TextField(gc, new AngelCodeFont("res/font/fontwhite.fnt", "res/font/fontwhite_0.png"), 
 				(int)(gc.getWidth()*.5f), (int)(gc.getHeight()*.70f), 300, 50);
-		background = new Image("res/Background.png");
+		background = new Image("res/background.png");
 		sword = new Image(PATH+"sword.png");
 		swordH = new Image(PATH+"swordH.png");
 		gun = new Image(PATH+"gun.png");
@@ -79,8 +79,8 @@ public class PreGameState extends BasicGameState implements ActionListener {
 		title = new Image(PATH+"choose_weapon.png");
 		play = new Image(PATH+"play.png");
 		playH = new Image(PATH+"playH.png");
-		swordC = new Image(PATH+"swordClicked.png");
-		gunC = new Image(PATH+"gunClicked.png");
+		swordC = new Image(PATH+"swordclicked.png");
+		gunC = new Image(PATH+"gunclicked.png");
 		mainMenu = new Image(PATH + "mainMenu.png");
 		mainMenuH = new Image(PATH + "mainMenuH.png");
 		font = new AngelCodeFont("res/font/font.fnt", "res/font/font_0.png");

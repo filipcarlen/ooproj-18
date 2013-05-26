@@ -64,6 +64,7 @@ public class Hero implements IAliveEntity{
 		this.characterName = characterName;
 		this.playerName = "Player";						//Default name on the player is player
 		init(pos, true);
+		this.hp = this.maxHp;
 	}
 
 	public Hero(World w, String characterName, Vec2 pos, int width, int height, AbstractWeapon weapon, boolean createHero){
@@ -112,12 +113,15 @@ public class Hero implements IAliveEntity{
 		int coins = this.getCoinAmount();
 		int kills = this.getKills();
 		int score = this.getScore();
+		int hp = this.hp;
 		destroyBody();
 		createNewHero(pos.mul(Utils.METER_IN_PIXELS), weapon);
 		this.gemAmount = gems;
 		this.coinAmount = coins;
 		this.killCount = kills;
 		this.score = score;
+		this.setHp(hp);
+		currentHealthAction = HealthAction.NONE;
 	}
 	
 	public void destroyBody(){

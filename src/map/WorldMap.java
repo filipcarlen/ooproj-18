@@ -185,11 +185,11 @@ public class WorldMap{
 	}
 	
 	public void render(Graphics g, float x, float y, int width, int height){
-		if(width/tiledmap.getTileWidth() >= tiledmap.getWidth())
+		if(width/tiledmap.getTileWidth() > tiledmap.getWidth())
 			width = tiledmap.getWidth();
 		else
 			width = (width/tiledmap.getTileWidth()) +1;
-		if(height/tiledmap.getTileHeight() >= tiledmap.getHeight())
+		if(height/tiledmap.getTileHeight() > tiledmap.getHeight())
 			height = tiledmap.getHeight();
 		else
 			height = (height/tiledmap.getTileHeight())+1;
@@ -197,6 +197,7 @@ public class WorldMap{
 		int sy = (int)y/tiledmap.getTileHeight();
 		for(int i = sx; i < (sx+width); i ++){
 			for(int j = sy; j < (sy+height); j++){
+				System.out.println(height);
 				if(background[i][j] < 91 && background[i][j] > 0)
 					g.drawImage(pictureName.get(background[i][j]), 
 							((i-sx)*tiledmap.getTileWidth())-((x)%tiledmap.getTileWidth()), 

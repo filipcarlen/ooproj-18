@@ -75,8 +75,8 @@ public class HighscoreState extends BasicGameState {
 		clearH = new Image(PATH+"clearhighlighted.png");
 		background = new Image("res/background.png");
 		title = new Image(PATH+"highscore_title.png");
-		mainmenu = new Image("res/game_over_menu/MainMenu.png");
-		mainmenuH = new Image("res/Game_over_menu/MainMenuH.png");
+		mainmenu = new Image("res/game_over_menu/mainMenu.png");
+		mainmenuH = new Image("res/game_over_menu/mainMenuH.png");
 	}
 
 	@Override
@@ -154,7 +154,7 @@ public class HighscoreState extends BasicGameState {
 	public void initCoin() throws SlickException{
 		Image[] coinImages = new Image[8];
 		for(int i = 0; i<coinImages.length; i++){
-			coinImages[i] = new Image("res/Collectibles/Coin/coin_"+(i+1) + ".png");
+			coinImages[i] = new Image("res/collectibles/coin/coin_"+(i+1) + ".png");
 		}		
 		coin = new Animation(coinImages, 100);
 	}
@@ -162,7 +162,7 @@ public class HighscoreState extends BasicGameState {
 	public void initGem() throws SlickException{
 		Image[] gemImages = new Image[8];
 		for(int i = 0; i<gemImages.length; i++){
-			gemImages[i] = new Image("res/Collectibles/Gem/gem_"+(i)+".png");
+			gemImages[i] = new Image("res/collectibles/gem/gem_"+(i)+".png");
 		}
 		gem = new Animation(gemImages, 150);
 	}

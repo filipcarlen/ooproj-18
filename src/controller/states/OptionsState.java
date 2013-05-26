@@ -82,7 +82,7 @@ public class OptionsState extends BasicGameState {
 		
 		/* IMAGES _______________________________________________ */
 		//Initiate all images.
-		this.background = new Image("res/Background.png");
+		this.background = new Image("res/background.png");
 		this.options = new Image(PATH + "options.png");
 		
 		this.volume = new Image(PATH + "volume.png");

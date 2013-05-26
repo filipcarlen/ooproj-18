@@ -85,7 +85,7 @@ public class HeroView {
 				ArrayList<Image> image = new ArrayList<Image>();
 				for(int k = 0; k < nbrOfAnimations.length; k++){
 					try{
-						image.add(new Image("res/Characters/"+ s + "/"+ Movement.values()[j].toString().toLowerCase() + "_" + direction[i] + "_" + nbrOfAnimations[k] + ".png"));
+						image.add(new Image("res/characters/"+ s + "/"+ Movement.values()[j].toString().toLowerCase() + "_" + direction[i] + "_" + nbrOfAnimations[k] + ".png"));
 					}catch(RuntimeException e){
 						break;
 					}
@@ -115,7 +115,7 @@ public class HeroView {
 			/* Loads all animation at one direction*/
 			for(int j = 0; j < nbrOfAnimations.length; j ++){
 				try{
-					image.add(new Image("res/Characters/"+ s + "/"+ weapontype.toString().toLowerCase() + "_" + direction[i] + "_" + nbrOfAnimations[j] + ".png"));
+					image.add(new Image("res/characters/"+ s + "/"+ weapontype.toString().toLowerCase() + "_" + direction[i] + "_" + nbrOfAnimations[j] + ".png"));
 				}catch(RuntimeException e){
 					break;
 				}catch(SlickException e){}

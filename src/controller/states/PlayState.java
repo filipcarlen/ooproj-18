@@ -83,6 +83,8 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		// Loading the world and creating the bodies, enemies and hero
 		newGame("level1", "bluepants");
 		playstateview = new PlayStateView(hero);
+		camera = new Camera(gc, worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
+				new Rectangle((int)((gc.getWidth()*0.3)/2), (int)((gc.getHeight()*0.3)/2)), hero.getPosPixels());
 	}
 	
 	@Override
@@ -92,12 +94,13 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		if(endGame){
 			reTry();
 		}
-		camera = new Camera(gc.getWidth(), gc.getHeight(), 
-				worldMap.getWorldWidth(), worldMap.getWorldHeight(), 
-				new Rectangle((int)((gc.getWidth()*0.3)/2), (int)((gc.getHeight()*0.3)/2)), hero.getPosPixels());
+		camera.resetCamera(gc);
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		if(sbg.getCurrentState().getID() != this.getID()){
+			camera.resetCamera(gc);
+		}
 		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		worldMap.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 		try{
@@ -172,7 +175,6 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		camera.resetCamera();
 	}
 
 	/**

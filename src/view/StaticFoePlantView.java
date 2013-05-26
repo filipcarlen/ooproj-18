@@ -14,7 +14,7 @@ import utils.Camera;
 
 public class StaticFoePlantView implements IStaticFoeView {
 	
-	private final String PATH = "res/foe/static_foe/plant_animation/plant1/plant_";
+	private final String PATH = "res/foe/static_foe/plant_animation/plant1_";
 	private Animation plant;
 	private StaticFoePlant model;
 	

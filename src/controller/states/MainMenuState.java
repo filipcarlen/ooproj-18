@@ -76,9 +76,9 @@ public class MainMenuState extends BasicGameState {
 		leafPositionY = 0;
 		initLeafs();
 		title = new Image(PATH + "title.png");
-		background = new Image("res/Background.png");
+		background = new Image("res/background.png");
 		startGame = new Image(PATH+"Startgame.png");
-		startGameHighlighted = new Image(PATH+"StartgameHighlighted.png");
+		startGameHighlighted = new Image(PATH+"Startgamehighlighted.png");
 		quit = new Image(PATH+"quit.png");
 		quitHighlighted = new Image(PATH+"quithighlighted.png");
 		highscore = new Image(PATH+"highscore.png");
@@ -169,7 +169,7 @@ public class MainMenuState extends BasicGameState {
 	public void initLeafs() throws SlickException{
 		leafImages = new Image[14];
 		for(int i = 0; i<leafImages.length;i++){
-			leafImages[i] = new Image(PATH + "/leaf_animation/"+(i+1)+".png");
+			leafImages[i] = new Image(PATH + "leaf_animation/"+(i+1)+".png");
 		}
 		leafAnimation = new Animation(leafImages, LEAF_ANIMATION_DURATION);
 	}

@@ -3,6 +3,7 @@ package utils;
 import java.awt.Rectangle;
 
 import org.jbox2d.common.Vec2;
+import org.newdawn.slick.GameContainer;
 
 public class Camera {
 	private int displaywidth,displayheight,worldwidth,worldheight;
@@ -10,24 +11,22 @@ public class Camera {
 	private int distFromWall = 60;
 	private int distFromGToF = 60;
 	private Vec2 posOfHero;
+	private Rectangle moveableArea= new Rectangle(50, 50);
+
 	/**
-	 * Creats a Camera that will follow the character
-	 * @param displaywidth - the width of the screen
-	 * @param displayheight - the height of the screen
-	 * @param posFocusPixel - the thing you want to focus on
+	 * 
+	 * @param gc
+	 * @param worldwidth
+	 * @param worldheight
+	 * @param moveableArea
+	 * @param posFocusPixel
 	 */
-	public Camera(int displaywidth, int displayheight, int worldwidth, int worldheight,Vec2 posFocusPixel){
-		this.displaywidth = displaywidth;
-		this.displayheight = displayheight;
+	public Camera(GameContainer gc, int worldwidth, int worldheight, Rectangle moveableArea, Vec2 posFocusPixel){
 		this.worldwidth = worldwidth;
 		this.worldheight = worldheight;
 		this.posOfHero = posFocusPixel;
-	}
-	
-	public Camera(int displaywidth, int displayheight, int worldwidth, int worldheight, Rectangle moveableArea, Vec2 posFocusPixel){
-		this(displaywidth, displayheight, worldwidth, worldheight, posFocusPixel);
-		distFromWall = (int) (displaywidth-moveableArea.getWidth())/2;
-		distFromGToF = (int) (displayheight - moveableArea.getHeight())/2;
+		this.moveableArea = moveableArea;
+		resetCamera(gc);
 	}
 	
 	/**
@@ -67,8 +66,12 @@ public class Camera {
 		}
 	}
 	
-	public void resetCamera(){
+	public void resetCamera(GameContainer gc){
+		displaywidth = gc.getWidth();
+		displayheight = gc.getHeight();
 		positionCamera.set(0,0);
+		distFromWall = (int) (displaywidth-moveableArea.getWidth())/2;
+		distFromGToF = (int) (displayheight - moveableArea.getHeight())/2;
 	}
 	
 	public Vec2 getCameraPosition(){
