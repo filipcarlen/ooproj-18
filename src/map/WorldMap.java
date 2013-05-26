@@ -17,23 +17,26 @@ import org.newdawn.slick.tiled.TiledMap;
 import utils.Utils;
 
 /**
- * A cLass to read a Map from a tmx file
+ * A class to read a Map from a tmx file, and then create the bodies for everything in the world,
+ * and store all the pictures.
  * 
- * Program to make tmx files is founded on..... 
+ * Program to make tmx files is founded on http://www.mapeditor.org/
  * 
- * @author Marcus
+ * @author Project Group 18 (Chalmers, 2013)
  *
  */
 public class WorldMap{
 	
 	private World w;
-	private TiledMap tm;
+	
+	private TiledMap tiledmap;
+	
 	//Contains all the shaps that is used for collisions and so on.....
-	private List<WorldShape> wsm = new ArrayList<WorldShape>();
+	private List<WorldShape> listOfWorldShapes = new ArrayList<WorldShape>();
+	
 	//HashMap that contains the path and id to pictures 
 	private HashMap<Integer, Image> pictureName = new HashMap<Integer, Image>();
-	//List Containing all images that is needed to load the Map
-	private List<Image> mapImage = new ArrayList<Image>();
+	
 	private String levelName;
 	
 	private Rectangle goallocationrect;
@@ -60,46 +63,51 @@ public class WorldMap{
 	//Loads a file from from the resourses folder with a levelName
 	public void loadMapFromTMX(String levelName){
 		try {
-			tm = new TiledMap("res/map/" + levelName + ".tmx");
-			background = new int[tm.getWidth()][tm.getHeight()];
-			int collision = tm.getLayerIndex("collision");
-			int numberOfTiles = 0;
+			tiledmap = new TiledMap("res/map/" + levelName + ".tmx");
+			background = new int[tiledmap.getWidth()][tiledmap.getHeight()];
+			int collision = tiledmap.getLayerIndex("collision");
+			int numberOfTiles = 0; 							//number to keep track of how many tile that have been a added in arow
 			int idtile;
 			int id = 1;
 			List<Vec2> goallocation = new ArrayList<Vec2>();
 			Vec2 pos;
 			//Adds all tiles to the list represented by a world shape
-			for(int j = 0; j < tm.getHeight(); j++){
-				for(int i = 0; i <tm.getWidth(); i ++){
-					background[i][j] = tm.getTileId(i, j, collision);
-					pos = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
-					idtile = tm.getTileId(i, j, collision);
+			for(int j = 0; j < tiledmap.getHeight(); j++){
+				for(int i = 0; i <tiledmap.getWidth(); i ++){
+					background[i][j] = tiledmap.getTileId(i, j, collision);
+					pos = new Vec2(i*tiledmap.getTileWidth(), j*tiledmap.getTileHeight());
+					idtile = tiledmap.getTileId(i, j, collision);
+					/* If the tile is a world entity that you want to collide with 
+					 * this will create a body along the x axis(until if finds a new 
+					 * tile that isn't a tile you able you collide with), here it uses the number of tiles
+					 * and each time the next tile is a tile that your able you collide with 
+					 * it will increment by one*/
 					if(isWorldTile(idtile)){
-						while(isWorldTile(idtile) && i < tm.getWidth()-1){
-							if(!pictureName.containsKey(tm.getTileId(i, j, collision)))
-								pictureName.put(idtile, tm.getTileImage(i, j, collision));
+						while(isWorldTile(idtile) && i < tiledmap.getWidth()-1){
+							if(!pictureName.containsKey(tiledmap.getTileId(i, j, collision)))
+								pictureName.put(idtile, tiledmap.getTileImage(i, j, collision));
 							++numberOfTiles;
 							++i;
-							idtile = tm.getTileId(i, j, collision);
-							pos = new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight());
-							background[i][j] = tm.getTileId(i, j, collision);
+							idtile = tiledmap.getTileId(i, j, collision);
+							pos = new Vec2(i*tiledmap.getTileWidth(), j*tiledmap.getTileHeight());
+							background[i][j] = tiledmap.getTileId(i, j, collision);
 						}
-						addWorldShape(i - numberOfTiles, j, tm.getTileWidth(), tm.getTileHeight(), numberOfTiles);
+						addWorldShape(i - numberOfTiles, j, tiledmap.getTileWidth(), tiledmap.getTileHeight(), numberOfTiles);
 						numberOfTiles = 0;
 					}
 					if(idtile < 61 && !isWorldTile(idtile)){
-						if(!pictureName.containsKey(tm.getTileId(i, j, collision)))
-							pictureName.put(idtile, tm.getTileImage(i, j, collision));
+						if(!pictureName.containsKey(tiledmap.getTileId(i, j, collision)))
+							pictureName.put(idtile, tiledmap.getTileImage(i, j, collision));
 						
 					}else if(idtile <91 && idtile > 80){
-						if(!pictureName.containsKey(tm.getTileId(i, j, collision))){
-							pictureName.put(idtile, tm.getTileImage(i, j, collision));
+						if(!pictureName.containsKey(tiledmap.getTileId(i, j, collision))){
+							pictureName.put(idtile, tiledmap.getTileImage(i, j, collision));
 						}
-						goallocation.add(new Vec2(i*tm.getTileWidth(), j*tm.getTileHeight()));
+						goallocation.add(new Vec2(i*tiledmap.getTileWidth(), j*tiledmap.getTileHeight()));
 					}else if(idtile == 91){
-						positionHero = new Vec2(i*tm.getTileWidth()+(tm.getTileWidth()/2), j*tm.getTileHeight()+ (tm.getTileHeight()/2));
+						positionHero = new Vec2(i*tiledmap.getTileWidth()+(tiledmap.getTileWidth()/2), j*tiledmap.getTileHeight()+ (tiledmap.getTileHeight()/2));
 					}else if(idtile == 92){
-						bodies.add(new MovingFoe(w, pos, 50, new Sword(w, 200 ,35, id), 5, id));
+						bodies.add(new MovingFoe(w, pos, 50, new Sword(w, 1000 ,20, id), 5, id));
 					}else if(idtile == 93){
 						bodies.add(new MovingFoe(w, pos, 50, new Gun(w, 1000, 5, 10, id), 5, id));
 					}else if(idtile == 94){
@@ -120,15 +128,23 @@ public class WorldMap{
 			}
 			goallocationrect = new Rectangle(goallocation.get(0).x, 
 					goallocation.get(0).y,
-					goallocation.get(1).x-goallocation.get(0).x+tm.getTileWidth(), 
-					goallocation.get(goallocation.size()-1).y- goallocation.get(0).y+tm.getTileHeight());
+					goallocation.get(1).x-goallocation.get(0).x+tiledmap.getTileWidth(), 
+					goallocation.get(goallocation.size()-1).y- goallocation.get(0).y+tiledmap.getTileHeight());
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void addWorldShape(float xCoordinate, float yCoordinate, int width, int height, int numberOfTiles){
-		wsm.add(new WorldShape(w, xCoordinate, yCoordinate, width, height, numberOfTiles));
+	/**
+	 * This method creats worldshapes
+	 * @param xCoordinate
+	 * @param yCoordinate
+	 * @param width
+	 * @param height
+	 * @param numberOfTiles - this is a variable to know how many tiles that has been the same row and that is added into one worldshape
+	 */
+	private void addWorldShape(float xCoordinate, float yCoordinate, int width, int height, int numberOfTiles){
+		listOfWorldShapes.add(new WorldShape(w, xCoordinate, yCoordinate, width, height, numberOfTiles));
 		
 	}
 	
@@ -136,7 +152,7 @@ public class WorldMap{
 		for(int i = 0; i < background.length; i ++){
 			for(int j = 0; j < background[i].length; j++){
 				if(background[i][j] > 0)
-					g.drawImage(pictureName.get(background[i][j]), (i * tm.getTileWidth()), j* tm.getTileHeight());
+					g.drawImage(pictureName.get(background[i][j]), (i * tiledmap.getTileWidth()), j* tiledmap.getTileHeight());
 			}
 		}
 	}
@@ -148,7 +164,7 @@ public class WorldMap{
 	 * @param id
 	 * @return
 	 */
-	public boolean isWorldTile(int id){
+	private boolean isWorldTile(int id){
 		if(id > 0){
 			if(id < 21){
 				return true;
@@ -169,28 +185,28 @@ public class WorldMap{
 	}
 	
 	public void render(Graphics g, float x, float y, int width, int height){
-		if(width/tm.getTileWidth() >= tm.getWidth())
-			width = tm.getWidth();
+		if(width/tiledmap.getTileWidth() >= tiledmap.getWidth())
+			width = tiledmap.getWidth();
 		else
-			width = (width/tm.getTileWidth()) +1;
-		if(height/tm.getTileHeight() >= tm.getHeight())
-			height = tm.getHeight();
+			width = (width/tiledmap.getTileWidth()) +1;
+		if(height/tiledmap.getTileHeight() >= tiledmap.getHeight())
+			height = tiledmap.getHeight();
 		else
-			height = (height/tm.getTileHeight())+1;
-		int sx= (int)x/tm.getTileWidth();
-		int sy = (int)y/tm.getTileHeight();
+			height = (height/tiledmap.getTileHeight())+1;
+		int sx= (int)x/tiledmap.getTileWidth();
+		int sy = (int)y/tiledmap.getTileHeight();
 		for(int i = sx; i < (sx+width); i ++){
 			for(int j = sy; j < (sy+height); j++){
 				if(background[i][j] < 91 && background[i][j] > 0)
 					g.drawImage(pictureName.get(background[i][j]), 
-							((i-sx)*tm.getTileWidth())-((x)%tm.getTileWidth()), 
-							(j-sy)* tm.getTileHeight()-((y)%tm.getTileHeight()));
+							((i-sx)*tiledmap.getTileWidth())-((x)%tiledmap.getTileWidth()), 
+							(j-sy)* tiledmap.getTileHeight()-((y)%tiledmap.getTileHeight()));
 			}
 		}
 	}
 	
 	public void setBounds(){
-		wsm.add(new WorldShape(w, 0, 0, tm.getWidth()*tm.getTileWidth(), tm.getHeight()*tm.getTileHeight(), 1));
+		listOfWorldShapes.add(new WorldShape(w, 0, 0, tiledmap.getWidth()*tiledmap.getTileWidth(), tiledmap.getHeight()*tiledmap.getTileHeight(), 1));
 	}
 	
 	public ArrayList<IEntity> getListOfBodies(){
@@ -202,19 +218,15 @@ public class WorldMap{
 	}
 	
 	public int getWorldWidth(){
-		return tm.getWidth()*tm.getTileWidth();
+		return tiledmap.getWidth()*tiledmap.getTileWidth();
 	}
 	
 	public int getWorldHeight(){
-		return tm.getHeight()*tm.getTileHeight();
+		return tiledmap.getHeight()*tiledmap.getTileHeight();
 	}
 	
 	public List<WorldShape> getListOfShapes(){
-		return wsm;
-	}
-	
-	public List<Image> getImages(){
-		return mapImage;
+		return listOfWorldShapes;
 	}
 	
 	public String getMapName(){
@@ -227,9 +239,9 @@ public class WorldMap{
 	}
 
 	public void destroyWorld() {
-		for(int i=0 ; i < wsm.size(); i++){
-			wsm.get(i).destroyBody();
-			wsm.remove(i);
+		for(int i=0 ; i < listOfWorldShapes.size(); i++){
+			listOfWorldShapes.get(i).destroyBody();
+			listOfWorldShapes.remove(i);
 		}
 		
 	}
