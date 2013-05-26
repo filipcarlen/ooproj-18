@@ -98,9 +98,6 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		if(sbg.getCurrentState().getID() != this.getID()){
-			camera.resetCamera(gc);
-		}
 		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		worldMap.render(g, (int)camera.getCameraPosition().x, (int)camera.getCameraPosition().y, gc.getWidth(), gc.getHeight());
 		try{
@@ -292,6 +289,10 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 				}
 			}
 		}
+	}
+	
+	public void resetCamera(GameContainer gc){
+		camera.resetCamera(gc);
 	}
 	
 	public int getID() {
