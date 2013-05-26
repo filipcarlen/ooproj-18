@@ -42,19 +42,19 @@ public class MovingFoeController implements IEntityController {
 		if(diffX < this.model.SIGHT_RANGE_X && diffY < this.model.SIGHT_RANGE_Y){
 				
 			//Make this foe walk towards the hero and set the correct animation. 
-			if(((heroPos.x < foePos.x) && !(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), playState.getHeroModel().getPosMeters()))) || 
+			if(((heroPos.x < foePos.x) && !(this.model.getWeapon().isWithinRange(this.model.getBody(), playState.getHeroModel().getBody()))) || 
 					((heroPos.x < foePos.x - Utils.METER_IN_PIXELS) && (Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS)))){
 				
 				this.moveFoe(left, MovingFoeView.AnimationType.WALK_LEFT);
 				
-			} else if(((foePos.x < heroPos.x) && !(this.model.getWeapon().isWithinRange(this.model.getPosMeters(), playState.getHeroModel().getPosMeters()))) ||
+			} else if(((foePos.x < heroPos.x) && !(this.model.getWeapon().isWithinRange(this.model.getBody(), playState.getHeroModel().getBody()))) ||
 					((heroPos.x > foePos.x + Utils.METER_IN_PIXELS) && (Math.abs(foePos.y-heroPos.y) >= (Utils.METER_IN_PIXELS)))){
 				
 				this.moveFoe(right, MovingFoeView.AnimationType.WALK_RIGHT);
 			}
 			
 			//Attack the hero if it's within the range of this foe's weapon and if this foe is not too high above or too low below the hero.
-			else if((this.model.getWeapon().isWithinRange(this.model.getPosMeters(), this.playState.getHeroModel().getPosMeters())) && 
+			else if((this.model.getWeapon().isWithinRange(this.model.getBody(), this.playState.getHeroModel().getBody())) && 
 					(Math.abs(foePos.y-heroPos.y) < (Utils.METER_IN_PIXELS))){
 					
 				if(heroPos.x < this.model.getPosPixels().x) {
