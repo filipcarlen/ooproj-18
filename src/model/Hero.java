@@ -112,6 +112,7 @@ public class Hero implements IAliveEntity{
 		int coins = this.getCoinAmount();
 		int kills = this.getKills();
 		int score = this.getScore();
+		destroyBody();
 		createNewHero(pos.mul(Utils.METER_IN_PIXELS), weapon);
 		this.gemAmount = gems;
 		this.coinAmount = coins;
@@ -194,7 +195,7 @@ public class Hero implements IAliveEntity{
 	/**
 	 * @return- The name of the hero
 	 */
-	public String getName() {
+	public String getHeroName() {
 		return characterName;
 	}
 	
@@ -356,6 +357,7 @@ public class Hero implements IAliveEntity{
 	}
 	
 	public void resurrection(Vec2 pos){
+		destroyBody();
 		createNewHero(pos, weapon);
 		dead = false;
 		body.setActive(true);
