@@ -6,7 +6,7 @@ import org.jbox2d.common.Vec2;
 
 public class Camera {
 	private int displaywidth,displayheight,worldwidth,worldheight;
-	private static Vec2 positionCamera;
+	private Vec2 positionCamera;
 	private int distFromWall = 60;
 	private int distFromGToF = 60;
 	private Vec2 posOfHero;
