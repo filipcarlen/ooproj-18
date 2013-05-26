@@ -1,6 +1,7 @@
 package utils;
 
 import org.jbox2d.common.Vec2;
+import org.newdawn.slick.Image;
 
 public class Utils {
 	
@@ -8,6 +9,7 @@ public class Utils {
 	public static float METER_IN_PIXELS = 30f;
 	
 	/**
+	 * Converts a vector in pixels to a vector in meters.
 	 * @param pixels	the position in pixels
 	 * @return			the given position in meters
 	 */
@@ -16,6 +18,7 @@ public class Utils {
 	}
 	
 	/**
+	 * Converts a vector in meters to a vector in pixels.
 	 * @param meters	the position in meters
 	 * @return			the given position in pixels
 	 */
@@ -24,6 +27,7 @@ public class Utils {
 	}
 	
 	/**
+	 * Converts a number in pixels to a number in pixels.
 	 * @param pixels	the number of pixels
 	 * @return			the given number of pixels in meters
 	 */
@@ -32,10 +36,48 @@ public class Utils {
 	}
 	
 	/**
+	 * Converts a number in meters to a number in pixels.
 	 * @param meters	the number of meters
 	 * @return			the given number of meters in pixels
 	 */
 	public static float metersToPixels(float meters) {
 		return meters*METER_IN_PIXELS;
+	}
+	
+	/**
+	 * Checks if the mouse is inside an image.
+	 * @param mouseX	the x-coordinate of the mouse
+	 * @param mouseY	the y-coordinate of the mouse
+	 * @param imagePos	the position of the image
+	 * @param image		the image
+	 * @return
+	 */
+	public static boolean isMouseInsideImage(float mouseX, float mouseY, Vec2 imagePos, Image image){
+		if((mouseX >= imagePos.x && mouseX <= imagePos.x + image.getWidth()) &&
+	            (mouseY >= imagePos.y && mouseY <= imagePos.y + image.getHeight())){
+					return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Checks if the mouse is inside an area.
+	 * @param mouseX	the x-coordinate of the mouse
+	 * @param mouseY	the y-coordinate of the mouse
+	 * @param pos		the start position of the area
+	 * @param width		the width of the area
+	 * @param height	the height of the area
+	 * @return
+	 */
+	public static boolean isMouseInsideArea(float mouseX, float mouseY, Vec2 pos, float width, float height){
+		if((mouseX >= pos.x && mouseX <= pos.x + width) &&
+	            (mouseY >= pos.y && mouseY <= pos.y + height)){
+					return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
