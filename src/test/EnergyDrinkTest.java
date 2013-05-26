@@ -1,4 +1,4 @@
-package model;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,7 @@ public class EnergyDrinkTest {
 
 	@Test
 	public void testGethpBoost() {
-		EnergyDrink ed = new EnergyDrink(new World(new Vec2(0.0f, 9.8f),new Vec2(0,0),0);
+		EnergyDrink ed = new EnergyDrink(new World(new Vec2(0.0f, 9.8f)),new Vec2(0,0),0);
 		ed.setHpBoost(5);
 		assertTrue(ed.gethpBoost() == 5);
 	}
