@@ -171,7 +171,7 @@ public class Controls {
 		}else if(s.toLowerCase().equals(CMD_FIGHT)){
 			return keys.get(CMD_FIGHT).get(0);
 		}else{
-			return (Integer) null;
+			return -1;
 		}
 	}
 }
