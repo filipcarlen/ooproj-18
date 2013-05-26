@@ -23,7 +23,7 @@ public class GameApp extends StateBasedGame{
 		super(gamename);
 		this.addState(MainMenuState.getInstance());
 		this.addState(PlayState.getInstance());
-		this.addState(new OptionsState(OPTIONS_STATE));
+		this.addState(OptionsState.getInstance());
 		this.addState(GameOverState.getInstance());
 		this.addState(HighscoreState.getInstance());
 		this.addState(PreGameState.getInstance());

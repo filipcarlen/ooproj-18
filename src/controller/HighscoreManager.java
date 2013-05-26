@@ -13,11 +13,7 @@ import java.util.List;
 import utils.Highscore;
 
 import model.HighscoreComparator;
-/**
- * Class managing the highscore list
- * @author group 18
- *
- */
+
 public class HighscoreManager {
 	
 	private List<Highscore> highscores;
@@ -91,29 +87,30 @@ public class HighscoreManager {
 		}
 	}
 	
-	public String getHighscoreString(){
-		String highscoreString = "";
-		int max = 8;
+	public List<String[]> getHighScores() {
+		List<String[]> strings = new ArrayList<String[]>();
+		String[] highScore = new String[5];
 		
-		List<Highscore> highscores;
-		highscores = getScores();
-		int x = highscores.size();
-		if(x>max){
-			x = max;
+		int max = 0;
+		
+		List<Highscore> highScores = getScores();
+		if(highScores.size() < 8) {
+			max = highScores.size();
+		} else {
+			max = 8;
 		}
 		
-		for (int i = 0; i<x; i++){
-			String name = highscores.get(i).getName();
-			String coins = ""+highscores.get(i).getCoins();
-			String gem = ""+highscores.get(i).getGems();
-			String mob = ""+highscores.get(i).getMobs();
-			String score = ""+highscores.get(i).getTotalScore();
-			String format = "%-20s" +"%-"+(20-name.length())+"s " + "%-"+(15-gem.length())+"s "
-						+"%-"+(15-gem.length())+"s " + "%-"+(15-mob.length())+"s "
-						+"%s";
-			highscoreString +=String.format(format,(i+1),name,coins,gem,mob,score+"\n");
-		}	
-		return highscoreString;
+		for(int i = 0; i < max; i++) {
+			highScore = new String[5];
+			highScore[0] = highScores.get(i).getName();
+			highScore[1] = "" + highScores.get(i).getCoins();
+			highScore[2] = "" + highScores.get(i).getMobs();
+			highScore[3] = "" + highScores.get(i).getGems();
+			highScore[4] = "" + highScores.get(i).getTotalScore();
+			strings.add(highScore);
+		}
+		
+		return strings;
 	}
 	
 	public void clearFile() throws IOException{
