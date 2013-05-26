@@ -42,7 +42,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 	
 	public void enter(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		resize = gc.getWidth()/ 900;
+		resize = gc.getWidth()/ 900.0f;
 		titlePos = new Vec2(gc.getWidth()/2-title.getWidth()/2,10);
 		swordPos = new Vec2(gc.getWidth()*.03f, gc.getHeight()*.2f);
 		gunPos = new Vec2(gc.getWidth()*.53f, gc.getHeight()*.2f);
