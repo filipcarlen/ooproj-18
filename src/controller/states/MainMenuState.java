@@ -137,10 +137,10 @@ public class MainMenuState extends BasicGameState {
 		int mouseY = input.getMouseY();
 		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		
-		mouseInsideStartGame = Utils.isMouseInsideImage(mouseX, mouseY, startGameImagePosition, startGame);
-		mouseInsideQuitGame = Utils.isMouseInsideImage(mouseX, mouseY, quitGameImagePosition, quit);
-		mouseInsideHighscore= Utils.isMouseInsideImage(mouseX, mouseY, highscoreImagePosition, highscore);
-		mouseinsideOptionsMenu = Utils.isMouseInsideImage(mouseX, mouseY, optionsImagePosition, options);
+		mouseInsideStartGame = Utils.isMouseInsideImage(mouseX, mouseY, startGameImagePosition, startGame, 1);
+		mouseInsideQuitGame = Utils.isMouseInsideImage(mouseX, mouseY, quitGameImagePosition, quit, 1);
+		mouseInsideHighscore= Utils.isMouseInsideImage(mouseX, mouseY, highscoreImagePosition, highscore, 1);
+		mouseinsideOptionsMenu = Utils.isMouseInsideImage(mouseX, mouseY, optionsImagePosition, options, 1);
 			
 		if(mouseClicked && mouseInsideStartGame){	
 			sbg.enterState(GameApp.PRE_GAME_STATE);

@@ -375,7 +375,10 @@ public class GameOverState extends BasicGameState{
 		}
 		
 		if(mouseClicked && this.insidePlayAgain){
-			sbg.enterState(GameApp.PLAY_STATE);
+			if(((PlayState)sbg.getState(GameApp.PLAY_STATE)).getHeroModel().isDead())
+				sbg.enterState(GameApp.PLAY_STATE);
+			else
+				sbg.enterState(GameApp.PRE_GAME_STATE);
 		}	
 	}
 	

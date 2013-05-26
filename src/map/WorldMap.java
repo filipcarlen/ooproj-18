@@ -188,7 +188,7 @@ public class WorldMap{
 		if(width/tiledmap.getTileWidth() > tiledmap.getWidth())
 			width = tiledmap.getWidth();
 		else
-			width = (width/tiledmap.getTileWidth()) +1;
+			width = (width/tiledmap.getTileWidth())+1;
 		if(height/tiledmap.getTileHeight() > tiledmap.getHeight())
 			height = tiledmap.getHeight();
 		else
@@ -197,7 +197,6 @@ public class WorldMap{
 		int sy = (int)y/tiledmap.getTileHeight();
 		for(int i = sx; i < (sx+width); i ++){
 			for(int j = sy; j < (sy+height); j++){
-				System.out.println(height);
 				if(background[i][j] < 91 && background[i][j] > 0)
 					g.drawImage(pictureName.get(background[i][j]), 
 							((i-sx)*tiledmap.getTileWidth())-((x)%tiledmap.getTileWidth()), 

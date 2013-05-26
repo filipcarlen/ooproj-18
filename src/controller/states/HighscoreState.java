@@ -130,8 +130,8 @@ public class HighscoreState extends BasicGameState {
 		int mouseY = input.getMouseY();
 		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		
-		insideMainMenu = Utils.isMouseInsideImage(mouseX,mouseY,mainMenuPos,mainmenu);
-		insideClear = Utils.isMouseInsideImage(mouseX, mouseY, clearPos, clear);
+		insideMainMenu = Utils.isMouseInsideImage(mouseX,mouseY,mainMenuPos,mainmenu, 1);
+		insideClear = Utils.isMouseInsideImage(mouseX, mouseY, clearPos, clear, 1);
 		
 		if(mouseClicked && insideMainMenu){
 			arg1.enterState(GameApp.MAIN_MENU_STATE);

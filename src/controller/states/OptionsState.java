@@ -207,19 +207,19 @@ public class OptionsState extends BasicGameState {
 		boolean mouseDown = input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON);
 		
 		/* INSIDE BOOLEANS ______________________________________________________________________________ */
-		this.insideMusicOn = Utils.isMouseInsideImage(mouseX, mouseY, this.musicPos, this.musicOn);
-		boolean insideMusicHandle = Utils.isMouseInsideImage(mouseX, mouseY, this.musicHandlePos, this.handle);
+		this.insideMusicOn = Utils.isMouseInsideImage(mouseX, mouseY, this.musicPos, this.musicOn, 1);
+		boolean insideMusicHandle = Utils.isMouseInsideImage(mouseX, mouseY, this.musicHandlePos, this.handle, 1);
 		
-		this.insideSoundOn = Utils.isMouseInsideImage(mouseX, mouseY, this.soundPos, this.soundOn);
-		boolean insideSoundHandle = Utils.isMouseInsideImage(mouseX, mouseY, this.soundHandlePos, this.handle);
+		this.insideSoundOn = Utils.isMouseInsideImage(mouseX, mouseY, this.soundPos, this.soundOn, 1);
+		boolean insideSoundHandle = Utils.isMouseInsideImage(mouseX, mouseY, this.soundHandlePos, this.handle,1 );
 		
-		this.insideFullscreenOn = Utils.isMouseInsideImage(mouseX, mouseY, this.fullscreenPos, this.fullscreenOn);
+		this.insideFullscreenOn = Utils.isMouseInsideImage(mouseX, mouseY, this.fullscreenPos, this.fullscreenOn, 1);
 		
 		for(int i = 0; i < this.insideKeys.size(); i++){
-			this.insideKeys.set(i, Utils.isMouseInsideImage(mouseX, mouseY, this.keyPos.get(i), this.key));
+			this.insideKeys.set(i, Utils.isMouseInsideImage(mouseX, mouseY, this.keyPos.get(i), this.key, 1));
 		}
 		
-		this.insideOk = Utils.isMouseInsideImage(mouseX, mouseY, this.okPos, this.ok);
+		this.insideOk = Utils.isMouseInsideImage(mouseX, mouseY, this.okPos, this.ok, 1);
 		/* INSIDE BOOLEANS END __________________________________________________________________________ */
 		
 		/* CHECKBOX CLICKED _____________________________________________________________________________ */

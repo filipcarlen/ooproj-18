@@ -138,10 +138,10 @@ public class PreGameState extends BasicGameState implements ActionListener {
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
 		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
-		mouseInsideGun = Utils.isMouseInsideImage(mouseX, mouseY, gunPos, gun);
-		mouseInsidePlay = Utils.isMouseInsideImage(mouseX, mouseY, playPos, play);
-		mouseInsideSword = Utils.isMouseInsideImage(mouseX, mouseY, swordPos, sword);
-		mouseInsideMainMenu = Utils.isMouseInsideImage(mouseX, mouseY, mainMenuPos, mainMenu);
+		mouseInsideGun = Utils.isMouseInsideImage(mouseX, mouseY, gunPos, gun, resize);
+		mouseInsidePlay = Utils.isMouseInsideImage(mouseX, mouseY, playPos, play, 1);
+		mouseInsideSword = Utils.isMouseInsideImage(mouseX, mouseY, swordPos, sword, resize );
+		mouseInsideMainMenu = Utils.isMouseInsideImage(mouseX, mouseY, mainMenuPos, mainMenu, 1);
 		
 		if(mouseClicked && mouseInsideGun){
 			weapon = WeaponType.GUN;

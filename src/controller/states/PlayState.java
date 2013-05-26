@@ -293,6 +293,7 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	
 	public void resetCamera(GameContainer gc){
 		camera.resetCamera(gc);
+		camera.updateCamera(hero.getFrontPosPixels());
 	}
 	
 	public int getID() {
