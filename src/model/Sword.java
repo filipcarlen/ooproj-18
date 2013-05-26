@@ -129,13 +129,6 @@ public class Sword extends AbstractWeapon implements IEntity, ActionListener{
 	}
 	
 	/**
-	 * @param isAlive sets true if the body of the bullet is alive
-	 */
-	public void setAlive(boolean isAlive){
-		this.isAlive = isAlive;
-	}
-	
-	/**
 	 * @return true if the body of the sword is in motion
 	 */
 	public boolean isMoving(){
