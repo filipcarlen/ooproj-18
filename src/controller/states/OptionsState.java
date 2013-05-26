@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jbox2d.common.Vec2;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -114,11 +115,10 @@ public class OptionsState extends BasicGameState {
 		this.clickedHandle.add(false);
 		this.clickedHandle.add(false);
 		
-		this.chosenKeys.add(Controls.getInstance().getCommand(Controls.CMD_RIGHT));
-		this.chosenKeys.add(Controls.getInstance().getCommand(Controls.CMD_LEFT));
-		this.chosenKeys.add(Controls.getInstance().getCommand(Controls.CMD_JUMP));
-		this.chosenKeys.add(Controls.getInstance().getCommand(Controls.CMD_FIGHT));
-		Controls.getInstance().removeKeySettings();
+		this.chosenKeys.add(0);
+		this.chosenKeys.add(0);
+		this.chosenKeys.add(0);
+		this.chosenKeys.add(0);
 		/* LISTS END ____________________________________________ */
 		
 		this.initPositions(gc);
@@ -170,6 +170,8 @@ public class OptionsState extends BasicGameState {
 				}
 			}
 		} 
+		
+		g.setColor(Color.white);
 		for(int i = 0; i<this.chosenKeys.size(); i++) {
 			g.drawString(Input.getKeyName(this.chosenKeys.get(i)), this.chosenKeyPos.get(i).x, this.chosenKeyPos.get(i).y);
 		}
@@ -295,11 +297,12 @@ public class OptionsState extends BasicGameState {
 			}
 		}
 		//If any of the key bindings are marked, check what key is chosen for it.
-		if(this.clickedKeys.contains(true)) {
+		int index = this.clickedKeys.indexOf(true);
+		if(index != -1) {
 			for(int i = 0; i < 90; i++) {
 				if(i != Input.KEY_ESCAPE && i != Input.KEY_P && input.isKeyPressed(i)){
-					this.chosenKeys.set(this.clickedKeys.indexOf(true), i);
-					this.clickedKeys.set(this.clickedKeys.indexOf(true), false);
+					this.chosenKeys.set(index, i);
+					this.clickedKeys.set(index, false);
 				}
 			}
 		}
@@ -316,6 +319,15 @@ public class OptionsState extends BasicGameState {
 			sbg.enterState(this.previousStateID);
 		} 
 		/* OK END _______________________________________________________________________________________ */
+	}
+	
+	@Override
+	public void enter(GameContainer gc, StateBasedGame sbg) {
+		this.chosenKeys.set(0, Controls.getInstance().getCommand(Controls.CMD_RIGHT));
+		this.chosenKeys.set(1, Controls.getInstance().getCommand(Controls.CMD_LEFT));
+		this.chosenKeys.set(2, Controls.getInstance().getCommand(Controls.CMD_JUMP));
+		this.chosenKeys.set(3, Controls.getInstance().getCommand(Controls.CMD_FIGHT));
+		Controls.getInstance().removeKeySettings();
 	}
 	
 	/**
