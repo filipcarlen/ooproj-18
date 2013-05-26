@@ -17,41 +17,58 @@ import org.newdawn.slick.state.StateBasedGame;
 import utils.Camera;
 import utils.Navigation;
 import utils.WeaponType;
-
+/**
+ * This class controls the view of the hero
+ * 
+ * @author Project Group 18 (Chalmers, 2013)
+ *
+ */
 public class HeroView {
 	
-	private Hero heroModel;
+	private Hero model;
+	
 	private Animation currentAnimation = new Animation();
+	
 	private List <Animation> animations = new ArrayList<Animation>();
+	
+	/* Default duration on animations*/
 	private int [] duration = {200, 200};
+	
+	/* The different movement animations the hero can  have (And Need to have to make the game work)*/
 	public enum Movement{RUN, STAND, JUMP, FALL, HURT, HURTBACK, DIE};
+	
+	/* This makes the view load at max 8 images in on animation*/
 	private String[] nbrOfAnimations = {"1", "2", "3", "4", "5", "6", "7", "8"};
+	
+	/* This makes it possible to add to of the same animations one to the right and one to left*/
 	private String[] direction= {"right", "left"};
+	
+	/* This is a boolean so that you now if you have loaded a weapon as an animation*/
 	private boolean loadedweapon= false;
 	
 	public HeroView(Hero hm, WeaponType weaponType){
-		this.heroModel = hm;
+		this.model = hm;
 		try{
-			loadMovementAnimation(hm.getName());
-			loadWeaponAnimation(hm.getName(), weaponType);
+			loadMovementAnimation(hm.getHeroName());
+			loadWeaponAnimation(hm.getHeroName(), weaponType);
 		}catch(SlickException e){
 			e.printStackTrace();
 		}
 	}
 
 	public HeroView(Hero hm) {
-		this.heroModel = hm;
+		this.model = hm;
 		try{
-			loadMovementAnimation(hm.getName());
+			loadMovementAnimation(hm.getHeroName());
 		}catch(SlickException e){
 			e.printStackTrace();
 		}
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		if(heroModel.isDead())
-			setAnimation(Movement.DIE, heroModel.getDirection());
-		Vec2 tmp = Camera.entityRender(heroModel.getPosPixels());
+		if(model.isDead())
+			setAnimation(Movement.DIE, model.getDirection());
+		Vec2 tmp = Camera.entityRender(model.getPosPixels());
 		/* Draws the animation */
 		g.drawAnimation(currentAnimation, tmp.x, tmp.y);
 	}
@@ -86,12 +103,16 @@ public class HeroView {
 	}
 	
 	public void loadWeaponAnimation(String s, WeaponType weapontype){
+		/* If i already have loaded the weapon animation, i will remove the current weapon animation
+		 * (needed if you have to change weapon in game)*/
 		if(loadedweapon){
 			animations.remove(animations.size()-1);
 			animations.remove(animations.size()-1);
 		}
+		/* Loads weapon animation */
 		for(int i = 0; i < direction.length; i++){
 			ArrayList<Image> image = new ArrayList<Image>();
+			/* Loads all animation at one direction*/
 			for(int j = 0; j < nbrOfAnimations.length; j ++){
 				try{
 					image.add(new Image("res/Characters/"+ s + "/"+ weapontype.toString().toLowerCase() + "_" + direction[i] + "_" + nbrOfAnimations[j] + ".png"));
@@ -99,6 +120,7 @@ public class HeroView {
 					break;
 				}catch(SlickException e){}
 			}
+			/* Here i check if i need to change the duration so the size is equals to the length*/
 			if(image.size() != duration.length){
 				duration = new int[image.size()];
 				for(int k = 0; k < image.size(); k++){
@@ -110,7 +132,12 @@ public class HeroView {
 		loadedweapon = true;
 	}
 	
-	public Image[] toArray(ArrayList<Image> imageList){
+	/**
+	 * This method takes a list and turns it in to a 1 dimension array
+	 * @param imageList
+	 * @return
+	 */
+	public Image[] toArray(List<Image> imageList){
 		Image[] image = new Image[imageList.size()];
 		for(int i = 0; i < imageList.size(); i++){
 			image[i] = imageList.get(i);
@@ -119,13 +146,10 @@ public class HeroView {
 	}
 	
 	/**
-	 * returns the main animation
-	 * @return Animation = the animation that is the main animation
+	 * 
+	 * @param m
+	 * @param n
 	 */
-	public Animation getAnimation(){
-		return currentAnimation;
-	}
-	
 	public void setAnimation(Movement m, Navigation n){
 		int i;
 		if(n ==Navigation.WEST){

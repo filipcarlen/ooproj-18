@@ -11,22 +11,31 @@ import org.jbox2d.dynamics.World;
 
 import utils.EntityType;
 import utils.Utils;
-
+/**
+ * This is a class to hold the value and create a platform in the game
+ * @author Project Group 18 (Chalmers, 2013)
+ *
+ */
 public class WorldShape implements IEntity {
 
+	/* */
 	Body body, bodyGround, bodyRoof, bodyWallLeft, bodyWallRight;
+	
 	int id;
+	
 	float width;
+
 	float height;
+	
+	/* This diff variable is added because of all thing that get rounded in calculations
+	 * (so that the floor, roof and wall wont overlap each other)*/
 	float diff = -.02f;
-	World world;
 
 	public WorldShape(World world, float xCoordinate, float yCoordinate,
 			int width, int height, int numberOfTiles) {
 		BodyDef b = new BodyDef();
 		b.position = new Vec2(xCoordinate, yCoordinate);
 		body = world.createBody(b);
-		this.world = world;
 		this.width = (width / Utils.METER_IN_PIXELS / 2) * numberOfTiles;
 		this.height = (height / Utils.METER_IN_PIXELS / 2);
 		addGround(xCoordinate + this.width, yCoordinate);
@@ -35,6 +44,12 @@ public class WorldShape implements IEntity {
 		addWallLeft(xCoordinate, yCoordinate + this.height);
 	}
 
+	/**
+	 * This method adds the body at the bottom
+	 * (so if you jump up in a platform this is the "roof" you will hit).
+	 * @param x
+	 * @param y
+	 */
 	private void addRoof(float x, float y) {
 		BodyDef b = new BodyDef();
 		b.type = BodyType.STATIC;
@@ -48,11 +63,16 @@ public class WorldShape implements IEntity {
 		fd.shape = pg;
 		fd.friction = 0.0f;
 		fd.density = 1f;
-		bodyRoof = world.createBody(b);
+		bodyRoof = body.getWorld().createBody(b);
 		bodyRoof.createFixture(fd);
 		bodyRoof.setUserData(EntityType.ROOF);
 	}
 
+	/**
+	 *  This is the body you will walk on.
+	 * @param x
+	 * @param y
+	 */
 	private void addGround(float x, float y) {
 		BodyDef b = new BodyDef();
 		b.type = BodyType.STATIC;
@@ -68,11 +88,16 @@ public class WorldShape implements IEntity {
 		fd.shape = pg;
 		fd.friction = 0.0f;
 		fd.density = 1f;
-		bodyGround = world.createBody(b);
+		bodyGround = body.getWorld().createBody(b);
 		bodyGround.createFixture(fd);
 		bodyGround.setUserData(EntityType.GROUND);
 	}
 
+	/**
+	 * This is the Wall on the left side of the platform.
+	 * @param x
+	 * @param y
+	 */
 	private void addWallLeft(float x, float y) {
 		BodyDef b = new BodyDef();
 		b.type = BodyType.STATIC;
@@ -86,11 +111,16 @@ public class WorldShape implements IEntity {
 		fd.shape = pg;
 		fd.friction = 0.0f;
 		fd.density = 1f;
-		bodyWallLeft = world.createBody(b);
+		bodyWallLeft = body.getWorld().createBody(b);
 		bodyWallLeft.createFixture(fd);
 		bodyWallLeft.setUserData(EntityType.WALL);
 	}
 
+	/**
+	 * This is the wall on the right side of the platform.
+	 * @param x
+	 * @param y
+	 */
 	private void addWallRight(float x, float y) {
 		BodyDef b = new BodyDef();
 		b.type = BodyType.STATIC;
@@ -104,7 +134,7 @@ public class WorldShape implements IEntity {
 		fd.shape = pg;
 		fd.friction = 0.0f;
 		fd.density = 1f;
-		bodyWallRight = world.createBody(b);
+		bodyWallRight = body.getWorld().createBody(b);
 		bodyWallRight.createFixture(fd);
 		bodyWallRight.setUserData(EntityType.WALL);
 	}
@@ -114,10 +144,11 @@ public class WorldShape implements IEntity {
 	}
 	
 	public void destroyBody(){
-		world.destroyBody(bodyGround);
-		world.destroyBody(bodyRoof);
-		world.destroyBody(bodyWallLeft);
-		world.destroyBody(bodyWallRight);
+		body.getWorld().destroyBody(bodyGround);
+		body.getWorld().destroyBody(bodyRoof);
+		body.getWorld().destroyBody(bodyWallLeft);
+		body.getWorld().destroyBody(bodyWallRight);
+		body.getWorld().destroyBody(body);
 	}
 
 	public int getID() {
