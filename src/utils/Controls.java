@@ -8,7 +8,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 /**
- * This Class handels the input from the keyboard
+ * This Class handles the input from the keyboard
  * @author Project Group 18 (Chalmers, 2013)
  *
  */
@@ -62,7 +62,7 @@ public class Controls {
 	/**
 	 * Loads all the Commands that is declared.
 	 */
-	public void loadCommands(){
+	private void loadCommands(){
 		keys.put(CMD_LEFT, new ArrayList<Integer>());
 		keys.put(CMD_RIGHT, new ArrayList<Integer>());
 		keys.put(CMD_JUMP, new ArrayList<Integer>());
@@ -83,10 +83,10 @@ public class Controls {
 	 */
 	public void setDeafaultControls(){
 		try {
-		bindToKey(CMD_LEFT, Input.KEY_A, Input.KEY_LEFT);
-		bindToKey(CMD_RIGHT, Input.KEY_D, Input.KEY_RIGHT);
+		bindToKey(CMD_LEFT, Input.KEY_LEFT, Input.KEY_A);
+		bindToKey(CMD_RIGHT, Input.KEY_RIGHT, Input.KEY_D);
 		bindToKey(CMD_FIGHT, Input.KEY_SPACE);
-		bindToKey(CMD_JUMP, Input.KEY_W, Input.KEY_UP);
+		bindToKey(CMD_JUMP, Input.KEY_UP, Input.KEY_W);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -98,6 +98,7 @@ public class Controls {
 	public void removeKeySettings(){
 		keys.clear();
 		isControlsSet = false;
+		loadCommands();
 	}
 	
 	/**
