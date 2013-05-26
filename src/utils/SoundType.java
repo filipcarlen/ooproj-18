@@ -1,5 +1,9 @@
 package utils;
-
+/**
+ * Enum with all sound types.
+ * @author Filip Carlén
+ *
+ */
 public enum SoundType {
 	
 	MENU_MUSIC,

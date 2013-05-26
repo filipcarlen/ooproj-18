@@ -14,7 +14,12 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import utils.SoundType;
 import utils.Sounds;
+import utils.Utils;
 
+/**
+ * The Main menu state.
+ * @author Filip CarlŽn
+ */
 public class MainMenuState extends BasicGameState {
 	
 	private int stateID = -1;
@@ -22,25 +27,23 @@ public class MainMenuState extends BasicGameState {
 	
 	private Image title, background, startGame, startGameHighlighted, quit, quitHighlighted, highscore,
 						highscoreHighlighted, options, optionsHighlighted;
-	private Image[] leafs;
+	
+	private Image[] leafImages;
 	private Animation leafAnimation;
+	private final int LEAF_ANIMATION_DURATION = 100;
 	
-	private Vec2 startGamePos;
-	private Vec2 optionsPos;
-	private Vec2 highscorePos;
-	private Vec2 quitGamePos;
-	private Vec2 titlePos;
+	private Vec2 startGameImagePosition;
+	private Vec2 optionsImagePosition;
+	private Vec2 highscoreImagePosition;
+	private Vec2 quitGameImagePosition;
+	private Vec2 titleImagePosition;
 		
+	private float leafPositionX;;
+	private float leafPositionY;
+	private final float LEAF_START_POSITION_X = 0;
+	private final float[] LEAF_START_POSITION_Y = {-500,-400,-300,-200,-100,0,100,200,300,400,500,600};
 	
-	private float leafPositionX = 0;
-	private float leafPositionY = 0;
-	private float leafStartPositionX = 0;
-	private float[] leafStartPositionY = {-500,-400,-300,-200,-100,0,100,200,300,400,500,600};
-	
-	private boolean insideStartGame = false;
-	private boolean insideOptionsMenu = false;
-	private boolean insideHighscore = false;
-	private boolean insideQuitGame = false;
+	private boolean mouseInsideStartGame,mouseinsideOptionsMenu, mouseInsideHighscore, mouseInsideQuitGame;
 	
 	private static MainMenuState instance = null;
 	
@@ -59,16 +62,18 @@ public class MainMenuState extends BasicGameState {
 	public void enter(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {	
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
-		titlePos = new Vec2(gc.getWidth()/2-title.getWidth()/2,0);
-		startGamePos = new Vec2(gc.getWidth()/2-startGame.getWidth()/2,gc.getHeight()*.28f);
-		highscorePos = new Vec2(gc.getWidth()/2-highscore.getWidth()/2, gc.getHeight()*.45f);
-		optionsPos = new Vec2(gc.getWidth()/2-options.getWidth()/2,gc.getHeight()*.65f);
-		quitGamePos = new Vec2(gc.getWidth()/2-quit.getWidth()/2,gc.getHeight()*.82f);
+		titleImagePosition = new Vec2(gc.getWidth()/2-title.getWidth()/2,0);
+		startGameImagePosition = new Vec2(gc.getWidth()/2-startGame.getWidth()/2,gc.getHeight()*.28f);
+		highscoreImagePosition = new Vec2(gc.getWidth()/2-highscore.getWidth()/2, gc.getHeight()*.45f);
+		optionsImagePosition = new Vec2(gc.getWidth()/2-options.getWidth()/2,gc.getHeight()*.65f);
+		quitGameImagePosition = new Vec2(gc.getWidth()/2-quit.getWidth()/2,gc.getHeight()*.82f);
 	}
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
+		leafPositionX = 0;
+		leafPositionY = 0;
 		initLeafs();
 		title = new Image(PATH + "title.png");
 		background = new Image("res/Background.png");
@@ -90,34 +95,34 @@ public class MainMenuState extends BasicGameState {
 		background.draw(0,0,gc.getWidth(),gc.getHeight());
 		
 		g.drawAnimation(leafAnimation, leafPositionX, leafPositionY);
-		title.draw(titlePos.x,titlePos.y);
+		title.draw(titleImagePosition.x,titleImagePosition.y);
 		
-		if(insideStartGame){
-			startGameHighlighted.draw(startGamePos.x,startGamePos.y);
+		if(mouseInsideStartGame){
+			startGameHighlighted.draw(startGameImagePosition.x,startGameImagePosition.y);
 		}
 		else{
-			startGame.draw(startGamePos.x, startGamePos.y);
+			startGame.draw(startGameImagePosition.x, startGameImagePosition.y);
 		}
 		
-		if(insideQuitGame){
-			quitHighlighted.draw(quitGamePos.x,quitGamePos.y);
+		if(mouseInsideQuitGame){
+			quitHighlighted.draw(quitGameImagePosition.x,quitGameImagePosition.y);
 		}
 		else{
-			quit.draw(quitGamePos.x, quitGamePos.y);
+			quit.draw(quitGameImagePosition.x, quitGameImagePosition.y);
 		}
 		
-		if(insideHighscore){
-			highscoreHighlighted.draw(highscorePos.x,highscorePos.y);
+		if(mouseInsideHighscore){
+			highscoreHighlighted.draw(highscoreImagePosition.x,highscoreImagePosition.y);
 		}
 		else{
-			highscore.draw(highscorePos.x, highscorePos.y);
+			highscore.draw(highscoreImagePosition.x, highscoreImagePosition.y);
 		}
 		
-		if(insideOptionsMenu){
-			optionsHighlighted.draw(optionsPos.x,optionsPos.y);
+		if(mouseinsideOptionsMenu){
+			optionsHighlighted.draw(optionsImagePosition.x,optionsImagePosition.y);
 		}
 		else{
-			options.draw(optionsPos.x,optionsPos.y);
+			options.draw(optionsImagePosition.x,optionsImagePosition.y);
 		}
 		
 		
@@ -132,25 +137,25 @@ public class MainMenuState extends BasicGameState {
 		int mouseY = input.getMouseY();
 		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		
-		insideStartGame = checkMouse(mouseX, mouseY, startGamePos, startGame);
-		insideQuitGame = checkMouse(mouseX, mouseY, quitGamePos, quit);
-		insideHighscore= checkMouse(mouseX, mouseY, highscorePos, highscore);
-		insideOptionsMenu = checkMouse(mouseX, mouseY, optionsPos, options);
+		mouseInsideStartGame = Utils.isMouseInsideImage(mouseX, mouseY, startGameImagePosition, startGame);
+		mouseInsideQuitGame = Utils.isMouseInsideImage(mouseX, mouseY, quitGameImagePosition, quit);
+		mouseInsideHighscore= Utils.isMouseInsideImage(mouseX, mouseY, highscoreImagePosition, highscore);
+		mouseinsideOptionsMenu = Utils.isMouseInsideImage(mouseX, mouseY, optionsImagePosition, options);
 			
-		if(mouseClicked && insideStartGame){	
+		if(mouseClicked && mouseInsideStartGame){	
 			sbg.enterState(GameApp.PRE_GAME_STATE);
 		}
 		
-		if(mouseClicked && insideOptionsMenu){
+		if(mouseClicked && mouseinsideOptionsMenu){
 			((OptionsState)sbg.getState(GameApp.OPTIONS_STATE)).setPreviousStateID(this.stateID);
 			sbg.enterState(GameApp.OPTIONS_STATE);
 		}
 		
-		if(mouseClicked && insideHighscore){
+		if(mouseClicked && mouseInsideHighscore){
 			sbg.enterState(GameApp.HIGH_SCORE_STATE);
 		}
 		
-		if(mouseClicked && insideQuitGame){
+		if(mouseClicked && mouseInsideQuitGame){
 			gc.exit();
 		}
 	}
@@ -160,37 +165,31 @@ public class MainMenuState extends BasicGameState {
 		return this.stateID;
 	}
 	
-	public boolean checkMouse(int mouseX, int mouseY, Vec2 pos, Image image){
-		if((mouseX >= pos.x && mouseX <= pos.x + image.getWidth()) &&
-	            (mouseY >= pos.y && mouseY <= pos.y + image.getHeight())){
-					return true;
-		}
-		else{
-			return false;
-		}
-	}
 	
 	public void initLeafs() throws SlickException{
-		leafs = new Image[14];
-		for(int i = 0; i<leafs.length;i++){
-			leafs[i] = new Image(PATH + "/leaf_animation/"+(i+1)+".png");
+		leafImages = new Image[14];
+		for(int i = 0; i<leafImages.length;i++){
+			leafImages[i] = new Image(PATH + "/leaf_animation/"+(i+1)+".png");
 		}
-		leafAnimation = new Animation(leafs, 100);
+		leafAnimation = new Animation(leafImages, LEAF_ANIMATION_DURATION);
 	}
-	
+	/**
+	 * Method changing the position of leaf animation
+	 * @param GameContainter gc
+	 */
 	public void changeLeafPosition(GameContainer gc){
 		Random rand = new Random();
 		this.leafPositionX = this.leafPositionX + 1.5f;
 		this.leafPositionY = this.leafPositionY + 1f;
 		
 		if(this.leafPositionX >= gc.getWidth()){
-			this.leafPositionX = leafStartPositionX;
-			this.leafPositionY = leafStartPositionY[rand.nextInt(12)];
+			this.leafPositionX = LEAF_START_POSITION_X;
+			this.leafPositionY = LEAF_START_POSITION_Y[rand.nextInt(12)];
 		}
 		
 		if(this.leafPositionY >= gc.getHeight()){
-			this.leafPositionX = leafStartPositionX;
-			this.leafPositionY = leafStartPositionY[rand.nextInt(12)];
+			this.leafPositionX = LEAF_START_POSITION_X;
+			this.leafPositionY = LEAF_START_POSITION_Y[rand.nextInt(12)];
 		}
 	}
 }

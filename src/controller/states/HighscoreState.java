@@ -13,11 +13,14 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.Utils;
+
 import controller.HighscoreManager;
-
-
-
-
+/**
+ * The state of a highscore list;
+ * @author Filip CarlŽn
+ *
+ */
 public class HighscoreState extends BasicGameState {
 	
 	private int stateID = -1;
@@ -111,8 +114,8 @@ public class HighscoreState extends BasicGameState {
 		int mouseY = input.getMouseY();
 		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		
-		insideMainMenu = checkMouse(mouseX,mouseY,mainMenuPos,mainmenu);
-		insideClear = checkMouse(mouseX, mouseY, clearPos, clear);
+		insideMainMenu = Utils.isMouseInsideImage(mouseX,mouseY,mainMenuPos,mainmenu);
+		insideClear = Utils.isMouseInsideImage(mouseX, mouseY, clearPos, clear);
 		
 		if(mouseClicked && insideMainMenu){
 			arg1.enterState(GameApp.MAIN_MENU_STATE);
@@ -154,16 +157,6 @@ public class HighscoreState extends BasicGameState {
 			foeImages[i] = new Image("res/foe/moving_foe/foe_right/foe_right_"+(i+1)+".png");
 		}		
 		foe = new Animation(foeImages, 150);
-	}
-	
-	public boolean checkMouse(int mouseX, int mouseY, Vec2 pos, Image image){
-		if((mouseX >= pos.x && mouseX <= pos.x + image.getWidth()) &&
-	            (mouseY >= pos.y && mouseY <= pos.y + image.getHeight())){
-					return true;
-		}
-		else{
-			return false;
-		}
 	}
 	
 	public void clearHighscore() throws IOException{

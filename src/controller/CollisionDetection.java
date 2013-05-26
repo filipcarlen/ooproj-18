@@ -67,8 +67,8 @@ public class CollisionDetection implements ContactListener{
 			}
 		} else if(other instanceof ICollectible) {
 			((AbstractCollectible)other).killBody();
-			if(other instanceof AbstractPoints) {
-				hero.incrementScore(((AbstractPoints)other).getValue());
+			if(other instanceof AbstractValuable) {
+				hero.incrementScore(((AbstractValuable)other).getValue());
 				if(other instanceof Gem) {
 					hero.incrementGem();
 					this.sound.playSound(SoundType.COLLECT_GEM);

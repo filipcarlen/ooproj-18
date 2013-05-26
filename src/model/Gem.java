@@ -6,21 +6,17 @@ import org.jbox2d.dynamics.World;
 
 import utils.Utils;
 
-/** A class representing a gem. A gem is a collectible object, that is
- * more worth than a coin 
+/** A class representing a gem which gives character 5 points
  * @author filipcarlen
  *
  */
 
-public class Gem extends AbstractPoints {
-	
+public class Gem extends AbstractValuable {
 	
 	/**  A array cointaining vertices for a gem */
 	Vec2[] vertices = {new Vec2(0.0f,0.5f), new Vec2(0.5f,0.0f),
 			new Vec2(0.5f,0.5f), new Vec2(0.5f,0.5f)};
 	
-	private static final float WIDTH = 1f;
-	private static final float HEIGHT = 1f;
 
 	/**
 	 * Constructor for a gem.
@@ -30,20 +26,15 @@ public class Gem extends AbstractPoints {
 	 * @param int id
 	 */
 	public Gem(World w, Vec2 pixelPos, int id) {
-		super(w, pixelPos, id, WIDTH, HEIGHT);
+		super(w, pixelPos, id, 1, 1);
 		super.setValue(5);
 		
 		PolygonShape polygon = new PolygonShape();
 		polygon.set(vertices, 4);
 		getFixtureDef().shape = polygon;
-		this.getBody().createFixture(this.getFixtureDef());
-		
+		this.getBody().createFixture(this.getFixtureDef());	
 	}
 
-	@Override
-	public Vec2 getPosPixels() {
-		return Utils.metersToPixels(this.getBody().getPosition().sub(new Vec2(WIDTH/2, HEIGHT/2)));
-	}
 	
 	/** 
 	 * Get method for array of vertices. Converts vertices to Pixels

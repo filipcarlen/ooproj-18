@@ -3,9 +3,13 @@ package utils;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+/**
+ * Class holding and handling all sounds used in the game
+ * @author Filip Carlén
+ */
 public class Sounds{
 	
-private static Sounds instance = null;
+	private static Sounds instance = null;
 	
 	private static final String PATH = "res/sounds/";
 		
@@ -17,20 +21,9 @@ private static Sounds instance = null;
 	private float mute = 0.0f;
 	private float pitch = 1f;
 		
-	private Sound musicInMenus;
-	private Sound musicInGame;
-	private Sound musicYouLose;
-	private Sound musicYouWin;
-	private Sound gunShot;
-	private Sound foeHurt;
-	private Sound foeDie;
-	private Sound heroHurt;
-	private Sound collectCoin;
-	private Sound collectGem;
-	private Sound heroDie;
-	private Sound swordSwing;
-	private Sound chocolateBar;
-	private Sound energyDrink;
+	private Sound musicInMenus, musicInGame, musicYouLose, musicYouWin, gunShot, foeHurt, foeDie,
+				heroHurt, collectCoin, collectGem, heroDie,
+				swordSwing, collectChocolateBar, collectEnergyDrink;
 		
 	private Sounds() {
 		try{
@@ -46,8 +39,8 @@ private static Sounds instance = null;
 			heroDie = new Sound(PATH+"hero_die.wav");
 			foeHurt = new Sound(PATH+"foe_hurt.wav");
 			swordSwing = new Sound(PATH+"sword_swing.wav");
-			chocolateBar = new Sound(PATH+"chocolate_bar.wav");
-			energyDrink = new Sound(PATH+"energy_drink.wav");
+			collectChocolateBar = new Sound(PATH+"chocolate_bar.wav");
+			collectEnergyDrink = new Sound(PATH+"energy_drink.wav");
 		
 		} catch(SlickException e){
 			System.out.println("Couldn't load sound files in Sounds class.");
@@ -104,7 +97,7 @@ private static Sounds instance = null;
 			break;	
 		}
 	}
-	
+
 	public void playSound(SoundType sound){
 		float volumeSound;
 		
@@ -148,11 +141,11 @@ private static Sounds instance = null;
 			break;
 			
 		case ENERGY_DRINK:
-			energyDrink.play(pitch,volumeSound);
+			collectEnergyDrink.play(pitch,volumeSound);
 			break;
 			
 		case CHOCOLATE_BAR:
-			chocolateBar.play(pitch,volumeSound);
+			collectChocolateBar.play(pitch,volumeSound);
 			break;
 			
 		default:
@@ -177,10 +170,18 @@ private static Sounds instance = null;
 		this.volumeSound = volumeSound;
 	}
 	
+	/**
+	 * Check if current music is playing
+	 * @return boolean volumeMusicOn
+	 */
 	public boolean isMusicOn(){
 		return this.volumeMusicOn;
 	}
 	
+	/**
+	 * Check if current sound is playing
+	 * @return boolean volumeSoundOn;
+	 */
 	public boolean isSoundOn(){
 		return this.volumeSoundOn;
 	}
@@ -196,6 +197,9 @@ private static Sounds instance = null;
 		this.volumeSoundOn = on;
 	}
 	
+	/**
+	 * Update music with new sound level.
+	 */
 	public void updateMusic(){
 		if(musicInMenus.playing()){
 			musicInMenus.stop();
@@ -223,6 +227,5 @@ private static Sounds instance = null;
 	
 	public float getMusicVolume(){
 		return this.volumeMusic;		
-
 	}
 }
