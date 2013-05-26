@@ -10,7 +10,11 @@ import org.jbox2d.dynamics.World;
 import org.junit.Test;
 
 import utils.Utils;
-
+/**
+ * 
+ * @author filipcarlen
+ *
+ */
 public class CoinModelTest {
 	
 	@Test
@@ -63,7 +67,6 @@ public class CoinModelTest {
 		CoinModel coin = new CoinModel(new World(new Vec2(0.0f, 9.8f)), new Vec2(100,100), 0);
 		assertTrue(coin.getPosPixels().equals
 				(Utils.metersToPixels(coin.getBody().getPosition().add(new Vec2(-0.5f,-0.5f)))));
-		
 	}
 	
 	@Test
