@@ -51,6 +51,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 		swordClicked= false;
 		gunClicked = false;
 		weapon = WeaponType.FIST;
+		playerNameInput.setLocation((int)(gc.getWidth()*.5f), (int)(gc.getHeight()*.70f));
 	}
 	
 	public static PreGameState getInstance(){
@@ -130,7 +131,6 @@ public class PreGameState extends BasicGameState implements ActionListener {
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
 		boolean mouseClicked = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
-		
 		insideGun = checkMouse(mouseX, mouseY, gunPos, gun);
 		insidePlay = checkMouse(mouseX, mouseY, playPos, play);
 		insideSword = checkMouse(mouseX, mouseY, swordPos, sword);
@@ -175,8 +175,8 @@ public class PreGameState extends BasicGameState implements ActionListener {
 	}
 	
 	public boolean checkMouse(int mouseX, int mouseY, Vec2 pos, Image image){
-		if((mouseX >= pos.x && mouseX <= pos.x + image.getWidth()) &&
-	            (mouseY >= pos.y && mouseY <= pos.y + image.getHeight())){
+		if((mouseX >= pos.x && mouseX <= pos.x + image.getWidth()*resize) &&
+	            (mouseY >= pos.y && mouseY <= pos.y + image.getHeight()*resize)){
 					return true;
 		}
 		else{
