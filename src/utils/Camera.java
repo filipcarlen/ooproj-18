@@ -5,12 +5,11 @@ import java.awt.Rectangle;
 import org.jbox2d.common.Vec2;
 
 public class Camera {
-	int displaywidth,displayheight,worldwidth,worldheight;
-	float x, y;
-	static Vec2 positionCamera;
-	int distFromWall = 60;
-	int distFromGToF = 60;
-	Vec2 posOfHero;
+	private int displaywidth,displayheight,worldwidth,worldheight;
+	private static Vec2 positionCamera;
+	private int distFromWall = 60;
+	private int distFromGToF = 60;
+	private Vec2 posOfHero;
 	/**
 	 * Creats a Camera that will follow the character
 	 * @param displaywidth - the width of the screen
@@ -24,7 +23,6 @@ public class Camera {
 		this.worldheight = worldheight;
 		this.posOfHero = posFocusPixel;
 		positionCamera = new Vec2(0,0);
-		resetCamera();
 	}
 	
 	public Camera(int displaywidth, int displayheight, int worldwidth, int worldheight, Rectangle moveableArea, Vec2 posFocusPixel){
@@ -47,33 +45,31 @@ public class Camera {
 		posOfHero = posFocusPixel;
 		if(posOfHero.x > positionCamera.x+displaywidth-distFromWall){
 			if(distFromWall < (worldwidth-posOfHero.x))
-				x = positionCamera.x +(posOfHero.x-(positionCamera.x+displaywidth-distFromWall));
+				positionCamera.x = positionCamera.x +(posOfHero.x-(positionCamera.x+displaywidth-distFromWall));
 			else
-				x = worldwidth-1 -displaywidth;
+				positionCamera.x = worldwidth-1 -displaywidth;
 		}
 		else if(posOfHero.x < positionCamera.x+distFromWall){
 			if( posOfHero.x > distFromWall)
-				x = positionCamera.x -(positionCamera.x +distFromWall - posOfHero.x);
+				positionCamera.x = positionCamera.x -(positionCamera.x +distFromWall - posOfHero.x);
 			else
-				x = 0;
+				positionCamera.x = 0;
 		}
 		if(posOfHero.y > positionCamera.y+displayheight-distFromGToF){
 			if(distFromGToF <(worldheight- posOfHero.y))
-				y = positionCamera.y +(posOfHero.y-(positionCamera.y+displayheight-distFromGToF));
+				positionCamera.y = positionCamera.y +(posOfHero.y-(positionCamera.y+displayheight-distFromGToF));
 			else
-				y = worldheight-1-displayheight;
+				positionCamera.y = worldheight-1-displayheight;
 		}else if(posOfHero.y < positionCamera.y+distFromGToF){
 			if(posOfHero.y > distFromGToF)
-				y = positionCamera.y -(positionCamera.y +distFromGToF - posOfHero.y);
+				positionCamera.y = positionCamera.y -(positionCamera.y +distFromGToF - posOfHero.y);
 			else
-				y = 0;
+				positionCamera.y = 0;
 		}
-		positionCamera.set(x, y);
 	}
 	
 	public void resetCamera(){
-		x = 0;
-		y = 0;
+		positionCamera.set(0,0);
 	}
 	
 	public Vec2 getCameraPosition(){
