@@ -6,7 +6,6 @@ bin
 # Compiled source #
 ###################
 *.com
-*.dll
 *.exe
 *.o
 *.so
