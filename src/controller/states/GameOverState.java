@@ -257,7 +257,7 @@ public class GameOverState extends BasicGameState{
 			}
 		} catch(SlickException e){}
 		
-		this.dancingHero = new Animation(dancingHeroImages, 300);
+		this.dancingHero = new Animation(dancingHeroImages, 270);
 	}
 	
 	@Override

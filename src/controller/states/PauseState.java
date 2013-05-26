@@ -96,6 +96,7 @@ public class PauseState extends BasicGameState {
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException{
 		Sounds.getInstance().playMusic(SoundType.MENU_MUSIC);
 		initPositions(gc);
+		((PlayState)sbg.getState(GameApp.PLAY_STATE)).resetCamera(gc);
 	}
 
 	@Override
@@ -161,6 +162,7 @@ public class PauseState extends BasicGameState {
 			sbg.enterState(GameApp.OPTIONS_STATE);
 		}
 		if(mouseClicked && insideMainMenu){
+			((PlayState)sbg.getState(GameApp.PLAY_STATE)).reTry();
 			sbg.enterState(GameApp.MAIN_MENU_STATE);
 		}
 		if(mouseClicked && insideQuitGame){
