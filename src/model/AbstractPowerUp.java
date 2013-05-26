@@ -5,7 +5,7 @@ import org.jbox2d.dynamics.World;
 
 /**
  * Abstract class representing a collectible object with ability to boost characters hp
- * @author Filip Carlén
+ * @author group 18
  *
  */
 public abstract class AbstractPowerUp extends AbstractCollectible {

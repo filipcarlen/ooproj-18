@@ -6,7 +6,7 @@ import org.jbox2d.dynamics.World;
 
 /**
  * Class representing a collectible coin which gives character 1 point
- * @author Filip Carlén
+ * @author group 18
  *
  */
 public class Coin extends AbstractValuable {

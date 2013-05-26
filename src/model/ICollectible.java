@@ -2,7 +2,7 @@ package model;
 
 /**
  * Interface for all collectible objects
- * @author filipcarlen
+ * @author group 18
  *
  */
 public interface ICollectible extends IEntity {

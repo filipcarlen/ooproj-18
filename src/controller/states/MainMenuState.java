@@ -18,7 +18,7 @@ import utils.Utils;
 
 /**
  * The Main menu state.
- * @author Filip Carlén
+ * @author group 18
  */
 public class MainMenuState extends BasicGameState {
 	

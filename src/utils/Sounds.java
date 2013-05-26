@@ -5,7 +5,7 @@ import org.newdawn.slick.Sound;
 
 /**
  * Class holding and handling all sounds used in the game
- * @author Filip Carlén
+ * @author group 18
  */
 public class Sounds{
 	

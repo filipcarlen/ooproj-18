@@ -1,7 +1,7 @@
 package utils;
 /**
  * Enum with all sound types.
- * @author Filip Carlén
+ * @author group 18
  *
  */
 public enum SoundType {

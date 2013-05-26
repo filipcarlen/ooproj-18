@@ -7,7 +7,7 @@ import org.jbox2d.dynamics.World;
 import utils.Utils;
 
 /** A class representing a gem which gives character 5 points
- * @author filipcarlen
+ * @author group 18
  *
  */
 

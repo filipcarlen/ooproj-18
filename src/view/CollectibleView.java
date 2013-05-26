@@ -17,7 +17,7 @@ import utils.Camera;
 
 /**
  * A class that draws a collectible object
- * @author filipcarlen
+ * @author group 18
  *
  */
 public class CollectibleView {

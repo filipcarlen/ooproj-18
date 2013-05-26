@@ -10,7 +10,7 @@ import view.CollectibleView;
 
 /**
  * A controller class for a Collectible Object
- * @author Filip Carlén
+ * @author group 18
  *
  */
 public class CollectibleController implements IEntityController {

@@ -12,7 +12,7 @@ public class ChocolateBar extends AbstractPowerUp {
 
 	private final double HP_BOOST = 0.2;
 	private static final float WIDTH = 1.0f;
-	private static final float HEIGHT = 1.0f;
+	private static final float HEIGHT = .67f;
 
 	public ChocolateBar(World w, Vec2 pixelPos, int id) {
 		super(w, pixelPos, id, WIDTH, HEIGHT);

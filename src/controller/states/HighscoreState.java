@@ -18,7 +18,7 @@ import utils.Utils;
 import controller.HighscoreManager;
 /**
  * The state of a highscore list;
- * @author Filip Carlén
+ * @author group 18
  *
  */
 public class HighscoreState extends BasicGameState {

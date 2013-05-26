@@ -11,8 +11,7 @@ import utils.Utils;
 
 /** An abstract class representing a collectible object
  * 
- * @author filipcarlen
- * @version 1.0 
+ * @author group 18
  */
 
 public abstract class AbstractCollectible implements ICollectible {
