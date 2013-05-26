@@ -1,7 +1,11 @@
 package utils;
 
 import java.io.Serializable;
-
+/**
+ * Class holding the variables that could be saved i highscore
+ * @author group 18
+ *
+ */
 public class Highscore implements Serializable {
 
 	private static final long serialVersionUID = 1L;

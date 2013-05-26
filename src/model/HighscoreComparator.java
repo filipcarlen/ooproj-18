@@ -2,7 +2,11 @@ package model;
 import java.util.Comparator;
 
 import utils.Highscore;
-
+/**
+ * Class that compares different highscores with each other
+ * @author group 18
+ *
+ */
 public class HighscoreComparator implements Comparator<Highscore> {
 	
 	public int compare(Highscore score1, Highscore score2){

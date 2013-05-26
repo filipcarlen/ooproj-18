@@ -13,7 +13,11 @@ import java.util.List;
 import utils.Highscore;
 
 import model.HighscoreComparator;
-
+/**
+ * Class managing the highscore list
+ * @author group 18
+ *
+ */
 public class HighscoreManager {
 	
 	private List<Highscore> highscores;
@@ -93,14 +97,12 @@ public class HighscoreManager {
 		
 		List<Highscore> highscores;
 		highscores = getScores();
-		
-		int i = 0;
 		int x = highscores.size();
 		if(x>max){
 			x = max;
 		}
 		
-		while (i<x){
+		for (int i = 0; i<x; i++){
 			String name = highscores.get(i).getName();
 			String coins = ""+highscores.get(i).getCoins();
 			String gem = ""+highscores.get(i).getGems();
@@ -110,9 +112,7 @@ public class HighscoreManager {
 						+"%-"+(15-gem.length())+"s " + "%-"+(15-mob.length())+"s "
 						+"%s";
 			highscoreString +=String.format(format,(i+1),name,coins,gem,mob,score+"\n");
-			i++;
-		}
-		
+		}	
 		return highscoreString;
 	}
 	
