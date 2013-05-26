@@ -316,6 +316,7 @@ public class OptionsState extends BasicGameState {
 					this.clickedKeys.set(index, false);
 				}
 			}
+			input.clearKeyPressedRecord();
 		}
 		/* KEYBINDINGS END ______________________________________________________________________________ */
 		
@@ -327,11 +328,10 @@ public class OptionsState extends BasicGameState {
 			Controls.getInstance().bindToKey(Controls.CMD_LEFT, this.chosenKeys.get(1));
 			Controls.getInstance().bindToKey(Controls.CMD_JUMP, this.chosenKeys.get(2));
 			Controls.getInstance().bindToKey(Controls.CMD_FIGHT, this.chosenKeys.get(3));
+			input.clearKeyPressedRecord();
 			sbg.enterState(this.previousStateID);
 		} 
 		/* OK END _______________________________________________________________________________________ */
-		
-		input.clearKeyPressedRecord();
 	}
 	
 	@Override

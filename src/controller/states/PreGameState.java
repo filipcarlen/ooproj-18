@@ -57,6 +57,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 		gunClicked = false;
 		weapon = WeaponType.FIST;
 		playerNameInput.setLocation((int)(gc.getWidth()*.5f), (int)(gc.getHeight()*.70f));
+		playerNameInput.setAcceptingInput(true);
 	}
 	
 	public static PreGameState getInstance(){
@@ -84,6 +85,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 		mainMenu = new Image(PATH + "mainMenu.png");
 		mainMenuH = new Image(PATH + "mainMenuH.png");
 		font = new AngelCodeFont("res/font/font.fnt", "res/font/font_0.png");
+		playerNameInput.setAcceptingInput(false);
 	}
 
 	@Override
@@ -159,6 +161,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 				else
 					PlayState.getInstance().setPlayerName(playerNameInput.getText());
 				sbg.enterState(GameApp.PLAY_STATE);
+				playerNameInput.setAcceptingInput(false);
 			}
 		}
 		
@@ -171,6 +174,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 		}
 		if(mouseClicked && mouseInsideMainMenu){
 			sbg.enterState(GameApp.MAIN_MENU_STATE);
+			playerNameInput.setAcceptingInput(false);
 		}
 	}
 
