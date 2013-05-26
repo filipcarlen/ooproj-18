@@ -10,7 +10,6 @@ import javax.swing.Timer;
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -49,8 +48,8 @@ public class PreGameState extends BasicGameState implements ActionListener {
 		gunPos = new Vec2(gc.getWidth()*.53f, gc.getHeight()*.2f);
 		playPos = new Vec2(gc.getWidth()*.85f, gc.getHeight()*.85f);
 		mainMenuPos = new Vec2(gc.getWidth()-playPos.x-play.getWidth(), gc.getHeight()*.85f);
-		playerNameInput =  new TextField(gc, new AngelCodeFont("res/font/fontwhite.fnt", "res/font/fontwhite_0.png"), 
-				(int)(gc.getWidth()*.5f), (int)(gc.getHeight()*.70f), 300, 50);
+		swordClicked= false;
+		gunClicked = false;
 	}
 	
 	public static PreGameState getInstance(){
@@ -61,8 +60,10 @@ public class PreGameState extends BasicGameState implements ActionListener {
 	}
 
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
+	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
+		playerNameInput =  new TextField(gc, new AngelCodeFont("res/font/fontwhite.fnt", "res/font/fontwhite_0.png"), 
+				(int)(gc.getWidth()*.5f), (int)(gc.getHeight()*.70f), 300, 50);
 		background = new Image("res/Background.png");
 		sword = new Image(PATH+"sword.png");
 		swordH = new Image(PATH+"swordH.png");
@@ -81,6 +82,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
+		g.setColor(Color.green);
 		background.draw(0, 0, gc.getWidth(), gc.getHeight());
 		title.draw(titlePos.x, titlePos.y);
 		acf.drawString(playerNameInput.getX()-150, playerNameInput.getY(), "Player name: ");
@@ -182,7 +184,7 @@ public class PreGameState extends BasicGameState implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		choiseTimer.stop();
 	}
 }
