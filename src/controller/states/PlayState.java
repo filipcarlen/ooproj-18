@@ -224,9 +224,9 @@ public class PlayState extends BasicGameState implements IPlayStateController, A
 	public void setWeaponInUse(WeaponType wt){
 		AbstractWeapon heroWeapon;
 		if(wt == WeaponType.GUN){
-			heroWeapon =new Gun(world, 500, 20, 15, 1337);
-		}else if(wt ==WeaponType.SWORD){
-			heroWeapon = new Sword(world, 200, 40, 1337);
+			heroWeapon = new Gun(world, 500, 20, 15, 1337);
+		}else if(wt == WeaponType.SWORD){
+			heroWeapon = new Sword(world, 500, 20, 1337);
 		}else{
 			return;
 		}
